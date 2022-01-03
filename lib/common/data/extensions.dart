@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_starter_mobile/common/data/user.dart';
-import 'package:flutter_starter_mobile/common/navigation/my_navigation.dart';
+import 'package:flutter_mobile_starter/common/data/user.dart';
+import 'package:flutter_mobile_starter/common/navigation/my_navigation.dart';
 
 import 'data_converters.dart';
 

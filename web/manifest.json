@@ -1,6 +1,6 @@
 {
-    "name": "flutter_starter_mobile",
-    "short_name": "flutter_starter_mobile",
+    "name": "flutter_mobile_starter",
+    "short_name": "flutter_mobile_starter",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

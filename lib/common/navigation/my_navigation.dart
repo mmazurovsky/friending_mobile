@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_starter_mobile/common/data/extensions.dart';
+import 'package:flutter_mobile_starter/common/data/extensions.dart';
 
 enum NavigationRoute {
   // TODO
@@ -12,8 +12,9 @@ class RouteGenerator {
     if (routeUri.path == NavigationRoute.screen.path) {
       final id = int.tryParse(routeUri.queryParameters['id']!);
       return MaterialPageRoute(
-        //TODO
-          settings: routeSettings, builder: (_) => Container());
+          //TODO
+          settings: routeSettings,
+          builder: (_) => Container());
     } else {
       return _errorRoute();
     }

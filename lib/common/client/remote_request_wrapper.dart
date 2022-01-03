@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_starter_mobile/common/auth/repo/auth_repo.dart';
+import 'package:flutter_mobile_starter/common/auth/repo/auth_repo.dart';
 
 import '../exceptions/custom_exceptions.dart';
 import 'network_check.dart';

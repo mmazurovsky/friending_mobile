@@ -1,5 +1,5 @@
 
-name: flutter_starter_mobile
+name: flutter_mobile_starter
 description: APP_DESCRIPTION.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev

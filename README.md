@@ -1,4 +1,4 @@
-# flutter_starter_mobile
+# flutter_mobile_starter
 
 A new Flutter project.
 

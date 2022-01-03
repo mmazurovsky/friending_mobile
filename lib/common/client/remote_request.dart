@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter_starter_mobile/common/exceptions/custom_exceptions.dart';
-import 'package:flutter_starter_mobile/common/utils/logging.dart';
+import 'package:flutter_mobile_starter/common/exceptions/custom_exceptions.dart';
+import 'package:flutter_mobile_starter/common/utils/logging.dart';
 import 'package:http/http.dart' as http_client;
 
 import 'http_method_enum.dart';

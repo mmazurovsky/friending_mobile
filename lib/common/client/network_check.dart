@@ -1,4 +1,4 @@
-import 'package:flutter_starter_mobile/common/exceptions/custom_exceptions.dart';
+import 'package:flutter_mobile_starter/common/exceptions/custom_exceptions.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 abstract class NetworkInfo {

@@ -1,12 +1,12 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_starter_mobile/common/auth/repo/auth_repo.dart';
-import 'package:flutter_starter_mobile/common/auth/state/cubit/auth_cubit.dart';
-import 'package:flutter_starter_mobile/common/constants/constants.dart';
-import 'package:flutter_starter_mobile/common/data/user.dart';
-import 'package:flutter_starter_mobile/common/navigation/navigation_tab.dart';
-import 'package:flutter_starter_mobile/common/navigation/state.dart';
+import 'package:flutter_mobile_starter/common/auth/repo/auth_repo.dart';
+import 'package:flutter_mobile_starter/common/auth/state/cubit/auth_cubit.dart';
+import 'package:flutter_mobile_starter/common/constants/constants.dart';
+import 'package:flutter_mobile_starter/common/data/user.dart';
+import 'package:flutter_mobile_starter/common/navigation/navigation_tab.dart';
+import 'package:flutter_mobile_starter/common/navigation/state.dart';
 
 import '../../dependency_injection.dart';
 
@@ -18,7 +18,8 @@ class DynamicLinksConfigWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DynamicLinksConfigWidget> createState() => _DynamicLinksConfigWidgetState();
+  State<DynamicLinksConfigWidget> createState() =>
+      _DynamicLinksConfigWidgetState();
 }
 
 class _DynamicLinksConfigWidgetState extends State<DynamicLinksConfigWidget> {

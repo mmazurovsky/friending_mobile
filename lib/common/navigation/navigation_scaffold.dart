@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_starter_mobile/common/navigation/state.dart';
-import 'package:flutter_starter_mobile/common/data/extensions.dart';
+import 'package:flutter_mobile_starter/common/navigation/state.dart';
+import 'package:flutter_mobile_starter/common/data/extensions.dart';
 import 'package:provider/provider.dart';
 
 import 'my_bottom_nav_bar.dart';

@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_starter_mobile/common/auth/repo/auth_repo.dart';
-import 'package:flutter_starter_mobile/common/client/network_check.dart';
-import 'package:flutter_starter_mobile/common/data/data_interfaces.dart';
-import 'package:flutter_starter_mobile/common/exceptions/custom_exceptions.dart';
-import 'package:flutter_starter_mobile/common/utils/logging.dart';
+import 'package:flutter_mobile_starter/common/auth/repo/auth_repo.dart';
+import 'package:flutter_mobile_starter/common/client/network_check.dart';
+import 'package:flutter_mobile_starter/common/data/data_interfaces.dart';
+import 'package:flutter_mobile_starter/common/exceptions/custom_exceptions.dart';
+import 'package:flutter_mobile_starter/common/utils/logging.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_state.dart';
