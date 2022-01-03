@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_starter/common/data/extensions.dart';
+import '../data/extensions.dart';
 
 enum NavigationRoute {
   // TODO

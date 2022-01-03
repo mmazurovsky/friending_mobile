@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_starter/common/data/extensions.dart';
+import '../data/extensions.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../navigation/my_navigation.dart';

@@ -1,12 +1,12 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_mobile_starter/common/auth/repo/auth_repo.dart';
-import 'package:flutter_mobile_starter/common/auth/state/cubit/auth_cubit.dart';
-import 'package:flutter_mobile_starter/common/constants/constants.dart';
-import 'package:flutter_mobile_starter/common/data/user.dart';
-import 'package:flutter_mobile_starter/common/navigation/navigation_tab.dart';
-import 'package:flutter_mobile_starter/common/navigation/state.dart';
+import '../auth/repo/auth_repo.dart';
+import '../auth/state/cubit/auth_cubit.dart';
+import '../constants/constants.dart';
+import '../data/user.dart';
+import '../navigation/navigation_tab.dart';
+import '../navigation/state.dart';
 
 import '../../dependency_injection.dart';
 

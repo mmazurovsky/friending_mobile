@@ -4,12 +4,10 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_mobile_starter/common/constants/constants.dart';
-import 'package:flutter_mobile_starter/common/data/data_converters.dart';
-import 'package:flutter_mobile_starter/common/data/data_interfaces.dart';
-import 'package:flutter_mobile_starter/common/data/extensions.dart';
-import 'package:flutter_mobile_starter/common/data/user.dart';
-import 'package:flutter_mobile_starter/common/exceptions/custom_exceptions.dart';
+import '../../constants/constants.dart';
+import '../../data/data_interfaces.dart';
+import '../../data/extensions.dart';
+import '../../exceptions/custom_exceptions.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
