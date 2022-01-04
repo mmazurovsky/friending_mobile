@@ -20,8 +20,7 @@ class NetworkCheck {
   NetworkCheck(this._networkInfo);
 
   void call() async {
-    if (await _networkInfo.isConnectedToNetwork) {
-    } else {
+    if (!await _networkInfo.isConnectedToNetwork) {
       throw CustomNoInternetException("No Internet");
     }
   }

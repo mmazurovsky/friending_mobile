@@ -52,16 +52,16 @@ class RemoteRequestWrapperAuthTokenAddon<T> implements RemoteRequestWrapper<T> {
 }
 
 class RemoteRequestWrapperImpl<T> implements RemoteRequestWrapper<T> {
-  final NetworkCheck _networkCheckWrapper;
+  final NetworkCheck _networkCheck;
 
   RemoteRequestWrapperImpl(
-    this._networkCheckWrapper,
+    this._networkCheck,
   );
 
   @override
   Future<T> call(Future<T> Function(Map<String, String>) request,
       {Map<String, String>? httpHeaders}) async {
-    _networkCheckWrapper();
+    _networkCheck();
     final T result = await request(httpHeaders!);
     return result;
   }
