@@ -61,7 +61,7 @@ abstract class AuthFailure with _$AuthFailure implements Failure {
   const AuthFailure._();
   const factory AuthFailure({
     Exception? exception,
-    String systemMessage,
+    required String systemMessage,
   }) = _AuthFailure;
 
   @override
