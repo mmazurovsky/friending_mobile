@@ -4,14 +4,13 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../constants/constants.dart';
-import '../../data/data_interfaces.dart';
-import '../../data/extensions.dart';
-import '../../exceptions/custom_exceptions.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-abstract class AuthRepo<T extends UserInterface> {
+import '../../constants/constants.dart';
+import '../../data/entities/failures.dart';
+
+abstract class AuthRepo {
   Future<void> signUpWithEmailAndPassword(
       {required String email, required String password});
   Future<void> signInWithEmailAndPassword(
@@ -22,12 +21,13 @@ abstract class AuthRepo<T extends UserInterface> {
   Future<void> signInWithApple();
   Future<void> signOut();
   Future<void> deleteProfile();
-  T? get currentUser;
-  Stream<T?> get userStream;
+  User? get currentUser;
+  Stream<User?> get userStream;
   bool isSignInWithEmailLink(String link);
 }
 
-class FirebaseAuthRepoImpl<T extends UserInterface> implements AuthRepo<T> {
+//TODO: change return types dartz
+class FirebaseAuthRepoImpl implements AuthRepo {
   final FirebaseAuth _firebaseAuth;
   String? _storedEmailForLinkVerification;
   String? phoneVerificationId;
@@ -35,20 +35,11 @@ class FirebaseAuthRepoImpl<T extends UserInterface> implements AuthRepo<T> {
 
   FirebaseAuthRepoImpl(this._firebaseAuth);
 
-  User? get _currentUserFirebase {
-    final user = _firebaseAuth.currentUser;
-    return user;
-  }
+  @override
+  User? get currentUser => _firebaseAuth.currentUser;
 
   @override
-  T? get currentUser {
-    return _currentUserFirebase?.convertToUserInterface() as T?; // TODO test
-  }
-
-  @override
-  Stream<T?> get userStream => _firebaseAuth
-      .userChanges()
-      .map((user) => user?.convertToUserInterface() as T?);
+  Stream<User?> get userStream => _firebaseAuth.userChanges();
 
   @override
   Future<void> signUpWithEmailAndPassword(
@@ -86,8 +77,9 @@ class FirebaseAuthRepoImpl<T extends UserInterface> implements AuthRepo<T> {
       final userCredentials = await _firebaseAuth.signInWithEmailLink(
           email: _storedEmailForLinkVerification!, emailLink: link.toString());
     } else {
-      throw CustomAuthException(
-          "Failure while ending signing with email and link");
+      throw AuthFailure(
+        systemMessage: "Failure while ending signing with email and link",
+      );
     }
   }
 
@@ -169,6 +161,6 @@ class FirebaseAuthRepoImpl<T extends UserInterface> implements AuthRepo<T> {
 
   @override
   Future<void> deleteProfile() async {
-    await _currentUserFirebase?.delete();
+    await currentUser?.delete();
   }
 }
