@@ -39,6 +39,11 @@ class _FailureStrings {
     forSystem: 'Auth failure',
     forUser: 'Authentication error occured',
   );
+
+  final firebaseAuthFaliure = const FailureMessages(
+    forSystem: 'Firebase Auth failure',
+    forUser: 'Authentication error occured',
+  );
 }
 
 class _IdStrings {

@@ -26,12 +26,13 @@ abstract class AuthRepo {
   Future<Either<GenericFailure, void>> signInWithGoogle();
   Future<Either<GenericFailure, void>> signInWithApple();
   Future<Either<GenericFailure, void>> signOut();
+  Future<Either<GenericFailure, void>> updateProfile(
+      {required String displayName});
   Future<Either<GenericFailure, void>> deleteProfile();
   Either<GenericFailure, User?> get currentUser;
   Stream<User?> get userStream;
 }
 
-//TODO: change return types dartz
 class FirebaseAuthRepoImpl with LoggerNameProvider implements AuthRepo {
   final FirebaseAuth _firebaseAuth;
   final CustomLogger _customLogger;
@@ -64,7 +65,8 @@ class FirebaseAuthRepoImpl with LoggerNameProvider implements AuthRepo {
   @override
   Stream<User?> get userStream => _firebaseAuth.userChanges();
 
-  FailureMessages get _failureMessages => Bag.strings.failure.authFaliure;
+  FailureMessages get _failureMessages =>
+      Bag.strings.failure.firebaseAuthFaliure;
 
   @override
   Future<Either<GenericFailure, UserCredential>> signUpWithEmailAndPassword({
@@ -109,7 +111,8 @@ class FirebaseAuthRepoImpl with LoggerNameProvider implements AuthRepo {
   }
 
   @override
-  Future<void> startSigningWithEmailAndLink({required String email}) async {
+  Future<Either<GenericFailure, void>> startSigningWithEmailAndLink(
+      {required String email}) async {
     ActionCodeSettings actionCodeSettings = ActionCodeSettings(
       url: GeneralConstants.dynamicLinkUrlPrefix,
       androidPackageName: GeneralConstants.androidPackageName,
@@ -118,34 +121,82 @@ class FirebaseAuthRepoImpl with LoggerNameProvider implements AuthRepo {
       androidInstallApp: true,
     );
 
-    await _firebaseAuth.sendSignInLinkToEmail(
-        email: email, actionCodeSettings: actionCodeSettings);
+    try {
+      await _firebaseAuth.sendSignInLinkToEmail(
+          email: email, actionCodeSettings: actionCodeSettings);
 
-    _storedEmailForLinkVerification = email;
+      _storedEmailForLinkVerification = email;
+    } on Exception catch (e) {
+      final failure = GenericFailure(
+        m: _failureMessages,
+        e: e,
+      );
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+      return Left(failure);
+    }
+    return const Right(null);
   }
 
   @override
-  Future<void> endSigningWithEmailAndLink({required Uri link}) async {
-    if (_firebaseAuth.isSignInWithEmailLink(link.toString())) {
-      final userCredentials = await _firebaseAuth.signInWithEmailLink(
-          email: _storedEmailForLinkVerification!, emailLink: link.toString());
+  Future<Either<GenericFailure, UserCredential>> endSigningWithEmailAndLink(
+      {required Uri link}) async {
+    if (_isSignInWithEmailLink(link.toString())) {
+      try {
+        final userCredentials = await _firebaseAuth.signInWithEmailLink(
+            email: _storedEmailForLinkVerification!,
+            emailLink: link.toString());
+        return Right(userCredentials);
+      } on Exception catch (e) {
+        final failure = GenericFailure(
+          m: _failureMessages,
+          e: e,
+        );
+        _customLogger.logFailure(
+          loggerName: loggerName,
+          failure: failure,
+        );
+        return Left(failure);
+      }
     } else {
-      throw GenericFailure(
-        systemMessage: "Failure while ending signing with email and link",
+      final failure = GenericFailure(
+        m: _failureMessages,
+        e: Exception('Invalid link to finish signing in with email and link'),
       );
+
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+
+      return Left(failure);
     }
   }
 
-  @override
   bool _isSignInWithEmailLink(String link) {
     return _firebaseAuth.isSignInWithEmailLink(link);
   }
 
   @override
-  Future<void> signInWithGoogle() async {
+  Future<Either<GenericFailure, UserCredential>> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    final googleAuth = await googleUser!.authentication;
+    late final GoogleSignInAuthentication googleAuth;
+    try {
+      googleAuth = await googleUser!.authentication;
+    } on Exception catch (e) {
+      final failure = GenericFailure(
+        m: _failureMessages,
+        e: e,
+      );
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+      return Left(failure);
+    }
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -154,12 +205,25 @@ class FirebaseAuthRepoImpl with LoggerNameProvider implements AuthRepo {
     );
 
     // Once signed in, return the UserCredential
-    final userCredentials =
-        await _firebaseAuth.signInWithCredential(credential);
+    late final UserCredential userCredentials;
+    try {
+      userCredentials = await _firebaseAuth.signInWithCredential(credential);
+    } on Exception catch (e) {
+      final failure = GenericFailure(
+        m: _failureMessages,
+        e: e,
+      );
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+      return Left(failure);
+    }
+    return Right(userCredentials);
   }
 
   @override
-  Future<void> signInWithApple() async {
+  Future<Either<GenericFailure, UserCredential>> signInWithApple() async {
     /// Generates a cryptographically secure random nonce, to be included in a
     /// credential request.
     String generateNonce([int length = 32]) {
@@ -185,13 +249,27 @@ class FirebaseAuthRepoImpl with LoggerNameProvider implements AuthRepo {
     final nonce = sha256ofString(rawNonce);
 
     // Request credential for the currently signed in Apple account.
-    final appleCredential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-      nonce: nonce,
-    );
+    late final AuthorizationCredentialAppleID appleCredential;
+
+    try {
+      appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
+    } on Exception catch (e) {
+      final failure = GenericFailure(
+        m: _failureMessages,
+        e: e,
+      );
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+      return Left(failure);
+    }
 
     // Create an `OAuthCredential` from the credential returned by Apple.
     final oauthCredential =
@@ -203,17 +281,109 @@ class FirebaseAuthRepoImpl with LoggerNameProvider implements AuthRepo {
     // Sign in the user with Firebase. If the nonce we generated earlier does
     // not match the nonce in `appleCredential.identityToken`, sign in will fail.
 
-    final userCredential =
-        await _firebaseAuth.signInWithCredential(oauthCredential);
+    late final UserCredential userCredential;
+    try {
+      userCredential =
+          await _firebaseAuth.signInWithCredential(oauthCredential);
+    } on Exception catch (e) {
+      final failure = GenericFailure(
+        m: _failureMessages,
+        e: e,
+      );
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+      return Left(failure);
+    }
+    return Right(userCredential);
   }
 
   @override
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+  Future<Either<GenericFailure, void>> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+    } on Exception catch (e) {
+      final failure = GenericFailure(
+        m: _failureMessages,
+        e: e,
+      );
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+      return Left(failure);
+    }
+    return const Right(null);
   }
 
   @override
-  Future<void> deleteProfile() async {
-    await currentUser?.delete();
+  Future<Either<GenericFailure, void>> updateProfile(
+      {required String displayName}) async {
+    final user = currentUser;
+
+    user.map((r) {
+      if (r != null) {
+        try {
+          r.updateDisplayName(displayName);
+        } on Exception catch (e) {
+          final failure = GenericFailure(
+            m: _failureMessages,
+            e: e,
+          );
+          _customLogger.logFailure(
+            loggerName: loggerName,
+            failure: failure,
+          );
+          return Left(failure);
+        }
+      } else {
+        final failure = GenericFailure(
+          m: _failureMessages,
+          e: Exception('User is null'),
+        );
+        _customLogger.logFailure(
+          loggerName: loggerName,
+          failure: failure,
+        );
+        return Left(failure);
+      }
+    });
+
+    return const Right(null);
+  }
+
+  @override
+  Future<Either<GenericFailure, void>> deleteProfile() async {
+    final user = currentUser;
+
+    user.map((r) {
+      if (r != null) {
+        try {
+          r.delete();
+        } on Exception catch (e) {
+          final failure = GenericFailure(
+            m: _failureMessages,
+            e: e,
+          );
+          _customLogger.logFailure(
+            loggerName: loggerName,
+            failure: failure,
+          );
+          return Left(failure);
+        }
+      } else {
+        final failure = GenericFailure(
+          m: _failureMessages,
+          e: Exception('User is null'),
+        );
+        _customLogger.logFailure(
+          loggerName: loggerName,
+          failure: failure,
+        );
+        return Left(failure);
+      }
+    });
+    return const Right(null);
   }
 }
