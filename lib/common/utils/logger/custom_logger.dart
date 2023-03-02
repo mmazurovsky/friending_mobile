@@ -64,12 +64,11 @@ class LoggerImpl implements CustomLogger {
     logDetailed(
       loggerName: loggerName,
       level: level,
-      message: failure.systemMessage,
-      exception: failure.exception,
+      message: failure.forSystem,
+      exception: failure.e,
     );
-    if (failure.exception is DioError) {
-      final responseDetails =
-          (failure.exception as DioError).response.toString();
+    if (failure.e is DioError) {
+      final responseDetails = (failure.e as DioError).response.toString();
       logMessage(
         loggerName: loggerName,
         level: level,

@@ -3,37 +3,42 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'failures.freezed.dart';
 
 abstract class Failure {
-  String get userMessage;
-  String get systemMessage;
-  Exception? get exception;
-  String get wholeSystemMessage;
+  FailureMessages get m;
+  Exception? get e;
+
+  String get forSystem;
+  String get forUser;
 }
 
 @freezed
-class ApiFailure with _$ApiFailure implements Failure {
-  const ApiFailure._();
+class RequestFailure with _$RequestFailure implements Failure {
+  const RequestFailure._();
 
-  factory ApiFailure.serverError({
-    required String userMessage,
-    required String systemMessage,
-    Exception? exception,
+  factory RequestFailure.server({
+    required FailureMessages m,
+    Exception? e,
   }) = ServerFailure;
 
-  factory ApiFailure.undefinedError({
-    required String userMessage,
-    required String systemMessage,
-    Exception? exception,
+  factory RequestFailure.undefined({
+    required FailureMessages m,
+    Exception? e,
   }) = UndefinedFailure;
 
-  factory ApiFailure.clientError({
-    required String userMessage,
-    required String systemMessage,
-    Exception? exception,
+  factory RequestFailure.client({
+    required FailureMessages m,
+    Exception? e,
   }) = ClientFailure;
 
+  factory RequestFailure.auth({
+    required FailureMessages m,
+    Exception? e,
+  }) = AuthFailure;
+
   @override
-  String get wholeSystemMessage {
-    return '$systemMessage / ${exception.toString()}';
+  String get forUser => m._forUser;
+  @override
+  String get forSystem {
+    return '${m._forSystem} / ${e.toString()}';
   }
 }
 
@@ -41,44 +46,41 @@ class ApiFailure with _$ApiFailure implements Failure {
 abstract class CacheFailure with _$CacheFailure implements Failure {
   const CacheFailure._();
   const factory CacheFailure({
-    Exception? exception,
+    required FailureMessages m,
+    Exception? e,
   }) = _CacheFailure;
 
   @override
-  String get userMessage => 'There is an error in the app';
-
+  String get forUser => m._forUser;
   @override
-  String get systemMessage => 'Cache error';
-
-  @override
-  String get wholeSystemMessage {
-    return '$systemMessage / ${exception.toString()}';
+  String get forSystem {
+    return '${m._forSystem} / ${e.toString()}';
   }
 }
 
 @freezed
-abstract class AuthFailure with _$AuthFailure implements Failure {
-  const AuthFailure._();
-  const factory AuthFailure({
-    Exception? exception,
-    required String systemMessage,
-  }) = _AuthFailure;
+abstract class GenericFailure with _$GenericFailure implements Failure {
+  const GenericFailure._();
+  const factory GenericFailure({
+    required FailureMessages m,
+    Exception? e,
+  }) = _GenericFailure;
 
   @override
-  String get userMessage => 'Authentication error';
-
+  String get forUser => m._forUser;
   @override
-  String get wholeSystemMessage {
-    return '$systemMessage / ${exception.toString()}';
+  String get forSystem {
+    return '${m._forSystem} / ${e.toString()}';
   }
 }
 
-const clientFailureMessageToDisplay = 'There is an error in the app';
-const serverFailureMessageToDisplay = 'Server error';
-const undefinedFailureMessageToDisplay = 'Undefined error';
-const noInternetFailureMessageToDisplay = 'No internet';
+class FailureMessages {
+  final String _forSystem;
+  final String _forUser;
 
-const clientFailureSystemMessage = 'Client error';
-const serverFailureSystemMessage = 'Server error';
-const undefinedFailureSystemMessage = 'Undefined error';
-const noInternetFailureSystemMessage = 'User does not have internet';
+  const FailureMessages({
+    required String forSystem,
+    required String forUser,
+  })  : _forUser = forUser,
+        _forSystem = forSystem;
+}

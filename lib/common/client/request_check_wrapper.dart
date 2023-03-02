@@ -3,67 +3,79 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
+import '../bag/bag.dart';
 import '../data/entities/failures.dart';
 import '../utils/logger/custom_logger.dart';
 import '../utils/logger/logger_name_provider.dart';
 
 abstract class RequestCheckWrapper {
-  Future<Either<ApiFailure, RESPONSE>> requestToRemoteServer<RESPONSE>(
+  Future<Either<RequestFailure, RESPONSE>> requestToRemoteServer<RESPONSE>(
     Future<RESPONSE> requestFuture,
   );
 }
 
 @LazySingleton(as: RequestCheckWrapper)
-class RequestCheckWrapperImpl with LoggerNameProvider implements RequestCheckWrapper {
+class RequestCheckWrapperImpl
+    with LoggerNameProvider
+    implements RequestCheckWrapper {
   final CustomLogger _customLogger;
 
   RequestCheckWrapperImpl(
     this._customLogger,
   );
 
+  FailureMessages get _authFailureMessages => Bag.strings.failure.authFaliure;
+  FailureMessages get _serverFailureMessages =>
+      Bag.strings.failure.serverFaliure;
+  FailureMessages get _clientFailureMessages =>
+      Bag.strings.failure.clientFailure;
+  FailureMessages get _undefinedFailureMessages =>
+      Bag.strings.failure.undefinedFailure;
+
   @override
-  Future<Either<ApiFailure, RESPONSE>> requestToRemoteServer<RESPONSE>(
+  Future<Either<RequestFailure, RESPONSE>> requestToRemoteServer<RESPONSE>(
     Future<RESPONSE> requestFuture,
   ) async {
     late final RESPONSE response;
-    ApiFailure? failure;
+    RequestFailure? failure;
 
     try {
       response = await requestFuture;
     } on FirebaseException catch (e) {
-      failure = ApiFailure.serverError(
-        userMessage: serverFailureMessageToDisplay,
-        systemMessage: serverFailureSystemMessage,
-        exception: e,
+      failure = RequestFailure.server(
+        m: _serverFailureMessages,
+        e: e,
       );
     } on DioError catch (e) {
       final statusCode = e.response?.statusCode;
       if (statusCode != null) {
         if (statusCode >= 400 && statusCode <= 499) {
-          failure = ApiFailure.clientError(
-            userMessage: clientFailureMessageToDisplay,
-            systemMessage: clientFailureSystemMessage,
-            exception: e,
-          );
+          if (statusCode == 401 || statusCode == 403) {
+            failure = RequestFailure.auth(
+              m: _authFailureMessages,
+              e: e,
+            );
+          } else {
+            failure = RequestFailure.client(
+              m: _clientFailureMessages,
+              e: e,
+            );
+          }
         } else if (statusCode >= 500 && statusCode <= 599) {
-          failure = ApiFailure.serverError(
-            userMessage: serverFailureMessageToDisplay,
-            systemMessage: serverFailureSystemMessage,
-            exception: e,
+          failure = RequestFailure.server(
+            m: _serverFailureMessages,
+            e: e,
           );
         } else {
-          failure = ApiFailure.undefinedError(
-            userMessage: undefinedFailureMessageToDisplay,
-            systemMessage:
-                'Status code of response from server is ok, but there is still DioError',
-            exception: e,
+          failure = RequestFailure.undefined(
+            m: _undefinedFailureMessages,
+            e: e,
           );
         }
       } else {
-        failure = ApiFailure.undefinedError(
-          userMessage: undefinedFailureMessageToDisplay,
-          systemMessage: undefinedFailureSystemMessage,
-          exception: e,
+        failure = RequestFailure.undefined(
+          m: _undefinedFailureMessages,
+          e: e,
         );
       }
     }

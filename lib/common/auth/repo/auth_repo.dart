@@ -3,56 +3,109 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+import '../../bag/bag.dart';
 import '../../bag/constants.dart';
 import '../../data/entities/failures.dart';
+import '../../utils/logger/custom_logger.dart';
+import '../../utils/logger/logger_name_provider.dart';
 
 abstract class AuthRepo {
-  Future<void> signUpWithEmailAndPassword(
+  Future<Either<GenericFailure, UserCredential>> signUpWithEmailAndPassword(
       {required String email, required String password});
-  Future<void> signInWithEmailAndPassword(
+  Future<Either<GenericFailure, void>> signInWithEmailAndPassword(
       {required String email, required String password});
-  Future<void> startSigningWithEmailAndLink({required String email});
-  Future<void> endSigningWithEmailAndLink({required Uri link});
-  Future<void> signInWithGoogle();
-  Future<void> signInWithApple();
-  Future<void> signOut();
-  Future<void> deleteProfile();
-  User? get currentUser;
+  Future<Either<GenericFailure, void>> startSigningWithEmailAndLink(
+      {required String email});
+  Future<Either<GenericFailure, void>> endSigningWithEmailAndLink(
+      {required Uri link});
+  Future<Either<GenericFailure, void>> signInWithGoogle();
+  Future<Either<GenericFailure, void>> signInWithApple();
+  Future<Either<GenericFailure, void>> signOut();
+  Future<Either<GenericFailure, void>> deleteProfile();
+  Either<GenericFailure, User?> get currentUser;
   Stream<User?> get userStream;
-  bool isSignInWithEmailLink(String link);
 }
 
 //TODO: change return types dartz
-class FirebaseAuthRepoImpl implements AuthRepo {
+class FirebaseAuthRepoImpl with LoggerNameProvider implements AuthRepo {
   final FirebaseAuth _firebaseAuth;
+  final CustomLogger _customLogger;
   String? _storedEmailForLinkVerification;
   String? phoneVerificationId;
   int? phoneForceResendingToken;
 
-  FirebaseAuthRepoImpl(this._firebaseAuth);
+  FirebaseAuthRepoImpl(
+    this._firebaseAuth,
+    this._customLogger,
+  );
 
   @override
-  User? get currentUser => _firebaseAuth.currentUser;
+  Either<GenericFailure, User?> get currentUser {
+    try {
+      return Right(_firebaseAuth.currentUser);
+    } on Exception catch (e) {
+      final failure = GenericFailure(
+        m: _failureMessages,
+        e: e,
+      );
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+      return Left(failure);
+    }
+  }
 
   @override
   Stream<User?> get userStream => _firebaseAuth.userChanges();
 
+  FailureMessages get _failureMessages => Bag.strings.failure.authFaliure;
+
   @override
-  Future<void> signUpWithEmailAndPassword(
-      {required String email, required String password}) async {
-    final userCredentials = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
+  Future<Either<GenericFailure, UserCredential>> signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final userCredentials = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      return Right(userCredentials);
+    } on Exception catch (e) {
+      final failure = GenericFailure(
+        m: _failureMessages,
+        e: e,
+      );
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+      return Left(failure);
+    }
   }
 
   @override
-  Future<void> signInWithEmailAndPassword(
+  Future<Either<GenericFailure, UserCredential>> signInWithEmailAndPassword(
       {required String email, required String password}) async {
-    final userCredentials = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
+    try {
+      final userCredentials = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return Right(userCredentials);
+    } on Exception catch (e) {
+      final failure = GenericFailure(
+        m: _failureMessages,
+        e: e,
+      );
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+      return Left(failure);
+    }
   }
 
   @override
@@ -77,14 +130,14 @@ class FirebaseAuthRepoImpl implements AuthRepo {
       final userCredentials = await _firebaseAuth.signInWithEmailLink(
           email: _storedEmailForLinkVerification!, emailLink: link.toString());
     } else {
-      throw AuthFailure(
+      throw GenericFailure(
         systemMessage: "Failure while ending signing with email and link",
       );
     }
   }
 
   @override
-  bool isSignInWithEmailLink(String link) {
+  bool _isSignInWithEmailLink(String link) {
     return _firebaseAuth.isSignInWithEmailLink(link);
   }
 

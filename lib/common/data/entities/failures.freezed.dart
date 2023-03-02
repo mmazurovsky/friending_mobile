@@ -15,91 +15,78 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$ApiFailure {
-  String get userMessage => throw _privateConstructorUsedError;
-  String get systemMessage => throw _privateConstructorUsedError;
-  Exception? get exception => throw _privateConstructorUsedError;
+mixin _$RequestFailure {
+  FailureMessages get m => throw _privateConstructorUsedError;
+  Exception? get e => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            String userMessage, String systemMessage, Exception? exception)
-        serverError,
-    required TResult Function(
-            String userMessage, String systemMessage, Exception? exception)
-        undefinedError,
-    required TResult Function(
-            String userMessage, String systemMessage, Exception? exception)
-        clientError,
+    required TResult Function(FailureMessages m, Exception? e) server,
+    required TResult Function(FailureMessages m, Exception? e) undefined,
+    required TResult Function(FailureMessages m, Exception? e) client,
+    required TResult Function(FailureMessages m, Exception? e) auth,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        serverError,
-    TResult? Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        undefinedError,
-    TResult? Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        clientError,
+    TResult? Function(FailureMessages m, Exception? e)? server,
+    TResult? Function(FailureMessages m, Exception? e)? undefined,
+    TResult? Function(FailureMessages m, Exception? e)? client,
+    TResult? Function(FailureMessages m, Exception? e)? auth,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        serverError,
-    TResult Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        undefinedError,
-    TResult Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        clientError,
+    TResult Function(FailureMessages m, Exception? e)? server,
+    TResult Function(FailureMessages m, Exception? e)? undefined,
+    TResult Function(FailureMessages m, Exception? e)? client,
+    TResult Function(FailureMessages m, Exception? e)? auth,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ServerFailure value) serverError,
-    required TResult Function(UndefinedFailure value) undefinedError,
-    required TResult Function(ClientFailure value) clientError,
+    required TResult Function(ServerFailure value) server,
+    required TResult Function(UndefinedFailure value) undefined,
+    required TResult Function(ClientFailure value) client,
+    required TResult Function(AuthFailure value) auth,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ServerFailure value)? serverError,
-    TResult? Function(UndefinedFailure value)? undefinedError,
-    TResult? Function(ClientFailure value)? clientError,
+    TResult? Function(ServerFailure value)? server,
+    TResult? Function(UndefinedFailure value)? undefined,
+    TResult? Function(ClientFailure value)? client,
+    TResult? Function(AuthFailure value)? auth,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerFailure value)? serverError,
-    TResult Function(UndefinedFailure value)? undefinedError,
-    TResult Function(ClientFailure value)? clientError,
+    TResult Function(ServerFailure value)? server,
+    TResult Function(UndefinedFailure value)? undefined,
+    TResult Function(ClientFailure value)? client,
+    TResult Function(AuthFailure value)? auth,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $ApiFailureCopyWith<ApiFailure> get copyWith =>
+  $RequestFailureCopyWith<RequestFailure> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ApiFailureCopyWith<$Res> {
-  factory $ApiFailureCopyWith(
-          ApiFailure value, $Res Function(ApiFailure) then) =
-      _$ApiFailureCopyWithImpl<$Res, ApiFailure>;
+abstract class $RequestFailureCopyWith<$Res> {
+  factory $RequestFailureCopyWith(
+          RequestFailure value, $Res Function(RequestFailure) then) =
+      _$RequestFailureCopyWithImpl<$Res, RequestFailure>;
   @useResult
-  $Res call({String userMessage, String systemMessage, Exception? exception});
+  $Res call({FailureMessages m, Exception? e});
 }
 
 /// @nodoc
-class _$ApiFailureCopyWithImpl<$Res, $Val extends ApiFailure>
-    implements $ApiFailureCopyWith<$Res> {
-  _$ApiFailureCopyWithImpl(this._value, this._then);
+class _$RequestFailureCopyWithImpl<$Res, $Val extends RequestFailure>
+    implements $RequestFailureCopyWith<$Res> {
+  _$RequestFailureCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -109,22 +96,17 @@ class _$ApiFailureCopyWithImpl<$Res, $Val extends ApiFailure>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userMessage = null,
-    Object? systemMessage = null,
-    Object? exception = freezed,
+    Object? m = null,
+    Object? e = freezed,
   }) {
     return _then(_value.copyWith(
-      userMessage: null == userMessage
-          ? _value.userMessage
-          : userMessage // ignore: cast_nullable_to_non_nullable
-              as String,
-      systemMessage: null == systemMessage
-          ? _value.systemMessage
-          : systemMessage // ignore: cast_nullable_to_non_nullable
-              as String,
-      exception: freezed == exception
-          ? _value.exception
-          : exception // ignore: cast_nullable_to_non_nullable
+      m: null == m
+          ? _value.m
+          : m // ignore: cast_nullable_to_non_nullable
+              as FailureMessages,
+      e: freezed == e
+          ? _value.e
+          : e // ignore: cast_nullable_to_non_nullable
               as Exception?,
     ) as $Val);
   }
@@ -132,18 +114,18 @@ class _$ApiFailureCopyWithImpl<$Res, $Val extends ApiFailure>
 
 /// @nodoc
 abstract class _$$ServerFailureCopyWith<$Res>
-    implements $ApiFailureCopyWith<$Res> {
+    implements $RequestFailureCopyWith<$Res> {
   factory _$$ServerFailureCopyWith(
           _$ServerFailure value, $Res Function(_$ServerFailure) then) =
       __$$ServerFailureCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userMessage, String systemMessage, Exception? exception});
+  $Res call({FailureMessages m, Exception? e});
 }
 
 /// @nodoc
 class __$$ServerFailureCopyWithImpl<$Res>
-    extends _$ApiFailureCopyWithImpl<$Res, _$ServerFailure>
+    extends _$RequestFailureCopyWithImpl<$Res, _$ServerFailure>
     implements _$$ServerFailureCopyWith<$Res> {
   __$$ServerFailureCopyWithImpl(
       _$ServerFailure _value, $Res Function(_$ServerFailure) _then)
@@ -152,22 +134,17 @@ class __$$ServerFailureCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userMessage = null,
-    Object? systemMessage = null,
-    Object? exception = freezed,
+    Object? m = null,
+    Object? e = freezed,
   }) {
     return _then(_$ServerFailure(
-      userMessage: null == userMessage
-          ? _value.userMessage
-          : userMessage // ignore: cast_nullable_to_non_nullable
-              as String,
-      systemMessage: null == systemMessage
-          ? _value.systemMessage
-          : systemMessage // ignore: cast_nullable_to_non_nullable
-              as String,
-      exception: freezed == exception
-          ? _value.exception
-          : exception // ignore: cast_nullable_to_non_nullable
+      m: null == m
+          ? _value.m
+          : m // ignore: cast_nullable_to_non_nullable
+              as FailureMessages,
+      e: freezed == e
+          ? _value.e
+          : e // ignore: cast_nullable_to_non_nullable
               as Exception?,
     ));
   }
@@ -176,20 +153,16 @@ class __$$ServerFailureCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ServerFailure extends ServerFailure {
-  _$ServerFailure(
-      {required this.userMessage, required this.systemMessage, this.exception})
-      : super._();
+  _$ServerFailure({required this.m, this.e}) : super._();
 
   @override
-  final String userMessage;
+  final FailureMessages m;
   @override
-  final String systemMessage;
-  @override
-  final Exception? exception;
+  final Exception? e;
 
   @override
   String toString() {
-    return 'ApiFailure.serverError(userMessage: $userMessage, systemMessage: $systemMessage, exception: $exception)';
+    return 'RequestFailure.server(m: $m, e: $e)';
   }
 
   @override
@@ -197,17 +170,12 @@ class _$ServerFailure extends ServerFailure {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ServerFailure &&
-            (identical(other.userMessage, userMessage) ||
-                other.userMessage == userMessage) &&
-            (identical(other.systemMessage, systemMessage) ||
-                other.systemMessage == systemMessage) &&
-            (identical(other.exception, exception) ||
-                other.exception == exception));
+            (identical(other.m, m) || other.m == m) &&
+            (identical(other.e, e) || other.e == e));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, userMessage, systemMessage, exception);
+  int get hashCode => Object.hash(runtimeType, m, e);
 
   @JsonKey(ignore: true)
   @override
@@ -218,51 +186,36 @@ class _$ServerFailure extends ServerFailure {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            String userMessage, String systemMessage, Exception? exception)
-        serverError,
-    required TResult Function(
-            String userMessage, String systemMessage, Exception? exception)
-        undefinedError,
-    required TResult Function(
-            String userMessage, String systemMessage, Exception? exception)
-        clientError,
+    required TResult Function(FailureMessages m, Exception? e) server,
+    required TResult Function(FailureMessages m, Exception? e) undefined,
+    required TResult Function(FailureMessages m, Exception? e) client,
+    required TResult Function(FailureMessages m, Exception? e) auth,
   }) {
-    return serverError(userMessage, systemMessage, exception);
+    return server(m, e);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        serverError,
-    TResult? Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        undefinedError,
-    TResult? Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        clientError,
+    TResult? Function(FailureMessages m, Exception? e)? server,
+    TResult? Function(FailureMessages m, Exception? e)? undefined,
+    TResult? Function(FailureMessages m, Exception? e)? client,
+    TResult? Function(FailureMessages m, Exception? e)? auth,
   }) {
-    return serverError?.call(userMessage, systemMessage, exception);
+    return server?.call(m, e);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        serverError,
-    TResult Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        undefinedError,
-    TResult Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        clientError,
+    TResult Function(FailureMessages m, Exception? e)? server,
+    TResult Function(FailureMessages m, Exception? e)? undefined,
+    TResult Function(FailureMessages m, Exception? e)? client,
+    TResult Function(FailureMessages m, Exception? e)? auth,
     required TResult orElse(),
   }) {
-    if (serverError != null) {
-      return serverError(userMessage, systemMessage, exception);
+    if (server != null) {
+      return server(m, e);
     }
     return orElse();
   }
@@ -270,51 +223,50 @@ class _$ServerFailure extends ServerFailure {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ServerFailure value) serverError,
-    required TResult Function(UndefinedFailure value) undefinedError,
-    required TResult Function(ClientFailure value) clientError,
+    required TResult Function(ServerFailure value) server,
+    required TResult Function(UndefinedFailure value) undefined,
+    required TResult Function(ClientFailure value) client,
+    required TResult Function(AuthFailure value) auth,
   }) {
-    return serverError(this);
+    return server(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ServerFailure value)? serverError,
-    TResult? Function(UndefinedFailure value)? undefinedError,
-    TResult? Function(ClientFailure value)? clientError,
+    TResult? Function(ServerFailure value)? server,
+    TResult? Function(UndefinedFailure value)? undefined,
+    TResult? Function(ClientFailure value)? client,
+    TResult? Function(AuthFailure value)? auth,
   }) {
-    return serverError?.call(this);
+    return server?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerFailure value)? serverError,
-    TResult Function(UndefinedFailure value)? undefinedError,
-    TResult Function(ClientFailure value)? clientError,
+    TResult Function(ServerFailure value)? server,
+    TResult Function(UndefinedFailure value)? undefined,
+    TResult Function(ClientFailure value)? client,
+    TResult Function(AuthFailure value)? auth,
     required TResult orElse(),
   }) {
-    if (serverError != null) {
-      return serverError(this);
+    if (server != null) {
+      return server(this);
     }
     return orElse();
   }
 }
 
-abstract class ServerFailure extends ApiFailure {
+abstract class ServerFailure extends RequestFailure {
   factory ServerFailure(
-      {required final String userMessage,
-      required final String systemMessage,
-      final Exception? exception}) = _$ServerFailure;
+      {required final FailureMessages m, final Exception? e}) = _$ServerFailure;
   ServerFailure._() : super._();
 
   @override
-  String get userMessage;
+  FailureMessages get m;
   @override
-  String get systemMessage;
-  @override
-  Exception? get exception;
+  Exception? get e;
   @override
   @JsonKey(ignore: true)
   _$$ServerFailureCopyWith<_$ServerFailure> get copyWith =>
@@ -323,18 +275,18 @@ abstract class ServerFailure extends ApiFailure {
 
 /// @nodoc
 abstract class _$$UndefinedFailureCopyWith<$Res>
-    implements $ApiFailureCopyWith<$Res> {
+    implements $RequestFailureCopyWith<$Res> {
   factory _$$UndefinedFailureCopyWith(
           _$UndefinedFailure value, $Res Function(_$UndefinedFailure) then) =
       __$$UndefinedFailureCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userMessage, String systemMessage, Exception? exception});
+  $Res call({FailureMessages m, Exception? e});
 }
 
 /// @nodoc
 class __$$UndefinedFailureCopyWithImpl<$Res>
-    extends _$ApiFailureCopyWithImpl<$Res, _$UndefinedFailure>
+    extends _$RequestFailureCopyWithImpl<$Res, _$UndefinedFailure>
     implements _$$UndefinedFailureCopyWith<$Res> {
   __$$UndefinedFailureCopyWithImpl(
       _$UndefinedFailure _value, $Res Function(_$UndefinedFailure) _then)
@@ -343,22 +295,17 @@ class __$$UndefinedFailureCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userMessage = null,
-    Object? systemMessage = null,
-    Object? exception = freezed,
+    Object? m = null,
+    Object? e = freezed,
   }) {
     return _then(_$UndefinedFailure(
-      userMessage: null == userMessage
-          ? _value.userMessage
-          : userMessage // ignore: cast_nullable_to_non_nullable
-              as String,
-      systemMessage: null == systemMessage
-          ? _value.systemMessage
-          : systemMessage // ignore: cast_nullable_to_non_nullable
-              as String,
-      exception: freezed == exception
-          ? _value.exception
-          : exception // ignore: cast_nullable_to_non_nullable
+      m: null == m
+          ? _value.m
+          : m // ignore: cast_nullable_to_non_nullable
+              as FailureMessages,
+      e: freezed == e
+          ? _value.e
+          : e // ignore: cast_nullable_to_non_nullable
               as Exception?,
     ));
   }
@@ -367,20 +314,16 @@ class __$$UndefinedFailureCopyWithImpl<$Res>
 /// @nodoc
 
 class _$UndefinedFailure extends UndefinedFailure {
-  _$UndefinedFailure(
-      {required this.userMessage, required this.systemMessage, this.exception})
-      : super._();
+  _$UndefinedFailure({required this.m, this.e}) : super._();
 
   @override
-  final String userMessage;
+  final FailureMessages m;
   @override
-  final String systemMessage;
-  @override
-  final Exception? exception;
+  final Exception? e;
 
   @override
   String toString() {
-    return 'ApiFailure.undefinedError(userMessage: $userMessage, systemMessage: $systemMessage, exception: $exception)';
+    return 'RequestFailure.undefined(m: $m, e: $e)';
   }
 
   @override
@@ -388,17 +331,12 @@ class _$UndefinedFailure extends UndefinedFailure {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UndefinedFailure &&
-            (identical(other.userMessage, userMessage) ||
-                other.userMessage == userMessage) &&
-            (identical(other.systemMessage, systemMessage) ||
-                other.systemMessage == systemMessage) &&
-            (identical(other.exception, exception) ||
-                other.exception == exception));
+            (identical(other.m, m) || other.m == m) &&
+            (identical(other.e, e) || other.e == e));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, userMessage, systemMessage, exception);
+  int get hashCode => Object.hash(runtimeType, m, e);
 
   @JsonKey(ignore: true)
   @override
@@ -409,51 +347,36 @@ class _$UndefinedFailure extends UndefinedFailure {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            String userMessage, String systemMessage, Exception? exception)
-        serverError,
-    required TResult Function(
-            String userMessage, String systemMessage, Exception? exception)
-        undefinedError,
-    required TResult Function(
-            String userMessage, String systemMessage, Exception? exception)
-        clientError,
+    required TResult Function(FailureMessages m, Exception? e) server,
+    required TResult Function(FailureMessages m, Exception? e) undefined,
+    required TResult Function(FailureMessages m, Exception? e) client,
+    required TResult Function(FailureMessages m, Exception? e) auth,
   }) {
-    return undefinedError(userMessage, systemMessage, exception);
+    return undefined(m, e);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        serverError,
-    TResult? Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        undefinedError,
-    TResult? Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        clientError,
+    TResult? Function(FailureMessages m, Exception? e)? server,
+    TResult? Function(FailureMessages m, Exception? e)? undefined,
+    TResult? Function(FailureMessages m, Exception? e)? client,
+    TResult? Function(FailureMessages m, Exception? e)? auth,
   }) {
-    return undefinedError?.call(userMessage, systemMessage, exception);
+    return undefined?.call(m, e);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        serverError,
-    TResult Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        undefinedError,
-    TResult Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        clientError,
+    TResult Function(FailureMessages m, Exception? e)? server,
+    TResult Function(FailureMessages m, Exception? e)? undefined,
+    TResult Function(FailureMessages m, Exception? e)? client,
+    TResult Function(FailureMessages m, Exception? e)? auth,
     required TResult orElse(),
   }) {
-    if (undefinedError != null) {
-      return undefinedError(userMessage, systemMessage, exception);
+    if (undefined != null) {
+      return undefined(m, e);
     }
     return orElse();
   }
@@ -461,51 +384,51 @@ class _$UndefinedFailure extends UndefinedFailure {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ServerFailure value) serverError,
-    required TResult Function(UndefinedFailure value) undefinedError,
-    required TResult Function(ClientFailure value) clientError,
+    required TResult Function(ServerFailure value) server,
+    required TResult Function(UndefinedFailure value) undefined,
+    required TResult Function(ClientFailure value) client,
+    required TResult Function(AuthFailure value) auth,
   }) {
-    return undefinedError(this);
+    return undefined(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ServerFailure value)? serverError,
-    TResult? Function(UndefinedFailure value)? undefinedError,
-    TResult? Function(ClientFailure value)? clientError,
+    TResult? Function(ServerFailure value)? server,
+    TResult? Function(UndefinedFailure value)? undefined,
+    TResult? Function(ClientFailure value)? client,
+    TResult? Function(AuthFailure value)? auth,
   }) {
-    return undefinedError?.call(this);
+    return undefined?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerFailure value)? serverError,
-    TResult Function(UndefinedFailure value)? undefinedError,
-    TResult Function(ClientFailure value)? clientError,
+    TResult Function(ServerFailure value)? server,
+    TResult Function(UndefinedFailure value)? undefined,
+    TResult Function(ClientFailure value)? client,
+    TResult Function(AuthFailure value)? auth,
     required TResult orElse(),
   }) {
-    if (undefinedError != null) {
-      return undefinedError(this);
+    if (undefined != null) {
+      return undefined(this);
     }
     return orElse();
   }
 }
 
-abstract class UndefinedFailure extends ApiFailure {
+abstract class UndefinedFailure extends RequestFailure {
   factory UndefinedFailure(
-      {required final String userMessage,
-      required final String systemMessage,
-      final Exception? exception}) = _$UndefinedFailure;
+      {required final FailureMessages m,
+      final Exception? e}) = _$UndefinedFailure;
   UndefinedFailure._() : super._();
 
   @override
-  String get userMessage;
+  FailureMessages get m;
   @override
-  String get systemMessage;
-  @override
-  Exception? get exception;
+  Exception? get e;
   @override
   @JsonKey(ignore: true)
   _$$UndefinedFailureCopyWith<_$UndefinedFailure> get copyWith =>
@@ -514,18 +437,18 @@ abstract class UndefinedFailure extends ApiFailure {
 
 /// @nodoc
 abstract class _$$ClientFailureCopyWith<$Res>
-    implements $ApiFailureCopyWith<$Res> {
+    implements $RequestFailureCopyWith<$Res> {
   factory _$$ClientFailureCopyWith(
           _$ClientFailure value, $Res Function(_$ClientFailure) then) =
       __$$ClientFailureCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userMessage, String systemMessage, Exception? exception});
+  $Res call({FailureMessages m, Exception? e});
 }
 
 /// @nodoc
 class __$$ClientFailureCopyWithImpl<$Res>
-    extends _$ApiFailureCopyWithImpl<$Res, _$ClientFailure>
+    extends _$RequestFailureCopyWithImpl<$Res, _$ClientFailure>
     implements _$$ClientFailureCopyWith<$Res> {
   __$$ClientFailureCopyWithImpl(
       _$ClientFailure _value, $Res Function(_$ClientFailure) _then)
@@ -534,22 +457,17 @@ class __$$ClientFailureCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userMessage = null,
-    Object? systemMessage = null,
-    Object? exception = freezed,
+    Object? m = null,
+    Object? e = freezed,
   }) {
     return _then(_$ClientFailure(
-      userMessage: null == userMessage
-          ? _value.userMessage
-          : userMessage // ignore: cast_nullable_to_non_nullable
-              as String,
-      systemMessage: null == systemMessage
-          ? _value.systemMessage
-          : systemMessage // ignore: cast_nullable_to_non_nullable
-              as String,
-      exception: freezed == exception
-          ? _value.exception
-          : exception // ignore: cast_nullable_to_non_nullable
+      m: null == m
+          ? _value.m
+          : m // ignore: cast_nullable_to_non_nullable
+              as FailureMessages,
+      e: freezed == e
+          ? _value.e
+          : e // ignore: cast_nullable_to_non_nullable
               as Exception?,
     ));
   }
@@ -558,20 +476,16 @@ class __$$ClientFailureCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ClientFailure extends ClientFailure {
-  _$ClientFailure(
-      {required this.userMessage, required this.systemMessage, this.exception})
-      : super._();
+  _$ClientFailure({required this.m, this.e}) : super._();
 
   @override
-  final String userMessage;
+  final FailureMessages m;
   @override
-  final String systemMessage;
-  @override
-  final Exception? exception;
+  final Exception? e;
 
   @override
   String toString() {
-    return 'ApiFailure.clientError(userMessage: $userMessage, systemMessage: $systemMessage, exception: $exception)';
+    return 'RequestFailure.client(m: $m, e: $e)';
   }
 
   @override
@@ -579,17 +493,12 @@ class _$ClientFailure extends ClientFailure {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ClientFailure &&
-            (identical(other.userMessage, userMessage) ||
-                other.userMessage == userMessage) &&
-            (identical(other.systemMessage, systemMessage) ||
-                other.systemMessage == systemMessage) &&
-            (identical(other.exception, exception) ||
-                other.exception == exception));
+            (identical(other.m, m) || other.m == m) &&
+            (identical(other.e, e) || other.e == e));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, userMessage, systemMessage, exception);
+  int get hashCode => Object.hash(runtimeType, m, e);
 
   @JsonKey(ignore: true)
   @override
@@ -600,51 +509,36 @@ class _$ClientFailure extends ClientFailure {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            String userMessage, String systemMessage, Exception? exception)
-        serverError,
-    required TResult Function(
-            String userMessage, String systemMessage, Exception? exception)
-        undefinedError,
-    required TResult Function(
-            String userMessage, String systemMessage, Exception? exception)
-        clientError,
+    required TResult Function(FailureMessages m, Exception? e) server,
+    required TResult Function(FailureMessages m, Exception? e) undefined,
+    required TResult Function(FailureMessages m, Exception? e) client,
+    required TResult Function(FailureMessages m, Exception? e) auth,
   }) {
-    return clientError(userMessage, systemMessage, exception);
+    return client(m, e);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        serverError,
-    TResult? Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        undefinedError,
-    TResult? Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        clientError,
+    TResult? Function(FailureMessages m, Exception? e)? server,
+    TResult? Function(FailureMessages m, Exception? e)? undefined,
+    TResult? Function(FailureMessages m, Exception? e)? client,
+    TResult? Function(FailureMessages m, Exception? e)? auth,
   }) {
-    return clientError?.call(userMessage, systemMessage, exception);
+    return client?.call(m, e);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        serverError,
-    TResult Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        undefinedError,
-    TResult Function(
-            String userMessage, String systemMessage, Exception? exception)?
-        clientError,
+    TResult Function(FailureMessages m, Exception? e)? server,
+    TResult Function(FailureMessages m, Exception? e)? undefined,
+    TResult Function(FailureMessages m, Exception? e)? client,
+    TResult Function(FailureMessages m, Exception? e)? auth,
     required TResult orElse(),
   }) {
-    if (clientError != null) {
-      return clientError(userMessage, systemMessage, exception);
+    if (client != null) {
+      return client(m, e);
     }
     return orElse();
   }
@@ -652,51 +546,50 @@ class _$ClientFailure extends ClientFailure {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(ServerFailure value) serverError,
-    required TResult Function(UndefinedFailure value) undefinedError,
-    required TResult Function(ClientFailure value) clientError,
+    required TResult Function(ServerFailure value) server,
+    required TResult Function(UndefinedFailure value) undefined,
+    required TResult Function(ClientFailure value) client,
+    required TResult Function(AuthFailure value) auth,
   }) {
-    return clientError(this);
+    return client(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ServerFailure value)? serverError,
-    TResult? Function(UndefinedFailure value)? undefinedError,
-    TResult? Function(ClientFailure value)? clientError,
+    TResult? Function(ServerFailure value)? server,
+    TResult? Function(UndefinedFailure value)? undefined,
+    TResult? Function(ClientFailure value)? client,
+    TResult? Function(AuthFailure value)? auth,
   }) {
-    return clientError?.call(this);
+    return client?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerFailure value)? serverError,
-    TResult Function(UndefinedFailure value)? undefinedError,
-    TResult Function(ClientFailure value)? clientError,
+    TResult Function(ServerFailure value)? server,
+    TResult Function(UndefinedFailure value)? undefined,
+    TResult Function(ClientFailure value)? client,
+    TResult Function(AuthFailure value)? auth,
     required TResult orElse(),
   }) {
-    if (clientError != null) {
-      return clientError(this);
+    if (client != null) {
+      return client(this);
     }
     return orElse();
   }
 }
 
-abstract class ClientFailure extends ApiFailure {
+abstract class ClientFailure extends RequestFailure {
   factory ClientFailure(
-      {required final String userMessage,
-      required final String systemMessage,
-      final Exception? exception}) = _$ClientFailure;
+      {required final FailureMessages m, final Exception? e}) = _$ClientFailure;
   ClientFailure._() : super._();
 
   @override
-  String get userMessage;
+  FailureMessages get m;
   @override
-  String get systemMessage;
-  @override
-  Exception? get exception;
+  Exception? get e;
   @override
   @JsonKey(ignore: true)
   _$$ClientFailureCopyWith<_$ClientFailure> get copyWith =>
@@ -704,8 +597,170 @@ abstract class ClientFailure extends ApiFailure {
 }
 
 /// @nodoc
+abstract class _$$AuthFailureCopyWith<$Res>
+    implements $RequestFailureCopyWith<$Res> {
+  factory _$$AuthFailureCopyWith(
+          _$AuthFailure value, $Res Function(_$AuthFailure) then) =
+      __$$AuthFailureCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({FailureMessages m, Exception? e});
+}
+
+/// @nodoc
+class __$$AuthFailureCopyWithImpl<$Res>
+    extends _$RequestFailureCopyWithImpl<$Res, _$AuthFailure>
+    implements _$$AuthFailureCopyWith<$Res> {
+  __$$AuthFailureCopyWithImpl(
+      _$AuthFailure _value, $Res Function(_$AuthFailure) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? m = null,
+    Object? e = freezed,
+  }) {
+    return _then(_$AuthFailure(
+      m: null == m
+          ? _value.m
+          : m // ignore: cast_nullable_to_non_nullable
+              as FailureMessages,
+      e: freezed == e
+          ? _value.e
+          : e // ignore: cast_nullable_to_non_nullable
+              as Exception?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$AuthFailure extends AuthFailure {
+  _$AuthFailure({required this.m, this.e}) : super._();
+
+  @override
+  final FailureMessages m;
+  @override
+  final Exception? e;
+
+  @override
+  String toString() {
+    return 'RequestFailure.auth(m: $m, e: $e)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AuthFailure &&
+            (identical(other.m, m) || other.m == m) &&
+            (identical(other.e, e) || other.e == e));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, m, e);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AuthFailureCopyWith<_$AuthFailure> get copyWith =>
+      __$$AuthFailureCopyWithImpl<_$AuthFailure>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(FailureMessages m, Exception? e) server,
+    required TResult Function(FailureMessages m, Exception? e) undefined,
+    required TResult Function(FailureMessages m, Exception? e) client,
+    required TResult Function(FailureMessages m, Exception? e) auth,
+  }) {
+    return auth(m, e);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(FailureMessages m, Exception? e)? server,
+    TResult? Function(FailureMessages m, Exception? e)? undefined,
+    TResult? Function(FailureMessages m, Exception? e)? client,
+    TResult? Function(FailureMessages m, Exception? e)? auth,
+  }) {
+    return auth?.call(m, e);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(FailureMessages m, Exception? e)? server,
+    TResult Function(FailureMessages m, Exception? e)? undefined,
+    TResult Function(FailureMessages m, Exception? e)? client,
+    TResult Function(FailureMessages m, Exception? e)? auth,
+    required TResult orElse(),
+  }) {
+    if (auth != null) {
+      return auth(m, e);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ServerFailure value) server,
+    required TResult Function(UndefinedFailure value) undefined,
+    required TResult Function(ClientFailure value) client,
+    required TResult Function(AuthFailure value) auth,
+  }) {
+    return auth(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ServerFailure value)? server,
+    TResult? Function(UndefinedFailure value)? undefined,
+    TResult? Function(ClientFailure value)? client,
+    TResult? Function(AuthFailure value)? auth,
+  }) {
+    return auth?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ServerFailure value)? server,
+    TResult Function(UndefinedFailure value)? undefined,
+    TResult Function(ClientFailure value)? client,
+    TResult Function(AuthFailure value)? auth,
+    required TResult orElse(),
+  }) {
+    if (auth != null) {
+      return auth(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class AuthFailure extends RequestFailure {
+  factory AuthFailure({required final FailureMessages m, final Exception? e}) =
+      _$AuthFailure;
+  AuthFailure._() : super._();
+
+  @override
+  FailureMessages get m;
+  @override
+  Exception? get e;
+  @override
+  @JsonKey(ignore: true)
+  _$$AuthFailureCopyWith<_$AuthFailure> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$CacheFailure {
-  Exception? get exception => throw _privateConstructorUsedError;
+  FailureMessages get m => throw _privateConstructorUsedError;
+  Exception? get e => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CacheFailureCopyWith<CacheFailure> get copyWith =>
@@ -718,7 +773,7 @@ abstract class $CacheFailureCopyWith<$Res> {
           CacheFailure value, $Res Function(CacheFailure) then) =
       _$CacheFailureCopyWithImpl<$Res, CacheFailure>;
   @useResult
-  $Res call({Exception? exception});
+  $Res call({FailureMessages m, Exception? e});
 }
 
 /// @nodoc
@@ -734,12 +789,17 @@ class _$CacheFailureCopyWithImpl<$Res, $Val extends CacheFailure>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? exception = freezed,
+    Object? m = null,
+    Object? e = freezed,
   }) {
     return _then(_value.copyWith(
-      exception: freezed == exception
-          ? _value.exception
-          : exception // ignore: cast_nullable_to_non_nullable
+      m: null == m
+          ? _value.m
+          : m // ignore: cast_nullable_to_non_nullable
+              as FailureMessages,
+      e: freezed == e
+          ? _value.e
+          : e // ignore: cast_nullable_to_non_nullable
               as Exception?,
     ) as $Val);
   }
@@ -753,7 +813,7 @@ abstract class _$$_CacheFailureCopyWith<$Res>
       __$$_CacheFailureCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Exception? exception});
+  $Res call({FailureMessages m, Exception? e});
 }
 
 /// @nodoc
@@ -767,12 +827,17 @@ class __$$_CacheFailureCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? exception = freezed,
+    Object? m = null,
+    Object? e = freezed,
   }) {
     return _then(_$_CacheFailure(
-      exception: freezed == exception
-          ? _value.exception
-          : exception // ignore: cast_nullable_to_non_nullable
+      m: null == m
+          ? _value.m
+          : m // ignore: cast_nullable_to_non_nullable
+              as FailureMessages,
+      e: freezed == e
+          ? _value.e
+          : e // ignore: cast_nullable_to_non_nullable
               as Exception?,
     ));
   }
@@ -781,14 +846,16 @@ class __$$_CacheFailureCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_CacheFailure extends _CacheFailure {
-  const _$_CacheFailure({this.exception}) : super._();
+  const _$_CacheFailure({required this.m, this.e}) : super._();
 
   @override
-  final Exception? exception;
+  final FailureMessages m;
+  @override
+  final Exception? e;
 
   @override
   String toString() {
-    return 'CacheFailure(exception: $exception)';
+    return 'CacheFailure(m: $m, e: $e)';
   }
 
   @override
@@ -796,12 +863,12 @@ class _$_CacheFailure extends _CacheFailure {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CacheFailure &&
-            (identical(other.exception, exception) ||
-                other.exception == exception));
+            (identical(other.m, m) || other.m == m) &&
+            (identical(other.e, e) || other.e == e));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, exception);
+  int get hashCode => Object.hash(runtimeType, m, e);
 
   @JsonKey(ignore: true)
   @override
@@ -811,11 +878,14 @@ class _$_CacheFailure extends _CacheFailure {
 }
 
 abstract class _CacheFailure extends CacheFailure {
-  const factory _CacheFailure({final Exception? exception}) = _$_CacheFailure;
+  const factory _CacheFailure(
+      {required final FailureMessages m, final Exception? e}) = _$_CacheFailure;
   const _CacheFailure._() : super._();
 
   @override
-  Exception? get exception;
+  FailureMessages get m;
+  @override
+  Exception? get e;
   @override
   @JsonKey(ignore: true)
   _$$_CacheFailureCopyWith<_$_CacheFailure> get copyWith =>
@@ -823,28 +893,28 @@ abstract class _CacheFailure extends CacheFailure {
 }
 
 /// @nodoc
-mixin _$AuthFailure {
-  Exception? get exception => throw _privateConstructorUsedError;
-  String get systemMessage => throw _privateConstructorUsedError;
+mixin _$GenericFailure {
+  FailureMessages get m => throw _privateConstructorUsedError;
+  Exception? get e => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $AuthFailureCopyWith<AuthFailure> get copyWith =>
+  $GenericFailureCopyWith<GenericFailure> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AuthFailureCopyWith<$Res> {
-  factory $AuthFailureCopyWith(
-          AuthFailure value, $Res Function(AuthFailure) then) =
-      _$AuthFailureCopyWithImpl<$Res, AuthFailure>;
+abstract class $GenericFailureCopyWith<$Res> {
+  factory $GenericFailureCopyWith(
+          GenericFailure value, $Res Function(GenericFailure) then) =
+      _$GenericFailureCopyWithImpl<$Res, GenericFailure>;
   @useResult
-  $Res call({Exception? exception, String systemMessage});
+  $Res call({FailureMessages m, Exception? e});
 }
 
 /// @nodoc
-class _$AuthFailureCopyWithImpl<$Res, $Val extends AuthFailure>
-    implements $AuthFailureCopyWith<$Res> {
-  _$AuthFailureCopyWithImpl(this._value, this._then);
+class _$GenericFailureCopyWithImpl<$Res, $Val extends GenericFailure>
+    implements $GenericFailureCopyWith<$Res> {
+  _$GenericFailureCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -854,109 +924,106 @@ class _$AuthFailureCopyWithImpl<$Res, $Val extends AuthFailure>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? exception = freezed,
-    Object? systemMessage = null,
+    Object? m = null,
+    Object? e = freezed,
   }) {
     return _then(_value.copyWith(
-      exception: freezed == exception
-          ? _value.exception
-          : exception // ignore: cast_nullable_to_non_nullable
+      m: null == m
+          ? _value.m
+          : m // ignore: cast_nullable_to_non_nullable
+              as FailureMessages,
+      e: freezed == e
+          ? _value.e
+          : e // ignore: cast_nullable_to_non_nullable
               as Exception?,
-      systemMessage: null == systemMessage
-          ? _value.systemMessage
-          : systemMessage // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_AuthFailureCopyWith<$Res>
-    implements $AuthFailureCopyWith<$Res> {
-  factory _$$_AuthFailureCopyWith(
-          _$_AuthFailure value, $Res Function(_$_AuthFailure) then) =
-      __$$_AuthFailureCopyWithImpl<$Res>;
+abstract class _$$_GenericFailureCopyWith<$Res>
+    implements $GenericFailureCopyWith<$Res> {
+  factory _$$_GenericFailureCopyWith(
+          _$_GenericFailure value, $Res Function(_$_GenericFailure) then) =
+      __$$_GenericFailureCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Exception? exception, String systemMessage});
+  $Res call({FailureMessages m, Exception? e});
 }
 
 /// @nodoc
-class __$$_AuthFailureCopyWithImpl<$Res>
-    extends _$AuthFailureCopyWithImpl<$Res, _$_AuthFailure>
-    implements _$$_AuthFailureCopyWith<$Res> {
-  __$$_AuthFailureCopyWithImpl(
-      _$_AuthFailure _value, $Res Function(_$_AuthFailure) _then)
+class __$$_GenericFailureCopyWithImpl<$Res>
+    extends _$GenericFailureCopyWithImpl<$Res, _$_GenericFailure>
+    implements _$$_GenericFailureCopyWith<$Res> {
+  __$$_GenericFailureCopyWithImpl(
+      _$_GenericFailure _value, $Res Function(_$_GenericFailure) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? exception = freezed,
-    Object? systemMessage = null,
+    Object? m = null,
+    Object? e = freezed,
   }) {
-    return _then(_$_AuthFailure(
-      exception: freezed == exception
-          ? _value.exception
-          : exception // ignore: cast_nullable_to_non_nullable
+    return _then(_$_GenericFailure(
+      m: null == m
+          ? _value.m
+          : m // ignore: cast_nullable_to_non_nullable
+              as FailureMessages,
+      e: freezed == e
+          ? _value.e
+          : e // ignore: cast_nullable_to_non_nullable
               as Exception?,
-      systemMessage: null == systemMessage
-          ? _value.systemMessage
-          : systemMessage // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_AuthFailure extends _AuthFailure {
-  const _$_AuthFailure({this.exception, required this.systemMessage})
-      : super._();
+class _$_GenericFailure extends _GenericFailure {
+  const _$_GenericFailure({required this.m, this.e}) : super._();
 
   @override
-  final Exception? exception;
+  final FailureMessages m;
   @override
-  final String systemMessage;
+  final Exception? e;
 
   @override
   String toString() {
-    return 'AuthFailure(exception: $exception, systemMessage: $systemMessage)';
+    return 'GenericFailure(m: $m, e: $e)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AuthFailure &&
-            (identical(other.exception, exception) ||
-                other.exception == exception) &&
-            (identical(other.systemMessage, systemMessage) ||
-                other.systemMessage == systemMessage));
+            other is _$_GenericFailure &&
+            (identical(other.m, m) || other.m == m) &&
+            (identical(other.e, e) || other.e == e));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, exception, systemMessage);
+  int get hashCode => Object.hash(runtimeType, m, e);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AuthFailureCopyWith<_$_AuthFailure> get copyWith =>
-      __$$_AuthFailureCopyWithImpl<_$_AuthFailure>(this, _$identity);
+  _$$_GenericFailureCopyWith<_$_GenericFailure> get copyWith =>
+      __$$_GenericFailureCopyWithImpl<_$_GenericFailure>(this, _$identity);
 }
 
-abstract class _AuthFailure extends AuthFailure {
-  const factory _AuthFailure(
-      {final Exception? exception,
-      required final String systemMessage}) = _$_AuthFailure;
-  const _AuthFailure._() : super._();
+abstract class _GenericFailure extends GenericFailure {
+  const factory _GenericFailure(
+      {required final FailureMessages m,
+      final Exception? e}) = _$_GenericFailure;
+  const _GenericFailure._() : super._();
 
   @override
-  Exception? get exception;
+  FailureMessages get m;
   @override
-  String get systemMessage;
+  Exception? get e;
   @override
   @JsonKey(ignore: true)
-  _$$_AuthFailureCopyWith<_$_AuthFailure> get copyWith =>
+  _$$_GenericFailureCopyWith<_$_GenericFailure> get copyWith =>
       throw _privateConstructorUsedError;
 }
