@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'common/dependency_injection.dart';
+import 'common/dependency_injection/dependency_injection.dart';
 import 'common/navigation/auto_router/app_router.dart';
 
 void main() {
@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
-
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         splashColor: Colors.transparent,
