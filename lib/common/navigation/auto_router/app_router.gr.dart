@@ -20,7 +20,7 @@ class _$AppRouter extends RootStackRouter {
     OneRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const OnePage(),
+        child: const MainPage(),
       );
     }
   };
@@ -35,7 +35,7 @@ class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
-/// [OnePage]
+/// [MainPage]
 class OneRoute extends PageRouteInfo<void> {
   const OneRoute()
       : super(

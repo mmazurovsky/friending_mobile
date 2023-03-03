@@ -28,12 +28,23 @@ extension TabItemExtension on NavigationTab {
     ),
   };
 
+  static final _tabNavigationKeyMap = {
+    NavigationTab.screen: GlobalKey<AutoRouterState>(),
+  };
+
   static const _tabRouteMap = {
     NavigationTab.screen: OneRoute(),
+  };
+
+  static final _tabScrollControllerMap = {
+    NavigationTab.screen: ScrollController(),
   };
 
   PageRouteInfo get tabRoute => _tabRouteMap[this]!;
   String get tabName => _tabNameMap[this]!;
   Widget get tabActiveIcon => _tabActiveIconMap[this]!;
   Widget get tabInactiveIcon => _tabInactiveIconMap[this]!;
+  GlobalKey<AutoRouterState> get tabNavigationKey =>
+      _tabNavigationKeyMap[this]!;
+  ScrollController get tabScrollController => _tabScrollControllerMap[this]!;
 }
