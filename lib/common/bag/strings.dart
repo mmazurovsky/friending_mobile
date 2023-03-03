@@ -5,6 +5,7 @@ class Strings {
   late final general = _GeneralStrings();
   late final failure = _FailureStrings();
   late final ids = _IdStrings();
+  late final links = _LinksStrings();
 }
 
 class _GeneralStrings {}
@@ -47,5 +48,20 @@ class _FailureStrings {
 }
 
 class _IdStrings {
+  //TODO
   final String appName = 'Flutter App';
+  final String iosBundleId = 'com.mmazurovsky.friending';
+  final String iosAppStoreId = '1592361916';
+  final String appleAuthProviderId = 'apple.com';
+  final String androidPackageName = 'com.mmazurovsky.friending';
+}
+
+class _LinksStrings {
+  final String dynamicLinkUrlPrefix = 'https://thepostravesapp.page.link';
+  final String emailSupportAccount = "friending.support@gmail.com";
+  final String termsAndConditionsLink =
+      'https://postraves.flycricket.io/terms.html';
+  // TODO
+  final String privacyPolicyLink =
+      'https://postraves.flycricket.io/privacy.html';
 }

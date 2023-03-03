@@ -114,9 +114,9 @@ class FirebaseAuthRepoImpl with LoggerNameProvider implements AuthRepo {
   Future<Either<GenericFailure, void>> startSigningWithEmailAndLink(
       {required String email}) async {
     ActionCodeSettings actionCodeSettings = ActionCodeSettings(
-      url: GeneralConstants.dynamicLinkUrlPrefix,
-      androidPackageName: GeneralConstants.androidPackageName,
-      iOSBundleId: GeneralConstants.iosBundleId,
+      url: Bag.strings.links.dynamicLinkUrlPrefix,
+      androidPackageName: Bag.strings.ids.androidPackageName,
+      iOSBundleId: Bag.strings.ids.iosBundleId,
       handleCodeInApp: true,
       androidInstallApp: true,
     );
@@ -273,7 +273,7 @@ class FirebaseAuthRepoImpl with LoggerNameProvider implements AuthRepo {
 
     // Create an `OAuthCredential` from the credential returned by Apple.
     final oauthCredential =
-        OAuthProvider(GeneralConstants.appleAuthProviderId).credential(
+        OAuthProvider(Bag.strings.ids.appleAuthProviderId).credential(
       idToken: appleCredential.identityToken,
       rawNonce: rawNonce,
     );
