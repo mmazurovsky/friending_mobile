@@ -9,7 +9,24 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: const MyBottomNavBar(),
-      body: Container(),
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBar(
+            title: Text('Main Page'),
+            floating: true,
+            snap: true,
+            centerTitle: true,
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => ListTile(
+                title: Text('Item $index'),
+              ),
+              childCount: 100,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

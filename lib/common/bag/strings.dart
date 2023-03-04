@@ -2,13 +2,19 @@ part of 'bag.dart';
 
 class Strings {
   Strings._();
-  late final general = _GeneralStrings();
-  late final failure = _FailureStrings();
+  late final ui = _UiStrings();
+  late final failures = _FailureStrings();
   late final ids = _IdStrings();
   late final links = _LinksStrings();
+  late final server = _ServerStrings();
 }
 
-class _GeneralStrings {}
+class _ServerStrings {
+  final userCollection = 'users';
+  final coordinatesCollection = 'userCoordinates';
+}
+
+class _UiStrings {}
 
 class _FailureStrings {
   final clientFailure = const FailureMessages(

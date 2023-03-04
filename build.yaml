@@ -4,6 +4,8 @@ targets:
       json_serializable:
         options:
           explicit_to_json: true
+          create_factory: true
+          create_to_json: true
       mockito|mockBuilder:
         generate_for:
           - test/**.dart

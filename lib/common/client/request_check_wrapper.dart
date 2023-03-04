@@ -24,13 +24,13 @@ class RequestCheckWrapperImpl
     this._customLogger,
   );
 
-  FailureMessages get _authFailureMessages => Bag.strings.failure.authFaliure;
+  FailureMessages get _authFailureMessages => Bag.strings.failures.authFaliure;
   FailureMessages get _serverFailureMessages =>
-      Bag.strings.failure.serverFaliure;
+      Bag.strings.failures.serverFaliure;
   FailureMessages get _clientFailureMessages =>
-      Bag.strings.failure.clientFailure;
+      Bag.strings.failures.clientFailure;
   FailureMessages get _undefinedFailureMessages =>
-      Bag.strings.failure.undefinedFailure;
+      Bag.strings.failures.undefinedFailure;
 
   @override
   Future<Either<RequestFailure, RESPONSE>> requestToRemoteServer<RESPONSE>(

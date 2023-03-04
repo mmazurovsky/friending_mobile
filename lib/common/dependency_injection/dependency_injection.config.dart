@@ -11,6 +11,8 @@ import 'package:firebase_auth/firebase_auth.dart' as _i5;
 import 'package:firebase_crashlytics/firebase_crashlytics.dart' as _i6;
 import 'package:flutter_mobile_starter/common/client/request_check_wrapper.dart'
     as _i9;
+import 'package:flutter_mobile_starter/common/navigation/my_bottom_nav_bar.dart'
+    as _i10;
 import 'package:flutter_mobile_starter/common/utils/logger/custom_logger.dart'
     as _i3;
 import 'package:flutter_mobile_starter/common/utils/logger/logger_config.dart'
@@ -18,7 +20,7 @@ import 'package:flutter_mobile_starter/common/utils/logger/logger_config.dart'
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import 'modules.dart' as _i10;
+import 'modules.dart' as _i11;
 
 // ignore_for_file: unnecessary_lambdas
 // ignore_for_file: lines_longer_than_80_chars
@@ -42,7 +44,8 @@ _i1.GetIt init(
   gh.lazySingleton<_i8.LoggerConfig>(() => _i8.LoggerConfig());
   gh.lazySingleton<_i9.RequestCheckWrapper>(
       () => _i9.RequestCheckWrapperImpl(gh<_i3.CustomLogger>()));
+  gh.lazySingleton<_i10.TabsChangeNotifier>(() => _i10.TabsChangeNotifier());
   return getIt;
 }
 
-class _$Modules extends _i10.Modules {}
+class _$Modules extends _i11.Modules {}

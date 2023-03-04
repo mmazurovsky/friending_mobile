@@ -65,7 +65,7 @@ class FirebaseAuthRepoImpl with LoggerNameProvider implements AuthRepo {
   Stream<User?> get userStream => _firebaseAuth.userChanges();
 
   FailureMessages get _failureMessages =>
-      Bag.strings.failure.firebaseAuthFaliure;
+      Bag.strings.failures.firebaseAuthFaliure;
 
   @override
   Future<Either<GenericFailure, UserCredential>> signUpWithEmailAndPassword({

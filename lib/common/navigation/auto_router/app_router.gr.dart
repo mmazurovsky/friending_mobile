@@ -17,7 +17,7 @@ class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    OneRoute.name: (routeData) {
+    MainRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const MainPage(),
@@ -28,7 +28,7 @@ class _$AppRouter extends RootStackRouter {
   @override
   List<RouteConfig> get routes => [
         RouteConfig(
-          OneRoute.name,
+          MainRoute.name,
           path: '/',
         )
       ];
@@ -36,12 +36,12 @@ class _$AppRouter extends RootStackRouter {
 
 /// generated route for
 /// [MainPage]
-class OneRoute extends PageRouteInfo<void> {
-  const OneRoute()
+class MainRoute extends PageRouteInfo<void> {
+  const MainRoute()
       : super(
-          OneRoute.name,
+          MainRoute.name,
           path: '/',
         );
 
-  static const String name = 'OneRoute';
+  static const String name = 'MainRoute';
 }
