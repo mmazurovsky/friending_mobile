@@ -19,6 +19,10 @@ _$_FullUserModel _$$_FullUserModelFromJson(Map<String, dynamic> json) =>
           .toList(),
       interests:
           (json['interests'] as List<dynamic>).map((e) => e as String).toList(),
+      birthDate: DateTime.parse(json['birthDate'] as String),
+      description: json['description'] as String?,
+      instagramUsername: json['instagramUsername'] as String?,
+      telegramUsername: json['telegramUsername'] as String?,
     );
 
 Map<String, dynamic> _$$_FullUserModelToJson(_$_FullUserModel instance) =>
@@ -29,6 +33,10 @@ Map<String, dynamic> _$$_FullUserModelToJson(_$_FullUserModel instance) =>
       'connectStatus': _$UserConnectStatusEnumEnumMap[instance.connectStatus]!,
       'goals': instance.goals.map((e) => _$UserGoalsEnumEnumMap[e]!).toList(),
       'interests': instance.interests,
+      'birthDate': instance.birthDate.toIso8601String(),
+      'description': instance.description,
+      'instagramUsername': instance.instagramUsername,
+      'telegramUsername': instance.telegramUsername,
     };
 
 const _$UserConnectStatusEnumEnumMap = {
@@ -41,6 +49,6 @@ const _$UserConnectStatusEnumEnumMap = {
 const _$UserGoalsEnumEnumMap = {
   UserGoalsEnum.findFriends: 'findFriends',
   UserGoalsEnum.dating: 'dating',
-  UserGoalsEnum.hookup: 'hookup',
+  UserGoalsEnum.professionalNetworking: 'professionalNetworking',
   UserGoalsEnum.other: 'other',
 };

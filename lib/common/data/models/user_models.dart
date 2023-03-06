@@ -15,6 +15,11 @@ class FullUserModel with _$FullUserModel {
     required UserConnectStatusEnum connectStatus,
     required List<UserGoalsEnum> goals,
     required List<String> interests,
+    required DateTime birthDate,
+    String? description,
+    String? instagramUsername,
+    String? telegramUsername,
+
   }) = _FullUserModel;
 
   factory FullUserModel.fromJson(Map<String, dynamic> json) =>

@@ -9,8 +9,8 @@ import '../utils/logger/custom_logger.dart';
 import '../utils/logger/logger_name_provider.dart';
 
 abstract class RequestCheckWrapper {
-  Future<Either<RequestFailure, RESPONSE>> requestToRemoteServer<RESPONSE>(
-    Future<RESPONSE> requestFuture,
+  Future<Either<RequestFailure, RAWRESPONSE>> requestToRemoteServer<RAWRESPONSE>(
+    Future<RAWRESPONSE> requestFuture,
   );
 }
 
@@ -33,10 +33,10 @@ class RequestCheckWrapperImpl
       Bag.strings.failures.undefinedFailure;
 
   @override
-  Future<Either<RequestFailure, RESPONSE>> requestToRemoteServer<RESPONSE>(
-    Future<RESPONSE> requestFuture,
+  Future<Either<RequestFailure, RAWRESPONSE>> requestToRemoteServer<RAWRESPONSE>(
+    Future<RAWRESPONSE> requestFuture,
   ) async {
-    late final RESPONSE response;
+    late final RAWRESPONSE response;
     RequestFailure? failure;
 
     try {

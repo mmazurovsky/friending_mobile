@@ -2,42 +2,67 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
+import '../bag/bag.dart';
 import 'auto_router/app_router.dart';
 
 // left tab to right tab
-enum NavigationTab { screen }
+enum NavigationTab { main, events, profile }
 
 extension TabItemExtension on NavigationTab {
   static const Map<NavigationTab, String> _tabNameMap = {
-    NavigationTab.screen: 'Screen',
+    NavigationTab.main: 'Screen',
+    NavigationTab.events: 'Events',
+    NavigationTab.profile: 'Profile',
   };
 
-  static const _tabInactiveIconMap = {
-    NavigationTab.screen: Icon(
-      Ionicons.calendar_clear_outline,
+  static final _tabInactiveIconMap = {
+    NavigationTab.main: Icon(
+      Ionicons.people_circle_outline,
       size: 30,
-      color: Colors.blue,
+      color: Bag.palette.inactive,
+    ),
+    NavigationTab.events: Icon(
+      Ionicons.newspaper_outline,
+      size: 30,
+      color: Bag.palette.inactive,
+    ),
+    NavigationTab.profile: Icon(
+      Ionicons.person_circle_outline,
+      size: 30,
+      color: Bag.palette.inactive,
     ),
   };
 
-  static const _tabActiveIconMap = {
-    NavigationTab.screen: Icon(
-      Ionicons.calendar,
+  static final _tabActiveIconMap = {
+    NavigationTab.main: Icon(
+      Ionicons.people_circle_outline,
       size: 30,
-      color: Colors.blue,
+      color: Bag.palette.accent,
+    ),
+    NavigationTab.events: Icon(
+      Ionicons.newspaper_outline,
+      size: 30,
+      color: Bag.palette.accent,
+    ),
+    NavigationTab.profile: Icon(
+      Ionicons.person_circle_outline,
+      size: 30,
+      color: Bag.palette.accent,
     ),
   };
 
   static final _tabNavigationKeyMap = {
-    NavigationTab.screen: GlobalKey<AutoRouterState>(),
+    NavigationTab.main: GlobalKey<AutoRouterState>(),
+    NavigationTab.events: GlobalKey<AutoRouterState>(),
+    NavigationTab.profile: GlobalKey<AutoRouterState>(),
   };
 
   static const _tabRouteMap = {
-    NavigationTab.screen: OneRoute(),
+    NavigationTab.main: MainRoute(),
   };
 
   static final _tabScrollControllerMap = {
-    NavigationTab.screen: ScrollController(),
+    NavigationTab.main: ScrollController(),
   };
 
   PageRouteInfo get tabRoute => _tabRouteMap[this]!;

@@ -39,8 +39,8 @@ class UserGoalDating implements UserGoal {
   int get order => 1;
 }
 
-class UserGoalHookup implements UserGoal {
-  const UserGoalHookup();
+class UserGoalProfessionalNetworking implements UserGoal {
+  const UserGoalProfessionalNetworking();
   @override
   String get name => 'Hookup';
   @override

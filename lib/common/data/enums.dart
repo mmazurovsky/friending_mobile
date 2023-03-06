@@ -24,7 +24,7 @@ enum UserConnectStatusEnum {
 enum UserGoalsEnum {
   findFriends,
   dating,
-  hookup,
+  professionalNetworking,
   other;
 
   UserGoal get content {
@@ -33,8 +33,8 @@ enum UserGoalsEnum {
         return const UserGoalFindFriends();
       case UserGoalsEnum.dating:
         return const UserGoalDating();
-      case UserGoalsEnum.hookup:
-        return const UserGoalHookup();
+      case UserGoalsEnum.professionalNetworking:
+        return const UserGoalProfessionalNetworking();
       case UserGoalsEnum.other:
         return const UserGoalOther();
     }

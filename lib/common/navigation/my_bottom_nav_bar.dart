@@ -75,8 +75,8 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
         },
         items: [
           _getBottomNavigationBarItem(
-            isCurrentTab: currentTab == NavigationTab.screen,
-            thisNavTab: NavigationTab.screen,
+            isCurrentTab: currentTab == NavigationTab.main,
+            thisNavTab: NavigationTab.main,
             thereWasTabChange: thereWasTabChange,
           ),
         ],
@@ -87,7 +87,7 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
 
 @lazySingleton
 class TabsChangeNotifier with ChangeNotifier {
-  NavigationTab _currentTab = NavigationTab.screen;
+  NavigationTab _currentTab = NavigationTab.main;
   bool _thereWasTabChange = false;
 
   NavigationTab get currentTab => _currentTab;

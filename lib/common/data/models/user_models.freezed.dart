@@ -26,6 +26,10 @@ mixin _$FullUserModel {
   UserConnectStatusEnum get connectStatus => throw _privateConstructorUsedError;
   List<UserGoalsEnum> get goals => throw _privateConstructorUsedError;
   List<String> get interests => throw _privateConstructorUsedError;
+  DateTime get birthDate => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get instagramUsername => throw _privateConstructorUsedError;
+  String? get telegramUsername => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,7 +49,11 @@ abstract class $FullUserModelCopyWith<$Res> {
       List<String> photos,
       UserConnectStatusEnum connectStatus,
       List<UserGoalsEnum> goals,
-      List<String> interests});
+      List<String> interests,
+      DateTime birthDate,
+      String? description,
+      String? instagramUsername,
+      String? telegramUsername});
 }
 
 /// @nodoc
@@ -67,6 +75,10 @@ class _$FullUserModelCopyWithImpl<$Res, $Val extends FullUserModel>
     Object? connectStatus = null,
     Object? goals = null,
     Object? interests = null,
+    Object? birthDate = null,
+    Object? description = freezed,
+    Object? instagramUsername = freezed,
+    Object? telegramUsername = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -93,6 +105,22 @@ class _$FullUserModelCopyWithImpl<$Res, $Val extends FullUserModel>
           ? _value.interests
           : interests // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      birthDate: null == birthDate
+          ? _value.birthDate
+          : birthDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      instagramUsername: freezed == instagramUsername
+          ? _value.instagramUsername
+          : instagramUsername // ignore: cast_nullable_to_non_nullable
+              as String?,
+      telegramUsername: freezed == telegramUsername
+          ? _value.telegramUsername
+          : telegramUsername // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -111,7 +139,11 @@ abstract class _$$_FullUserModelCopyWith<$Res>
       List<String> photos,
       UserConnectStatusEnum connectStatus,
       List<UserGoalsEnum> goals,
-      List<String> interests});
+      List<String> interests,
+      DateTime birthDate,
+      String? description,
+      String? instagramUsername,
+      String? telegramUsername});
 }
 
 /// @nodoc
@@ -131,6 +163,10 @@ class __$$_FullUserModelCopyWithImpl<$Res>
     Object? connectStatus = null,
     Object? goals = null,
     Object? interests = null,
+    Object? birthDate = null,
+    Object? description = freezed,
+    Object? instagramUsername = freezed,
+    Object? telegramUsername = freezed,
   }) {
     return _then(_$_FullUserModel(
       id: null == id
@@ -157,6 +193,22 @@ class __$$_FullUserModelCopyWithImpl<$Res>
           ? _value._interests
           : interests // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      birthDate: null == birthDate
+          ? _value.birthDate
+          : birthDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      instagramUsername: freezed == instagramUsername
+          ? _value.instagramUsername
+          : instagramUsername // ignore: cast_nullable_to_non_nullable
+              as String?,
+      telegramUsername: freezed == telegramUsername
+          ? _value.telegramUsername
+          : telegramUsername // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -170,7 +222,11 @@ class _$_FullUserModel extends _FullUserModel {
       required final List<String> photos,
       required this.connectStatus,
       required final List<UserGoalsEnum> goals,
-      required final List<String> interests})
+      required final List<String> interests,
+      required this.birthDate,
+      this.description,
+      this.instagramUsername,
+      this.telegramUsername})
       : _photos = photos,
         _goals = goals,
         _interests = interests,
@@ -210,8 +266,17 @@ class _$_FullUserModel extends _FullUserModel {
   }
 
   @override
+  final DateTime birthDate;
+  @override
+  final String? description;
+  @override
+  final String? instagramUsername;
+  @override
+  final String? telegramUsername;
+
+  @override
   String toString() {
-    return 'FullUserModel(id: $id, nickname: $nickname, photos: $photos, connectStatus: $connectStatus, goals: $goals, interests: $interests)';
+    return 'FullUserModel(id: $id, nickname: $nickname, photos: $photos, connectStatus: $connectStatus, goals: $goals, interests: $interests, birthDate: $birthDate, description: $description, instagramUsername: $instagramUsername, telegramUsername: $telegramUsername)';
   }
 
   @override
@@ -227,7 +292,15 @@ class _$_FullUserModel extends _FullUserModel {
                 other.connectStatus == connectStatus) &&
             const DeepCollectionEquality().equals(other._goals, _goals) &&
             const DeepCollectionEquality()
-                .equals(other._interests, _interests));
+                .equals(other._interests, _interests) &&
+            (identical(other.birthDate, birthDate) ||
+                other.birthDate == birthDate) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.instagramUsername, instagramUsername) ||
+                other.instagramUsername == instagramUsername) &&
+            (identical(other.telegramUsername, telegramUsername) ||
+                other.telegramUsername == telegramUsername));
   }
 
   @JsonKey(ignore: true)
@@ -239,7 +312,11 @@ class _$_FullUserModel extends _FullUserModel {
       const DeepCollectionEquality().hash(_photos),
       connectStatus,
       const DeepCollectionEquality().hash(_goals),
-      const DeepCollectionEquality().hash(_interests));
+      const DeepCollectionEquality().hash(_interests),
+      birthDate,
+      description,
+      instagramUsername,
+      telegramUsername);
 
   @JsonKey(ignore: true)
   @override
@@ -262,7 +339,11 @@ abstract class _FullUserModel extends FullUserModel {
       required final List<String> photos,
       required final UserConnectStatusEnum connectStatus,
       required final List<UserGoalsEnum> goals,
-      required final List<String> interests}) = _$_FullUserModel;
+      required final List<String> interests,
+      required final DateTime birthDate,
+      final String? description,
+      final String? instagramUsername,
+      final String? telegramUsername}) = _$_FullUserModel;
   const _FullUserModel._() : super._();
 
   factory _FullUserModel.fromJson(Map<String, dynamic> json) =
@@ -280,6 +361,14 @@ abstract class _FullUserModel extends FullUserModel {
   List<UserGoalsEnum> get goals;
   @override
   List<String> get interests;
+  @override
+  DateTime get birthDate;
+  @override
+  String? get description;
+  @override
+  String? get instagramUsername;
+  @override
+  String? get telegramUsername;
   @override
   @JsonKey(ignore: true)
   _$$_FullUserModelCopyWith<_$_FullUserModel> get copyWith =>

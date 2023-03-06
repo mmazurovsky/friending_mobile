@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'coordinate_model.dart';
+part of 'user_coordinate_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-CoordinateModel _$CoordinateModelFromJson(Map<String, dynamic> json) {
+UserCoordinateModel _$UserCoordinateModelFromJson(Map<String, dynamic> json) {
   return _CoordinateModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CoordinateModel {
+mixin _$UserCoordinateModel {
   DateTime get dateTime => throw _privateConstructorUsedError;
   double get lat => throw _privateConstructorUsedError;
   double get long => throw _privateConstructorUsedError;
@@ -27,23 +27,23 @@ mixin _$CoordinateModel {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CoordinateModelCopyWith<CoordinateModel> get copyWith =>
+  $UserCoordinateModelCopyWith<UserCoordinateModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CoordinateModelCopyWith<$Res> {
-  factory $CoordinateModelCopyWith(
-          CoordinateModel value, $Res Function(CoordinateModel) then) =
-      _$CoordinateModelCopyWithImpl<$Res, CoordinateModel>;
+abstract class $UserCoordinateModelCopyWith<$Res> {
+  factory $UserCoordinateModelCopyWith(
+          UserCoordinateModel value, $Res Function(UserCoordinateModel) then) =
+      _$UserCoordinateModelCopyWithImpl<$Res, UserCoordinateModel>;
   @useResult
   $Res call({DateTime dateTime, double lat, double long, String userId});
 }
 
 /// @nodoc
-class _$CoordinateModelCopyWithImpl<$Res, $Val extends CoordinateModel>
-    implements $CoordinateModelCopyWith<$Res> {
-  _$CoordinateModelCopyWithImpl(this._value, this._then);
+class _$UserCoordinateModelCopyWithImpl<$Res, $Val extends UserCoordinateModel>
+    implements $UserCoordinateModelCopyWith<$Res> {
+  _$UserCoordinateModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -81,7 +81,7 @@ class _$CoordinateModelCopyWithImpl<$Res, $Val extends CoordinateModel>
 
 /// @nodoc
 abstract class _$$_CoordinateModelCopyWith<$Res>
-    implements $CoordinateModelCopyWith<$Res> {
+    implements $UserCoordinateModelCopyWith<$Res> {
   factory _$$_CoordinateModelCopyWith(
           _$_CoordinateModel value, $Res Function(_$_CoordinateModel) then) =
       __$$_CoordinateModelCopyWithImpl<$Res>;
@@ -92,7 +92,7 @@ abstract class _$$_CoordinateModelCopyWith<$Res>
 
 /// @nodoc
 class __$$_CoordinateModelCopyWithImpl<$Res>
-    extends _$CoordinateModelCopyWithImpl<$Res, _$_CoordinateModel>
+    extends _$UserCoordinateModelCopyWithImpl<$Res, _$_CoordinateModel>
     implements _$$_CoordinateModelCopyWith<$Res> {
   __$$_CoordinateModelCopyWithImpl(
       _$_CoordinateModel _value, $Res Function(_$_CoordinateModel) _then)
@@ -151,7 +151,7 @@ class _$_CoordinateModel extends _CoordinateModel {
 
   @override
   String toString() {
-    return 'CoordinateModel(dateTime: $dateTime, lat: $lat, long: $long, userId: $userId)';
+    return 'UserCoordinateModel(dateTime: $dateTime, lat: $lat, long: $long, userId: $userId)';
   }
 
   @override
@@ -184,7 +184,7 @@ class _$_CoordinateModel extends _CoordinateModel {
   }
 }
 
-abstract class _CoordinateModel extends CoordinateModel {
+abstract class _CoordinateModel extends UserCoordinateModel {
   const factory _CoordinateModel(
       {required final DateTime dateTime,
       required final double lat,

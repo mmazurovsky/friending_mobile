@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'coordinate_model.dart';
+part of 'user_coordinate_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
