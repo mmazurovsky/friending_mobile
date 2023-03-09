@@ -13,10 +13,10 @@ class FullUserModel with _$FullUserModel {
     required String nickname,
     required List<String> photos,
     required UserConnectStatusEnum connectStatus,
-    required List<UserGoalsEnum> goals,
     required List<String> interests,
     required DateTime birthDate,
     String? description,
+    String? lookingFor,
     String? instagramUsername,
     String? telegramUsername,
 

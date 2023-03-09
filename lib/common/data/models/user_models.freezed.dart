@@ -24,10 +24,10 @@ mixin _$FullUserModel {
   String get nickname => throw _privateConstructorUsedError;
   List<String> get photos => throw _privateConstructorUsedError;
   UserConnectStatusEnum get connectStatus => throw _privateConstructorUsedError;
-  List<UserGoalsEnum> get goals => throw _privateConstructorUsedError;
   List<String> get interests => throw _privateConstructorUsedError;
   DateTime get birthDate => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
+  String? get lookingFor => throw _privateConstructorUsedError;
   String? get instagramUsername => throw _privateConstructorUsedError;
   String? get telegramUsername => throw _privateConstructorUsedError;
 
@@ -48,10 +48,10 @@ abstract class $FullUserModelCopyWith<$Res> {
       String nickname,
       List<String> photos,
       UserConnectStatusEnum connectStatus,
-      List<UserGoalsEnum> goals,
       List<String> interests,
       DateTime birthDate,
       String? description,
+      String? lookingFor,
       String? instagramUsername,
       String? telegramUsername});
 }
@@ -73,10 +73,10 @@ class _$FullUserModelCopyWithImpl<$Res, $Val extends FullUserModel>
     Object? nickname = null,
     Object? photos = null,
     Object? connectStatus = null,
-    Object? goals = null,
     Object? interests = null,
     Object? birthDate = null,
     Object? description = freezed,
+    Object? lookingFor = freezed,
     Object? instagramUsername = freezed,
     Object? telegramUsername = freezed,
   }) {
@@ -97,10 +97,6 @@ class _$FullUserModelCopyWithImpl<$Res, $Val extends FullUserModel>
           ? _value.connectStatus
           : connectStatus // ignore: cast_nullable_to_non_nullable
               as UserConnectStatusEnum,
-      goals: null == goals
-          ? _value.goals
-          : goals // ignore: cast_nullable_to_non_nullable
-              as List<UserGoalsEnum>,
       interests: null == interests
           ? _value.interests
           : interests // ignore: cast_nullable_to_non_nullable
@@ -112,6 +108,10 @@ class _$FullUserModelCopyWithImpl<$Res, $Val extends FullUserModel>
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lookingFor: freezed == lookingFor
+          ? _value.lookingFor
+          : lookingFor // ignore: cast_nullable_to_non_nullable
               as String?,
       instagramUsername: freezed == instagramUsername
           ? _value.instagramUsername
@@ -138,10 +138,10 @@ abstract class _$$_FullUserModelCopyWith<$Res>
       String nickname,
       List<String> photos,
       UserConnectStatusEnum connectStatus,
-      List<UserGoalsEnum> goals,
       List<String> interests,
       DateTime birthDate,
       String? description,
+      String? lookingFor,
       String? instagramUsername,
       String? telegramUsername});
 }
@@ -161,10 +161,10 @@ class __$$_FullUserModelCopyWithImpl<$Res>
     Object? nickname = null,
     Object? photos = null,
     Object? connectStatus = null,
-    Object? goals = null,
     Object? interests = null,
     Object? birthDate = null,
     Object? description = freezed,
+    Object? lookingFor = freezed,
     Object? instagramUsername = freezed,
     Object? telegramUsername = freezed,
   }) {
@@ -185,10 +185,6 @@ class __$$_FullUserModelCopyWithImpl<$Res>
           ? _value.connectStatus
           : connectStatus // ignore: cast_nullable_to_non_nullable
               as UserConnectStatusEnum,
-      goals: null == goals
-          ? _value._goals
-          : goals // ignore: cast_nullable_to_non_nullable
-              as List<UserGoalsEnum>,
       interests: null == interests
           ? _value._interests
           : interests // ignore: cast_nullable_to_non_nullable
@@ -200,6 +196,10 @@ class __$$_FullUserModelCopyWithImpl<$Res>
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lookingFor: freezed == lookingFor
+          ? _value.lookingFor
+          : lookingFor // ignore: cast_nullable_to_non_nullable
               as String?,
       instagramUsername: freezed == instagramUsername
           ? _value.instagramUsername
@@ -221,14 +221,13 @@ class _$_FullUserModel extends _FullUserModel {
       required this.nickname,
       required final List<String> photos,
       required this.connectStatus,
-      required final List<UserGoalsEnum> goals,
       required final List<String> interests,
       required this.birthDate,
       this.description,
+      this.lookingFor,
       this.instagramUsername,
       this.telegramUsername})
       : _photos = photos,
-        _goals = goals,
         _interests = interests,
         super._();
 
@@ -249,14 +248,6 @@ class _$_FullUserModel extends _FullUserModel {
 
   @override
   final UserConnectStatusEnum connectStatus;
-  final List<UserGoalsEnum> _goals;
-  @override
-  List<UserGoalsEnum> get goals {
-    if (_goals is EqualUnmodifiableListView) return _goals;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_goals);
-  }
-
   final List<String> _interests;
   @override
   List<String> get interests {
@@ -270,13 +261,15 @@ class _$_FullUserModel extends _FullUserModel {
   @override
   final String? description;
   @override
+  final String? lookingFor;
+  @override
   final String? instagramUsername;
   @override
   final String? telegramUsername;
 
   @override
   String toString() {
-    return 'FullUserModel(id: $id, nickname: $nickname, photos: $photos, connectStatus: $connectStatus, goals: $goals, interests: $interests, birthDate: $birthDate, description: $description, instagramUsername: $instagramUsername, telegramUsername: $telegramUsername)';
+    return 'FullUserModel(id: $id, nickname: $nickname, photos: $photos, connectStatus: $connectStatus, interests: $interests, birthDate: $birthDate, description: $description, lookingFor: $lookingFor, instagramUsername: $instagramUsername, telegramUsername: $telegramUsername)';
   }
 
   @override
@@ -290,13 +283,14 @@ class _$_FullUserModel extends _FullUserModel {
             const DeepCollectionEquality().equals(other._photos, _photos) &&
             (identical(other.connectStatus, connectStatus) ||
                 other.connectStatus == connectStatus) &&
-            const DeepCollectionEquality().equals(other._goals, _goals) &&
             const DeepCollectionEquality()
                 .equals(other._interests, _interests) &&
             (identical(other.birthDate, birthDate) ||
                 other.birthDate == birthDate) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.lookingFor, lookingFor) ||
+                other.lookingFor == lookingFor) &&
             (identical(other.instagramUsername, instagramUsername) ||
                 other.instagramUsername == instagramUsername) &&
             (identical(other.telegramUsername, telegramUsername) ||
@@ -311,10 +305,10 @@ class _$_FullUserModel extends _FullUserModel {
       nickname,
       const DeepCollectionEquality().hash(_photos),
       connectStatus,
-      const DeepCollectionEquality().hash(_goals),
       const DeepCollectionEquality().hash(_interests),
       birthDate,
       description,
+      lookingFor,
       instagramUsername,
       telegramUsername);
 
@@ -338,10 +332,10 @@ abstract class _FullUserModel extends FullUserModel {
       required final String nickname,
       required final List<String> photos,
       required final UserConnectStatusEnum connectStatus,
-      required final List<UserGoalsEnum> goals,
       required final List<String> interests,
       required final DateTime birthDate,
       final String? description,
+      final String? lookingFor,
       final String? instagramUsername,
       final String? telegramUsername}) = _$_FullUserModel;
   const _FullUserModel._() : super._();
@@ -358,13 +352,13 @@ abstract class _FullUserModel extends FullUserModel {
   @override
   UserConnectStatusEnum get connectStatus;
   @override
-  List<UserGoalsEnum> get goals;
-  @override
   List<String> get interests;
   @override
   DateTime get birthDate;
   @override
   String? get description;
+  @override
+  String? get lookingFor;
   @override
   String? get instagramUsername;
   @override

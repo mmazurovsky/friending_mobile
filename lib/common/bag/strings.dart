@@ -13,6 +13,7 @@ class _ServerStrings {
   final userCollection = 'users';
   final coordinatesCollection = 'userCoordinates';
   final tagsCollection = 'userTags';
+  final connectionsCollection = 'connections';
 }
 
 class _UiStrings {}

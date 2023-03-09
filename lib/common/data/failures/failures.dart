@@ -10,6 +10,21 @@ abstract class Failure {
   String get forUser;
 }
 
+class EmptyFailure implements Failure {
+  const EmptyFailure();
+  @override
+  FailureMessages get m => throw UnimplementedError();
+
+  @override
+  Exception? get e => throw UnimplementedError();
+
+  @override
+  String get forSystem => throw UnimplementedError();
+
+  @override
+  String get forUser => throw UnimplementedError();
+}
+
 @freezed
 class RequestFailure with _$RequestFailure implements Failure {
   const RequestFailure._();

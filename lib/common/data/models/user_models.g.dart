@@ -14,13 +14,11 @@ _$_FullUserModel _$$_FullUserModelFromJson(Map<String, dynamic> json) =>
           (json['photos'] as List<dynamic>).map((e) => e as String).toList(),
       connectStatus:
           $enumDecode(_$UserConnectStatusEnumEnumMap, json['connectStatus']),
-      goals: (json['goals'] as List<dynamic>)
-          .map((e) => $enumDecode(_$UserGoalsEnumEnumMap, e))
-          .toList(),
       interests:
           (json['interests'] as List<dynamic>).map((e) => e as String).toList(),
       birthDate: DateTime.parse(json['birthDate'] as String),
       description: json['description'] as String?,
+      lookingFor: json['lookingFor'] as String?,
       instagramUsername: json['instagramUsername'] as String?,
       telegramUsername: json['telegramUsername'] as String?,
     );
@@ -31,10 +29,10 @@ Map<String, dynamic> _$$_FullUserModelToJson(_$_FullUserModel instance) =>
       'nickname': instance.nickname,
       'photos': instance.photos,
       'connectStatus': _$UserConnectStatusEnumEnumMap[instance.connectStatus]!,
-      'goals': instance.goals.map((e) => _$UserGoalsEnumEnumMap[e]!).toList(),
       'interests': instance.interests,
       'birthDate': instance.birthDate.toIso8601String(),
       'description': instance.description,
+      'lookingFor': instance.lookingFor,
       'instagramUsername': instance.instagramUsername,
       'telegramUsername': instance.telegramUsername,
     };
@@ -44,11 +42,4 @@ const _$UserConnectStatusEnumEnumMap = {
   UserConnectStatusEnum.disconnected: 'disconnected',
   UserConnectStatusEnum.requested: 'requested',
   UserConnectStatusEnum.toBeApproved: 'toBeApproved',
-};
-
-const _$UserGoalsEnumEnumMap = {
-  UserGoalsEnum.findFriends: 'findFriends',
-  UserGoalsEnum.dating: 'dating',
-  UserGoalsEnum.professionalNetworking: 'professionalNetworking',
-  UserGoalsEnum.other: 'other',
 };

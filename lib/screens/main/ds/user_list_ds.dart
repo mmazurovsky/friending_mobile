@@ -4,9 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../common/bag/bag.dart';
-import '../../../common/client/compound_request_wrapper.dart';
 import '../../../common/client/request_check_wrapper.dart';
-import '../../../common/data/entities/failures.dart';
+import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/user_models.dart';
 
 abstract class UserListDS {
@@ -29,12 +28,10 @@ abstract class UserListDS {
 
 class UserListDSImpl implements UserListDS {
   final FirebaseFirestore _firestore;
-  final CompoundRequestWrapper _compoundRequestWrapper;
   final RequestCheckWrapper _requestCheckWrapper;
 
   UserListDSImpl(
     this._firestore,
-    this._compoundRequestWrapper,
     this._requestCheckWrapper,
   );
 
@@ -60,8 +57,7 @@ class UserListDSImpl implements UserListDS {
         )
         .get();
 
-    final userCoordinates =
-        await _requestCheckWrapper.requestToRemoteServer(future);
+    final userCoordinates = await _requestCheckWrapper.call(future);
 
     final userIds = userCoordinates.map((r) {
       final userIds = r.docs
@@ -129,8 +125,17 @@ class UserListDSImpl implements UserListDS {
         )
         .get();
 
-    final users =
-        _compoundRequestWrapper.wrapQuerySnapshotMap<FullUserModel>(future);
+    final usersRaw = await _requestCheckWrapper(future);
+
+    final users = usersRaw.map(
+      (r) => r.docs
+          .map(
+            (e) => FullUserModel.fromJson(
+              e.data(),
+            ),
+          )
+          .toList(),
+    );
 
     return users;
   }
@@ -139,21 +144,23 @@ class UserListDSImpl implements UserListDS {
   Future<Map<String, int>> getUserIdsWithTheseTags(
       {required List<String> tags}) async {
     final userIdToTagsInCommon = <String, int>{};
-    for (final element in tags) {
-      final future = _firestore
-          .collection(tagsCollection)
-          .doc(element)
-          .collection('usersWithThisTag')
-          .get();
-      final a = await _requestCheckWrapper.requestToRemoteServer(future);
-      final b = a.map((r) => r.docs.map((e) => e.id).toList());
-      final userIds = b.getOrElse(() => <String>[]);
-      for (var element in userIds) {
-        if (userIdToTagsInCommon.containsKey(element)) {
-          userIdToTagsInCommon[element] = userIdToTagsInCommon[element]! + 1;
-        } else {
-          userIdToTagsInCommon[element] = 1;
-        }
+    final future = _firestore
+        .collection(tagsCollection)
+        .where('tagName', whereIn: tags)
+        .get();
+    final a = await _requestCheckWrapper.call(future);
+    final b = a.map((r) => r.docs);
+    final c =
+        b.getOrElse(() => <QueryDocumentSnapshot<Map<String, dynamic>>>[]);
+    final userIds = c.fold<List<String>>([], (prev, e) {
+      prev.addAll(e.get('usersWithThisTag') as List<String>);
+      return prev;
+    }).toSet();
+    for (var userId in userIds) {
+      if (userIdToTagsInCommon.containsKey(userId)) {
+        userIdToTagsInCommon[userId] = userIdToTagsInCommon[userId]! + 1;
+      } else {
+        userIdToTagsInCommon[userId] = 1;
       }
     }
 

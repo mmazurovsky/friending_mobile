@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/entities/failures.dart';
+import '../data/failures/failures.dart';
 import '../data/entities/graphics.dart';
 
 part 'assets.dart';

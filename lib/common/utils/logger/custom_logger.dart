@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
-import '../../data/entities/failures.dart';
+import '../../data/failures/failures.dart';
 
 abstract class CustomLogger {
   void logDetailed({

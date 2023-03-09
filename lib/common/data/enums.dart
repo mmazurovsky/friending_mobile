@@ -21,22 +21,22 @@ enum UserConnectStatusEnum {
   }
 }
 
-enum UserGoalsEnum {
-  findFriends,
-  dating,
-  professionalNetworking,
-  other;
+// enum UserGoalsEnum {
+//   findFriends,
+//   dating,
+//   professionalNetworking,
+//   other;
 
-  UserGoal get content {
-    switch (this) {
-      case UserGoalsEnum.findFriends:
-        return const UserGoalFindFriends();
-      case UserGoalsEnum.dating:
-        return const UserGoalDating();
-      case UserGoalsEnum.professionalNetworking:
-        return const UserGoalProfessionalNetworking();
-      case UserGoalsEnum.other:
-        return const UserGoalOther();
-    }
-  }
-}
+//   UserGoal get content {
+//     switch (this) {
+//       case UserGoalsEnum.findFriends:
+//         return const UserGoalFindFriends();
+//       case UserGoalsEnum.dating:
+//         return const UserGoalDating();
+//       case UserGoalsEnum.professionalNetworking:
+//         return const UserGoalProfessionalNetworking();
+//       case UserGoalsEnum.other:
+//         return const UserGoalOther();
+//     }
+//   }
+// }

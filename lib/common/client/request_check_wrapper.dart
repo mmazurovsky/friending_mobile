@@ -4,26 +4,16 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../bag/bag.dart';
-import '../data/entities/failures.dart';
-import '../utils/logger/custom_logger.dart';
-import '../utils/logger/logger_name_provider.dart';
+import '../data/failures/failures.dart';
 
 abstract class RequestCheckWrapper {
-  Future<Either<RequestFailure, RAWRESPONSE>> requestToRemoteServer<RAWRESPONSE>(
+  Future<Either<RequestFailure, RAWRESPONSE>> call<RAWRESPONSE>(
     Future<RAWRESPONSE> requestFuture,
   );
 }
 
 @LazySingleton(as: RequestCheckWrapper)
-class RequestCheckWrapperImpl
-    with LoggerNameProvider
-    implements RequestCheckWrapper {
-  final CustomLogger _customLogger;
-
-  RequestCheckWrapperImpl(
-    this._customLogger,
-  );
-
+class RequestCheckWrapperImpl implements RequestCheckWrapper {
   FailureMessages get _authFailureMessages => Bag.strings.failures.authFaliure;
   FailureMessages get _serverFailureMessages =>
       Bag.strings.failures.serverFaliure;
@@ -33,7 +23,7 @@ class RequestCheckWrapperImpl
       Bag.strings.failures.undefinedFailure;
 
   @override
-  Future<Either<RequestFailure, RAWRESPONSE>> requestToRemoteServer<RAWRESPONSE>(
+  Future<Either<RequestFailure, RAWRESPONSE>> call<RAWRESPONSE>(
     Future<RAWRESPONSE> requestFuture,
   ) async {
     late final RAWRESPONSE response;
@@ -81,10 +71,6 @@ class RequestCheckWrapperImpl
     }
 
     if (failure != null) {
-      _customLogger.logFailure(
-        loggerName: loggerName,
-        failure: failure,
-      );
       return Left(failure);
     } else {
       return Right(response);
