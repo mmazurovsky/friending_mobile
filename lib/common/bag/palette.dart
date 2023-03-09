@@ -8,7 +8,7 @@ class Palette {
   static const _white = Color(0xffffffff);
   static const _black = Color(0x00000000);
   static const _purple = Colors.purple;
-  static const _grey - Colors.grey;
+  static const _grey = Colors.grey;
 
   // Colors that are used in widgets
   Color get background => _white;
