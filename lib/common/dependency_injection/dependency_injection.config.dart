@@ -18,12 +18,14 @@ import 'package:flutter_mobile_starter/common/utils/logger/custom_logger.dart'
     as _i3;
 import 'package:flutter_mobile_starter/common/utils/logger/logger_config.dart'
     as _i8;
-import 'package:flutter_mobile_starter/screens/profile/ds/connect_ds.dart'
+import 'package:flutter_mobile_starter/screens/other_user/ds/connect_ds.dart'
     as _i11;
+import 'package:flutter_mobile_starter/screens/profile/ds/profile_ds.dart'
+    as _i13;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import 'modules.dart' as _i13;
+import 'modules.dart' as _i14;
 
 // ignore_for_file: unnecessary_lambdas
 // ignore_for_file: lines_longer_than_80_chars
@@ -54,7 +56,13 @@ _i1.GetIt init(
         gh<_i12.AuthRepo>(),
         gh<_i3.CustomLogger>(),
       ));
+  gh.lazySingleton<_i13.ProfileDS>(() => _i13.ProfileDSImpl(
+        gh<_i12.AuthRepo>(),
+        gh<_i7.FirebaseFirestore>(),
+        gh<_i9.RequestCheckWrapper>(),
+        gh<_i3.CustomLogger>(),
+      ));
   return getIt;
 }
 
-class _$Modules extends _i13.Modules {}
+class _$Modules extends _i14.Modules {}

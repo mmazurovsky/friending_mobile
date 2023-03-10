@@ -33,14 +33,16 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
   @override
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
 
-  String get userCollection => Bag.strings.server.userCollection;
+  String get userCollection => Bag.strings.server.shortUsersCollection;
   String get connectionsCollection => Bag.strings.server.connectionsCollection;
 
   @override
   Future<Either<RequestFailure, void>> initialConnection(String userId) async {
     final currentUserRaw = _authRepo.currentUser;
 
-    final result = currentUserRaw.map((r) async {
+    final result = await currentUserRaw.fold((l) async {
+      return left<RequestFailure, void>(l);
+    }, (r) async {
       final dateTime = DateTime.now();
       final currentUserId = r.uid;
       final batchOperation = _firestore.batch();
@@ -70,29 +72,28 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       );
       final future = batchOperation.commit();
       final result = await _requestCheckWrapper(future);
-
-      result.fold(
-        (l) => _customLogger.logFailure(
-          loggerName: loggerName,
-          failure: l,
-        ),
-        (r) => null,
-      );
-
       return result;
     });
 
-    return result.fold(
-      (l) => left(l),
-      (r) => r,
+    result.fold(
+      (l) {
+        _customLogger.logFailure(
+          loggerName: loggerName,
+          failure: l,
+        );
+      },
+      (r) => null,
     );
+    return result;
   }
 
   @override
   Future<Either<RequestFailure, void>> approveConnection(String userId) async {
     final currentUserRaw = _authRepo.currentUser;
 
-    final result = currentUserRaw.map((r) async {
+    final result = await currentUserRaw.fold((l) async {
+      return left<RequestFailure, void>(l);
+    }, (r) async {
       final dateTime = DateTime.now();
       final currentUserId = r.uid;
       final batchOperation = _firestore.batch();
@@ -123,28 +124,27 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       final future = batchOperation.commit();
       final result = await _requestCheckWrapper(future);
 
-      result.fold(
-        (l) => _customLogger.logFailure(
-          loggerName: loggerName,
-          failure: l,
-        ),
-        (r) => null,
-      );
-
       return result;
     });
 
-    return result.fold(
-      (l) => left(l),
-      (r) => r,
+    result.fold(
+      (l) => _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: l,
+      ),
+      (r) => null,
     );
+
+    return result;
   }
 
   @override
   Future<Either<RequestFailure, void>> disconnect(String userId) async {
     final currentUserRaw = _authRepo.currentUser;
 
-    final result = currentUserRaw.map((r) async {
+    final result = await currentUserRaw.fold((l) async {
+      return left<RequestFailure, void>(l);
+    }, (r) async {
       final currentUserId = r.uid;
       final batchOperation = _firestore.batch();
       batchOperation.delete(
@@ -164,20 +164,17 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       final future = batchOperation.commit();
       final result = await _requestCheckWrapper(future);
 
-      result.fold(
-        (l) => _customLogger.logFailure(
-          loggerName: loggerName,
-          failure: l,
-        ),
-        (r) => null,
-      );
-
       return result;
     });
 
-    return result.fold(
-      (l) => left(l),
-      (r) => r,
+    result.fold(
+      (l) => _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: l,
+      ),
+      (r) => null,
     );
+
+    return result;
   }
 }

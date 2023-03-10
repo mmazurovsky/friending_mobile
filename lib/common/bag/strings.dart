@@ -10,10 +10,12 @@ class Strings {
 }
 
 class _ServerStrings {
-  final userCollection = 'users';
+  final shortUsersCollection = 'shortUsers';
+  final fullUsersCollection = 'fullUsers';
   final coordinatesCollection = 'userCoordinates';
   final tagsCollection = 'userTags';
   final connectionsCollection = 'connections';
+  final privateInfoCollection = 'privateInfo';
 }
 
 class _UiStrings {}

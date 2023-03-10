@@ -16,7 +16,7 @@ abstract class UserListDS {
     required DateTime startDateTime,
   });
 
-  Future<Either<RequestFailure, List<FullUserModel>>> getUsersByIds({
+  Future<Either<RequestFailure, List<ShortUserModel>>> getUsersByIds({
     required Set<String> userIds,
     required String currentUserId,
   });
@@ -35,7 +35,7 @@ class UserListDSImpl implements UserListDS {
     this._requestCheckWrapper,
   );
 
-  String get userCollection => Bag.strings.server.userCollection;
+  String get userCollection => Bag.strings.server.shortUsersCollection;
   String get coordinatesCollection => Bag.strings.server.coordinatesCollection;
   String get tagsCollection => Bag.strings.server.tagsCollection;
 
@@ -109,7 +109,7 @@ class UserListDSImpl implements UserListDS {
   }
 
   @override
-  Future<Either<RequestFailure, List<FullUserModel>>> getUsersByIds({
+  Future<Either<RequestFailure, List<ShortUserModel>>> getUsersByIds({
     required Set<String> userIds,
     required String currentUserId,
   }) async {
@@ -130,7 +130,7 @@ class UserListDSImpl implements UserListDS {
     final users = usersRaw.map(
       (r) => r.docs
           .map(
-            (e) => FullUserModel.fromJson(
+            (e) => ShortUserModel.fromJson(
               e.data(),
             ),
           )
