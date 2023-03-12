@@ -23,7 +23,6 @@ Map<String, dynamic> _$$_PrivateInfoUserModelToJson(
 _$_AdditionalUserModel _$$_AdditionalUserModelFromJson(
         Map<String, dynamic> json) =>
     _$_AdditionalUserModel(
-      id: json['id'] as String,
       description: json['description'] as String?,
       lookingFor: json['lookingFor'] as String?,
     );
@@ -31,7 +30,6 @@ _$_AdditionalUserModel _$$_AdditionalUserModelFromJson(
 Map<String, dynamic> _$$_AdditionalUserModelToJson(
         _$_AdditionalUserModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'description': instance.description,
       'lookingFor': instance.lookingFor,
     };
@@ -43,9 +41,8 @@ _$_ShortUserModel _$$_ShortUserModelFromJson(Map<String, dynamic> json) =>
       photos:
           (json['photos'] as List<dynamic>).map((e) => e as String).toList(),
       birthDate: DateTime.parse(json['birthDate'] as String),
-      commonInterests: (json['commonInterests'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      soulsCount: json['soulsCount'] as int,
     );
 
 Map<String, dynamic> _$$_ShortUserModelToJson(_$_ShortUserModel instance) =>
@@ -54,5 +51,50 @@ Map<String, dynamic> _$$_ShortUserModelToJson(_$_ShortUserModel instance) =>
       'nickname': instance.nickname,
       'photos': instance.photos,
       'birthDate': instance.birthDate.toIso8601String(),
-      'commonInterests': instance.commonInterests,
+      'tags': instance.tags,
+      'soulsCount': instance.soulsCount,
+    };
+
+_$_ShortUserWriteModel _$$_ShortUserWriteModelFromJson(
+        Map<String, dynamic> json) =>
+    _$_ShortUserWriteModel(
+      nickname: json['nickname'] as String,
+      photos:
+          (json['photos'] as List<dynamic>).map((e) => e as String).toList(),
+      birthDate: DateTime.parse(json['birthDate'] as String),
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      soulsCount: json['soulsCount'] as int?,
+    );
+
+Map<String, dynamic> _$$_ShortUserWriteModelToJson(
+    _$_ShortUserWriteModel instance) {
+  final val = <String, dynamic>{
+    'nickname': instance.nickname,
+    'photos': instance.photos,
+    'birthDate': instance.birthDate.toIso8601String(),
+    'tags': instance.tags,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('soulsCount', instance.soulsCount);
+  return val;
+}
+
+_$_AdditionalUserWriteModel _$$_AdditionalUserWriteModelFromJson(
+        Map<String, dynamic> json) =>
+    _$_AdditionalUserWriteModel(
+      description: json['description'] as String?,
+      lookingFor: json['lookingFor'] as String?,
+    );
+
+Map<String, dynamic> _$$_AdditionalUserWriteModelToJson(
+        _$_AdditionalUserWriteModel instance) =>
+    <String, dynamic>{
+      'description': instance.description,
+      'lookingFor': instance.lookingFor,
     };

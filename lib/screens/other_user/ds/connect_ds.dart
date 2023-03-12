@@ -11,7 +11,10 @@ import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
 
 abstract class ConnectDS {
-  Future<Either<RequestFailure, void>> initialConnection(String userId);
+  Future<Either<RequestFailure, void>> initialConnection(
+    String userId,
+    String message,
+  );
   Future<Either<RequestFailure, void>> approveConnection(String userId);
   Future<Either<RequestFailure, void>> disconnect(String userId);
 }
@@ -33,11 +36,15 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
   @override
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
 
-  String get userCollection => Bag.strings.server.shortUsersCollection;
+  String get fullUserCollection => Bag.strings.server.fullUsersCollection;
+  String get shortUserCollection => Bag.strings.server.shortUsersCollection;
   String get connectionsCollection => Bag.strings.server.connectionsCollection;
 
   @override
-  Future<Either<RequestFailure, void>> initialConnection(String userId) async {
+  Future<Either<RequestFailure, void>> initialConnection(
+    String userId,
+    String message,
+  ) async {
     final currentUserRaw = _authRepo.currentUser;
 
     final result = await currentUserRaw.fold((l) async {
@@ -48,7 +55,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       final batchOperation = _firestore.batch();
       batchOperation.set(
         _firestore
-            .collection(userCollection)
+            .collection(fullUserCollection)
             .doc(userId)
             .collection(connectionsCollection)
             .doc(currentUserId),
@@ -56,11 +63,12 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
           'userId': currentUserId,
           'connectionType': UserConnectStatusEnum.toBeApproved.toString(),
           'dateTime': dateTime,
+          'message': message,
         },
       );
       batchOperation.set(
         _firestore
-            .collection(userCollection)
+            .collection(fullUserCollection)
             .doc(currentUserId)
             .collection(connectionsCollection)
             .doc(userId),
@@ -70,6 +78,17 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
           'dateTime': dateTime,
         },
       );
+
+      batchOperation.update(
+          _firestore.collection(shortUserCollection).doc(currentUserId), {
+        'soulsCount': FieldValue.increment(-1),
+      });
+
+      batchOperation
+          .update(_firestore.collection(shortUserCollection).doc(userId), {
+        'soulsCount': FieldValue.increment(1),
+      });
+
       final future = batchOperation.commit();
       final result = await _requestCheckWrapper(future);
       return result;
@@ -99,7 +118,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       final batchOperation = _firestore.batch();
       batchOperation.set(
         _firestore
-            .collection(userCollection)
+            .collection(fullUserCollection)
             .doc(userId)
             .collection(connectionsCollection)
             .doc(currentUserId),
@@ -111,7 +130,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       );
       batchOperation.set(
         _firestore
-            .collection(userCollection)
+            .collection(fullUserCollection)
             .doc(currentUserId)
             .collection(connectionsCollection)
             .doc(userId),
@@ -121,6 +140,12 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
           'dateTime': dateTime,
         },
       );
+
+      batchOperation.update(
+          _firestore.collection(shortUserCollection).doc(currentUserId), {
+        'soulsCount': FieldValue.increment(-1),
+      });
+
       final future = batchOperation.commit();
       final result = await _requestCheckWrapper(future);
 
@@ -149,14 +174,14 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       final batchOperation = _firestore.batch();
       batchOperation.delete(
         _firestore
-            .collection(userCollection)
+            .collection(fullUserCollection)
             .doc(userId)
             .collection(connectionsCollection)
             .doc(currentUserId),
       );
       batchOperation.delete(
         _firestore
-            .collection(userCollection)
+            .collection(fullUserCollection)
             .doc(currentUserId)
             .collection(connectionsCollection)
             .doc(userId),

@@ -9,23 +9,25 @@ import 'package:cloud_firestore/cloud_firestore.dart' as _i7;
 import 'package:firebase_analytics/firebase_analytics.dart' as _i4;
 import 'package:firebase_auth/firebase_auth.dart' as _i5;
 import 'package:firebase_crashlytics/firebase_crashlytics.dart' as _i6;
-import 'package:flutter_mobile_starter/common/auth/repo/auth_repo.dart' as _i12;
+import 'package:flutter_mobile_starter/common/auth/repo/auth_repo.dart' as _i11;
 import 'package:flutter_mobile_starter/common/client/request_check_wrapper.dart'
     as _i9;
 import 'package:flutter_mobile_starter/common/navigation/my_bottom_nav_bar.dart'
-    as _i10;
+    as _i12;
 import 'package:flutter_mobile_starter/common/utils/logger/custom_logger.dart'
     as _i3;
 import 'package:flutter_mobile_starter/common/utils/logger/logger_config.dart'
     as _i8;
 import 'package:flutter_mobile_starter/screens/other_user/ds/connect_ds.dart'
-    as _i11;
-import 'package:flutter_mobile_starter/screens/profile/ds/profile_ds.dart'
     as _i13;
+import 'package:flutter_mobile_starter/screens/profile/ds/profile_ds.dart'
+    as _i14;
+import 'package:flutter_mobile_starter/screens/profile/ds/souls_ds.dart'
+    as _i10;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import 'modules.dart' as _i14;
+import 'modules.dart' as _i15;
 
 // ignore_for_file: unnecessary_lambdas
 // ignore_for_file: lines_longer_than_80_chars
@@ -49,15 +51,21 @@ _i1.GetIt init(
   gh.lazySingleton<_i8.LoggerConfig>(() => _i8.LoggerConfig());
   gh.lazySingleton<_i9.RequestCheckWrapper>(
       () => _i9.RequestCheckWrapperImpl());
-  gh.lazySingleton<_i10.TabsChangeNotifier>(() => _i10.TabsChangeNotifier());
-  gh.lazySingleton<_i11.ConnectDS>(() => _i11.ConnectDSImpl(
+  gh.lazySingleton<_i10.SoulsDS>(() => _i10.SoulsDSImpl(
         gh<_i9.RequestCheckWrapper>(),
         gh<_i7.FirebaseFirestore>(),
-        gh<_i12.AuthRepo>(),
+        gh<_i11.AuthRepo>(),
         gh<_i3.CustomLogger>(),
       ));
-  gh.lazySingleton<_i13.ProfileDS>(() => _i13.ProfileDSImpl(
-        gh<_i12.AuthRepo>(),
+  gh.lazySingleton<_i12.TabsChangeNotifier>(() => _i12.TabsChangeNotifier());
+  gh.lazySingleton<_i13.ConnectDS>(() => _i13.ConnectDSImpl(
+        gh<_i9.RequestCheckWrapper>(),
+        gh<_i7.FirebaseFirestore>(),
+        gh<_i11.AuthRepo>(),
+        gh<_i3.CustomLogger>(),
+      ));
+  gh.lazySingleton<_i14.ProfileDS>(() => _i14.ProfileDSImpl(
+        gh<_i11.AuthRepo>(),
         gh<_i7.FirebaseFirestore>(),
         gh<_i9.RequestCheckWrapper>(),
         gh<_i3.CustomLogger>(),
@@ -65,4 +73,4 @@ _i1.GetIt init(
   return getIt;
 }
 
-class _$Modules extends _i14.Modules {}
+class _$Modules extends _i15.Modules {}

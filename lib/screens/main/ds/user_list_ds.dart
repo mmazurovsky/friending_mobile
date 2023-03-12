@@ -3,10 +3,12 @@ import 'dart:math' show cos, sqrt, asin;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/bag.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/user_models.dart';
+import '../../profile/ds/profile_ds.dart';
 
 abstract class UserListDS {
   Future<Either<RequestFailure, Set<String>>> getUserIdsAroundPoint({
@@ -18,7 +20,6 @@ abstract class UserListDS {
 
   Future<Either<RequestFailure, List<ShortUserModel>>> getUsersByIds({
     required Set<String> userIds,
-    required String currentUserId,
   });
 
   Future<Map<String, int>> getUserIdsWithTheseTags({
@@ -28,10 +29,14 @@ abstract class UserListDS {
 
 class UserListDSImpl implements UserListDS {
   final FirebaseFirestore _firestore;
+  final AuthRepo _authRepo;
+  final ProfileDS _profileDS;
   final RequestCheckWrapper _requestCheckWrapper;
 
   UserListDSImpl(
     this._firestore,
+    this._authRepo,
+    this._profileDS,
     this._requestCheckWrapper,
   );
 
@@ -111,8 +116,17 @@ class UserListDSImpl implements UserListDS {
   @override
   Future<Either<RequestFailure, List<ShortUserModel>>> getUsersByIds({
     required Set<String> userIds,
-    required String currentUserId,
   }) async {
+    final currentUserAndTags = await _profileDS.getUserAndProfileTags();
+
+    String? currentUserId;
+    final Set<String> currentUserTags = {};
+
+    currentUserAndTags.map((r) {
+      currentUserId = r.value1.uid;
+      currentUserTags.addAll(r.value2);
+    });
+
     final future = _firestore
         .collection(userCollection)
         .where(
@@ -134,6 +148,9 @@ class UserListDSImpl implements UserListDS {
               e.data(),
             ),
           )
+          .map((e) => e.copyWith(
+              commonTags:
+                  currentUserTags.intersection(e.commonTags.toSet()).toList()))
           .toList(),
     );
 

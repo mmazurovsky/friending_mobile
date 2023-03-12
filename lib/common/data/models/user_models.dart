@@ -1,31 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../enums.dart';
-
 part 'user_models.freezed.dart';
 part 'user_models.g.dart';
 
 @freezed
-// class FullUserModel with _$FullUserModel {
-//   const FullUserModel._();
-
-//   const factory FullUserModel({
-//     required String id,
-//     required String nickname,
-//     required List<String> photos,
-//     required UserConnectStatusEnum connectStatus,
-//     required List<String> interests,
-//     required DateTime birthDate,
-//     String? description,
-//     String? lookingFor,
-//     String? instagramUsername,
-//     String? telegramUsername,
-//   }) = _FullUserModel;
-
-//   factory FullUserModel.fromJson(Map<String, dynamic> json) =>
-//       _$FullUserModelFromJson(json);
-// }
-
 class FullUserModel with _$FullUserModel {
   const FullUserModel._();
 
@@ -34,6 +12,17 @@ class FullUserModel with _$FullUserModel {
     required AdditionalUserModel additionalUserModel,
     required PrivateInfoUserModel privateInfoUserModel,
   }) = _FullUserModel;
+}
+
+@freezed
+class FullUserWriteModel with _$FullUserWriteModel {
+  const FullUserWriteModel._();
+
+  const factory FullUserWriteModel({
+    required ShortUserWriteModel shortUserWriteModel,
+    required AdditionalUserWriteModel additionalUserWriteModel,
+    required PrivateInfoUserModel privateInfoUserModel,
+  }) = _FullUserWriteModel;
 }
 
 @freezed
@@ -54,7 +43,7 @@ class AdditionalUserModel with _$AdditionalUserModel {
   const AdditionalUserModel._();
 
   const factory AdditionalUserModel({
-    required String id,
+    // required String id,
     String? description,
     String? lookingFor,
   }) = _AdditionalUserModel;
@@ -72,9 +61,45 @@ class ShortUserModel with _$ShortUserModel {
     required String nickname,
     required List<String> photos,
     required DateTime birthDate,
-    required List<String> commonInterests,
+    required List<String> tags,
+    @JsonKey(
+      includeFromJson: false,
+      includeToJson: false,
+    )
+    @Default(<String>[])
+        List<String> commonTags,
+    required int soulsCount,
   }) = _ShortUserModel;
 
   factory ShortUserModel.fromJson(Map<String, dynamic> json) =>
       _$ShortUserModelFromJson(json);
+}
+
+@freezed
+class ShortUserWriteModel with _$ShortUserWriteModel {
+  const ShortUserWriteModel._();
+
+  const factory ShortUserWriteModel({
+    required String nickname,
+    required List<String> photos,
+    required DateTime birthDate,
+    required List<String> tags,
+    @JsonKey(includeIfNull: false) int? soulsCount,
+  }) = _ShortUserWriteModel;
+
+  factory ShortUserWriteModel.fromJson(Map<String, dynamic> json) =>
+      _$ShortUserWriteModelFromJson(json);
+}
+
+@freezed
+class AdditionalUserWriteModel with _$AdditionalUserWriteModel {
+  const AdditionalUserWriteModel._();
+
+  const factory AdditionalUserWriteModel({
+    String? description,
+    String? lookingFor,
+  }) = _AdditionalUserWriteModel;
+
+  factory AdditionalUserWriteModel.fromJson(Map<String, dynamic> json) =>
+      _$AdditionalUserWriteModelFromJson(json);
 }

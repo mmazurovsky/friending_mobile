@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
@@ -12,7 +13,14 @@ import '../../../common/utils/logger/logger_name_provider.dart';
 
 abstract class ProfileDS {
   Future<Either<RequestFailure, FullUserModel>> getProfile();
-  Future<Either<RequestFailure, void>> setOrUpdateProfile(FullUserModel user);
+  Future<Either<RequestFailure, Tuple2<User, List<String>>>>
+      getUserAndProfileTags();
+  Future<Either<RequestFailure, void>> updateProfile(
+    FullUserWriteModel user, {
+    required List<String> tagsToRemove,
+    required List<String> tagsToAdd,
+  });
+  Future<Either<RequestFailure, void>> saveProfile(FullUserWriteModel user);
 }
 
 @LazySingleton(as: ProfileDS)
@@ -36,6 +44,31 @@ class ProfileDSImpl implements ProfileDS, LoggerNameGetter {
       Bag.strings.server.fullUsersCollection;
   String get privateInfoUserCollection =>
       Bag.strings.server.privateInfoCollection;
+  String get tagsCollection => Bag.strings.server.tagsCollection;
+
+  @override
+  Future<Either<RequestFailure, Tuple2<User, List<String>>>>
+      getUserAndProfileTags() {
+    final currentUserRaw = _authRepo.currentUser;
+    final result = currentUserRaw.fold((l) async {
+      return left<RequestFailure, Tuple2<User, List<String>>>(l);
+    }, (user) async {
+      final future = _firebaseFirestore
+          .collection(shortUserCollection)
+          .doc(user.uid)
+          .get();
+
+      final result = await _requestCheckWrapper(future);
+
+      return result.map((r) {
+        final shortModel = ShortUserModel.fromJson(r.data()!);
+        final tags = shortModel.commonTags;
+        return Tuple2(user, tags);
+      });
+    });
+
+    return result;
+  }
 
   @override
   Future<Either<RequestFailure, FullUserModel>> getProfile() async {
@@ -122,46 +155,112 @@ class ProfileDSImpl implements ProfileDS, LoggerNameGetter {
   }
 
   @override
-  Future<Either<RequestFailure, void>> setOrUpdateProfile(
-      FullUserModel user) async {
+  Future<Either<RequestFailure, void>> updateProfile(
+    FullUserWriteModel user, {
+    required List<String> tagsToRemove,
+    required List<String> tagsToAdd,
+  }) async {
     final currentUserRaw = _authRepo.currentUser;
     final result = await currentUserRaw.fold(
       (l) async {
         return left(l);
       },
       (r) async {
-        final future1 = _firebaseFirestore
-            .collection(shortUserCollection)
-            .doc(r.uid)
-            .set(user.shortUserModel.toJson());
-        final future2 = _firebaseFirestore
-            .collection(additionalInfoUserCollection)
-            .doc(r.uid)
-            .set(user.additionalUserModel.toJson());
-        final future3 = _firebaseFirestore
-            .collection(additionalInfoUserCollection)
-            .doc(r.uid)
-            .collection(privateInfoUserCollection)
-            .doc(r.uid)
-            .set(user.privateInfoUserModel.toJson());
-        final rawFutureResponse1 = _requestCheckWrapper(future1);
-        final rawFutureResponse2 = _requestCheckWrapper(future2);
-        final rawFutureResponse3 = _requestCheckWrapper(future3);
+        final batch = _firebaseFirestore.batch();
 
-        final rawResponse1 = await rawFutureResponse1;
-        final rawResponse2 = await rawFutureResponse2;
-        final rawResponse3 = await rawFutureResponse3;
+        batch.update(
+          _firebaseFirestore.collection(shortUserCollection).doc(r.uid),
+          user.shortUserWriteModel.toJson(),
+        );
+        batch.update(
+          _firebaseFirestore
+              .collection(additionalInfoUserCollection)
+              .doc(r.uid),
+          user.additionalUserWriteModel.toJson(),
+        );
+        batch.update(
+          _firebaseFirestore
+              .collection(additionalInfoUserCollection)
+              .doc(r.uid)
+              .collection(privateInfoUserCollection)
+              .doc(r.uid),
+          user.privateInfoUserModel.toJson(),
+        );
 
-        if (rawResponse1.isLeft()) {
-          return rawResponse1;
+        for (final tag in tagsToRemove) {
+          batch.update(
+            _firebaseFirestore.collection(tagsCollection).doc(tag),
+            {
+              'usersWithThisTag': FieldValue.arrayRemove([r.uid]),
+            },
+          );
         }
-        if (rawResponse2.isLeft()) {
-          return rawResponse2;
+
+        for (final tag in tagsToAdd) {
+          batch.update(
+            _firebaseFirestore.collection(tagsCollection).doc(tag),
+            {
+              'usersWithThisTag': FieldValue.arrayUnion([r.uid]),
+            },
+          );
         }
-        if (rawResponse3.isLeft()) {
-          return rawResponse3;
+
+        final rawResponse = await _requestCheckWrapper(batch.commit());
+
+        return rawResponse;
+      },
+    );
+    result.fold((l) {
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: l,
+      );
+    }, (r) => null);
+    return result;
+  }
+
+  @override
+  Future<Either<RequestFailure, void>> saveProfile(
+      FullUserWriteModel user) async {
+    final currentUserRaw = _authRepo.currentUser;
+    final result = await currentUserRaw.fold(
+      (l) async {
+        return left(l);
+      },
+      (r) async {
+        final batch = _firebaseFirestore.batch();
+        batch.set(_firebaseFirestore.collection(shortUserCollection).doc(r.uid),
+            user.shortUserWriteModel.toJson());
+        batch.set(
+            _firebaseFirestore
+                .collection(additionalInfoUserCollection)
+                .doc(r.uid),
+            user.additionalUserWriteModel.toJson());
+        batch.set(
+            _firebaseFirestore
+                .collection(additionalInfoUserCollection)
+                .doc(r.uid)
+                .collection(privateInfoUserCollection)
+                .doc(r.uid),
+            user.privateInfoUserModel.toJson());
+
+        for (var tag in user.shortUserWriteModel.tags) {
+          //TODO: check if it works
+          batch.set(
+            _firebaseFirestore.collection(tagsCollection).doc(tag),
+            {
+              'tagName': tag,
+              'usersWithThisTag': FieldValue.arrayUnion([r.uid]),
+            },
+            SetOptions(merge: true),
+          );
         }
-        return right<RequestFailure, void>(null);
+
+        final future = batch.commit();
+
+        final rawResponse = await _requestCheckWrapper(future);
+
+        return rawResponse;
       },
     );
     result.fold((l) {
