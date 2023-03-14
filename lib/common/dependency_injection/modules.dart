@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:injectable/injectable.dart';
 
 @module
@@ -27,6 +28,12 @@ abstract class Modules {
   @lazySingleton
   FirebaseCrashlytics get firebaseCrashlytics {
     final instance = FirebaseCrashlytics.instance;
+    return instance;
+  }
+
+  @lazySingleton
+  GeoFlutterFire get getFlutterFire {
+    final instance = GeoFlutterFire();
     return instance;
   }
 }

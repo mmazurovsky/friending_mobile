@@ -43,6 +43,7 @@ dependencies:
   injectable: ^2.1.0
   dio: ^5.0.1
   auto_route: ^5.0.4
+  geoflutterfire2: ^2.3.15
 
 
 dev_dependencies:

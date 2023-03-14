@@ -1,7 +1,6 @@
-import 'dart:math' show cos, sqrt, asin;
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:geoflutterfire2/geoflutterfire2.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/bag.dart';
@@ -29,12 +28,14 @@ abstract class UserListDS {
 
 class UserListDSImpl implements UserListDS {
   final FirebaseFirestore _firestore;
+  final GeoFlutterFire _geoFlutterFire;
   final AuthRepo _authRepo;
   final ProfileDS _profileDS;
   final RequestCheckWrapper _requestCheckWrapper;
 
   UserListDSImpl(
     this._firestore,
+    this._geoFlutterFire,
     this._authRepo,
     this._profileDS,
     this._requestCheckWrapper,
@@ -54,64 +55,82 @@ class UserListDSImpl implements UserListDS {
     // final now = DateTime.now();
     // const duration = Duration(hours: 4);
     // final startDateTime = now.subtract(duration);
-    final future = _firestore
-        .collection(coordinatesCollection)
-        .where(
-          'dateTime',
-          isGreaterThan: startDateTime,
+
+    // Create a geoFirePoint
+    GeoFirePoint center = _geoFlutterFire.point(
+      latitude: pointLat,
+      longitude: pointLong,
+    );
+
+    final collectionReferenceWithDateTimeQuery =
+        _firestore.collection(coordinatesCollection).where(
+              'dateTime',
+              isGreaterThan: startDateTime,
+            );
+
+    final future = _geoFlutterFire
+        .collection(collectionRef: collectionReferenceWithDateTimeQuery)
+        .within(
+          center: center,
+          radius: maxDistanceInKm.toDouble(),
+          field: Bag.strings.server.positionField,
+          strictMode: false,
         )
-        .get();
+        .first;
 
     final userCoordinates = await _requestCheckWrapper.call(future);
 
     final userIds = userCoordinates.map((r) {
-      final userIds = r.docs
-          .where((e) => _isInDistance(
-                maxDistanceInKm: maxDistanceInKm,
-                pointLat: pointLat,
-                pointLong: pointLong,
-                otherUserLat: e.get('lat'),
-                otherUserLong: e.get('long'),
-              ))
-          .map((e) => e.get('userId') as String)
-          .toSet();
+      // final userIds = r
+      //     .where((e) => _isInDistance(
+      //           maxDistanceInKm: maxDistanceInKm,
+      //           pointLat: pointLat,
+      //           pointLong: pointLong,
+      //           otherUserLat: e.get('lat'),
+      //           otherUserLong: e.get('long'),
+      //         ))
+      //     .map((e) => e.get('userId') as String)
+      //     .toSet();
+      // return userIds;
+
+      final userIds = r.map((e) => e.get('userId') as String).toSet();
       return userIds;
     });
 
     return userIds;
   }
 
-  bool _isInDistance({
-    required double pointLat,
-    required double pointLong,
-    required double otherUserLat,
-    required double otherUserLong,
-    required int maxDistanceInKm,
-  }) {
-    final distanceBetweenUsers = _distanceBetweenTwoPointsInKm(
-      lat1: pointLat,
-      lon1: pointLong,
-      lat2: otherUserLat,
-      lon2: otherUserLong,
-    );
-    return distanceBetweenUsers <= maxDistanceInKm;
-  }
+  // bool _isInDistance({
+  //   required double pointLat,
+  //   required double pointLong,
+  //   required double otherUserLat,
+  //   required double otherUserLong,
+  //   required int maxDistanceInKm,
+  // }) {
+  //   final distanceBetweenUsers = _distanceBetweenTwoPointsInKm(
+  //     lat1: pointLat,
+  //     lon1: pointLong,
+  //     lat2: otherUserLat,
+  //     lon2: otherUserLong,
+  //   );
+  //   return distanceBetweenUsers <= maxDistanceInKm;
+  // }
 
-  double _distanceBetweenTwoPointsInKm({
-    required double lat1,
-    required double lon1,
-    required double lat2,
-    required double lon2,
-  }) {
-    const p = 0.017453292519943295; // Math.PI / 180
-    const c = cos;
-    final a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    // 2 * R; R = 6371 km
-    final result = 12742 * asin(sqrt(a));
-    return result;
-  }
+  // double _distanceBetweenTwoPointsInKm({
+  //   required double lat1,
+  //   required double lon1,
+  //   required double lat2,
+  //   required double lon2,
+  // }) {
+  //   const p = 0.017453292519943295; // Math.PI / 180
+  //   const c = cos;
+  //   final a = 0.5 -
+  //       c((lat2 - lat1) * p) / 2 +
+  //       c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+  //   // 2 * R; R = 6371 km
+  //   final result = 12742 * asin(sqrt(a));
+  //   return result;
+  // }
 
   @override
   Future<Either<RequestFailure, List<ShortUserModel>>> getUsersByIds({
