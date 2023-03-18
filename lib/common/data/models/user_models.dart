@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../enums.dart';
+
 part 'user_models.freezed.dart';
 part 'user_models.g.dart';
 
@@ -12,6 +14,18 @@ class FullUserModel with _$FullUserModel {
     required AdditionalUserModel additionalUserModel,
     required PrivateInfoUserModel privateInfoUserModel,
   }) = _FullUserModel;
+}
+
+@freezed
+class OtherUserFullModel with _$OtherUserFullModel {
+  const OtherUserFullModel._();
+
+  const factory OtherUserFullModel({
+    required ShortUserModel shortUserModel,
+    required AdditionalUserModel additionalUserModel,
+    required PrivateInfoUserModel? privateInfoUserModel,
+    required UserConnectStatusEnum connectStatusEnum,
+  }) = _OtherUserFullModel;
 }
 
 @freezed

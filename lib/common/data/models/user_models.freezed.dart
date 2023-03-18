@@ -222,6 +222,240 @@ abstract class _FullUserModel extends FullUserModel {
 }
 
 /// @nodoc
+mixin _$OtherUserFullModel {
+  ShortUserModel get shortUserModel => throw _privateConstructorUsedError;
+  AdditionalUserModel get additionalUserModel =>
+      throw _privateConstructorUsedError;
+  PrivateInfoUserModel? get privateInfoUserModel =>
+      throw _privateConstructorUsedError;
+  UserConnectStatusEnum get connectStatusEnum =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $OtherUserFullModelCopyWith<OtherUserFullModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OtherUserFullModelCopyWith<$Res> {
+  factory $OtherUserFullModelCopyWith(
+          OtherUserFullModel value, $Res Function(OtherUserFullModel) then) =
+      _$OtherUserFullModelCopyWithImpl<$Res, OtherUserFullModel>;
+  @useResult
+  $Res call(
+      {ShortUserModel shortUserModel,
+      AdditionalUserModel additionalUserModel,
+      PrivateInfoUserModel? privateInfoUserModel,
+      UserConnectStatusEnum connectStatusEnum});
+
+  $ShortUserModelCopyWith<$Res> get shortUserModel;
+  $AdditionalUserModelCopyWith<$Res> get additionalUserModel;
+  $PrivateInfoUserModelCopyWith<$Res>? get privateInfoUserModel;
+}
+
+/// @nodoc
+class _$OtherUserFullModelCopyWithImpl<$Res, $Val extends OtherUserFullModel>
+    implements $OtherUserFullModelCopyWith<$Res> {
+  _$OtherUserFullModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? shortUserModel = null,
+    Object? additionalUserModel = null,
+    Object? privateInfoUserModel = freezed,
+    Object? connectStatusEnum = null,
+  }) {
+    return _then(_value.copyWith(
+      shortUserModel: null == shortUserModel
+          ? _value.shortUserModel
+          : shortUserModel // ignore: cast_nullable_to_non_nullable
+              as ShortUserModel,
+      additionalUserModel: null == additionalUserModel
+          ? _value.additionalUserModel
+          : additionalUserModel // ignore: cast_nullable_to_non_nullable
+              as AdditionalUserModel,
+      privateInfoUserModel: freezed == privateInfoUserModel
+          ? _value.privateInfoUserModel
+          : privateInfoUserModel // ignore: cast_nullable_to_non_nullable
+              as PrivateInfoUserModel?,
+      connectStatusEnum: null == connectStatusEnum
+          ? _value.connectStatusEnum
+          : connectStatusEnum // ignore: cast_nullable_to_non_nullable
+              as UserConnectStatusEnum,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ShortUserModelCopyWith<$Res> get shortUserModel {
+    return $ShortUserModelCopyWith<$Res>(_value.shortUserModel, (value) {
+      return _then(_value.copyWith(shortUserModel: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AdditionalUserModelCopyWith<$Res> get additionalUserModel {
+    return $AdditionalUserModelCopyWith<$Res>(_value.additionalUserModel,
+        (value) {
+      return _then(_value.copyWith(additionalUserModel: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PrivateInfoUserModelCopyWith<$Res>? get privateInfoUserModel {
+    if (_value.privateInfoUserModel == null) {
+      return null;
+    }
+
+    return $PrivateInfoUserModelCopyWith<$Res>(_value.privateInfoUserModel!,
+        (value) {
+      return _then(_value.copyWith(privateInfoUserModel: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$_OtherUserFullModelCopyWith<$Res>
+    implements $OtherUserFullModelCopyWith<$Res> {
+  factory _$$_OtherUserFullModelCopyWith(_$_OtherUserFullModel value,
+          $Res Function(_$_OtherUserFullModel) then) =
+      __$$_OtherUserFullModelCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {ShortUserModel shortUserModel,
+      AdditionalUserModel additionalUserModel,
+      PrivateInfoUserModel? privateInfoUserModel,
+      UserConnectStatusEnum connectStatusEnum});
+
+  @override
+  $ShortUserModelCopyWith<$Res> get shortUserModel;
+  @override
+  $AdditionalUserModelCopyWith<$Res> get additionalUserModel;
+  @override
+  $PrivateInfoUserModelCopyWith<$Res>? get privateInfoUserModel;
+}
+
+/// @nodoc
+class __$$_OtherUserFullModelCopyWithImpl<$Res>
+    extends _$OtherUserFullModelCopyWithImpl<$Res, _$_OtherUserFullModel>
+    implements _$$_OtherUserFullModelCopyWith<$Res> {
+  __$$_OtherUserFullModelCopyWithImpl(
+      _$_OtherUserFullModel _value, $Res Function(_$_OtherUserFullModel) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? shortUserModel = null,
+    Object? additionalUserModel = null,
+    Object? privateInfoUserModel = freezed,
+    Object? connectStatusEnum = null,
+  }) {
+    return _then(_$_OtherUserFullModel(
+      shortUserModel: null == shortUserModel
+          ? _value.shortUserModel
+          : shortUserModel // ignore: cast_nullable_to_non_nullable
+              as ShortUserModel,
+      additionalUserModel: null == additionalUserModel
+          ? _value.additionalUserModel
+          : additionalUserModel // ignore: cast_nullable_to_non_nullable
+              as AdditionalUserModel,
+      privateInfoUserModel: freezed == privateInfoUserModel
+          ? _value.privateInfoUserModel
+          : privateInfoUserModel // ignore: cast_nullable_to_non_nullable
+              as PrivateInfoUserModel?,
+      connectStatusEnum: null == connectStatusEnum
+          ? _value.connectStatusEnum
+          : connectStatusEnum // ignore: cast_nullable_to_non_nullable
+              as UserConnectStatusEnum,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_OtherUserFullModel extends _OtherUserFullModel {
+  const _$_OtherUserFullModel(
+      {required this.shortUserModel,
+      required this.additionalUserModel,
+      required this.privateInfoUserModel,
+      required this.connectStatusEnum})
+      : super._();
+
+  @override
+  final ShortUserModel shortUserModel;
+  @override
+  final AdditionalUserModel additionalUserModel;
+  @override
+  final PrivateInfoUserModel? privateInfoUserModel;
+  @override
+  final UserConnectStatusEnum connectStatusEnum;
+
+  @override
+  String toString() {
+    return 'OtherUserFullModel(shortUserModel: $shortUserModel, additionalUserModel: $additionalUserModel, privateInfoUserModel: $privateInfoUserModel, connectStatusEnum: $connectStatusEnum)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_OtherUserFullModel &&
+            (identical(other.shortUserModel, shortUserModel) ||
+                other.shortUserModel == shortUserModel) &&
+            (identical(other.additionalUserModel, additionalUserModel) ||
+                other.additionalUserModel == additionalUserModel) &&
+            (identical(other.privateInfoUserModel, privateInfoUserModel) ||
+                other.privateInfoUserModel == privateInfoUserModel) &&
+            (identical(other.connectStatusEnum, connectStatusEnum) ||
+                other.connectStatusEnum == connectStatusEnum));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, shortUserModel,
+      additionalUserModel, privateInfoUserModel, connectStatusEnum);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_OtherUserFullModelCopyWith<_$_OtherUserFullModel> get copyWith =>
+      __$$_OtherUserFullModelCopyWithImpl<_$_OtherUserFullModel>(
+          this, _$identity);
+}
+
+abstract class _OtherUserFullModel extends OtherUserFullModel {
+  const factory _OtherUserFullModel(
+          {required final ShortUserModel shortUserModel,
+          required final AdditionalUserModel additionalUserModel,
+          required final PrivateInfoUserModel? privateInfoUserModel,
+          required final UserConnectStatusEnum connectStatusEnum}) =
+      _$_OtherUserFullModel;
+  const _OtherUserFullModel._() : super._();
+
+  @override
+  ShortUserModel get shortUserModel;
+  @override
+  AdditionalUserModel get additionalUserModel;
+  @override
+  PrivateInfoUserModel? get privateInfoUserModel;
+  @override
+  UserConnectStatusEnum get connectStatusEnum;
+  @override
+  @JsonKey(ignore: true)
+  _$$_OtherUserFullModelCopyWith<_$_OtherUserFullModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$FullUserWriteModel {
   ShortUserWriteModel get shortUserWriteModel =>
       throw _privateConstructorUsedError;

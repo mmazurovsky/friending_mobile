@@ -1,4 +1,14 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+
+extension EnumParser on String {
+  T? toEnum<T>(List<T> values) {
+    final result = values.firstWhereOrNull(
+      (e) => e.toString().toLowerCase().split(".").last == toLowerCase(),
+    );
+    return result;
+  }
+}
 
 extension ListWithSeparators<DATAELEMENT> on List<DATAELEMENT> {
   Iterable<Widget> mapSeparated(
