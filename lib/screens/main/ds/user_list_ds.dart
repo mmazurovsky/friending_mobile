@@ -42,7 +42,7 @@ class UserListDSImpl implements UserListDS {
   );
 
   String get userCollection => Bag.strings.server.shortUsersCollection;
-  String get coordinatesCollection => Bag.strings.server.coordinatesCollection;
+  String get coordinatesCollection => Bag.strings.server.positionsCollection;
   String get tagsCollection => Bag.strings.server.tagsCollection;
 
   @override

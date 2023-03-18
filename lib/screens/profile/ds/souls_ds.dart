@@ -10,7 +10,7 @@ import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
 
 abstract class SoulsDS {
-  Future<Either<RequestFailure, void>> incrementCurrentUserSouls();
+  // Future<Either<RequestFailure, void>> incrementCurrentUserSouls();
 }
 
 @LazySingleton(as: SoulsDS)
@@ -28,23 +28,23 @@ class SoulsDSImpl implements SoulsDS, LoggerNameGetter {
 
   String get userCollection => Bag.strings.server.shortUsersCollection;
 
-  @override
-  Future<Either<RequestFailure, void>> incrementCurrentUserSouls() async {
-    final currentUserRaw = _authRepo.currentUser;
+  // @override
+  // Future<Either<RequestFailure, void>> incrementCurrentUserSouls() async {
+  //   final currentUserRaw = _authRepo.currentUser;
 
-    final result = await currentUserRaw.fold((l) async {
-      return left<RequestFailure, void>(l);
-    }, (r) async {
-      final currentUserId = r.uid;
+  //   final result = await currentUserRaw.fold((l) async {
+  //     return left<RequestFailure, void>(l);
+  //   }, (r) async {
+  //     final currentUserId = r.uid;
 
-      final future = _firestore
-          .collection(userCollection)
-          .doc(currentUserId)
-          .update({'soulsCount': FieldValue.increment(1)});
+  //     final future = _firestore
+  //         .collection(userCollection)
+  //         .doc(currentUserId)
+  //         .update({'soulsCount': FieldValue.increment(1)});
 
-      return await _requestCheckWrapper(future);
-    });
+  //     return await _requestCheckWrapper(future);
+  //   });
 
-    return result;
-  }
+  //   return result;
+  // }
 }

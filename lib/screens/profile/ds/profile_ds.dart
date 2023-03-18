@@ -222,6 +222,7 @@ class ProfileDSImpl implements ProfileDS, LoggerNameGetter {
   @override
   Future<Either<RequestFailure, void>> saveProfile(
       FullUserWriteModel user) async {
+    assert(user.shortUserWriteModel.soulsCount != null);
     final currentUserRaw = _authRepo.currentUser;
     final result = await currentUserRaw.fold(
       (l) async {

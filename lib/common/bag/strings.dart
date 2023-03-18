@@ -12,7 +12,7 @@ class Strings {
 class _ServerStrings {
   final shortUsersCollection = 'shortUsers';
   final fullUsersCollection = 'fullUsers';
-  final coordinatesCollection = 'userCoordinates';
+  final positionsCollection = 'userPositions';
   final tagsCollection = 'userTags';
   final connectionsCollection = 'connections';
   final privateInfoCollection = 'privateInfo';

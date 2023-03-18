@@ -22,7 +22,7 @@ class CoordinatesDSImpl implements CoordinatesDS {
     this._requestCheckWrapper,
   );
 
-  String get coordinatesCollection => Bag.strings.server.coordinatesCollection;
+  String get coordinatesCollection => Bag.strings.server.positionsCollection;
 
   Future<Either<RequestFailure, void>> addPosition({
     required double pointLat,

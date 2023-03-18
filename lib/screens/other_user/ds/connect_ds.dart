@@ -79,15 +79,15 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
         },
       );
 
-      batchOperation.update(
-          _firestore.collection(shortUserCollection).doc(currentUserId), {
-        'soulsCount': FieldValue.increment(-1),
-      });
+      // batchOperation.update(
+      //     _firestore.collection(shortUserCollection).doc(currentUserId), {
+      //   'soulsCount': FieldValue.increment(-1),
+      // });
 
-      batchOperation
-          .update(_firestore.collection(shortUserCollection).doc(userId), {
-        'soulsCount': FieldValue.increment(1),
-      });
+      // batchOperation
+      //     .update(_firestore.collection(shortUserCollection).doc(userId), {
+      //   'soulsCount': FieldValue.increment(1),
+      // });
 
       final future = batchOperation.commit();
       final result = await _requestCheckWrapper(future);
@@ -116,7 +116,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       final dateTime = DateTime.now();
       final currentUserId = r.uid;
       final batchOperation = _firestore.batch();
-      batchOperation.set(
+      batchOperation.update(
         _firestore
             .collection(fullUserCollection)
             .doc(userId)
@@ -126,9 +126,10 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
           'userId': currentUserId,
           'connectionType': UserConnectStatusEnum.connected.toString(),
           'dateTime': dateTime,
+          'isInitiator': false,
         },
       );
-      batchOperation.set(
+      batchOperation.update(
         _firestore
             .collection(fullUserCollection)
             .doc(currentUserId)
@@ -138,13 +139,14 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
           'userId': userId,
           'connectionType': UserConnectStatusEnum.connected.toString(),
           'dateTime': dateTime,
+          'isInitiator': true,
         },
       );
 
-      batchOperation.update(
-          _firestore.collection(shortUserCollection).doc(currentUserId), {
-        'soulsCount': FieldValue.increment(-1),
-      });
+      // batchOperation.update(
+      //     _firestore.collection(shortUserCollection).doc(currentUserId), {
+      //   'soulsCount': FieldValue.increment(-1),
+      // });
 
       final future = batchOperation.commit();
       final result = await _requestCheckWrapper(future);

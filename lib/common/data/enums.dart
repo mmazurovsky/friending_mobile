@@ -1,5 +1,4 @@
 import 'entities/user_connect_status.dart';
-import 'entities/user_goal.dart';
 
 enum UserConnectStatusEnum {
   connected,
@@ -20,23 +19,3 @@ enum UserConnectStatusEnum {
     }
   }
 }
-
-// enum UserGoalsEnum {
-//   findFriends,
-//   dating,
-//   professionalNetworking,
-//   other;
-
-//   UserGoal get content {
-//     switch (this) {
-//       case UserGoalsEnum.findFriends:
-//         return const UserGoalFindFriends();
-//       case UserGoalsEnum.dating:
-//         return const UserGoalDating();
-//       case UserGoalsEnum.professionalNetworking:
-//         return const UserGoalProfessionalNetworking();
-//       case UserGoalsEnum.other:
-//         return const UserGoalOther();
-//     }
-//   }
-// }
