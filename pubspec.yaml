@@ -44,6 +44,9 @@ dependencies:
   dio: ^5.0.1
   auto_route: ^5.0.4
   geoflutterfire2: ^2.3.15
+  firebase_ui_auth: ^1.1.17
+  firebase_ui_oauth_google: ^1.0.24
+  firebase_ui_oauth_apple: ^1.0.24
 
 
 dev_dependencies:
