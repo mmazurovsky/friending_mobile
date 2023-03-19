@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 
@@ -28,28 +30,43 @@ class UserEventsDSImpl implements UserEventsDS, LoggerNameGetter {
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
   String get eventsCollection => Bag.strings.server.userEventsCollection;
 
-  Future<Either<RequestFailure, Stream<Iterable<UserEventModel>>>>
-      getEvents() async {
+  Future<Either<RequestFailure, Stream<UserEventModel>>> getEvents() async {
     final currentUserRaw = _authRepo.currentUser;
 
-    final result = await currentUserRaw.fold((l) async {
-      return left<RequestFailure, Stream<Iterable<UserEventModel>>>(l);
-    }, (r) async {
-      final rawStream = _firebaseFirestore
-          .collection(eventsCollection)
-          .where('ownerUserId', isEqualTo: r.uid)
-          .snapshots();
+    final result = await currentUserRaw.fold(
+      (l) async {
+        return left<RequestFailure, Stream<UserEventModel>>(l);
+      },
+      (r) async {
+        final rawStream = _firebaseFirestore
+            .collection(eventsCollection)
+            .where('ownerUserId', isEqualTo: r.uid)
+            .orderBy('dateTime')
+            .withConverter(
+                fromFirestore: (snapshot, _) =>
+                    UserEventModel.fromJson(snapshot.data()!),
+                toFirestore: (UserEventModel model, _) => model.toJson())
+            .snapshots();
 
-      final stream = rawStream.map(
-        (event) => event.docs.map(
-          (e) => UserEventModel.fromJson(
-            e.data(),
-          ),
-        ),
-      );
+        final streamController = StreamController<UserEventModel>();
 
-      return right<RequestFailure, Stream<Iterable<UserEventModel>>>(stream);
-    });
+        rawStream.map(
+          (event) {
+            final list = event.docs
+                .map(
+                  (e) => e.data(),
+                )
+                .toList();
+            for (final element in list) {
+              streamController.add(element);
+            }
+          },
+        );
+
+        return right<RequestFailure, Stream<UserEventModel>>(
+            streamController.stream);
+      },
+    );
 
     result.fold(
       (l) => _customLogger.logFailure(
