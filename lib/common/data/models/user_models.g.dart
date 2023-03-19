@@ -55,6 +55,22 @@ Map<String, dynamic> _$$_ShortUserModelToJson(_$_ShortUserModel instance) =>
       'soulsCount': instance.soulsCount,
     };
 
+_$_VeryShortUserModel _$$_VeryShortUserModelFromJson(
+        Map<String, dynamic> json) =>
+    _$_VeryShortUserModel(
+      id: json['id'] as String,
+      nickname: json['nickname'] as String,
+      photo: json['photo'] as String,
+    );
+
+Map<String, dynamic> _$$_VeryShortUserModelToJson(
+        _$_VeryShortUserModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'nickname': instance.nickname,
+      'photo': instance.photo,
+    };
+
 _$_ShortUserWriteModel _$$_ShortUserWriteModelFromJson(
         Map<String, dynamic> json) =>
     _$_ShortUserWriteModel(

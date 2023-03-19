@@ -1289,6 +1289,182 @@ abstract class _ShortUserModel extends ShortUserModel {
       throw _privateConstructorUsedError;
 }
 
+VeryShortUserModel _$VeryShortUserModelFromJson(Map<String, dynamic> json) {
+  return _VeryShortUserModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$VeryShortUserModel {
+  String get id => throw _privateConstructorUsedError;
+  String get nickname => throw _privateConstructorUsedError;
+  String get photo => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $VeryShortUserModelCopyWith<VeryShortUserModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $VeryShortUserModelCopyWith<$Res> {
+  factory $VeryShortUserModelCopyWith(
+          VeryShortUserModel value, $Res Function(VeryShortUserModel) then) =
+      _$VeryShortUserModelCopyWithImpl<$Res, VeryShortUserModel>;
+  @useResult
+  $Res call({String id, String nickname, String photo});
+}
+
+/// @nodoc
+class _$VeryShortUserModelCopyWithImpl<$Res, $Val extends VeryShortUserModel>
+    implements $VeryShortUserModelCopyWith<$Res> {
+  _$VeryShortUserModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? nickname = null,
+    Object? photo = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
+      photo: null == photo
+          ? _value.photo
+          : photo // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_VeryShortUserModelCopyWith<$Res>
+    implements $VeryShortUserModelCopyWith<$Res> {
+  factory _$$_VeryShortUserModelCopyWith(_$_VeryShortUserModel value,
+          $Res Function(_$_VeryShortUserModel) then) =
+      __$$_VeryShortUserModelCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, String nickname, String photo});
+}
+
+/// @nodoc
+class __$$_VeryShortUserModelCopyWithImpl<$Res>
+    extends _$VeryShortUserModelCopyWithImpl<$Res, _$_VeryShortUserModel>
+    implements _$$_VeryShortUserModelCopyWith<$Res> {
+  __$$_VeryShortUserModelCopyWithImpl(
+      _$_VeryShortUserModel _value, $Res Function(_$_VeryShortUserModel) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? nickname = null,
+    Object? photo = null,
+  }) {
+    return _then(_$_VeryShortUserModel(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
+      photo: null == photo
+          ? _value.photo
+          : photo // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_VeryShortUserModel extends _VeryShortUserModel {
+  const _$_VeryShortUserModel(
+      {required this.id, required this.nickname, required this.photo})
+      : super._();
+
+  factory _$_VeryShortUserModel.fromJson(Map<String, dynamic> json) =>
+      _$$_VeryShortUserModelFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String nickname;
+  @override
+  final String photo;
+
+  @override
+  String toString() {
+    return 'VeryShortUserModel(id: $id, nickname: $nickname, photo: $photo)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_VeryShortUserModel &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname) &&
+            (identical(other.photo, photo) || other.photo == photo));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, nickname, photo);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_VeryShortUserModelCopyWith<_$_VeryShortUserModel> get copyWith =>
+      __$$_VeryShortUserModelCopyWithImpl<_$_VeryShortUserModel>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_VeryShortUserModelToJson(
+      this,
+    );
+  }
+}
+
+abstract class _VeryShortUserModel extends VeryShortUserModel {
+  const factory _VeryShortUserModel(
+      {required final String id,
+      required final String nickname,
+      required final String photo}) = _$_VeryShortUserModel;
+  const _VeryShortUserModel._() : super._();
+
+  factory _VeryShortUserModel.fromJson(Map<String, dynamic> json) =
+      _$_VeryShortUserModel.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get nickname;
+  @override
+  String get photo;
+  @override
+  @JsonKey(ignore: true)
+  _$$_VeryShortUserModelCopyWith<_$_VeryShortUserModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 ShortUserWriteModel _$ShortUserWriteModelFromJson(Map<String, dynamic> json) {
   return _ShortUserWriteModel.fromJson(json);
 }

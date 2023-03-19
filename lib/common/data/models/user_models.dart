@@ -90,6 +90,20 @@ class ShortUserModel with _$ShortUserModel {
 }
 
 @freezed
+class VeryShortUserModel with _$VeryShortUserModel {
+  const VeryShortUserModel._();
+
+  const factory VeryShortUserModel({
+    required String id,
+    required String nickname,
+    required String photo,
+  }) = _VeryShortUserModel;
+
+  factory VeryShortUserModel.fromJson(Map<String, dynamic> json) =>
+      _$VeryShortUserModelFromJson(json);
+}
+
+@freezed
 class ShortUserWriteModel with _$ShortUserWriteModel {
   const ShortUserWriteModel._();
 
