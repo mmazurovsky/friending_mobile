@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
-import '../../../common/bag/bag.dart';
+import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
-import '../../../common/data/failures/failures.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
 
@@ -26,7 +24,7 @@ class SoulsDSImpl implements SoulsDS, LoggerNameGetter {
   @override
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
 
-  String get userCollection => Bag.strings.server.shortUsersCollection;
+  String get userCollection => Strings.server.shortUsersCollection;
 
   // @override
   // Future<Either<RequestFailure, void>> incrementCurrentUserSouls() async {

@@ -1,4 +1,5 @@
-part of 'bag.dart';
+
+import '../data/entities/graphics.dart';
 
 class Assets {
   final Icons _icons;

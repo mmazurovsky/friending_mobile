@@ -1,13 +1,26 @@
-part of 'bag.dart';
+import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:provider/provider.dart';
 
-class Styles {
-  final Palette _palette;
-  final TextTheme _textTheme;
+import 'palette.dart';
 
-  Styles._(
-    ThemeData themeData,
+extension StylesExtension on BuildContext {
+  StylesStateManager get styles => this.watch<StylesStateManager>();
+}
+
+@lazySingleton
+class StylesStateManager with ChangeNotifier {
+  final PaletteStateManager _palette;
+  late TextTheme _textTheme;
+
+  StylesStateManager._(
     this._palette,
-  ) : _textTheme = themeData.textTheme;
+  );
+
+  void initOrChangeTextTheme(TextTheme textTheme) {
+    _textTheme = textTheme;
+    notifyListeners();
+  }
 
   //new text styles Bookshrink
   TextStyle get custom => TextStyle(

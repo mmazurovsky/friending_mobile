@@ -22,7 +22,25 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: const MainPage(),
       );
-    }
+    },
+    SignInRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SignInPage(),
+      );
+    },
+    SignUpRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SignUpPage(),
+      );
+    },
+    ForgotPasswordRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const ForgotPasswordPage(),
+      );
+    },
   };
 
   @override
@@ -30,7 +48,19 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           MainRoute.name,
           path: '/',
-        )
+        ),
+        RouteConfig(
+          SignInRoute.name,
+          path: '/sign-in-page',
+        ),
+        RouteConfig(
+          SignUpRoute.name,
+          path: '/sign-up-page',
+        ),
+        RouteConfig(
+          ForgotPasswordRoute.name,
+          path: '/forgot-password-page',
+        ),
       ];
 }
 
@@ -44,4 +74,40 @@ class MainRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MainRoute';
+}
+
+/// generated route for
+/// [SignInPage]
+class SignInRoute extends PageRouteInfo<void> {
+  const SignInRoute()
+      : super(
+          SignInRoute.name,
+          path: '/sign-in-page',
+        );
+
+  static const String name = 'SignInRoute';
+}
+
+/// generated route for
+/// [SignUpPage]
+class SignUpRoute extends PageRouteInfo<void> {
+  const SignUpRoute()
+      : super(
+          SignUpRoute.name,
+          path: '/sign-up-page',
+        );
+
+  static const String name = 'SignUpRoute';
+}
+
+/// generated route for
+/// [ForgotPasswordPage]
+class ForgotPasswordRoute extends PageRouteInfo<void> {
+  const ForgotPasswordRoute()
+      : super(
+          ForgotPasswordRoute.name,
+          path: '/forgot-password-page',
+        );
+
+  static const String name = 'ForgotPasswordRoute';
 }

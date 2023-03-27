@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../../bag/bag.dart';
+import '../../bag/strings.dart';
 import '../../data/failures/failures.dart';
 import '../../utils/logger/custom_logger.dart';
 import '../../utils/logger/logger_name_provider.dart';
@@ -82,8 +82,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
   @override
   Stream<User?> get userStream => _firebaseAuth.userChanges();
 
-  FailureMessages get _failureMessages =>
-      Bag.strings.failures.firebaseAuthFaliure;
+  FailureMessages get _failureMessages => Strings.failures.firebaseAuthFaliure;
 
   @override
   Future<Either<RequestFailure, UserCredential>> signUpWithEmailAndPassword({
@@ -131,9 +130,9 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
   Future<Either<RequestFailure, void>> startSigningWithEmailAndLink(
       {required String email}) async {
     ActionCodeSettings actionCodeSettings = ActionCodeSettings(
-      url: Bag.strings.links.dynamicLinkUrlPrefix,
-      androidPackageName: Bag.strings.ids.androidPackageName,
-      iOSBundleId: Bag.strings.ids.iosBundleId,
+      url: Strings.links.dynamicLinkUrlPrefix,
+      androidPackageName: Strings.ids.androidPackageName,
+      iOSBundleId: Strings.ids.iosBundleId,
       handleCodeInApp: true,
       androidInstallApp: true,
     );
@@ -290,7 +289,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
 
     // Create an `OAuthCredential` from the credential returned by Apple.
     final oauthCredential =
-        OAuthProvider(Bag.strings.ids.appleAuthProviderId).credential(
+        OAuthProvider(Strings.ids.appleAuthProviderId).credential(
       idToken: appleCredential.identityToken,
       rawNonce: rawNonce,
     );

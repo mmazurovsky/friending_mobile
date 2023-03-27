@@ -1,12 +1,12 @@
-part of 'bag.dart';
+import '../data/failures/failures.dart';
 
 class Strings {
   Strings._();
-  late final ui = _UiStrings();
-  late final failures = _FailureStrings();
-  late final ids = _IdStrings();
-  late final links = _LinksStrings();
-  late final server = _ServerStrings();
+  static final ui = _UiStrings();
+  static final failures = _FailureStrings();
+  static final ids = _IdStrings();
+  static final links = _LinksStrings();
+  static final server = _ServerStrings();
 }
 
 class _ServerStrings {

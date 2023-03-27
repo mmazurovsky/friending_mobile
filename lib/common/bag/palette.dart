@@ -1,23 +1,30 @@
-part of 'bag.dart';
+import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:provider/provider.dart';
 
-class Palette {
-  final Brightness brightness;
-  Palette._(this.brightness);
+extension PaletteExtension on BuildContext {
+  PaletteStateManager get palette => this.watch<PaletteStateManager>();
+}
 
-  // Colors as they are
-  static const _white = Color(0xffffffff);
-  static const _black = Color(0x00000000);
-  static const _purple = Colors.purple;
-  static const _grey = Colors.grey;
+@lazySingleton
+class PaletteStateManager with ChangeNotifier {
+  PaletteStateManager._();
+
+  late ThemeData _themeData;
+
+  void initOrChangeThemeData(ThemeData themeData) {
+    _themeData = themeData;
+    notifyListeners();
+  }
 
   // Colors that are used in widgets
-  Color get background => _white;
+  Color get background => _themeData.colorScheme.background;
 
-  Color get inactive => _grey;
+  Color get inactive => Colors.white;
 
-  Color get primary => _black;
+  Color get primary => Colors.white;
 
-  Color get accent => _purple;
+  Color get accent => Colors.white;
 
-  Color get divider => _black;
+  Color get divider => Colors.white;
 }

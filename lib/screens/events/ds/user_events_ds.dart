@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
-import '../../../common/bag/bag.dart';
+import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/event_models.dart';
@@ -28,7 +28,7 @@ class UserEventsDSImpl implements UserEventsDS, LoggerNameGetter {
 
   @override
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
-  String get eventsCollection => Bag.strings.server.userEventsCollection;
+  String get eventsCollection => Strings.server.userEventsCollection;
 
   Future<Either<RequestFailure, Stream<UserEventModel>>> getEvents() async {
     final currentUserRaw = _authRepo.currentUser;

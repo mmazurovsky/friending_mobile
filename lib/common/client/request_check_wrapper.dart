@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-import '../bag/bag.dart';
+import '../bag/strings.dart';
 import '../data/failures/failures.dart';
 
 abstract class RequestCheckWrapper {
@@ -14,13 +14,11 @@ abstract class RequestCheckWrapper {
 
 @LazySingleton(as: RequestCheckWrapper)
 class RequestCheckWrapperImpl implements RequestCheckWrapper {
-  FailureMessages get _authFailureMessages => Bag.strings.failures.authFaliure;
-  FailureMessages get _serverFailureMessages =>
-      Bag.strings.failures.serverFaliure;
-  FailureMessages get _clientFailureMessages =>
-      Bag.strings.failures.clientFailure;
+  FailureMessages get _authFailureMessages => Strings.failures.authFaliure;
+  FailureMessages get _serverFailureMessages => Strings.failures.serverFaliure;
+  FailureMessages get _clientFailureMessages => Strings.failures.clientFailure;
   FailureMessages get _undefinedFailureMessages =>
-      Bag.strings.failures.undefinedFailure;
+      Strings.failures.undefinedFailure;
 
   @override
   Future<Either<RequestFailure, RAWRESPONSE>> call<RAWRESPONSE>(

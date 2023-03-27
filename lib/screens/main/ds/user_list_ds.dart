@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
-import '../../../common/bag/bag.dart';
+import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/user_models.dart';
@@ -41,9 +41,9 @@ class UserListDSImpl implements UserListDS {
     this._requestCheckWrapper,
   );
 
-  String get userCollection => Bag.strings.server.shortUsersCollection;
-  String get coordinatesCollection => Bag.strings.server.positionsCollection;
-  String get tagsCollection => Bag.strings.server.tagsCollection;
+  String get userCollection => Strings.server.shortUsersCollection;
+  String get coordinatesCollection => Strings.server.positionsCollection;
+  String get tagsCollection => Strings.server.tagsCollection;
 
   @override
   Future<Either<RequestFailure, Set<String>>> getUserIdsAroundPoint({
@@ -73,7 +73,7 @@ class UserListDSImpl implements UserListDS {
         .within(
           center: center,
           radius: maxDistanceInKm.toDouble(),
-          field: Bag.strings.server.positionField,
+          field: Strings.server.positionField,
           strictMode: false,
         )
         .first;

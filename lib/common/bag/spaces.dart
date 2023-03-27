@@ -1,18 +1,27 @@
-part of 'bag.dart';
+import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:provider/provider.dart';
 
-class Spaces {
-  final Device _device;
+extension SpacesExtension on BuildContext {
+  SpacesStateManager get spaces => this.watch<SpacesStateManager>();
+}
 
-  Spaces._({
-    required Device device,
-  }) : _device = device;
+@lazySingleton
+class SpacesStateManager with ChangeNotifier {
+  SpacesStateManager._();
 
-  // region generic sizes
+  late double _width;
+
+  void initOrChangeWidth(double screenWidth) {
+    _width = screenWidth;
+    notifyListeners();
+  }
+
+  double get unit1 => _width / 100;
+
   double get unit0_25 => unit1 * 0.25;
 
   double get unit0_5 => unit1 * 0.5;
-
-  double get unit1 => _device.screenSize.shortestSide / 100;
 
   double get unit1_5 => unit1 * 1.5;
 

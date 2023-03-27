@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
-import '../../../common/bag/bag.dart';
+import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/enums.dart';
 import '../../../common/data/failures/failures.dart';
@@ -35,13 +35,11 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
   @override
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
 
-  String get fullUserCollection => Bag.strings.server.fullUsersCollection;
-  String get shortUserCollection => Bag.strings.server.shortUsersCollection;
-  String get connectionsCollection => Bag.strings.server.connectionsCollection;
-  String get privateInfoUserCollection =>
-      Bag.strings.server.privateInfoCollection;
-  String get additionalInfoUserCollection =>
-      Bag.strings.server.fullUsersCollection;
+  String get fullUserCollection => Strings.server.fullUsersCollection;
+  String get shortUserCollection => Strings.server.shortUsersCollection;
+  String get connectionsCollection => Strings.server.connectionsCollection;
+  String get privateInfoUserCollection => Strings.server.privateInfoCollection;
+  String get additionalInfoUserCollection => Strings.server.fullUsersCollection;
 
   @override
   Future<Either<RequestFailure, OtherUserFullModel>> getOtherUserFullProfile(

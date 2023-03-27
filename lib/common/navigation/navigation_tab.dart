@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
-import '../bag/bag.dart';
+import '../dependency_injection/dependency_injection.dart';
+import '../theme/theme_state_manager.dart';
+import '../theme/themes.dart';
 import 'auto_router/app_router.dart';
 
 // left tab to right tab

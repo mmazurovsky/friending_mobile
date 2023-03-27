@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
-import '../../../common/bag/bag.dart';
+import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/enums.dart';
 import '../../../common/data/failures/failures.dart';
@@ -36,9 +36,9 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
   @override
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
 
-  String get fullUserCollection => Bag.strings.server.fullUsersCollection;
-  String get shortUserCollection => Bag.strings.server.shortUsersCollection;
-  String get connectionsCollection => Bag.strings.server.connectionsCollection;
+  String get fullUserCollection => Strings.server.fullUsersCollection;
+  String get shortUserCollection => Strings.server.shortUsersCollection;
+  String get connectionsCollection => Strings.server.connectionsCollection;
 
   @override
   Future<Either<RequestFailure, void>> initialConnection(

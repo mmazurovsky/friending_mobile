@@ -33,12 +33,12 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    NavigationTab currentTab = context.watch<TabsChangeNotifier>().currentTab;
+    NavigationTab currentTab = context.watch<TabsStateManager>().currentTab;
     bool thereWasTabChange =
-        context.watch<TabsChangeNotifier>().thereWasTabChange;
+        context.watch<TabsStateManager>().thereWasTabChange;
 
     return ChangeNotifierProvider(
-      create: (context) => getIt<TabsChangeNotifier>(),
+      create: (context) => getIt<TabsStateManager>(),
       builder: (_, __) => BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.blue,
@@ -69,7 +69,7 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
             }
           } else {
             context
-                .read<TabsChangeNotifier>()
+                .read<TabsStateManager>()
                 .changeCurrentTab(NavigationTab.values[tappedTabIndex]);
           }
         },
@@ -86,7 +86,7 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
 }
 
 @lazySingleton
-class TabsChangeNotifier with ChangeNotifier {
+class TabsStateManager with ChangeNotifier {
   NavigationTab _currentTab = NavigationTab.main;
   bool _thereWasTabChange = false;
 

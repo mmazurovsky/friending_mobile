@@ -4,16 +4,18 @@ import 'package:flutter/material.dart';
 
 import '../../../common/dependency_injection/dependency_injection.dart';
 
-class SignPage extends StatelessWidget {
-  const SignPage({super.key});
+class SignInPage extends StatelessWidget {
+  const SignInPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final firebaseAuth = getIt<FirebaseAuth>();
+
     return SignInScreen(
       providers: FirebaseUIAuth.providersFor(
-        getIt<FirebaseAuth>().app,
+        firebaseAuth.app,
       ),
-      auth: getIt<FirebaseAuth>(),
+      auth: firebaseAuth,
     );
   }
 }

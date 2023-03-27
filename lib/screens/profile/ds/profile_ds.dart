@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
-import '../../../common/bag/bag.dart';
+import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/user_models.dart';
@@ -39,12 +39,10 @@ class ProfileDSImpl implements ProfileDS, LoggerNameGetter {
 
   @override
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
-  String get shortUserCollection => Bag.strings.server.shortUsersCollection;
-  String get additionalInfoUserCollection =>
-      Bag.strings.server.fullUsersCollection;
-  String get privateInfoUserCollection =>
-      Bag.strings.server.privateInfoCollection;
-  String get tagsCollection => Bag.strings.server.tagsCollection;
+  String get shortUserCollection => Strings.server.shortUsersCollection;
+  String get additionalInfoUserCollection => Strings.server.fullUsersCollection;
+  String get privateInfoUserCollection => Strings.server.privateInfoCollection;
+  String get tagsCollection => Strings.server.tagsCollection;
 
   @override
   Future<Either<RequestFailure, Tuple2<User, List<String>>>>
