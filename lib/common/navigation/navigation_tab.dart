@@ -2,76 +2,118 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
-import '../dependency_injection/dependency_injection.dart';
-import '../theme/theme_state_manager.dart';
-import '../theme/themes.dart';
 import 'auto_router/app_router.dart';
 
-// left tab to right tab
-enum NavigationTab { main, events, profile }
+abstract class NavigationTab {
+  int get index;
+  String get name;
+  IconData get iconData;
+  GlobalKey<AutoRouterState> get navigationKey;
+  PageRouteInfo get tabRoute;
+  ScrollController get scrollController;
 
-extension TabItemExtension on NavigationTab {
-  static const Map<NavigationTab, String> _tabNameMap = {
-    NavigationTab.main: 'Screen',
-    NavigationTab.events: 'Events',
-    NavigationTab.profile: 'Profile',
-  };
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-  static final _tabInactiveIconMap = {
-    NavigationTab.main: Icon(
-      Ionicons.people_circle_outline,
-      size: 30,
-      color: Bag.palette.inactive,
-    ),
-    NavigationTab.events: Icon(
-      Ionicons.newspaper_outline,
-      size: 30,
-      color: Bag.palette.inactive,
-    ),
-    NavigationTab.profile: Icon(
-      Ionicons.person_circle_outline,
-      size: 30,
-      color: Bag.palette.inactive,
-    ),
-  };
+    return other is MainTab &&
+        other.index == index &&
+        other.name == name &&
+        other.iconData == iconData &&
+        other.tabRoute == tabRoute;
+  }
 
-  static final _tabActiveIconMap = {
-    NavigationTab.main: Icon(
-      Ionicons.people_circle_outline,
-      size: 30,
-      color: Bag.palette.accent,
-    ),
-    NavigationTab.events: Icon(
-      Ionicons.newspaper_outline,
-      size: 30,
-      color: Bag.palette.accent,
-    ),
-    NavigationTab.profile: Icon(
-      Ionicons.person_circle_outline,
-      size: 30,
-      color: Bag.palette.accent,
-    ),
-  };
-
-  static final _tabNavigationKeyMap = {
-    NavigationTab.main: GlobalKey<AutoRouterState>(),
-    NavigationTab.events: GlobalKey<AutoRouterState>(),
-    NavigationTab.profile: GlobalKey<AutoRouterState>(),
-  };
-
-  static const _tabRouteMap = {
-    NavigationTab.main: MainRoute(),
-  };
-
-  static final _tabScrollControllerMap = {
-    NavigationTab.main: ScrollController(),
-  };
-
-  PageRouteInfo get tabRoute => _tabRouteMap[this]!;
-  String get tabName => _tabNameMap[this]!;
-  Widget get tabActiveIcon => _tabActiveIconMap[this]!;
-  Widget get tabInactiveIcon => _tabInactiveIconMap[this]!;
-  GlobalKey<AutoRouterState> get tabNavigationKey =>
-      _tabNavigationKeyMap[this]!;
-  ScrollController get tabScrollController => _tabScrollControllerMap[this]!;
+  @override
+  int get hashCode {
+    return index.hashCode ^
+        name.hashCode ^
+        iconData.hashCode ^
+        tabRoute.hashCode;
+  }
 }
+
+class MainTab extends NavigationTab {
+  MainTab._();
+  final GlobalKey<AutoRouterState> _navigationKey =
+      GlobalKey<AutoRouterState>();
+
+  final _scrollController = ScrollController();
+
+  @override
+  int get index => 0;
+
+  @override
+  String get name => 'People';
+
+  @override
+  IconData get iconData => Ionicons.people_circle_outline;
+
+  @override
+  GlobalKey<AutoRouterState> get navigationKey => _navigationKey;
+
+  @override
+  PageRouteInfo get tabRoute => const MainRoute();
+
+  @override
+  ScrollController get scrollController => _scrollController;
+}
+
+class EventsTab extends NavigationTab {
+  EventsTab._();
+  final GlobalKey<AutoRouterState> _navigationKey =
+      GlobalKey<AutoRouterState>();
+
+  final _scrollController = ScrollController();
+
+  @override
+  int get index => 1;
+
+  @override
+  String get name => 'Events';
+
+  @override
+  IconData get iconData => Ionicons.newspaper_outline;
+
+  @override
+  GlobalKey<AutoRouterState> get navigationKey => _navigationKey;
+
+  @override
+  //TODO
+  PageRouteInfo get tabRoute => const MainRoute();
+
+  @override
+  ScrollController get scrollController => _scrollController;
+}
+
+class ProfileTab extends NavigationTab {
+  ProfileTab._();
+  final GlobalKey<AutoRouterState> _navigationKey =
+      GlobalKey<AutoRouterState>();
+
+  final _scrollController = ScrollController();
+
+  @override
+  int get index => 2;
+
+  @override
+  String get name => 'Profile';
+
+  @override
+  IconData get iconData => Ionicons.person_circle_outline;
+
+  @override
+  GlobalKey<AutoRouterState> get navigationKey => _navigationKey;
+
+  @override
+  //TODO
+  PageRouteInfo get tabRoute => const MainRoute();
+
+  @override
+  ScrollController get scrollController => _scrollController;
+}
+
+final allTabsOrderedAccordingToIndex = [
+  MainTab._(),
+  EventsTab._(),
+  ProfileTab._(),
+];

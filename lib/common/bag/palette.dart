@@ -20,7 +20,8 @@ class PaletteStateManager with ChangeNotifier {
   // Colors that are used in widgets
   Color get background => _themeData.colorScheme.background;
 
-  Color get inactive => Colors.white;
+  Color get inactiveIcon => Colors.white;
+  Color get activeIcon => Colors.white;
 
   Color get primary => Colors.white;
 

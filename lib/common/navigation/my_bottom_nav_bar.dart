@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:provider/provider.dart';
 
 import '../animations/wrappers.dart';
+import '../bag/palette.dart';
 import '../dependency_injection/dependency_injection.dart';
 import 'navigation_tab.dart';
 
@@ -19,21 +20,28 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
     required NavigationTab thisNavTab,
     required bool thereWasTabChange,
   }) {
-    Widget? icon =
-        isCurrentTab ? thisNavTab.tabActiveIcon : thisNavTab.tabInactiveIcon;
+    final icon = thisNavTab.iconData;
+    Widget? iconWidget = Icon(
+      icon,
+      size: 30,
+      color: isCurrentTab
+          ? context.palette.activeIcon
+          : context.palette.inactiveIcon,
+    );
+
     return BottomNavigationBarItem(
-      label: thisNavTab.tabName,
+      label: thisNavTab.name,
       icon: isCurrentTab && thereWasTabChange
           ? ScaleAnimationWrapper(
-              child: icon,
+              child: iconWidget,
             )
-          : icon,
+          : iconWidget,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    NavigationTab currentTab = context.watch<TabsStateManager>().currentTab;
+    int currentTabIndex = context.watch<TabsStateManager>().currentTab;
     bool thereWasTabChange =
         context.watch<TabsStateManager>().thereWasTabChange;
 
@@ -48,19 +56,20 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
         showSelectedLabels: false,
         onTap: (tappedTabIndex) {
           // cases when tapped on active tab bar item
-          if (tappedTabIndex == currentTab.index) {
+          if (tappedTabIndex == currentTabIndex) {
             // case when navigation stack not empty
-            if (currentTab.tabNavigationKey.currentState?.controller
+            final currentTab = allTabsOrderedAccordingToIndex[currentTabIndex];
+            if (currentTab.navigationKey.currentState?.controller
                     ?.canPop() ??
                 false) {
-              currentTab.tabNavigationKey.currentState!.controller!.popUntil(
+              currentTab.navigationKey.currentState!.controller!.popUntil(
                 (route) => route.isFirst,
               );
             }
             // case when navigation stack empty
             else {
-              if (currentTab.tabScrollController.hasClients) {
-                currentTab.tabScrollController.animateTo(
+              if (currentTab.scrollController.hasClients) {
+                currentTab.scrollController.animateTo(
                   0.0,
                   curve: Curves.easeOut,
                   duration: const Duration(milliseconds: 400),
@@ -68,15 +77,13 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
               }
             }
           } else {
-            context
-                .read<TabsStateManager>()
-                .changeCurrentTab(NavigationTab.values[tappedTabIndex]);
+            context.read<TabsStateManager>().changeCurrentTab(tappedTabIndex);
           }
         },
         items: [
           _getBottomNavigationBarItem(
-            isCurrentTab: currentTab == NavigationTab.main,
-            thisNavTab: NavigationTab.main,
+            isCurrentTab: currentTabIndex == 0,
+            thisNavTab: allTabsOrderedAccordingToIndex[0],
             thereWasTabChange: thereWasTabChange,
           ),
         ],
@@ -87,17 +94,18 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
 
 @lazySingleton
 class TabsStateManager with ChangeNotifier {
-  NavigationTab _currentTab = NavigationTab.main;
+  int _currentTabIndex = 0;
   bool _thereWasTabChange = false;
 
-  NavigationTab get currentTab => _currentTab;
+  int get currentTab => _currentTabIndex;
   bool get thereWasTabChange => _thereWasTabChange;
 
-  void changeCurrentTab(NavigationTab newTab) {
-    if (_currentTab != newTab) {
-      _currentTab = newTab;
+  void changeCurrentTab(int newTabIndex) {
+    if (_currentTabIndex != newTabIndex) {
+      _currentTabIndex = newTabIndex;
       _thereWasTabChange = true;
       notifyListeners();
+      _thereWasTabChange = false;
     }
   }
 }
