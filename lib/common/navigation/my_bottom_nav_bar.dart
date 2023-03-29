@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:provider/provider.dart';
 
-import '../animations/wrappers.dart';
 import '../bag/palette.dart';
 import '../dependency_injection/dependency_injection.dart';
 import 'navigation_tab.dart';
@@ -15,30 +14,6 @@ class MyBottomNavBar extends StatefulWidget {
 }
 
 class MyBottomNavBarState extends State<MyBottomNavBar> {
-  BottomNavigationBarItem _getBottomNavigationBarItem({
-    required bool isCurrentTab,
-    required NavigationTab thisNavTab,
-    required bool thereWasTabChange,
-  }) {
-    final icon = thisNavTab.iconData;
-    Widget? iconWidget = Icon(
-      icon,
-      size: 30,
-      color: isCurrentTab
-          ? context.palette.activeIcon
-          : context.palette.inactiveIcon,
-    );
-
-    return BottomNavigationBarItem(
-      label: thisNavTab.name,
-      icon: isCurrentTab && thereWasTabChange
-          ? ScaleAnimationWrapper(
-              child: iconWidget,
-            )
-          : iconWidget,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     int currentTabIndex = context.watch<TabsStateManager>().currentTab;
@@ -59,8 +34,7 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
           if (tappedTabIndex == currentTabIndex) {
             // case when navigation stack not empty
             final currentTab = allTabsOrderedAccordingToIndex[currentTabIndex];
-            if (currentTab.navigationKey.currentState?.controller
-                    ?.canPop() ??
+            if (currentTab.navigationKey.currentState?.controller?.canPop() ??
                 false) {
               currentTab.navigationKey.currentState!.controller!.popUntil(
                 (route) => route.isFirst,
@@ -81,10 +55,23 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
           }
         },
         items: [
-          _getBottomNavigationBarItem(
+          allTabsOrderedAccordingToIndex[0].getBottomNavigationBarItem(
             isCurrentTab: currentTabIndex == 0,
-            thisNavTab: allTabsOrderedAccordingToIndex[0],
             thereWasTabChange: thereWasTabChange,
+            activeColor: context.palette.accent,
+            inactiveColor: context.palette.inactiveIcon,
+          ),
+          allTabsOrderedAccordingToIndex[1].getBottomNavigationBarItem(
+            isCurrentTab: currentTabIndex == 1,
+            thereWasTabChange: thereWasTabChange,
+            activeColor: context.palette.accent,
+            inactiveColor: context.palette.inactiveIcon,
+          ),
+          allTabsOrderedAccordingToIndex[2].getBottomNavigationBarItem(
+            isCurrentTab: currentTabIndex == 2,
+            thereWasTabChange: thereWasTabChange,
+            activeColor: context.palette.accent,
+            inactiveColor: context.palette.inactiveIcon,
           ),
         ],
       ),

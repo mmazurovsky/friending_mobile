@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
+import '../animations/wrappers.dart';
 import 'auto_router/app_router.dart';
 
 abstract class NavigationTab {
@@ -11,6 +12,32 @@ abstract class NavigationTab {
   GlobalKey<AutoRouterState> get navigationKey;
   PageRouteInfo get tabRoute;
   ScrollController get scrollController;
+
+  BottomNavigationBarItem getBottomNavigationBarItem({
+    required bool isCurrentTab,
+    // required NavigationTab thisNavTab,
+    required bool thereWasTabChange,
+    required Color activeColor,
+    required Color inactiveColor,
+  }) {
+    final icon = iconData;
+    Widget? iconWidget = Icon(
+      icon,
+      size: 30,
+      color: isCurrentTab
+          ? activeColor
+          : inactiveColor,
+    );
+
+    return BottomNavigationBarItem(
+      label: name,
+      icon: isCurrentTab && thereWasTabChange
+          ? ScaleAnimationWrapper(
+              child: iconWidget,
+            )
+          : iconWidget,
+    );
+  }
 
   @override
   bool operator ==(Object other) {
