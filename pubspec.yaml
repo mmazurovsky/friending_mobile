@@ -47,6 +47,7 @@ dependencies:
   firebase_ui_auth: ^1.1.17
   firebase_ui_oauth_google: ^1.0.24
   firebase_ui_oauth_apple: ^1.0.24
+  flex_color_scheme: ^6.1.2
 
 
 dev_dependencies:

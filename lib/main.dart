@@ -5,11 +5,11 @@ import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'common/configs/global_providers.dart';
+import 'common/bag/stateful/theme.dart';
+import 'common/configs/global_config_widget.dart';
+import 'common/configs/global_providers_widget.dart';
 import 'common/dependency_injection/dependency_injection.dart';
 import 'common/navigation/auto_router/app_router.dart';
-import 'common/theme/theme_state_manager.dart';
-import 'common/theme/themes.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -43,14 +43,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      // TODO
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
-      themeMode: context.watch<ThemeStateManager>().currentMode,
+      themeMode: context.watch<ThemeStateManager>().currentBrightness ==
+              Brightness.light
+          ? ThemeMode.light
+          : ThemeMode.dark,
       theme: Themes.light,
       darkTheme: Themes.dark,
+      builder: (context, child) => GlobalConfigWidget(
+        child: child!,
+      ),
     );
   }
 }

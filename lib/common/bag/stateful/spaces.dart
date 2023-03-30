@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:provider/provider.dart';
 
 extension SpacesExtension on BuildContext {
@@ -11,18 +10,20 @@ class SpacesStateManager with ChangeNotifier {
 
   SpacesStateManager._internal();
 
-  factory SpacesStateManager() {
+  factory SpacesStateManager.singleton() {
     return _singleton;
   }
 
-  late double _width;
+  double? _width;
 
   void initOrChangeWidth(double screenWidth) {
-    _width = screenWidth;
-    notifyListeners();
+    if (_width != screenWidth) {
+      _width = screenWidth;
+      notifyListeners();
+    }
   }
 
-  double get unit1 => _width / 100;
+  double get unit1 => _width! / 100;
 
   double get unit0_25 => unit1 * 0.25;
 

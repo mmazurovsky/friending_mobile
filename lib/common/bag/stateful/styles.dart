@@ -9,21 +9,16 @@ extension StylesExtension on BuildContext {
 
 class StylesStateManager with ChangeNotifier {
   final PaletteStateManager _palette;
-  late TextTheme _textTheme;
+  // late TextTheme _textTheme;
 
   static final StylesStateManager _singleton = StylesStateManager._internal(
-    PaletteStateManager(),
+    PaletteStateManager.singleton(),
   );
 
   StylesStateManager._internal(this._palette);
 
   factory StylesStateManager() {
     return _singleton;
-  }
-
-  void initOrChangeTextTheme(TextTheme textTheme) {
-    _textTheme = textTheme;
-    notifyListeners();
   }
 
   //new text styles Bookshrink

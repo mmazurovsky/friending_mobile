@@ -27,7 +27,7 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
         int currentTabIndex = context.watch<TabsStateManager>().currentTab;
         return BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.blue,
+          backgroundColor: context.palette.background,
           showUnselectedLabels: false,
           //* https://github.com/flutter/flutter/issues/86545
           selectedFontSize: 0,
@@ -65,19 +65,19 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
             allTabsOrderedAccordingToIndex[0].getBottomNavigationBarItem(
               isCurrentTab: currentTabIndex == 0,
               // thereWasTabChange: thereWasTabChange,
-              activeColor: context.palette.accent,
+              activeColor: context.palette.activeIcon,
               inactiveColor: context.palette.inactiveIcon,
             ),
             allTabsOrderedAccordingToIndex[1].getBottomNavigationBarItem(
               isCurrentTab: currentTabIndex == 1,
               // thereWasTabChange: thereWasTabChange,
-              activeColor: context.palette.accent,
+              activeColor: context.palette.activeIcon,
               inactiveColor: context.palette.inactiveIcon,
             ),
             allTabsOrderedAccordingToIndex[2].getBottomNavigationBarItem(
               isCurrentTab: currentTabIndex == 2,
               // thereWasTabChange: thereWasTabChange,
-              activeColor: context.palette.accent,
+              activeColor: context.palette.activeIcon,
               inactiveColor: context.palette.inactiveIcon,
             ),
           ],
