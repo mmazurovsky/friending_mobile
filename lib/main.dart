@@ -19,6 +19,7 @@ void main() async {
 
   FirebaseUIAuth.configureProviders(
     [
+      EmailAuthProvider(),
       AppleProvider(),
       GoogleProvider(
         iOSPreferPlist: true,

@@ -1,5 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../../common/navigation/auto_router/app_router.dart';
 import '../../../common/navigation/navigation_tab.dart';
 
 class PeoplePage extends StatelessWidget {
@@ -16,14 +19,10 @@ class PeoplePage extends StatelessWidget {
           snap: true,
           centerTitle: true,
         ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) => ListTile(
-              title: Text('Item $index'),
-            ),
-            childCount: 100,
-          ),
-        )
+        SliverToBoxAdapter(
+            child: PlatformElevatedButton(
+                onPressed: () => context.router.push(SignInRoute()),
+                child: Text('Sign in')))
       ],
     );
   }

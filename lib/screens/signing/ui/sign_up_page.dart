@@ -11,11 +11,13 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final firebaseAuth = getIt<FirebaseAuth>();
 
-    return RegisterScreen(
-      providers: FirebaseUIAuth.providersFor(
-        firebaseAuth.app,
+    return SafeArea(
+      child: RegisterScreen(
+        providers: FirebaseUIAuth.providersFor(
+          firebaseAuth.app,
+        ),
+        auth: firebaseAuth,
       ),
-      auth: firebaseAuth,
     );
   }
 }
