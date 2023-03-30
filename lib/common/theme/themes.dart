@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 class Themes {
   static ThemeData get light {
     return ThemeData(
+      useMaterial3: true,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -40,6 +41,7 @@ class Themes {
 
   static ThemeData get dark {
     return ThemeData(
+      useMaterial3: true,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,

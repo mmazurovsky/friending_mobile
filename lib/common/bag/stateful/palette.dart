@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:provider/provider.dart';
 
 extension PaletteExtension on BuildContext {
   PaletteStateManager get palette => this.watch<PaletteStateManager>();
 }
 
-@lazySingleton
 class PaletteStateManager with ChangeNotifier {
-  PaletteStateManager._();
+  static final PaletteStateManager _singleton = PaletteStateManager._internal();
+
+  PaletteStateManager._internal();
+
+  factory PaletteStateManager() {
+    return _singleton;
+  }
 
   late ThemeData _themeData;
 

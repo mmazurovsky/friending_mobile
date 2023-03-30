@@ -17,10 +17,10 @@ class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    MainRoute.name: (routeData) {
+    FrontRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const MainPage(),
+        child: const FrontPage(),
       );
     },
     SignInRoute.name: (routeData) {
@@ -41,13 +41,48 @@ class _$AppRouter extends RootStackRouter {
         child: const ForgotPasswordPage(),
       );
     },
+    PeopleRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const PeoplePage(),
+      );
+    },
+    EventsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const EventsPage(),
+      );
+    },
+    ProfileRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const ProfilePage(),
+      );
+    },
   };
 
   @override
   List<RouteConfig> get routes => [
         RouteConfig(
-          MainRoute.name,
+          FrontRoute.name,
           path: '/',
+          children: [
+            RouteConfig(
+              PeopleRoute.name,
+              path: 'people-page',
+              parent: FrontRoute.name,
+            ),
+            RouteConfig(
+              EventsRoute.name,
+              path: 'events-page',
+              parent: FrontRoute.name,
+            ),
+            RouteConfig(
+              ProfileRoute.name,
+              path: 'profile-page',
+              parent: FrontRoute.name,
+            ),
+          ],
         ),
         RouteConfig(
           SignInRoute.name,
@@ -65,15 +100,16 @@ class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
-/// [MainPage]
-class MainRoute extends PageRouteInfo<void> {
-  const MainRoute()
+/// [FrontPage]
+class FrontRoute extends PageRouteInfo<void> {
+  const FrontRoute({List<PageRouteInfo>? children})
       : super(
-          MainRoute.name,
+          FrontRoute.name,
           path: '/',
+          initialChildren: children,
         );
 
-  static const String name = 'MainRoute';
+  static const String name = 'FrontRoute';
 }
 
 /// generated route for
@@ -110,4 +146,40 @@ class ForgotPasswordRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ForgotPasswordRoute';
+}
+
+/// generated route for
+/// [PeoplePage]
+class PeopleRoute extends PageRouteInfo<void> {
+  const PeopleRoute()
+      : super(
+          PeopleRoute.name,
+          path: 'people-page',
+        );
+
+  static const String name = 'PeopleRoute';
+}
+
+/// generated route for
+/// [EventsPage]
+class EventsRoute extends PageRouteInfo<void> {
+  const EventsRoute()
+      : super(
+          EventsRoute.name,
+          path: 'events-page',
+        );
+
+  static const String name = 'EventsRoute';
+}
+
+/// generated route for
+/// [ProfilePage]
+class ProfileRoute extends PageRouteInfo<void> {
+  const ProfileRoute()
+      : super(
+          ProfileRoute.name,
+          path: 'profile-page',
+        );
+
+  static const String name = 'ProfileRoute';
 }

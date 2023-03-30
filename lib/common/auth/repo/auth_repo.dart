@@ -6,6 +6,7 @@ import 'package:crypto/crypto.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:injectable/injectable.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../bag/strings.dart';
@@ -32,6 +33,7 @@ abstract class AuthRepo {
   Stream<User?> get userStream;
 }
 
+@LazySingleton(as: AuthRepo)
 class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
   final FirebaseAuth _firebaseAuth;
   final CustomLogger _customLogger;

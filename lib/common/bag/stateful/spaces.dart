@@ -6,9 +6,14 @@ extension SpacesExtension on BuildContext {
   SpacesStateManager get spaces => this.watch<SpacesStateManager>();
 }
 
-@lazySingleton
 class SpacesStateManager with ChangeNotifier {
-  SpacesStateManager._();
+  static final SpacesStateManager _singleton = SpacesStateManager._internal();
+
+  SpacesStateManager._internal();
+
+  factory SpacesStateManager() {
+    return _singleton;
+  }
 
   late double _width;
 

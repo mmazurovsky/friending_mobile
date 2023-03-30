@@ -117,13 +117,13 @@ class _ScaleAnimationWrapperState extends State<ScaleAnimationWrapper>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
       lowerBound: widget.lowerBound,
       upperBound: 1,
     );
     _animation = CurvedAnimation(
-      curve: Curves.easeInOutQuint,
+      curve: Curves.easeInOutExpo,
       parent: _controller,
     );
     _controller.forward();

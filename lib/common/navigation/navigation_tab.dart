@@ -16,7 +16,7 @@ abstract class NavigationTab {
   BottomNavigationBarItem getBottomNavigationBarItem({
     required bool isCurrentTab,
     // required NavigationTab thisNavTab,
-    required bool thereWasTabChange,
+    // required bool thereWasTabChange,
     required Color activeColor,
     required Color inactiveColor,
   }) {
@@ -24,14 +24,13 @@ abstract class NavigationTab {
     Widget? iconWidget = Icon(
       icon,
       size: 30,
-      color: isCurrentTab
-          ? activeColor
-          : inactiveColor,
+      color: isCurrentTab ? activeColor : inactiveColor,
     );
 
     return BottomNavigationBarItem(
       label: name,
-      icon: isCurrentTab && thereWasTabChange
+      icon: isCurrentTab
+      //  && thereWasTabChange
           ? ScaleAnimationWrapper(
               child: iconWidget,
             )
@@ -79,7 +78,7 @@ class MainTab extends NavigationTab {
   GlobalKey<AutoRouterState> get navigationKey => _navigationKey;
 
   @override
-  PageRouteInfo get tabRoute => const MainRoute();
+  PageRouteInfo get tabRoute => const PeopleRoute();
 
   @override
   ScrollController get scrollController => _scrollController;
@@ -106,7 +105,7 @@ class EventsTab extends NavigationTab {
 
   @override
   //TODO
-  PageRouteInfo get tabRoute => const MainRoute();
+  PageRouteInfo get tabRoute => const EventsRoute();
 
   @override
   ScrollController get scrollController => _scrollController;
@@ -133,7 +132,7 @@ class ProfileTab extends NavigationTab {
 
   @override
   //TODO
-  PageRouteInfo get tabRoute => const MainRoute();
+  PageRouteInfo get tabRoute => const ProfileRoute();
 
   @override
   ScrollController get scrollController => _scrollController;
