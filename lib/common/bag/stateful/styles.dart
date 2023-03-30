@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'palette.dart';
+import 'theme.dart';
 
 extension StylesExtension on BuildContext {
   StylesStateManager get styles => this.watch<StylesStateManager>();
 }
 
 class StylesStateManager with ChangeNotifier {
-  final PaletteStateManager _palette;
+  final ThemeStateManager _theme;
   // late TextTheme _textTheme;
 
   static final StylesStateManager _singleton = StylesStateManager._internal(
-    PaletteStateManager.singleton(),
+    ThemeStateManager.singleton(),
   );
 
-  StylesStateManager._internal(this._palette);
+  StylesStateManager._internal(this._theme);
 
   factory StylesStateManager() {
     return _singleton;
@@ -23,7 +23,7 @@ class StylesStateManager with ChangeNotifier {
 
   //new text styles Bookshrink
   TextStyle get custom => TextStyle(
-        color: _palette.primary,
+        color: _theme.themeData.canvasColor,
         fontSize: 34,
         fontWeight: FontWeight.bold,
       );

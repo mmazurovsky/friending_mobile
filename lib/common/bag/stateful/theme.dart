@@ -1,6 +1,10 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
+extension ThemeExt on BuildContext {
+  ThemeData get theme => Theme.of(this);
+}
+
 class ThemeStateManager with ChangeNotifier {
   static ThemeStateManager? _singleton;
 
@@ -23,9 +27,9 @@ class ThemeStateManager with ChangeNotifier {
   }
 }
 
-extension BrightnessExt on Brightness {
+extension BrightnessExt on ThemeStateManager {
   ThemeData get themeData {
-    switch (this) {
+    switch (currentBrightness) {
       case Brightness.light:
         return Themes.light;
       case Brightness.dark:

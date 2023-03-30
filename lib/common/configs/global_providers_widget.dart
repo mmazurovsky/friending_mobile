@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_starter/common/bag/stateful/palette.dart';
 import 'package:provider/provider.dart';
 
 import '../bag/stateful/spaces.dart';
@@ -19,7 +18,6 @@ class GlobalProviders extends StatelessWidget {
     final theme = ThemeStateManager.singleton(brightness);
     final spaces = SpacesStateManager.singleton();
     final styles = StylesStateManager();
-    final palette = PaletteStateManager.singleton();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -30,9 +28,6 @@ class GlobalProviders extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => styles,
-        ),
-        ChangeNotifierProvider(
-          create: (context) => palette,
         ),
       ],
       child: child,

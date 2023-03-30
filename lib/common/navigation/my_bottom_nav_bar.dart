@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:provider/provider.dart';
 
-import '../bag/stateful/palette.dart';
+import '../bag/stateful/theme.dart';
 import '../dependency_injection/dependency_injection.dart';
 import 'navigation_tab.dart';
 
@@ -27,7 +27,7 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
         int currentTabIndex = context.watch<TabsStateManager>().currentTab;
         return BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: context.palette.background,
+          backgroundColor: context.theme.colorScheme.background,
           showUnselectedLabels: false,
           //* https://github.com/flutter/flutter/issues/86545
           selectedFontSize: 0,
@@ -65,20 +65,20 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
             allTabsOrderedAccordingToIndex[0].getBottomNavigationBarItem(
               isCurrentTab: currentTabIndex == 0,
               // thereWasTabChange: thereWasTabChange,
-              activeColor: context.palette.activeIcon,
-              inactiveColor: context.palette.inactiveIcon,
+              activeColor: context.theme.indicatorColor,
+              inactiveColor: context.theme.disabledColor,
             ),
             allTabsOrderedAccordingToIndex[1].getBottomNavigationBarItem(
               isCurrentTab: currentTabIndex == 1,
               // thereWasTabChange: thereWasTabChange,
-              activeColor: context.palette.activeIcon,
-              inactiveColor: context.palette.inactiveIcon,
+              activeColor: context.theme.indicatorColor,
+              inactiveColor: context.theme.disabledColor,
             ),
             allTabsOrderedAccordingToIndex[2].getBottomNavigationBarItem(
               isCurrentTab: currentTabIndex == 2,
               // thereWasTabChange: thereWasTabChange,
-              activeColor: context.palette.activeIcon,
-              inactiveColor: context.palette.inactiveIcon,
+              activeColor: context.theme.indicatorColor,
+              inactiveColor: context.theme.disabledColor,
             ),
           ],
         );
