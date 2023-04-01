@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 extension SpacesExtension on BuildContext {
-  SpacesStateManager get spaces => this.watch<SpacesStateManager>();
+  SpacesStateManager get spacesWatch => watch<SpacesStateManager>();
+  SpacesStateManager get spacesRead => read<SpacesStateManager>();
 }
 
 class SpacesStateManager with ChangeNotifier {
-  static final SpacesStateManager _singleton = SpacesStateManager._internal();
+  static SpacesStateManager? _singleton;
 
-  SpacesStateManager._internal();
+  SpacesStateManager._internal(this._width);
 
-  factory SpacesStateManager.singleton() {
-    return _singleton;
+  factory SpacesStateManager.singleton(double width) {
+    _singleton ??= SpacesStateManager._internal(width);
+    return _singleton!;
   }
 
-  double? _width;
+  double _width;
 
   void initOrChangeWidth(double screenWidth) {
     if (_width != screenWidth) {
@@ -23,7 +25,7 @@ class SpacesStateManager with ChangeNotifier {
     }
   }
 
-  double get unit1 => _width! / 100;
+  double get unit1 => _width / 100;
 
   double get unit0_25 => unit1 * 0.25;
 
@@ -48,4 +50,6 @@ class SpacesStateManager with ChangeNotifier {
   double get unit9 => unit1 * 9;
 
   double get unit10 => unit1 * 10;
+
+  double get radius1 => 10;
 }

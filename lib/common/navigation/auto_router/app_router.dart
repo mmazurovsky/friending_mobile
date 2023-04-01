@@ -6,8 +6,8 @@ import '../../../screens/events/ui/events_page.dart';
 import '../../../screens/front_page.dart';
 import '../../../screens/people/ui/people_page.dart';
 import '../../../screens/profile/ui/profile_page.dart';
-import '../../../screens/signing/ui/forgot_password_page.dart';
-import '../../../screens/signing/ui/sign_in_page.dart';
+import '../../../screens/auth/ui/forgot_password_page.dart';
+import '../../../screens/auth/ui/sign_in_page.dart';
 
 part 'app_router.gr.dart';
 

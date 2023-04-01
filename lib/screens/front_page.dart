@@ -10,7 +10,6 @@ class FrontPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
-      
       routes: const [
         PeopleRoute(),
         EventsRoute(),
