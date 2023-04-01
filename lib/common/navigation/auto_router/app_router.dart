@@ -8,7 +8,6 @@ import '../../../screens/people/ui/people_page.dart';
 import '../../../screens/profile/ui/profile_page.dart';
 import '../../../screens/signing/ui/forgot_password_page.dart';
 import '../../../screens/signing/ui/sign_in_page.dart';
-import '../../../screens/signing/ui/sign_up_page.dart';
 
 part 'app_router.gr.dart';
 
@@ -32,9 +31,6 @@ part 'app_router.gr.dart';
     ),
     AutoRoute(
       page: SignInPage,
-    ),
-    AutoRoute(
-      page: SignUpPage,
     ),
     AutoRoute(
       page: ForgotPasswordPage,

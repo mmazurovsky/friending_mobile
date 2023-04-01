@@ -29,12 +29,6 @@ class _$AppRouter extends RootStackRouter {
         child: const SignInPage(),
       );
     },
-    SignUpRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const SignUpPage(),
-      );
-    },
     ForgotPasswordRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -89,10 +83,6 @@ class _$AppRouter extends RootStackRouter {
           path: '/sign-in-page',
         ),
         RouteConfig(
-          SignUpRoute.name,
-          path: '/sign-up-page',
-        ),
-        RouteConfig(
           ForgotPasswordRoute.name,
           path: '/forgot-password-page',
         ),
@@ -122,18 +112,6 @@ class SignInRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SignInRoute';
-}
-
-/// generated route for
-/// [SignUpPage]
-class SignUpRoute extends PageRouteInfo<void> {
-  const SignUpRoute()
-      : super(
-          SignUpRoute.name,
-          path: '/sign-up-page',
-        );
-
-  static const String name = 'SignUpRoute';
 }
 
 /// generated route for
