@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
         context.read<GlobalKey<ScaffoldMessengerState>>();
     return MaterialApp.router(
       scaffoldMessengerKey: scaffoldMessengerKey,
+      
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       routerDelegate: _appRouter.delegate(),

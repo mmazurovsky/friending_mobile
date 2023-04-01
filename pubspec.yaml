@@ -51,6 +51,7 @@ dependencies:
   flutter_platform_widgets: ^3.2.0
   connectivity_plus: ^3.0.3
   internet_connection_checker: ^1.0.0+1
+  geolocator: ^9.0.2
 
 
 dev_dependencies:
