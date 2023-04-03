@@ -20,7 +20,18 @@ class _ServerStrings {
   final userEventsCollection = 'userEvents';
 }
 
-class _UiStrings {}
+class _UiStrings {
+  final locationPermissionTitle =
+      "Do you want to see people alike you nearby? 🤔";
+  final locationPermissionText1 =
+      "You won't be able to see people near you until you enable your location services. Please, enable your location services to access all our features!";
+  final locationPermissionText2 =
+      "You won't be able to see people near you until you give permissions to get your location. Please, grant us these permissions to access all our features!";
+  final givePermission = 'Give permission';
+  final cancel = 'Cancel';
+  final enableLocationServices = "Enable location services";
+  final openSettings = 'Open settings';
+}
 
 class _FailureStrings {
   final clientFailure = const FailureMessages(
