@@ -13,12 +13,37 @@ class PeoplePage extends StatelessWidget {
     return CustomScrollView(
       controller: allTabsOrderedAccordingToIndex[0].scrollController,
       slivers: [
-        const SliverAppBar(
-          title: Text('Main Page'),
-          floating: true,
-          snap: true,
-          centerTitle: true,
-        ),
+        SliverAppBar(
+            title: Text('User List'),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              padding: EdgeInsets.all(16),
+              child: Text('Nearby Users'),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                // return widget for each nearby user
+              },
+              childCount: 10, // replace with actual number of nearby users
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              padding: EdgeInsets.all(16),
+              child: Text('Users with Common Interests'),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                // return widget for each user with common interests
+              },
+              childCount: 10, // replace with actual number of users with common interests
+            ),
+          ),
         SliverToBoxAdapter(
             child: PlatformElevatedButton(
                 onPressed: () => context.router.push(SignInRoute()),
