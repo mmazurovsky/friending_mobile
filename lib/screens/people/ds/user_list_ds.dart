@@ -184,7 +184,7 @@ class UserListDSImpl implements UserListDS {
         .collection(tagsCollection)
         .where('tagName', whereIn: tags)
         .get();
-    final a = await _requestCheckWrapper.call(future);
+    final a = await _requestCheckWrapper(future);
     final b = a.map((r) => r.docs);
     final c =
         b.getOrElse(() => <QueryDocumentSnapshot<Map<String, dynamic>>>[]);

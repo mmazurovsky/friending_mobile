@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../entities/user_entities.dart';
 import '../enums.dart';
 
 part 'user_models.freezed.dart';
@@ -67,7 +68,7 @@ class AdditionalUserModel with _$AdditionalUserModel {
 }
 
 @freezed
-class ShortUserModel with _$ShortUserModel {
+class ShortUserModel with _$ShortUserModel implements ShortUserEntity {
   const ShortUserModel._();
 
   const factory ShortUserModel({
@@ -87,6 +88,9 @@ class ShortUserModel with _$ShortUserModel {
 
   factory ShortUserModel.fromJson(Map<String, dynamic> json) =>
       _$ShortUserModelFromJson(json);
+
+  @override
+  String get avatar => photos.first;
 }
 
 @freezed

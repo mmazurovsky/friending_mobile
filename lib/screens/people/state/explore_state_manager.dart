@@ -1,38 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
+import '../../../common/data/entities/user_entities.dart';
+
+@lazySingleton
 class UserListNotifier with ChangeNotifier {
+  final 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  List<User> _nearbyUsers = [];
-  List<User> get nearbyUsers => _nearbyUsers;
+  List<ShortUserEntity> _nearbyUsers = [];
+  List<ShortUserEntity> get nearbyUsers => _nearbyUsers;
 
-  List<User> _usersWithCommonInterests = [];
-  List<User> get usersWithCommonInterests => _usersWithCommonInterests;
+  List<ShortUserEntity> _usersWithMostCommonTags = [];
+  List<ShortUserEntity> get usersWithMostCommonTags =>
+      _usersWithMostCommonTags;
 
-  void fetchUsers() async {
+  void fetchNearbyUsers() async {
     _isLoading = true;
     notifyListeners();
 
-    // make a request to the server to get the two lists of users separately
-    // replace this with your actual implementation of making a request to the server
-
     _nearbyUsers = []; // replace with actual list of nearby users
-    _usersWithCommonInterests = []; // replace with actual list of users with common interests
 
     _isLoading = false;
     notifyListeners();
   }
-}
-
-class User {
-  final String nickname;
-  final int age;
-  final List<String> interests;
-
-  User({
-    required this.nickname,
-    required this.age,
-    required this.interests,
-  });
 }
