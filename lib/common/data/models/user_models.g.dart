@@ -6,6 +6,25 @@ part of 'user_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$_FullUserWriteModel _$$_FullUserWriteModelFromJson(
+        Map<String, dynamic> json) =>
+    _$_FullUserWriteModel(
+      shortUserWriteModel: ShortUserWriteModel.fromJson(
+          json['shortUserWriteModel'] as Map<String, dynamic>),
+      additionalUserWriteModel: AdditionalUserWriteModel.fromJson(
+          json['additionalUserWriteModel'] as Map<String, dynamic>),
+      privateInfoUserModel: PrivateInfoUserModel.fromJson(
+          json['privateInfoUserModel'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$_FullUserWriteModelToJson(
+        _$_FullUserWriteModel instance) =>
+    <String, dynamic>{
+      'shortUserWriteModel': instance.shortUserWriteModel.toJson(),
+      'additionalUserWriteModel': instance.additionalUserWriteModel.toJson(),
+      'privateInfoUserModel': instance.privateInfoUserModel.toJson(),
+    };
+
 _$_PrivateInfoUserModel _$$_PrivateInfoUserModelFromJson(
         Map<String, dynamic> json) =>
     _$_PrivateInfoUserModel(

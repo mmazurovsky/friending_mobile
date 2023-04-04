@@ -455,6 +455,10 @@ abstract class _OtherUserFullModel extends OtherUserFullModel {
       throw _privateConstructorUsedError;
 }
 
+FullUserWriteModel _$FullUserWriteModelFromJson(Map<String, dynamic> json) {
+  return _FullUserWriteModel.fromJson(json);
+}
+
 /// @nodoc
 mixin _$FullUserWriteModel {
   ShortUserWriteModel get shortUserWriteModel =>
@@ -464,6 +468,7 @@ mixin _$FullUserWriteModel {
   PrivateInfoUserModel get privateInfoUserModel =>
       throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $FullUserWriteModelCopyWith<FullUserWriteModel> get copyWith =>
       throw _privateConstructorUsedError;
@@ -600,13 +605,16 @@ class __$$_FullUserWriteModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_FullUserWriteModel extends _FullUserWriteModel {
   const _$_FullUserWriteModel(
       {required this.shortUserWriteModel,
       required this.additionalUserWriteModel,
       required this.privateInfoUserModel})
       : super._();
+
+  factory _$_FullUserWriteModel.fromJson(Map<String, dynamic> json) =>
+      _$$_FullUserWriteModelFromJson(json);
 
   @override
   final ShortUserWriteModel shortUserWriteModel;
@@ -634,6 +642,7 @@ class _$_FullUserWriteModel extends _FullUserWriteModel {
                 other.privateInfoUserModel == privateInfoUserModel));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, shortUserWriteModel,
       additionalUserWriteModel, privateInfoUserModel);
@@ -644,6 +653,13 @@ class _$_FullUserWriteModel extends _FullUserWriteModel {
   _$$_FullUserWriteModelCopyWith<_$_FullUserWriteModel> get copyWith =>
       __$$_FullUserWriteModelCopyWithImpl<_$_FullUserWriteModel>(
           this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_FullUserWriteModelToJson(
+      this,
+    );
+  }
 }
 
 abstract class _FullUserWriteModel extends FullUserWriteModel {
@@ -653,6 +669,9 @@ abstract class _FullUserWriteModel extends FullUserWriteModel {
           required final PrivateInfoUserModel privateInfoUserModel}) =
       _$_FullUserWriteModel;
   const _FullUserWriteModel._() : super._();
+
+  factory _FullUserWriteModel.fromJson(Map<String, dynamic> json) =
+      _$_FullUserWriteModel.fromJson;
 
   @override
   ShortUserWriteModel get shortUserWriteModel;

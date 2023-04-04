@@ -7,7 +7,7 @@ import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/user_models.dart';
-import '../../profile/ds/profile_ds.dart';
+import '../../profile/ds/profile_remote_ds.dart';
 
 abstract class UserListDS {
   Future<Either<RequestFailure, Set<String>>> getUserIdsAroundPoint({
@@ -30,7 +30,7 @@ class UserListDSImpl implements UserListDS {
   final FirebaseFirestore _firestore;
   final GeoFlutterFire _geoFlutterFire;
   final AuthRepo _authRepo;
-  final ProfileDS _profileDS;
+  final ProfileRemoteDS _profileDS;
   final RequestCheckWrapper _requestCheckWrapper;
 
   UserListDSImpl(

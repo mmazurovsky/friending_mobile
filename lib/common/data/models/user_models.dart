@@ -38,6 +38,9 @@ class FullUserWriteModel with _$FullUserWriteModel {
     required AdditionalUserWriteModel additionalUserWriteModel,
     required PrivateInfoUserModel privateInfoUserModel,
   }) = _FullUserWriteModel;
+
+  factory FullUserWriteModel.fromJson(Map<String, dynamic> json) =>
+      _$FullUserWriteModelFromJson(json);
 }
 
 @freezed

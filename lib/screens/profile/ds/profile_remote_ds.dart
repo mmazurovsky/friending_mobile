@@ -11,7 +11,7 @@ import '../../../common/data/models/user_models.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
 
-abstract class ProfileDS {
+abstract class ProfileRemoteDS {
   Future<Either<RequestFailure, FullUserModel>> getProfile();
   Future<Either<RequestFailure, Tuple2<User, List<String>>>>
       getUserAndProfileTags();
@@ -23,8 +23,8 @@ abstract class ProfileDS {
   Future<Either<RequestFailure, void>> saveProfile(FullUserWriteModel user);
 }
 
-@LazySingleton(as: ProfileDS)
-class ProfileDSImpl implements ProfileDS, LoggerNameGetter {
+@LazySingleton(as: ProfileRemoteDS)
+class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   final AuthRepo _authRepo;
   final FirebaseFirestore _firebaseFirestore;
   final RequestCheckWrapper _requestCheckWrapper;
@@ -228,7 +228,7 @@ class ProfileDSImpl implements ProfileDS, LoggerNameGetter {
       },
       (r) async {
         final batch = _firebaseFirestore.batch();
-        batch.set(_firebaseFirestore.collection(shortUserCollection).doc(r.uid),
+          batch.set(_firebaseFirestore.collection(shortUserCollection).doc(r.uid),
             user.shortUserWriteModel.toJson());
         batch.set(
             _firebaseFirestore

@@ -98,4 +98,15 @@ class FailureMessages {
     required String forUser,
   })  : _forUser = forUser,
         _forSystem = forSystem;
+
+  // copywith
+  FailureMessages copyWith({
+    String? forSystem,
+    String? forUser,
+  }) {
+    return FailureMessages(
+      forSystem: forSystem ?? this._forSystem,
+      forUser: forUser ?? this._forUser,
+    );
+  }
 }
