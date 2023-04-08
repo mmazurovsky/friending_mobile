@@ -16,11 +16,11 @@ abstract class ProfileRemoteDS {
   Future<Either<RequestFailure, Tuple2<User, List<String>>>>
       getUserAndProfileTags();
   Future<Either<RequestFailure, void>> updateProfile(
-    FullUserWriteModel user, {
+    FullUserModel user, {
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   });
-  Future<Either<RequestFailure, void>> saveProfile(FullUserWriteModel user);
+  Future<Either<RequestFailure, void>> saveProfile(FullUserModel user);
 }
 
 @LazySingleton(as: ProfileRemoteDS)
@@ -154,7 +154,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
   @override
   Future<Either<RequestFailure, void>> updateProfile(
-    FullUserWriteModel user, {
+    FullUserModel user, {
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   }) async {
@@ -168,13 +168,13 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
         batch.update(
           _firebaseFirestore.collection(shortUserCollection).doc(r.uid),
-          user.shortUserWriteModel.toJson(),
+          user.shortUserModel.toJson(),
         );
         batch.update(
           _firebaseFirestore
               .collection(additionalInfoUserCollection)
               .doc(r.uid),
-          user.additionalUserWriteModel.toJson(),
+          user.additionalUserModel.toJson(),
         );
         batch.update(
           _firebaseFirestore
@@ -218,9 +218,8 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   }
 
   @override
-  Future<Either<RequestFailure, void>> saveProfile(
-      FullUserWriteModel user) async {
-    assert(user.shortUserWriteModel.soulsCount != null);
+  Future<Either<RequestFailure, void>> saveProfile(FullUserModel user) async {
+    // assert(user.shortUserModel.soulsCount != null);
     final currentUserRaw = _authRepo.currentUser;
     final result = await currentUserRaw.fold(
       (l) async {
@@ -228,13 +227,15 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
       },
       (r) async {
         final batch = _firebaseFirestore.batch();
-          batch.set(_firebaseFirestore.collection(shortUserCollection).doc(r.uid),
-            user.shortUserWriteModel.toJson());
+        batch.set(
+            _firebaseFirestore.collection(shortUserCollection).doc(r.uid),
+            //TODO: not very clean
+            user.shortUserModel.toJson().putIfAbsent('soulsCount', () => 0));
         batch.set(
             _firebaseFirestore
                 .collection(additionalInfoUserCollection)
                 .doc(r.uid),
-            user.additionalUserWriteModel.toJson());
+            user.additionalUserModel.toJson());
         batch.set(
             _firebaseFirestore
                 .collection(additionalInfoUserCollection)
@@ -243,7 +244,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
                 .doc(r.uid),
             user.privateInfoUserModel.toJson());
 
-        for (var tag in user.shortUserWriteModel.tags) {
+        for (var tag in user.shortUserModel.tags) {
           //TODO: check if it works
           batch.set(
             _firebaseFirestore.collection(tagsCollection).doc(tag),

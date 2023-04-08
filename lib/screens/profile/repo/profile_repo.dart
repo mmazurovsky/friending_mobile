@@ -7,15 +7,16 @@ import '../ds/profile_local_ds.dart';
 import '../ds/profile_remote_ds.dart';
 
 abstract class ProfileRepo {
-  Future<Either<RequestFailure, void>> saveProfile(FullUserWriteModel model);
+  Future<Either<RequestFailure, void>> saveProfile(FullUserModel model);
   Future<Either<RequestFailure, void>> updateProfile(
-    FullUserWriteModel model, {
+    FullUserModel model, {
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   });
-  FullUserWriteModel? getProfile();
-  //TODO: add delete profile on logout
+  FullUserModel? getProfileLocal();
+  Future<void> fetchProfileFromRemoteAndSaveLocally();
   //TODO: save profile on login
+  Future<void> deleteProfileLocal();
 }
 
 @LazySingleton(as: ProfileRepo)
@@ -30,13 +31,13 @@ class ProfileRepoImpl implements ProfileRepo {
 
   // create function to get profile from local DS
   @override
-  FullUserWriteModel? getProfile() {
+  FullUserModel? getProfileLocal() {
     return _profileLocalDS.getProfile();
   }
 
   // create function to save profile
   @override
-  Future<Either<RequestFailure, void>> saveProfile(FullUserWriteModel model) {
+  Future<Either<RequestFailure, void>> saveProfile(FullUserModel model) {
     _profileLocalDS.saveProfile(model);
     return _profileRemoteDS.saveProfile(model);
   }
@@ -44,7 +45,7 @@ class ProfileRepoImpl implements ProfileRepo {
   // create function to update profile in remote ds
   @override
   Future<Either<RequestFailure, void>> updateProfile(
-    FullUserWriteModel model, {
+    FullUserModel model, {
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   }) {
@@ -53,6 +54,23 @@ class ProfileRepoImpl implements ProfileRepo {
       model,
       tagsToAdd: tagsToAdd,
       tagsToRemove: tagsToRemove,
+    );
+  }
+
+  @override
+  Future<void> deleteProfileLocal() {
+    return _profileLocalDS.deleteProfile();
+  }
+
+  @override
+  Future<void> fetchProfileFromRemoteAndSaveLocally() {
+    return _profileRemoteDS.getProfile().then(
+      (value) {
+        value.fold(
+          (l) => null,
+          (r) => _profileLocalDS.saveProfile(r),
+        );
+      },
     );
   }
 }

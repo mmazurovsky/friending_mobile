@@ -15,7 +15,24 @@ class FullUserModel with _$FullUserModel {
     required AdditionalUserModel additionalUserModel,
     required PrivateInfoUserModel privateInfoUserModel,
   }) = _FullUserModel;
+
+  factory FullUserModel.fromJson(Map<String, dynamic> json) =>
+      _$FullUserModelFromJson(json);
 }
+
+// @freezed
+// class FullUserWriteModel with _$FullUserWriteModel {
+//   const FullUserWriteModel._();
+
+//   const factory FullUserWriteModel({
+//     required ShortUserWriteModel shortUserWriteModel,
+//     required AdditionalUserModel additionalUserWriteModel,
+//     required PrivateInfoUserModel privateInfoUserModel,
+//   }) = _FullUserWriteModel;
+
+//   factory FullUserWriteModel.fromJson(Map<String, dynamic> json) =>
+//       _$FullUserWriteModelFromJson(json);
+// }
 
 @freezed
 class OtherUserFullModel with _$OtherUserFullModel {
@@ -27,20 +44,6 @@ class OtherUserFullModel with _$OtherUserFullModel {
     required PrivateInfoUserModel? privateInfoUserModel,
     required UserConnectStatusEnum connectStatusEnum,
   }) = _OtherUserFullModel;
-}
-
-@freezed
-class FullUserWriteModel with _$FullUserWriteModel {
-  const FullUserWriteModel._();
-
-  const factory FullUserWriteModel({
-    required ShortUserWriteModel shortUserWriteModel,
-    required AdditionalUserWriteModel additionalUserWriteModel,
-    required PrivateInfoUserModel privateInfoUserModel,
-  }) = _FullUserWriteModel;
-
-  factory FullUserWriteModel.fromJson(Map<String, dynamic> json) =>
-      _$FullUserWriteModelFromJson(json);
 }
 
 @freezed
@@ -96,6 +99,22 @@ class ShortUserModel with _$ShortUserModel implements ShortUserEntity {
   String get avatar => photos.first;
 }
 
+// @freezed
+// class ShortUserWriteModel with _$ShortUserWriteModel {
+//   const ShortUserWriteModel._();
+
+//   const factory ShortUserWriteModel({
+//     required String nickname,
+//     required List<String> photos,
+//     required DateTime birthDate,
+//     required List<String> tags,
+//     @JsonKey(includeIfNull: false) int? soulsCount,
+//   }) = _ShortUserWriteModel;
+
+//   factory ShortUserWriteModel.fromJson(Map<String, dynamic> json) =>
+//       _$ShortUserWriteModelFromJson(json);
+// }
+
 @freezed
 class VeryShortUserModel with _$VeryShortUserModel {
   const VeryShortUserModel._();
@@ -110,31 +129,15 @@ class VeryShortUserModel with _$VeryShortUserModel {
       _$VeryShortUserModelFromJson(json);
 }
 
-@freezed
-class ShortUserWriteModel with _$ShortUserWriteModel {
-  const ShortUserWriteModel._();
+// @freezed
+// class AdditionalUserWriteModel with _$AdditionalUserWriteModel {
+//   const AdditionalUserWriteModel._();
 
-  const factory ShortUserWriteModel({
-    required String nickname,
-    required List<String> photos,
-    required DateTime birthDate,
-    required List<String> tags,
-    @JsonKey(includeIfNull: false) int? soulsCount,
-  }) = _ShortUserWriteModel;
+//   const factory AdditionalUserWriteModel({
+//     String? description,
+//     String? lookingFor,
+//   }) = _AdditionalUserWriteModel;
 
-  factory ShortUserWriteModel.fromJson(Map<String, dynamic> json) =>
-      _$ShortUserWriteModelFromJson(json);
-}
-
-@freezed
-class AdditionalUserWriteModel with _$AdditionalUserWriteModel {
-  const AdditionalUserWriteModel._();
-
-  const factory AdditionalUserWriteModel({
-    String? description,
-    String? lookingFor,
-  }) = _AdditionalUserWriteModel;
-
-  factory AdditionalUserWriteModel.fromJson(Map<String, dynamic> json) =>
-      _$AdditionalUserWriteModelFromJson(json);
-}
+//   factory AdditionalUserWriteModel.fromJson(Map<String, dynamic> json) =>
+//       _$AdditionalUserWriteModelFromJson(json);
+// }

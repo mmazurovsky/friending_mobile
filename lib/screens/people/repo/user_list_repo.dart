@@ -72,7 +72,7 @@ class UserListRepoImpl implements UserListRepo {
   Future<Either<RequestFailure, List<ShortUserEntity>>>
       getUsersWithMostCommonTags() async {
     // get tags of current user
-    final tags = _profileRepo.getProfile()?.shortUserWriteModel.tags;
+    final tags = _profileRepo.getProfileLocal()?.shortUserModel.tags;
     if (tags == null) {
       return left(
         AuthFailure(
