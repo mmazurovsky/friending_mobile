@@ -25,31 +25,35 @@ class SpacesStateManager with ChangeNotifier {
     }
   }
 
-  double get unit1 => _width / 100;
+  double get dynamicUnit1 => _width / 100;
 
-  double get unit0_25 => unit1 * 0.25;
+  double get dynamicUnit0_25 => dynamicUnit1 * 0.25;
 
-  double get unit0_5 => unit1 * 0.5;
+  double get dynamicUnit0_5 => dynamicUnit1 * 0.5;
 
-  double get unit1_5 => unit1 * 1.5;
+  double get dynamicUnit1_5 => dynamicUnit1 * 1.5;
 
+  double get dynamicUnit2 => dynamicUnit1 * 2;
+
+  double get dynamicUnit3 => dynamicUnit1 * 3;
+
+  double get dynamicUnit4 => dynamicUnit1 * 4;
+
+  double get dynamicUnit5 => dynamicUnit1 * 5;
+
+  double get dynamicUnit6 => dynamicUnit1 * 6;
+
+  double get dynamicUnit7 => dynamicUnit1 * 7;
+
+  double get dynamicUnit8 => dynamicUnit1 * 8;
+
+  double get dynamicUnit9 => dynamicUnit1 * 9;
+
+  double get dynamicUnit10 => dynamicUnit1 * 10;
+
+  double get unit1 => 5;
   double get unit2 => unit1 * 2;
-
   double get unit3 => unit1 * 3;
-
   double get unit4 => unit1 * 4;
-
   double get unit5 => unit1 * 5;
-
-  double get unit6 => unit1 * 6;
-
-  double get unit7 => unit1 * 7;
-
-  double get unit8 => unit1 * 8;
-
-  double get unit9 => unit1 * 9;
-
-  double get unit10 => unit1 * 10;
-
-  double get radius1 => 10;
 }

@@ -58,8 +58,11 @@ _$_ShortUserModel _$$_ShortUserModelFromJson(Map<String, dynamic> json) =>
       photos:
           (json['photos'] as List<dynamic>).map((e) => e as String).toList(),
       birthDate: DateTime.parse(json['birthDate'] as String),
-      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       soulsCount: json['soulsCount'] as int,
+      commonTags: (json['commonTags'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const <String>[],
     );
 
 Map<String, dynamic> _$$_ShortUserModelToJson(_$_ShortUserModel instance) =>
@@ -68,8 +71,8 @@ Map<String, dynamic> _$$_ShortUserModelToJson(_$_ShortUserModel instance) =>
       'nickname': instance.nickname,
       'photos': instance.photos,
       'birthDate': instance.birthDate.toIso8601String(),
-      'tags': instance.tags,
       'soulsCount': instance.soulsCount,
+      'commonTags': instance.commonTags,
     };
 
 _$_VeryShortUserModel _$$_VeryShortUserModelFromJson(

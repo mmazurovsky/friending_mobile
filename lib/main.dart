@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'common/bag/stateful/theme.dart';
 import 'common/configs/global_config_widget.dart';
 import 'common/configs/global_providers_widget.dart';
+import 'common/configs/hive_initializer.dart';
 import 'common/dependency_injection/dependency_injection.dart';
 import 'common/navigation/auto_router/app_router.dart';
 import 'firebase_options.dart';
@@ -28,17 +29,23 @@ void main() async {
     ],
   );
 
+  await HiveInitializer.initialize();
+
   runApp(
     GlobalProviders(
-      child: MyApp(),
+      child: MyApp(
+        getIt<AppRouter>(),
+      ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-
-  final _appRouter = getIt<AppRouter>();
+  final AppRouter _appRouter;
+  const MyApp(
+    this._appRouter, {
+    Key? key,
+  }) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -47,7 +54,6 @@ class MyApp extends StatelessWidget {
         context.read<GlobalKey<ScaffoldMessengerState>>();
     return MaterialApp.router(
       scaffoldMessengerKey: scaffoldMessengerKey,
-      
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       routerDelegate: _appRouter.delegate(),

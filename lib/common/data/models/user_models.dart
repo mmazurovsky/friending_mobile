@@ -20,20 +20,6 @@ class FullUserModel with _$FullUserModel {
       _$FullUserModelFromJson(json);
 }
 
-// @freezed
-// class FullUserWriteModel with _$FullUserWriteModel {
-//   const FullUserWriteModel._();
-
-//   const factory FullUserWriteModel({
-//     required ShortUserWriteModel shortUserWriteModel,
-//     required AdditionalUserModel additionalUserWriteModel,
-//     required PrivateInfoUserModel privateInfoUserModel,
-//   }) = _FullUserWriteModel;
-
-//   factory FullUserWriteModel.fromJson(Map<String, dynamic> json) =>
-//       _$FullUserWriteModelFromJson(json);
-// }
-
 @freezed
 class OtherUserFullModel with _$OtherUserFullModel {
   const OtherUserFullModel._();
@@ -82,14 +68,15 @@ class ShortUserModel with _$ShortUserModel implements ShortUserEntity {
     required String nickname,
     required List<String> photos,
     required DateTime birthDate,
-    required List<String> tags,
     @JsonKey(
       includeFromJson: false,
       includeToJson: false,
     )
     @Default(<String>[])
-        List<String> commonTags,
+        List<String> tags,
     required int soulsCount,
+    @Default(<String>[])
+        List<String> commonTags,
   }) = _ShortUserModel;
 
   factory ShortUserModel.fromJson(Map<String, dynamic> json) =>

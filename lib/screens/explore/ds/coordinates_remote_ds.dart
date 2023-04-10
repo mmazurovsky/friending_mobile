@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/strings.dart';
@@ -14,6 +15,7 @@ abstract class CoordinatesRemoteDS {
   Future<Either<RequestFailure, void>> addPosition(PointModel point);
 }
 
+@LazySingleton(as: CoordinatesRemoteDS)
 class CoordinatesDSImpl implements CoordinatesRemoteDS, LoggerNameGetter {
   final FirebaseFirestore _firestore;
   final GeoFlutterFire _geoFlutterFire;

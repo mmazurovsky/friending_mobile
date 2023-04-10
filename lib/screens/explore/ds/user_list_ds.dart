@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/strings.dart';
@@ -26,6 +27,7 @@ abstract class UserListDS {
   });
 }
 
+@LazySingleton(as: UserListDS)
 class UserListDSImpl implements UserListDS {
   final FirebaseFirestore _firestore;
   final GeoFlutterFire _geoFlutterFire;
@@ -167,9 +169,10 @@ class UserListDSImpl implements UserListDS {
               e.data(),
             ),
           )
+          //*INFO: not too clean but ok
           .map((e) => e.copyWith(
               commonTags:
-                  currentUserTags.intersection(e.commonTags.toSet()).toList()))
+                  currentUserTags.intersection(e.tags.toSet()).toList()))
           .toList(),
     );
 

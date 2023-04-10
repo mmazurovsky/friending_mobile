@@ -35,10 +35,10 @@ class _$AppRouter extends RootStackRouter {
         child: const ForgotPasswordPage(),
       );
     },
-    PeopleRoute.name: (routeData) {
+    ExploreRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const PeoplePage(),
+        child: const ExplorePage(),
       );
     },
     EventsRoute.name: (routeData) {
@@ -62,8 +62,8 @@ class _$AppRouter extends RootStackRouter {
           path: '/',
           children: [
             RouteConfig(
-              PeopleRoute.name,
-              path: 'people-page',
+              ExploreRoute.name,
+              path: 'explore-page',
               parent: FrontRoute.name,
             ),
             RouteConfig(
@@ -127,15 +127,15 @@ class ForgotPasswordRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [PeoplePage]
-class PeopleRoute extends PageRouteInfo<void> {
-  const PeopleRoute()
+/// [ExplorePage]
+class ExploreRoute extends PageRouteInfo<void> {
+  const ExploreRoute()
       : super(
-          PeopleRoute.name,
-          path: 'people-page',
+          ExploreRoute.name,
+          path: 'explore-page',
         );
 
-  static const String name = 'PeopleRoute';
+  static const String name = 'ExploreRoute';
 }
 
 /// generated route for

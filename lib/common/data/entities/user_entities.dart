@@ -3,4 +3,5 @@ abstract class ShortUserEntity {
   String get id;
   String get avatar;
   List<String> get commonTags;
+  List<String> get tags;
 }

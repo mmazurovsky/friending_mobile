@@ -6,8 +6,8 @@ import '../../../../common/data/entities/user_entities.dart';
 class UserTile extends StatelessWidget {
   final ShortUserEntity user;
 
-  const UserTile(
-    Key? key, {
+  const UserTile({
+    Key? key,
     required this.user,
   }) : super(key: key);
 

@@ -8,8 +8,7 @@ import '../dependency_injection/dependency_injection.dart';
 import 'navigation_tab.dart';
 
 class MyBottomNavBar extends StatefulWidget {
-  final TabsRouter _router;
-  const MyBottomNavBar(this._router, {Key? key}) : super(key: key);
+  const MyBottomNavBar({Key? key}) : super(key: key);
 
   @override
   MyBottomNavBarState createState() => MyBottomNavBarState();
@@ -56,9 +55,7 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
                 }
               }
             } else {
-              context
-                  .read<TabsStateManager>()
-                  .changeCurrentTab(widget._router, tappedTabIndex);
+              context.read<TabsStateManager>().changeCurrentTab(tappedTabIndex);
             }
           },
           items: [
@@ -87,16 +84,19 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
   }
 }
 
-@lazySingleton
+@injectable
 class TabsStateManager with ChangeNotifier {
+  final TabsRouter _tabsRouter;
   int _currentTabIndex = 0;
+
+  TabsStateManager(this._tabsRouter);
 
   int get currentTab => _currentTabIndex;
 
-  void changeCurrentTab(TabsRouter router, int newTabIndex) {
+  void changeCurrentTab(int newTabIndex) {
     if (_currentTabIndex != newTabIndex) {
       _currentTabIndex = newTabIndex;
-      router.setActiveIndex(newTabIndex);
+      _tabsRouter.setActiveIndex(newTabIndex);
       customNotifyListeners();
     }
   }

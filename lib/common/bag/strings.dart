@@ -77,6 +77,8 @@ class _IdStrings {
   final String iosAppStoreId = '1592361916';
   final String appleAuthProviderId = 'apple.com';
   final String androidPackageName = 'com.mmazurovsky.friending';
+  final String coordinatesBox = 'coordinates';
+  final String profileBox = 'profile';
 }
 
 class _LinksStrings {

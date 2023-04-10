@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../common/bag/strings.dart';
 import '../../../common/data/entities/user_entities.dart';
@@ -17,6 +18,7 @@ abstract class UserListRepo {
       getUsersWithMostCommonTags();
 }
 
+@LazySingleton(as: UserListRepo)
 class UserListRepoImpl implements UserListRepo {
   final UserListDS _userListDS;
   final CoordinatesRepo _coordinatesRepo;

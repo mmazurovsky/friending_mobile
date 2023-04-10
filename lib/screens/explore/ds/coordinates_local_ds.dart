@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
+import 'package:injectable/injectable.dart';
 
+import '../../../common/bag/strings.dart';
 import '../../../common/data/models/point_model.dart';
 
 abstract class CoordinatesLocalDS {
@@ -8,17 +10,17 @@ abstract class CoordinatesLocalDS {
   PointModel? getPosition();
 }
 
+@LazySingleton(as: CoordinatesLocalDS)
 class CoordinatesLocalDSImpl implements CoordinatesLocalDS {
-  static const _coordinatesBox = 'coordinates';
   @override
   Future<void> addPosition(PointModel coordinate) async {
-    final box = Hive.box(_coordinatesBox);
+    final box = Hive.box(Strings.ids.coordinatesBox);
     await box.put('latest', coordinate.toJson());
   }
 
   @override
   PointModel? getPosition() {
-    final box = Hive.box(_coordinatesBox);
+    final box = Hive.box(Strings.ids.coordinatesBox);
     final coordinateRaw = box.get('latest');
     if (coordinateRaw == null) {
       return null;

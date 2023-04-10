@@ -30,7 +30,7 @@ abstract class NavigationTab {
     return BottomNavigationBarItem(
       label: name,
       icon: isCurrentTab
-      //  && thereWasTabChange
+          //  && thereWasTabChange
           ? ScaleAnimationWrapper(
               child: iconWidget,
             )
@@ -69,16 +69,16 @@ class MainTab extends NavigationTab {
   int get index => 0;
 
   @override
-  String get name => 'People';
+  String get name => 'Explore';
 
   @override
-  IconData get iconData => Ionicons.people_circle_outline;
+  IconData get iconData => Ionicons.earth_outline;
 
   @override
   GlobalKey<AutoRouterState> get navigationKey => _navigationKey;
 
   @override
-  PageRouteInfo get tabRoute => const PeopleRoute();
+  PageRouteInfo get tabRoute => const ExploreRoute();
 
   @override
   ScrollController get scrollController => _scrollController;

@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../../screens/widgets/snack_bar.dart';
 
 class ConnectionListener {
-  static void connectionListener(BuildContext context) {
+  static void start(BuildContext context) {
     final scaffoldMessengerKey =
         context.read<GlobalKey<ScaffoldMessengerState>>();
     Provider.of<Connectivity>(context, listen: false)
@@ -25,7 +25,7 @@ class ConnectionListener {
               SnackBar(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
-                    context.spacesRead.radius1,
+                    context.spacesRead.unit1,
                   ),
                 ),
                 backgroundColor: context.theme.snackBarTheme.backgroundColor,

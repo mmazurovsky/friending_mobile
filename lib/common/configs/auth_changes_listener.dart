@@ -1,24 +1,31 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../screens/profile/repo/profile_repo.dart';
 import '../auth/repo/auth_repo.dart';
 
-class AuthChangesListener {
+abstract class AuthChangesListener {
+  void call();
+}
+
+@LazySingleton(as: AuthChangesListener)
+class AuthChangesListenerImpl implements AuthChangesListener {
   final AuthRepo _authRepo;
   final ProfileRepo _profileRepo;
   User? localUser;
 
-  AuthChangesListener(
+  AuthChangesListenerImpl(
     this._authRepo,
     this._profileRepo,
   );
 
-  void listenAndReact() async {
+  @override
+  void call() async {
     _authRepo.userStream.listen(
       (newUser) async {
-        if (localUser == newUser) {
+        if (localUser == newUser && localUser != null) {
           if (newUser != null) {
-            // get user from remote and update locally
+            //TODO:  get user from remote and update locally
           } else {
             _profileRepo.deleteProfileLocal();
           }
