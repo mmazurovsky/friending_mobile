@@ -78,6 +78,7 @@ class UserListDSImpl implements UserListDS {
           field: Strings.server.positionField,
           strictMode: false,
         )
+       
         .first;
 
     final userCoordinates = await _requestCheckWrapper.call(future);

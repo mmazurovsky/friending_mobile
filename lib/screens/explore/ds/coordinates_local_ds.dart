@@ -15,13 +15,15 @@ class CoordinatesLocalDSImpl implements CoordinatesLocalDS {
   @override
   Future<void> addPosition(PointModel coordinate) async {
     final box = Hive.box(Strings.ids.coordinatesBox);
-    await box.put('latest', coordinate.toJson());
+    final json = coordinate.toJson();
+    await box.put('latestPoint', json);
   }
 
   @override
   PointModel? getPosition() {
     final box = Hive.box(Strings.ids.coordinatesBox);
-    final coordinateRaw = box.get('latest');
+    final coordinateRaw = (box.get('latestPoint') as Map<dynamic, dynamic>?)
+        ?.cast<String, dynamic>();
     if (coordinateRaw == null) {
       return null;
     } else {

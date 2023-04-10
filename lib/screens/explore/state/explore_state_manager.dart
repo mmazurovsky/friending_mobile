@@ -16,7 +16,7 @@ class ExploreStateManager with ChangeNotifier {
     this._coordinatesRepo,
   );
 
-  Failure? _failure = null;
+  Failure? _failure;
   Failure? get failure => _failure;
 
   bool _isLoading = false;
@@ -34,10 +34,6 @@ class ExploreStateManager with ChangeNotifier {
   void changeMaxDistanceInKm(int newMaxDistanceInKm) {
     _maxDistanceInKm = newMaxDistanceInKm;
     notifyListeners();
-  }
-
-  Future<void> addCurrentPosition() async {
-    final result = await _coordinatesRepo.addCurrentPosition();
   }
 
   void fetchUsers() async {

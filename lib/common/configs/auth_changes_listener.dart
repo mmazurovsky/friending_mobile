@@ -23,11 +23,17 @@ class AuthChangesListenerImpl implements AuthChangesListener {
   void call() async {
     _authRepo.userStream.listen(
       (newUser) async {
-        if (localUser == newUser && localUser != null) {
+        if (localUser != newUser) {
           if (newUser != null) {
             //TODO:  get user from remote and update locally
           } else {
+            // sign out performed
             _profileRepo.deleteProfileLocal();
+          }
+        } else {
+          if (newUser == null) {
+            // new user, need to anonymously sign in
+            print('a');
           }
         }
       },
