@@ -12,7 +12,7 @@ abstract class AuthChangesListener {
 class AuthChangesListenerImpl implements AuthChangesListener {
   final AuthRepo _authRepo;
   final ProfileRepo _profileRepo;
-  User? localUser;
+  User? _localUser;
 
   AuthChangesListenerImpl(
     this._authRepo,
@@ -23,7 +23,8 @@ class AuthChangesListenerImpl implements AuthChangesListener {
   void call() async {
     _authRepo.userStream.listen(
       (newUser) async {
-        if (localUser != newUser) {
+        if (_localUser != newUser) {
+          _localUser = newUser;
           if (newUser != null) {
             //TODO:  get user from remote and update locally
           } else {
