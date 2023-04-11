@@ -16,6 +16,8 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await HiveInitializer.initialize();
+
   configureDependencies();
 
   FirebaseUIAuth.configureProviders(
@@ -28,8 +30,6 @@ void main() async {
       ),
     ],
   );
-
-  await HiveInitializer.initialize();
 
   runApp(
     GlobalProviders(

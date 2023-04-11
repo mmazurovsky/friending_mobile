@@ -33,7 +33,7 @@ class AuthChangesListenerImpl implements AuthChangesListener {
         } else {
           if (newUser == null) {
             // new user, need to anonymously sign in
-            print('a');
+            _authRepo.signInAnonymously();
           }
         }
       },

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../dependency_injection/dependency_injection.dart';
 import 'auth_changes_listener.dart';
-import 'connection_listener.dart';
-import 'hive_initializer.dart';
 import 'location_permission.dart';
 
 class InitializationsWidget extends StatefulWidget {
@@ -20,11 +18,10 @@ class InitializationsWidget extends StatefulWidget {
 class _InitializationsWidgetState extends State<InitializationsWidget> {
   @override
   void initState() {
+    getIt<AuthChangesListener>()();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        ConnectionListener.start(context);
-        LocationPermissionChecker.locationPermissionChecker();
-        getIt<AuthChangesListener>()();
+        LocationPermissionChecker.check();
       },
     );
 

@@ -38,7 +38,6 @@ class ExploreStateManager with ChangeNotifier {
 
   void fetchUsers() async {
     _isLoading = true;
-    // notifyListeners();
 
     final nearbyUsersFuture = _userListRepo.getUsersNearby(
       maxDistanceInKm: _maxDistanceInKm,
@@ -53,6 +52,7 @@ class ExploreStateManager with ChangeNotifier {
     final usersWithCommonTags = await usersWithCommonTagsFuture;
 
     nearbyUsers.fold((l) => _failure = l, (r) => _nearbyUsers = r);
+    //TODO: show some users even if user tags are empty
     usersWithCommonTags.fold(
       (l) => _failure = l,
       (r) => _usersWithMostCommonTags = r,

@@ -24,6 +24,7 @@ abstract class AuthRepo {
   Future<Either<RequestFailure, void>> endSigningWithEmailAndLink(
       {required Uri link});
   Future<Either<RequestFailure, void>> signInWithGoogle();
+  Future<Either<RequestFailure, void>> signInAnonymously();
   Future<Either<RequestFailure, void>> signInWithApple();
   Future<Either<RequestFailure, void>> signOut();
   Future<Either<RequestFailure, void>> updateProfile(
@@ -402,6 +403,25 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         return Left(failure);
       }
     });
+    return const Right(null);
+  }
+
+  @override
+  Future<Either<RequestFailure, void>> signInAnonymously() async {
+    late UserCredential anonUserCredential;
+    try {
+      anonUserCredential = await _firebaseAuth.signInAnonymously();
+    } on Exception catch (e) {
+      final failure = RequestFailure.auth(
+        m: _failureMessages,
+        e: e,
+      );
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+      return Left(failure);
+    }
     return const Right(null);
   }
 }

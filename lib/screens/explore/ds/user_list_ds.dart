@@ -64,24 +64,25 @@ class UserListDSImpl implements UserListDS {
       longitude: pointLong,
     );
 
-    final collectionReferenceWithDateTimeQuery =
-        _firestore.collection(coordinatesCollection).where(
-              'dateTime',
-              isGreaterThan: startDateTime,
-            );
+    final collectionReferenceWithDateTimeQuery = _firestore
+        .collection(coordinatesCollection)
+        .where(
+          'dateTime',
+          isGreaterThan: startDateTime,
+        )
+        //*INFO: below is needed to execute the query
+        .orderBy('dateTime', descending: true);
 
-    final future = _geoFlutterFire
+    final stream = _geoFlutterFire
         .collection(collectionRef: collectionReferenceWithDateTimeQuery)
         .within(
           center: center,
           radius: maxDistanceInKm.toDouble(),
           field: Strings.server.positionField,
           strictMode: false,
-        )
-       
-        .first;
+        );
 
-    final userCoordinates = await _requestCheckWrapper.call(future);
+    final userCoordinates = await _requestCheckWrapper.call(stream.first);
 
     final userIds = userCoordinates.map((r) {
       // final userIds = r
@@ -139,6 +140,9 @@ class UserListDSImpl implements UserListDS {
   Future<Either<RequestFailure, List<ShortUserModel>>> getUsersByIds({
     required Set<String> userIds,
   }) async {
+    if (userIds.isEmpty) {
+      return right([]);
+    }
     final currentUserAndTags = await _profileDS.getUserAndProfileTags();
 
     String? currentUserId;

@@ -7,7 +7,7 @@ import '../dependency_injection/dependency_injection.dart';
 import '../navigation/auto_router/app_router.dart';
 
 class LocationPermissionChecker {
-  static void locationPermissionChecker() async {
+  static void check() async {
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       // Location services are not enabled don't continue
@@ -34,7 +34,7 @@ Future<T?> _showAlertDialogWhenLocationServicesDisabled<T>() {
     onPressed: () async {
       final result = await Geolocator.openLocationSettings();
       if (result) {
-        LocationPermissionChecker.locationPermissionChecker();
+        LocationPermissionChecker.check();
       }
     },
   );
@@ -108,7 +108,7 @@ Future<T?> _showAlertDialogWhenLocationPermissionDeniedForever<T>() {
       final result = await Geolocator.openAppSettings();
       if (result) {
         navigatorKey.currentContext!.router.pop();
-        LocationPermissionChecker.locationPermissionChecker();
+        LocationPermissionChecker.check();
       } else {
         navigatorKey.currentContext!.router.pop();
       }

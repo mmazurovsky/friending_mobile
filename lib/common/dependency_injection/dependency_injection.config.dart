@@ -104,10 +104,10 @@ _i1.GetIt init(
         gh<_i15.RequestCheckWrapper>(),
         gh<_i6.CustomLogger>(),
       ));
-  gh.lazySingleton<_i21.CoordinatesRepo>(() => _i21.CoordinatesRepoImpl(
-        gh<_i5.CoordinatesLocalDS>(),
-        gh<_i20.CoordinatesRemoteDS>(),
-      ));
+  gh.singleton<_i21.CoordinatesRepo>(_i21.CoordinatesRepoImpl(
+    gh<_i5.CoordinatesLocalDS>(),
+    gh<_i20.CoordinatesRemoteDS>(),
+  ));
   gh.lazySingleton<_i22.OtherUserProfileDS>(() => _i22.OtherUserProfileDSImpl(
         gh<_i15.RequestCheckWrapper>(),
         gh<_i10.FirebaseFirestore>(),
