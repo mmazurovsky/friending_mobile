@@ -68,6 +68,7 @@ class ShortUserModel with _$ShortUserModel implements ShortUserEntity {
     required String nickname,
     required List<String> photos,
     required DateTime birthDate,
+    required DateTime createdAt,
     @JsonKey(
       includeFromJson: false,
       includeToJson: false,

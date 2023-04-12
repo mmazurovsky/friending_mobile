@@ -8,6 +8,7 @@ import '../../../screens/explore/ui/explore_page.dart';
 import '../../../screens/profile/ui/profile_page.dart';
 import '../../../screens/auth/ui/forgot_password_page.dart';
 import '../../../screens/auth/ui/sign_in_page.dart';
+import '../../../screens/profile/ui/widgets/profile_images_grid.dart';
 
 part 'app_router.gr.dart';
 
@@ -28,6 +29,9 @@ part 'app_router.gr.dart';
           page: ProfilePage,
         ),
       ],
+    ),
+    AutoRoute(
+      page: ProfileImagesGridPage,
     ),
     AutoRoute(
       page: SignInPage,

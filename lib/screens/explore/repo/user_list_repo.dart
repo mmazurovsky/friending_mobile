@@ -75,15 +75,17 @@ class UserListRepoImpl implements UserListRepo {
       getUsersWithMostCommonTags() async {
     // get tags of current user
     final tags = _profileRepo.getProfileLocal()?.shortUserModel.tags;
-    if (tags == null) {
-      return left(
-        AuthFailure(
-          m: Strings.failures.authFaliure.copyWith(
-            forUser: 'Can not get your interests',
-          ),
-          e: Exception('User tags are not available'),
-        ),
-      );
+    if (tags == null || tags.isEmpty) {
+      final freshUsers = await _userListDS.getFreshUsers(20);
+      return freshUsers;
+      // return left(
+      //   AuthFailure(
+      //     m: Strings.failures.authFaliure.copyWith(
+      //       forUser: 'Can not get your interests',
+      //     ),
+      //     e: Exception('User tags are not available'),
+      //   ),
+      // );
     }
 
     final userIds = await _userListDS.getUserIdsWithTheseTags(tags: tags);

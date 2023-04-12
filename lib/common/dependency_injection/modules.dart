@@ -4,6 +4,8 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -49,5 +51,15 @@ abstract class Modules {
   InternetConnectionChecker get internetConnectionChecker {
     final instance = InternetConnectionChecker();
     return instance;
+  }
+
+  @lazySingleton
+  ImagePicker get imagePicker {
+    return ImagePicker();
+  }
+
+  @lazySingleton
+  ImageCropper get imageCropper {
+    return ImageCropper();
   }
 }

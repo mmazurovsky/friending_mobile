@@ -805,6 +805,7 @@ mixin _$ShortUserModel {
   String get nickname => throw _privateConstructorUsedError;
   List<String> get photos => throw _privateConstructorUsedError;
   DateTime get birthDate => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<String> get tags => throw _privateConstructorUsedError;
   int get soulsCount => throw _privateConstructorUsedError;
@@ -827,6 +828,7 @@ abstract class $ShortUserModelCopyWith<$Res> {
       String nickname,
       List<String> photos,
       DateTime birthDate,
+      DateTime createdAt,
       @JsonKey(includeFromJson: false, includeToJson: false) List<String> tags,
       int soulsCount,
       List<String> commonTags});
@@ -849,6 +851,7 @@ class _$ShortUserModelCopyWithImpl<$Res, $Val extends ShortUserModel>
     Object? nickname = null,
     Object? photos = null,
     Object? birthDate = null,
+    Object? createdAt = null,
     Object? tags = null,
     Object? soulsCount = null,
     Object? commonTags = null,
@@ -869,6 +872,10 @@ class _$ShortUserModelCopyWithImpl<$Res, $Val extends ShortUserModel>
       birthDate: null == birthDate
           ? _value.birthDate
           : birthDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
       tags: null == tags
           ? _value.tags
@@ -899,6 +906,7 @@ abstract class _$$_ShortUserModelCopyWith<$Res>
       String nickname,
       List<String> photos,
       DateTime birthDate,
+      DateTime createdAt,
       @JsonKey(includeFromJson: false, includeToJson: false) List<String> tags,
       int soulsCount,
       List<String> commonTags});
@@ -919,6 +927,7 @@ class __$$_ShortUserModelCopyWithImpl<$Res>
     Object? nickname = null,
     Object? photos = null,
     Object? birthDate = null,
+    Object? createdAt = null,
     Object? tags = null,
     Object? soulsCount = null,
     Object? commonTags = null,
@@ -939,6 +948,10 @@ class __$$_ShortUserModelCopyWithImpl<$Res>
       birthDate: null == birthDate
           ? _value.birthDate
           : birthDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
       tags: null == tags
           ? _value._tags
@@ -964,6 +977,7 @@ class _$_ShortUserModel extends _ShortUserModel {
       required this.nickname,
       required final List<String> photos,
       required this.birthDate,
+      required this.createdAt,
       @JsonKey(includeFromJson: false, includeToJson: false)
           final List<String> tags = const <String>[],
       required this.soulsCount,
@@ -990,6 +1004,8 @@ class _$_ShortUserModel extends _ShortUserModel {
 
   @override
   final DateTime birthDate;
+  @override
+  final DateTime createdAt;
   final List<String> _tags;
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1012,7 +1028,7 @@ class _$_ShortUserModel extends _ShortUserModel {
 
   @override
   String toString() {
-    return 'ShortUserModel(id: $id, nickname: $nickname, photos: $photos, birthDate: $birthDate, tags: $tags, soulsCount: $soulsCount, commonTags: $commonTags)';
+    return 'ShortUserModel(id: $id, nickname: $nickname, photos: $photos, birthDate: $birthDate, createdAt: $createdAt, tags: $tags, soulsCount: $soulsCount, commonTags: $commonTags)';
   }
 
   @override
@@ -1026,6 +1042,8 @@ class _$_ShortUserModel extends _ShortUserModel {
             const DeepCollectionEquality().equals(other._photos, _photos) &&
             (identical(other.birthDate, birthDate) ||
                 other.birthDate == birthDate) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.soulsCount, soulsCount) ||
                 other.soulsCount == soulsCount) &&
@@ -1041,6 +1059,7 @@ class _$_ShortUserModel extends _ShortUserModel {
       nickname,
       const DeepCollectionEquality().hash(_photos),
       birthDate,
+      createdAt,
       const DeepCollectionEquality().hash(_tags),
       soulsCount,
       const DeepCollectionEquality().hash(_commonTags));
@@ -1065,6 +1084,7 @@ abstract class _ShortUserModel extends ShortUserModel {
       required final String nickname,
       required final List<String> photos,
       required final DateTime birthDate,
+      required final DateTime createdAt,
       @JsonKey(includeFromJson: false, includeToJson: false)
           final List<String> tags,
       required final int soulsCount,
@@ -1082,6 +1102,8 @@ abstract class _ShortUserModel extends ShortUserModel {
   List<String> get photos;
   @override
   DateTime get birthDate;
+  @override
+  DateTime get createdAt;
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<String> get tags;

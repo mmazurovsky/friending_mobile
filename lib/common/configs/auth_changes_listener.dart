@@ -29,7 +29,11 @@ class AuthChangesListenerImpl implements AuthChangesListener {
         if (_localUser != newUser) {
           _localUser = newUser;
           if (newUser != null) {
-            await _profileRepo.fetchProfileFromRemoteAndSaveLocally();
+            if (newUser.isAnonymous == false && newUser.email != null) {
+              await _profileRepo.fetchProfileFromRemoteAndSaveLocally();
+            } else {
+              //TODO: show screen to create profile
+            }
           } else {
             // sign out performed
             _profileRepo.deleteProfileLocal();

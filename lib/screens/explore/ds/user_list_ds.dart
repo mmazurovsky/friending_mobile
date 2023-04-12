@@ -25,6 +25,9 @@ abstract class UserListDS {
   Future<Map<String, int>> getUserIdsWithTheseTags({
     required List<String> tags,
   });
+
+  Future<Either<RequestFailure, List<ShortUserModel>>> getFreshUsers(
+      int maxQuantity);
 }
 
 @LazySingleton(as: UserListDS)
@@ -43,7 +46,7 @@ class UserListDSImpl implements UserListDS {
     this._requestCheckWrapper,
   );
 
-  String get userCollection => Strings.server.shortUsersCollection;
+  String get shortUserCollection => Strings.server.shortUsersCollection;
   String get coordinatesCollection => Strings.server.positionsCollection;
   String get tagsCollection => Strings.server.tagsCollection;
 
@@ -154,7 +157,7 @@ class UserListDSImpl implements UserListDS {
     });
 
     final future = _firestore
-        .collection(userCollection)
+        .collection(shortUserCollection)
         .where(
           'id',
           whereIn: userIds,
@@ -187,7 +190,7 @@ class UserListDSImpl implements UserListDS {
   @override
   Future<Map<String, int>> getUserIdsWithTheseTags(
       {required List<String> tags}) async {
-    final userIdToTagsInCommon = <String, int>{};
+    final userIdToQuantityOfTagsInCommon = <String, int>{};
     final future = _firestore
         .collection(tagsCollection)
         .where('tagName', whereIn: tags)
@@ -201,13 +204,34 @@ class UserListDSImpl implements UserListDS {
       return prev;
     }).toSet();
     for (var userId in userIds) {
-      if (userIdToTagsInCommon.containsKey(userId)) {
-        userIdToTagsInCommon[userId] = userIdToTagsInCommon[userId]! + 1;
+      if (userIdToQuantityOfTagsInCommon.containsKey(userId)) {
+        userIdToQuantityOfTagsInCommon[userId] = userIdToQuantityOfTagsInCommon[userId]! + 1;
       } else {
-        userIdToTagsInCommon[userId] = 1;
+        userIdToQuantityOfTagsInCommon[userId] = 1;
       }
     }
 
-    return userIdToTagsInCommon;
+    return userIdToQuantityOfTagsInCommon;
+  }
+
+  @override
+  Future<Either<RequestFailure, List<ShortUserModel>>> getFreshUsers(
+      int maxQuantity) async {
+    final future = _firestore
+        .collection(shortUserCollection)
+        .orderBy('createdAt', descending: true)
+        .limit(maxQuantity)
+        .withConverter(
+            fromFirestore: (snapshot, _) =>
+                ShortUserModel.fromJson(snapshot.data()!),
+            toFirestore: (ShortUserModel model, _) => model.toJson())
+        .get();
+
+    final result = await _requestCheckWrapper(future);
+
+    final users =
+        result.map((r) => r.docs.map((e) => e.data()).toSet().toList());
+
+    return users;
   }
 }
