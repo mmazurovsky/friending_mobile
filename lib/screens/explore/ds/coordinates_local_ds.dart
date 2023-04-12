@@ -8,6 +8,8 @@ abstract class CoordinatesLocalDS {
   Future<void> addPosition(PointModel coordinate);
 
   PointModel? getPosition();
+
+  Future<void> deletePosition();
 }
 
 @LazySingleton(as: CoordinatesLocalDS)
@@ -29,5 +31,11 @@ class CoordinatesLocalDSImpl implements CoordinatesLocalDS {
     } else {
       return PointModel.fromJson(coordinateRaw);
     }
+  }
+
+  @override
+  Future<void> deletePosition() {
+    final box = Hive.box(Strings.ids.coordinatesBox);
+    return box.delete('latestPoint');
   }
 }

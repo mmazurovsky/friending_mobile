@@ -46,7 +46,6 @@ class ExploreStateManager with ChangeNotifier {
     final usersWithCommonTagsFuture =
         _userListRepo.getUsersWithMostCommonTags();
 
-    //TODO: add error handling and displaying
 
     final nearbyUsers = await nearbyUsersFuture;
     final usersWithCommonTags = await usersWithCommonTagsFuture;

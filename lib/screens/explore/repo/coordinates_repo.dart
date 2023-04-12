@@ -11,7 +11,7 @@ import '../ds/coordinates_remote_ds.dart';
 abstract class CoordinatesRepo {
   Future<Either<RequestFailure, void>> addCurrentPosition();
   PointModel? getLatestPosition();
-  //TODO: add delete point on logout
+  Future<void> deleteLocalPosition();
 }
 
 @Singleton(as: CoordinatesRepo)
@@ -66,5 +66,10 @@ class CoordinatesRepoImpl implements CoordinatesRepo {
   @override
   PointModel? getLatestPosition() {
     return _coordinatesLocalDS.getPosition();
+  }
+
+  @override
+  Future<void> deleteLocalPosition() {
+    return _coordinatesLocalDS.deletePosition();
   }
 }

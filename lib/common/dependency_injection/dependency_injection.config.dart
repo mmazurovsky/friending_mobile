@@ -145,6 +145,7 @@ _i1.GetIt init(
   gh.lazySingleton<_i28.AuthChangesListener>(() => _i28.AuthChangesListenerImpl(
         gh<_i18.AuthRepo>(),
         gh<_i24.ProfileRepo>(),
+        gh<_i21.CoordinatesRepo>(),
       ));
   gh.lazySingleton<_i29.ExploreStateManager>(() => _i29.ExploreStateManager(
         gh<_i27.UserListRepo>(),

@@ -72,6 +72,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   Future<Either<RequestFailure, FullUserModel>> getProfile() async {
     final currentUserRaw = _authRepo.currentUser;
     final result = await currentUserRaw.fold((l) async {
+      _customLogger.logFailure(loggerName: loggerName, failure: l);
       return left<RequestFailure, FullUserModel>(l);
     }, (r) async {
       final futureShortModel =

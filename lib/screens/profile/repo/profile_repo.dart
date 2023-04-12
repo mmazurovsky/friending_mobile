@@ -15,7 +15,6 @@ abstract class ProfileRepo {
   });
   FullUserModel? getProfileLocal();
   Future<void> fetchProfileFromRemoteAndSaveLocally();
-  //TODO: save profile on login
   Future<void> deleteProfileLocal();
 }
 
@@ -67,7 +66,7 @@ class ProfileRepoImpl implements ProfileRepo {
     return _profileRemoteDS.getProfile().then(
       (value) {
         value.fold(
-          (l) => null,
+          (l) {},
           (r) => _profileLocalDS.saveProfile(r),
         );
       },

@@ -23,8 +23,7 @@ class AppStateListenerWidget extends HookWidget {
       if (appLifecycleState == AppLifecycleState.resumed) {
         addUserPosition();
       }
-      print("current app state");
-      print(appLifecycleState);
+      print('current app lifecycle state: $appLifecycleState');
       return null;
     }, [appLifecycleState]);
     return child;
