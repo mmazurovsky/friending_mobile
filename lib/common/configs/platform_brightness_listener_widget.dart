@@ -13,11 +13,14 @@ class PlatformBrightnessListenerWidget extends HookWidget {
     BuildContext context,
   ) {
     final brightness = usePlatformBrightness();
+    final appLifecycleState = useAppLifecycleState();
     useEffect(
       () {
-        Provider.of<ThemeStateManager>(context, listen: false).changeBrightness(
-          brightness,
-        );
+        if (appLifecycleState == AppLifecycleState.resumed &&
+            brightness != context.read<ThemeStateManager>().currentBrightness) {
+          context.read<ThemeStateManager>().changeBrightness(brightness);
+        }
+
         return null;
       },
     );

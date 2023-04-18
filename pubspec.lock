@@ -1260,6 +1260,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  reorderable_grid_view:
+    dependency: "direct main"
+    description:
+      name: reorderable_grid_view
+      sha256: "7ac7058e5388276cbc37aa169547cc93522a2f1c669fac6903a143f2082e3ffc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.6"
   rxdart:
     dependency: transitive
     description:
@@ -1450,7 +1458,7 @@ packages:
     source: hosted
     version: "2.2.0"
   uuid:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: uuid
       sha256: "648e103079f7c64a36dc7d39369cabb358d377078a051d6ae2ad3aa539519313"

@@ -13,7 +13,6 @@ class AppStateListenerWidget extends HookWidget {
 
   Future<void> addUserPosition() async {
     final result = await getIt<CoordinatesRepo>().addCurrentPosition();
-    print(result);
   }
 
   @override

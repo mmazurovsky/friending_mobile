@@ -3,11 +3,13 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:uuid/uuid.dart';
 
 @module
 abstract class Modules {
@@ -32,6 +34,18 @@ abstract class Modules {
   @lazySingleton
   FirebaseCrashlytics get firebaseCrashlytics {
     final instance = FirebaseCrashlytics.instance;
+    return instance;
+  }
+
+  @lazySingleton
+  FirebaseStorage get firebaseStorage {
+    final instance = FirebaseStorage.instance;
+    return instance;
+  }
+
+  @lazySingleton
+  Uuid get uuid {
+    const instance = Uuid();
     return instance;
   }
 

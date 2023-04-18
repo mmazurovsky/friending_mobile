@@ -1,53 +1,159 @@
 import 'package:collection/collection.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
+import 'package:reorderable_grid_view/reorderable_grid_view.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../common/bag/stateful/spaces.dart';
+import '../../../../common/bag/stateful/theme.dart';
+import '../../../../common/dependency_injection/dependency_injection.dart';
 import '../../state/profile_images_manager.dart';
+import '../../state/single_profile_image_manager.dart';
 
 class ProfileImagesGridPage extends StatelessWidget {
-  const ProfileImagesGridPage({super.key});
+  const ProfileImagesGridPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final initialProfileImages = [
-      ProfileImageData(),
-      ProfileImageData(),
+      ProfileImageData(
+          url:
+              'https://cdn.pixabay.com/photo/2016/03/21/23/25/link-1271843__480.png'),
+      ProfileImageData(url: 'https://servmask.com/img/products/url.png'),
       ProfileImageData(),
       ProfileImageData(),
       ProfileImageData(),
       ProfileImageData(),
     ];
-    final managers = initialProfileImages
+    final initialManagers = initialProfileImages
         .mapIndexed(
-          (i, e) => ProfileImagesManager(i, e),
+          (i, e) => SingleProfileImageManager(
+            // i,
+            getIt<Uuid>().v4(),
+            e,
+            getIt<ImagePicker>(),
+            getIt<ImageCropper>(),
+          ),
         )
         .toList();
-    return Scaffold(
-      body: GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ProfileImagesManager(initialManagers),
         ),
-        children: initialProfileImages
-            .mapIndexed(
-              (i, e) => ChangeNotifierProvider(
-                create: (_) => managers[i],
-                builder: (_, __) => ClipRRect(
-                  borderRadius: BorderRadius.circular(context.spacesRead.unit1),
-                  child: SizedBox(
-                    width: 200,
-                    height: 200,
-                    child: e.contentImage(
-                      backgroundColor: Theme.of(context).unselectedWidgetColor,
-                    ),
-                  ),
-                ),
-              ),
-            )
-            .toList(),
+        ...initialManagers.map(
+          (e) => ChangeNotifierProvider(
+            create: (_) => e,
+          ),
+        ),
+      ],
+      child: const ProfileImagesGridPageContent(),
+    );
+  }
+}
+
+class ProfileImagesGridPageContent extends StatefulWidget {
+  const ProfileImagesGridPageContent({super.key});
+
+  @override
+  State<ProfileImagesGridPageContent> createState() =>
+      _ProfileImagesGridPageContentState();
+}
+
+class _ProfileImagesGridPageContentState
+    extends State<ProfileImagesGridPageContent> {
+  @override
+  Widget build(BuildContext context) {
+    final images = context
+        .watch<ProfileImagesManager>()
+        .singleProfileImageManagers
+        .mapIndexed(
+      (i, e) {
+        return ChangeNotifierProvider.value(
+          key: ValueKey(e.uuid),
+          value: e,
+          child: const ImageContent(),
+        );
+      },
+    ).toList();
+
+    return Scaffold(
+      body: ReorderableGridView.count(
+        onReorder: (oldIndex, newIndex) => context
+            .read<ProfileImagesManager>()
+            .reorderManagers(oldIndex, newIndex),
+        dragStartDelay: const Duration(milliseconds: 200),
+        crossAxisCount: 3,
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5,
+        children: images,
       ),
     );
+  }
+}
+
+// gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//   crossAxisCount: 3,
+//   mainAxisSpacing: 10,
+//   crossAxisSpacing: 10,
+// ),
+
+class ImageContent extends StatelessWidget {
+  const ImageContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget wrapperForDeletion(Widget child) {
+      return Stack(
+        alignment: Alignment.topRight,
+        children: [
+          child,
+          PlatformIconButton(
+            onPressed: () =>
+                context.read<SingleProfileImageManager>().removePhoto(),
+            icon: Icon(
+              Ionicons.trash_outline,
+              color: context.theme.colorScheme.error,
+            ),
+          )
+        ],
+      );
+    }
+
+    final photo = context.watch<SingleProfileImageManager>().photo;
+
+    if (photo.url != null) {
+      return wrapperForDeletion(Image.network(photo.url!));
+    } else if (photo.file != null) {
+      return wrapperForDeletion(Image.file(photo.file!));
+    } else {
+      return GestureDetector(
+        onTap: () => context.read<SingleProfileImageManager>().addPhotoFile(
+              backgroundColor: context.theme.colorScheme.background,
+              toolbarColor: context.theme.colorScheme.primary,
+            ),
+        child: Container(
+          width: 200,
+          height: 200,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(context.spacesRead.unit3),
+            color: context.theme.canvasColor.getShadeColor(shadeValue: 4),
+          ),
+          alignment: Alignment.center,
+          child: const Icon(
+            Ionicons.add_circle_outline,
+            size: 30,
+          ),
+        ),
+      );
+    }
   }
 }

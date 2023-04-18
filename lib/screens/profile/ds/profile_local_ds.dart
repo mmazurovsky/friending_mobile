@@ -7,6 +7,8 @@ import '../../../common/data/models/user_models.dart';
 abstract class ProfileLocalDS {
   Future<void> saveProfile(FullUserModel model);
 
+  Future<void> updateProfilePhotoUrls(List<String> photos);
+
   FullUserModel? getProfile();
 
   Future<void> deleteProfile();
@@ -35,5 +37,19 @@ class ProfileLocalDSImpl implements ProfileLocalDS {
   Future<void> deleteProfile() {
     final box = Hive.box(Strings.ids.profileBox);
     return box.delete('my');
+  }
+
+  @override
+  Future<void> updateProfilePhotoUrls(List<String> photos) {
+    final box = Hive.box(Strings.ids.profileBox);
+    final profileRaw = box.get('my');
+    if (profileRaw == null) {
+      return Future.value();
+    } else {
+      final profile = FullUserModel.fromJson(profileRaw);
+      final newShortUserModel = profile.shortUserModel.copyWith(photos: photos);
+      final newProfile = profile.copyWith(shortUserModel: newShortUserModel);
+      return box.put('my', newProfile.toJson());
+    }
   }
 }

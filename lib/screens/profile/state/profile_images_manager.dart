@@ -1,75 +1,75 @@
-import 'dart:io';
-
+import 'package:collection/collection.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
-import 'package:ionicons/ionicons.dart';
 
-@lazySingleton
+import '../../../common/auth/repo/auth_repo.dart';
+import '../../../common/dependency_injection/dependency_injection.dart';
+import '../../../common/image_handling/image_service.dart';
+import 'single_profile_image_manager.dart';
+
 class ProfileImagesManager with ChangeNotifier {
-  final int _orderOfManager;
-  ProfileImagesManager(
-    this._orderOfManager,
-    this._photo,
-  );
-  ProfileImageData _photo;
-  ProfileImageData get photo => _photo;
+  final ImageService _imageService = getIt<ImageService>();
+  final AuthRepo _authRepo = getIt<AuthRepo>();
+  //TODO: what if managers get reordered?
+  final List<SingleProfileImageManager> _managers;
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+  
+  ProfileImagesManager(this._managers);
 
-  void onTap() {
-    
+  List<SingleProfileImageManager> get singleProfileImageManagers => _managers;
+
+  void reorderManagers(int oldIndex, int newIndex) {
+      print('before' + _managers.map((e) => e.uuid).toList().toString());
+      final temp = _managers[oldIndex];
+      _managers.removeAt(oldIndex);
+      _managers.insert(newIndex, temp);
+      print('after' + _managers.map((e) => e.uuid).toList().toString());
+      notifyListeners();
   }
 
-  void addPhotoFile(File file) {
-    _isLoading = true;
-    //TODO: ADD LOGIC HERE
-    _photo = ProfileImageData(file: file);
-    _isLoading = false;
-    notifyListeners();
-  }
-
-  void removePhoto() {
-    _photo = ProfileImageData.empty(
-        // order: _orderOfManager,
-        );
-    notifyListeners();
-  }
-}
-
-class ProfileImageData {
-  final String? url;
-  final File? file;
-  // final int order;
-
-  ProfileImageData({
-    this.url,
-    this.file,
-    // required this.order,
-  });
-
-  ProfileImageData.empty(
-    // {
-    // required int order,
-  // }
-  ) : this(
-    // order: order,
+  void uploadPhotosAndUpdateManagers() async {
+    final List<Tuple2<int, Future<String>>> orderOfImageManagerToFuture = [];
+    final folderName = _authRepo.currentUser.fold(
+      (l) => throw Exception('User is not authenticated'),
+      (r) => r.uid,
+    );
+    _managers.forEachIndexed(
+      (i, manager) {
+        if (manager.photo.file != null) {
+          final tuple = Tuple2(
+            i,
+            _imageService.resizeAndUploadImageFileNonWeb(
+                bucket: 'profile_photos',
+                folderName: folderName,
+                imageFile: manager.photo.file!),
+          );
+          orderOfImageManagerToFuture.add(tuple);
+        }
+      },
     );
 
-  Widget contentImage({required Color backgroundColor}) {
-    if (url != null) {
-      return Image.network(url!);
-    } else if (file != null) {
-      return Image.file(file!);
-    } else {
-      return Container(
-        color: backgroundColor,
-        alignment: Alignment.center,
-        child: const Icon(
-          Ionicons.add_circle_outline,
-          size: 30,
-        ),
-      );
-    }
+    final List<Tuple2<int, String>> orderOfImageManagerToUrl = [];
+    orderOfImageManagerToFuture.forEach(
+      (element) async {
+        late String photoUrl;
+        try {
+          photoUrl = await element.value2;
+          orderOfImageManagerToUrl.add(
+            Tuple2(
+              element.value1,
+              photoUrl,
+            ),
+          );
+        } catch (e) {}
+      },
+    );
+
+    orderOfImageManagerToUrl.sort((a, b) => a.value1.compareTo(b.value1));
+
+    orderOfImageManagerToUrl.forEach(
+      (element) {
+        _managers[element.value1].updatePhotoUrl(element.value2);
+      },
+    );
   }
 }
