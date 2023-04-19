@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
@@ -114,14 +113,26 @@ class ImageContent extends StatelessWidget {
     Widget wrapperForDeletion(Widget child) {
       return Stack(
         alignment: Alignment.topRight,
+
         children: [
           child,
-          PlatformIconButton(
-            onPressed: () =>
-                context.read<SingleProfileImageManager>().removePhoto(),
-            icon: Icon(
-              Ionicons.trash_outline,
-              color: context.theme.colorScheme.error,
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: GestureDetector(
+              onTap: () =>
+                  context.read<SingleProfileImageManager>().removePhoto(),
+              child: Container(
+                padding: EdgeInsets.all(context.spacesRead.unit1),
+                // alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: context.theme.colorScheme.errorContainer.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(context.spacesRead.unit2),
+                ),
+                child: Icon(
+                  Ionicons.trash_outline,
+                  color: context.theme.iconTheme.color,
+                ),
+              ),
             ),
           )
         ],
@@ -130,30 +141,35 @@ class ImageContent extends StatelessWidget {
 
     final photo = context.watch<SingleProfileImageManager>().photo;
 
+    late Widget contentImage;
+
     if (photo.url != null) {
-      return wrapperForDeletion(Image.network(photo.url!));
+      contentImage = wrapperForDeletion(Image.network(photo.url!));
     } else if (photo.file != null) {
-      return wrapperForDeletion(Image.file(photo.file!));
+      contentImage = wrapperForDeletion(Image.file(photo.file!));
     } else {
-      return GestureDetector(
-        onTap: () => context.read<SingleProfileImageManager>().addPhotoFile(
-              backgroundColor: context.theme.colorScheme.background,
-              toolbarColor: context.theme.colorScheme.primary,
-            ),
-        child: Container(
-          width: 200,
-          height: 200,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(context.spacesRead.unit3),
-            color: context.theme.canvasColor.getShadeColor(shadeValue: 4),
-          ),
-          alignment: Alignment.center,
-          child: const Icon(
-            Ionicons.add_circle_outline,
-            size: 30,
-          ),
-        ),
+      contentImage = const Icon(
+        Ionicons.add_circle_outline,
+        size: 30,
       );
     }
+
+    return GestureDetector(
+      onTap: () => context.read<SingleProfileImageManager>().addPhotoFile(
+            backgroundColor: context.theme.colorScheme.background,
+            toolbarColor: context.theme.colorScheme.primary,
+          ),
+      child: Container(
+        width: 200,
+        height: 200,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(context.spacesRead.unit3),
+          color: context.theme.canvasColor.getShadeColor(shadeValue: 4),
+        ),
+        alignment: Alignment.center,
+        clipBehavior: Clip.antiAlias,
+        child: contentImage,
+      ),
+    );
   }
 }

@@ -52,6 +52,10 @@ class SpacesStateManager with ChangeNotifier {
   double get dynamicUnit10 => dynamicUnit1 * 10;
 
   double get unit1 => 5;
+  double get unit0_1 => 5 * 0.1;
+  double get unit0_25 => 5 * 0.25;
+  double get unit0_5 => 5 * 0.5;
+  double get unit1_5 => 5 * 1.5;
   double get unit2 => unit1 * 2;
   double get unit3 => unit1 * 3;
   double get unit4 => unit1 * 4;
