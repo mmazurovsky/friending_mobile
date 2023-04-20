@@ -108,16 +108,8 @@ class _ProfileImagesGridPageContentState
             PlatformElevatedButton(
               onPressed: () => context
                   .read<ProfileImagesManager>()
-                  .uploadPhotosToGetTheirUrlsAndUpdateManagers(),
-              child: Text('Upload new photos'),
-            ),
-            SizedBox(
-              height: context.spacesRead.unit2,
-            ),
-            PlatformElevatedButton(
-              onPressed: () =>
-                  context.read<ProfileImagesManager>().updateProfilePhotos(),
-              child: Text('Update profile'),
+                  .uploadNewPhotosAndUpdatePrifle(),
+              child: Text('Update profile photos'),
             ),
           ],
         ),

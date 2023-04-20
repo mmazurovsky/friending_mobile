@@ -27,7 +27,12 @@ class ProfileImagesManager with ChangeNotifier {
     notifyListeners();
   }
 
-  void uploadPhotosToGetTheirUrlsAndUpdateManagers() async {
+  Future<void> uploadNewPhotosAndUpdatePrifle() async {
+    await _uploadPhotosToGetTheirUrlsAndUpdateManagers();
+    _updateProfilePhotos();
+  }
+
+  Future<void> _uploadPhotosToGetTheirUrlsAndUpdateManagers() async {
     final List<Tuple2<int, Future<String>>> orderOfImageManagerToFuture = [];
     final folderName = _authRepo.currentUser.fold(
       (l) => throw Exception('User is not authenticated'),
@@ -75,7 +80,7 @@ class ProfileImagesManager with ChangeNotifier {
     );
   }
 
-  void updateProfilePhotos() {
+  Future<void> _updateProfilePhotos() async {
     final photosWithTheRightOrder = _managers
         .map(
           (e) => e.photo.url,
