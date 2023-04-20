@@ -21,6 +21,8 @@ abstract class ProfileRemoteDS {
     required List<String> tagsToAdd,
   });
   Future<Either<RequestFailure, void>> saveProfile(FullUserModel user);
+  Future<Either<RequestFailure, void>> saveProfilePhotos(
+      List<String> profilePhotoUrls);
 }
 
 @LazySingleton(as: ProfileRemoteDS)
@@ -229,21 +231,24 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
       (r) async {
         final batch = _firebaseFirestore.batch();
         batch.set(
-            _firebaseFirestore.collection(shortUserCollection).doc(r.uid),
-            //TODO: not very clean
-            user.shortUserModel.toJson().putIfAbsent('soulsCount', () => 0));
+          _firebaseFirestore.collection(shortUserCollection).doc(r.uid),
+          //TODO: not very clean
+          user.shortUserModel.toJson().putIfAbsent('soulsCount', () => 0),
+        );
         batch.set(
-            _firebaseFirestore
-                .collection(additionalInfoUserCollection)
-                .doc(r.uid),
-            user.additionalUserModel.toJson());
+          _firebaseFirestore
+              .collection(additionalInfoUserCollection)
+              .doc(r.uid),
+          user.additionalUserModel.toJson(),
+        );
         batch.set(
-            _firebaseFirestore
-                .collection(additionalInfoUserCollection)
-                .doc(r.uid)
-                .collection(privateInfoUserCollection)
-                .doc(r.uid),
-            user.privateInfoUserModel.toJson());
+          _firebaseFirestore
+              .collection(additionalInfoUserCollection)
+              .doc(r.uid)
+              .collection(privateInfoUserCollection)
+              .doc(r.uid),
+          user.privateInfoUserModel.toJson(),
+        );
 
         for (var tag in user.shortUserModel.tags) {
           //TODO: check if it works
@@ -270,6 +275,46 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
         failure: l,
       );
     }, (r) => null);
+    return result;
+  }
+
+  @override
+  Future<Either<RequestFailure, void>> saveProfilePhotos(
+      List<String> profilePhotoUrls) async {
+    final currentUserRaw = _authRepo.currentUser;
+
+    final result = await currentUserRaw.fold(
+      (l) async {
+        return left(l);
+      },
+      (r) async {
+        final future =
+            _firebaseFirestore.collection(shortUserCollection).doc(r.uid).set(
+          {
+            'photos': profilePhotoUrls,
+          },
+          SetOptions(
+            // merge: true,
+            mergeFields: ['photos'],
+          ),
+        );
+
+        final rawResponse = await _requestCheckWrapper(future);
+
+        return rawResponse;
+      },
+    );
+
+    result.fold(
+      (l) {
+        _customLogger.logFailure(
+          loggerName: loggerName,
+          failure: l,
+        );
+      },
+      (r) => null,
+    );
+
     return result;
   }
 }

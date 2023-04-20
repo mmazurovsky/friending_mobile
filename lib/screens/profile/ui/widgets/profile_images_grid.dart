@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
@@ -11,6 +12,8 @@ import 'package:uuid/uuid.dart';
 import '../../../../common/bag/stateful/spaces.dart';
 import '../../../../common/bag/stateful/theme.dart';
 import '../../../../common/dependency_injection/dependency_injection.dart';
+import '../../../widgets/loading.dart';
+import '../../../widgets/my_cached_network_image.dart';
 import '../../state/profile_images_manager.dart';
 import '../../state/single_profile_image_manager.dart';
 
@@ -85,25 +88,43 @@ class _ProfileImagesGridPageContentState
     ).toList();
 
     return Scaffold(
-      body: ReorderableGridView.count(
-        onReorder: (oldIndex, newIndex) => context
-            .read<ProfileImagesManager>()
-            .reorderManagers(oldIndex, newIndex),
-        dragStartDelay: const Duration(milliseconds: 200),
-        crossAxisCount: 3,
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 5,
-        children: images,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ReorderableGridView.count(
+              onReorder: (oldIndex, newIndex) => context
+                  .read<ProfileImagesManager>()
+                  .reorderManagers(oldIndex, newIndex),
+              dragStartDelay: const Duration(milliseconds: 200),
+              crossAxisCount: 3,
+              mainAxisSpacing: 5,
+              crossAxisSpacing: 5,
+              shrinkWrap: true,
+              children: images,
+            ),
+            SizedBox(
+              height: context.spacesRead.unit2,
+            ),
+            PlatformElevatedButton(
+              onPressed: () => context
+                  .read<ProfileImagesManager>()
+                  .uploadPhotosToGetTheirUrlsAndUpdateManagers(),
+              child: Text('Upload new photos'),
+            ),
+            SizedBox(
+              height: context.spacesRead.unit2,
+            ),
+            PlatformElevatedButton(
+              onPressed: () =>
+                  context.read<ProfileImagesManager>().updateProfilePhotos(),
+              child: Text('Update profile'),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-
-// gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//   crossAxisCount: 3,
-//   mainAxisSpacing: 10,
-//   crossAxisSpacing: 10,
-// ),
 
 class ImageContent extends StatelessWidget {
   const ImageContent({super.key});
@@ -113,7 +134,6 @@ class ImageContent extends StatelessWidget {
     Widget wrapperForDeletion(Widget child) {
       return Stack(
         alignment: Alignment.topRight,
-
         children: [
           child,
           Padding(
@@ -125,7 +145,8 @@ class ImageContent extends StatelessWidget {
                 padding: EdgeInsets.all(context.spacesRead.unit1),
                 // alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: context.theme.colorScheme.errorContainer.withOpacity(0.3),
+                  color:
+                      context.theme.colorScheme.errorContainer.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(context.spacesRead.unit2),
                 ),
                 child: Icon(
@@ -144,7 +165,7 @@ class ImageContent extends StatelessWidget {
     late Widget contentImage;
 
     if (photo.url != null) {
-      contentImage = wrapperForDeletion(Image.network(photo.url!));
+      contentImage = wrapperForDeletion(MyCachedNetworkImage(photo.url!));
     } else if (photo.file != null) {
       contentImage = wrapperForDeletion(Image.file(photo.file!));
     } else {
@@ -154,11 +175,30 @@ class ImageContent extends StatelessWidget {
       );
     }
 
+    late Widget contentImageConsideringLoading;
+
+    if (context.watch<SingleProfileImageManager>().isLoading) {
+      contentImageConsideringLoading = Stack(
+        alignment: Alignment.center,
+        children: [
+          contentImage,
+          const LoadingContainer(),
+        ],
+      );
+    } else {
+      contentImageConsideringLoading = contentImage;
+    }
+
     return GestureDetector(
-      onTap: () => context.read<SingleProfileImageManager>().addPhotoFile(
-            backgroundColor: context.theme.colorScheme.background,
-            toolbarColor: context.theme.colorScheme.primary,
-          ),
+      onTap: () {
+        if (context.read<SingleProfileImageManager>().isLoading) {
+        } else {
+          context.read<SingleProfileImageManager>().addPhotoFile(
+                backgroundColor: context.theme.colorScheme.background,
+                toolbarColor: context.theme.colorScheme.primary,
+              );
+        }
+      },
       child: Container(
         width: 200,
         height: 200,
@@ -168,7 +208,7 @@ class ImageContent extends StatelessWidget {
         ),
         alignment: Alignment.center,
         clipBehavior: Clip.antiAlias,
-        child: contentImage,
+        child: contentImageConsideringLoading,
       ),
     );
   }

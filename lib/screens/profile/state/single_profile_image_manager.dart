@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:uuid/uuid.dart';
 
 class SingleProfileImageManager with ChangeNotifier {
   // final int _orderOfManager;
@@ -68,6 +67,13 @@ class SingleProfileImageManager with ChangeNotifier {
     notifyListeners();
   }
 
+  void switchProgressIndicator(bool isLoading) {
+    if (_isLoading != isLoading) {
+      _isLoading = isLoading;
+      notifyListeners();
+    }
+  }
+
   @override
   void dispose() {
     print('disposing $uuid');
@@ -76,7 +82,8 @@ class SingleProfileImageManager with ChangeNotifier {
 
   void updatePhotoUrl(String url) {
     _photo = ProfileImageData(url: url);
-    notifyListeners();
+    switchProgressIndicator(false);
+    // notifyListeners();
   }
 
   void removePhoto() {

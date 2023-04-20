@@ -13,6 +13,9 @@ abstract class ProfileRepo {
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   });
+
+  Future<Either<RequestFailure, void>> updateProfilePhotos(
+      List<String> profilePhotoUrls);
   FullUserModel? getProfileLocal();
   Future<void> fetchProfileFromRemoteAndSaveLocally();
   Future<void> deleteProfileLocal();
@@ -71,5 +74,11 @@ class ProfileRepoImpl implements ProfileRepo {
         );
       },
     );
+  }
+
+  @override
+  Future<Either<RequestFailure, void>> updateProfilePhotos(
+      List<String> profilePhotoUrls) {
+    return _profileRemoteDS.saveProfilePhotos(profilePhotoUrls);
   }
 }
