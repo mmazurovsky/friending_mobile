@@ -1,6 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
@@ -12,11 +15,54 @@ class ProfileImagesManager with ChangeNotifier {
   final ImageService _imageService = getIt<ImageService>();
   final AuthRepo _authRepo = getIt<AuthRepo>();
   final ProfileRepo _profileRepo = getIt<ProfileRepo>();
-  final List<SingleProfileImageManager> _managers;
+  final List<SingleProfileImageManager> _managers = [];
 
-  ProfileImagesManager(this._managers);
+  ProfileImagesManager() {
+    loadPhotosAndCreateManagers();
+  }
 
-  List<SingleProfileImageManager> get singleProfileImageManagers => _managers;
+  List<SingleProfileImageManager> get managers => _managers;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  void loadPhotosAndCreateManagers() async {
+    _isLoading = true;
+    final photosRaw = await _profileRepo.getProfilePhotos();
+
+    late List<String> photos;
+
+    photosRaw.fold((l) => null, (r) => photos = r);
+
+    final List<SingleProfileImageManager> managers = [];
+    List.generate(6, (index) => null).forEachIndexed((i, _) {
+      final photoUrl = (i + 1 > photos.length) ? null : photos[i];
+      final manager = SingleProfileImageManager(
+        getIt<Uuid>().v4(),
+        ProfileImageData(
+          url: photoUrl,
+        ),
+        getIt<ImagePicker>(),
+        getIt<ImageCropper>(),
+      );
+
+      managers.add(manager);
+    });
+
+    // final managers = photos.map((e) {
+    //   return SingleProfileImageManager(
+    //     getIt<Uuid>().v4(),
+    //     ProfileImageData(url: e),
+    //     getIt<ImagePicker>(),
+    //     getIt<ImageCropper>(),
+    //   );
+    // });
+
+    _managers.clear();
+    _managers.addAll(managers);
+    _isLoading = false;
+    notifyListeners();
+  }
 
   void reorderManagers(int oldIndex, int newIndex) {
     print('before' + _managers.map((e) => e.uuid).toList().toString());

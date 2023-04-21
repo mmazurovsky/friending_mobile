@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,6 +25,8 @@ abstract class ProfileRemoteDS {
   Future<Either<RequestFailure, void>> saveProfile(FullUserModel user);
   Future<Either<RequestFailure, void>> saveProfilePhotos(
       List<String> profilePhotoUrls);
+
+  Future<Either<RequestFailure, List<String>>> getProfilePhotos();
 }
 
 @LazySingleton(as: ProfileRemoteDS)
@@ -316,5 +320,42 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
     );
 
     return result;
+  }
+
+  @override
+  Future<Either<RequestFailure, List<String>>> getProfilePhotos() async {
+    final currentUserRaw = _authRepo.currentUser;
+
+    final result = await currentUserRaw.fold(
+      (l) async {
+        return left<RequestFailure, DocumentSnapshot<ShortUserModel>>(l);
+      },
+      (r) async {
+        final future = _firebaseFirestore
+            .collection(shortUserCollection)
+            .doc(r.uid)
+            // .withConverter(
+            //     fromFirestore: (snapshot, _) =>
+            //         ShortUserModel.fromJson(snapshot.data()!),
+            //     toFirestore: (ShortUserModel model, _) => model.toJson())
+            .get();
+
+        final rawResponse = await _requestCheckWrapper(future);
+
+        return rawResponse;
+      },
+    );
+
+    result.fold((l) {
+      _customLogger.logFailure(loggerName: loggerName, failure: l);
+      return left<RequestFailure, List<String>>(l);
+    }, (r) => null);
+
+    final finalResult = result.map(
+      (r) => List<String>.from(
+          (r.data()! as Map<String, dynamic>)['photos'] as List),
+    );
+
+    return finalResult;
   }
 }

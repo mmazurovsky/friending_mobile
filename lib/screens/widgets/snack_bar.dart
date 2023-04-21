@@ -12,7 +12,7 @@ class CustomSnackBarContent extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: context.spacesWatch.dynamicUnit1,
-        vertical: context.spacesRead.unit1,
+        vertical: Spaces.unit1,
       ),
       child: Text(
         _message,

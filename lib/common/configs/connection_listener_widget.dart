@@ -40,7 +40,7 @@ class _ConnectionListenerWidgetState extends State<ConnectionListenerWidget> {
               SnackBar(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
-                    context.spacesRead.unit1,
+                    Spaces.unit1,
                   ),
                 ),
                 backgroundColor: context.theme.snackBarTheme.backgroundColor,

@@ -1,6 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
+import '../bag/stateful/spaces.dart';
+
+extension PaddingsExtension on EdgeInsets {
+  static EdgeInsets get horizontalStandart {
+    return const EdgeInsets.symmetric(horizontal: Spaces.unit3);
+  }
+}
+
 extension EnumParser on String {
   T? toEnum<T>(List<T> values) {
     final result = values.firstWhereOrNull(

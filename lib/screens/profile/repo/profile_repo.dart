@@ -19,6 +19,7 @@ abstract class ProfileRepo {
   FullUserModel? getProfileLocal();
   Future<void> fetchProfileFromRemoteAndSaveLocally();
   Future<void> deleteProfileLocal();
+  Future<Either<RequestFailure, List<String>>> getProfilePhotos();
 }
 
 @LazySingleton(as: ProfileRepo)
@@ -80,5 +81,10 @@ class ProfileRepoImpl implements ProfileRepo {
   Future<Either<RequestFailure, void>> updateProfilePhotos(
       List<String> profilePhotoUrls) {
     return _profileRemoteDS.saveProfilePhotos(profilePhotoUrls);
+  }
+
+  @override
+  Future<Either<RequestFailure, List<String>>> getProfilePhotos() {
+    return _profileRemoteDS.getProfilePhotos();
   }
 }

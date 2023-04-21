@@ -53,7 +53,7 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
               SnackBar(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
-                    context.spacesRead.unit1,
+                    Spaces.unit1,
                   ),
                 ),
                 backgroundColor: context.theme.snackBarTheme.backgroundColor,
@@ -72,16 +72,17 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
         slivers: context.watch<ExploreStateManager>().isLoading
             ? [const SliverToBoxAdapter(child: LoadingContainer())]
             : [
-                SliverToBoxAdapter(
+                const SliverToBoxAdapter(
                   child: SizedBox(
-                    height: context.spacesRead.unit2,
+                    height: Spaces.unit2,
                   ),
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: context.spacesWatch.unit3),
-                    child: Text('Users nearby'),
+                    padding: EdgeInsets.horizontalStandart,
+                    child: Text(
+                      'Users nearby',
+                    ),
                   ),
                 ),
                 SliverList(
@@ -122,7 +123,7 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                         child: Text('Sign in'))),
                 SliverToBoxAdapter(
                   child: SizedBox(
-                    height: context.spacesRead.unit2,
+                    height: Spaces.unit2,
                   ),
                 ),
               ],
