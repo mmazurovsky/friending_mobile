@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:ionicons/ionicons.dart';
 
-import '../../common/bag/stateful/spaces.dart';
 import '../../common/bag/stateful/theme.dart';
+import 'custom_edge_insets.dart';
 
 class CustomAppBarWithBackButton extends StatelessWidget {
   const CustomAppBarWithBackButton({super.key});
@@ -12,9 +12,7 @@ class CustomAppBarWithBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.horizontalStandard
-      
-      EdgeInsets.symmetric(horizontal: Spaces.unit1),
+      padding: CEdgeInsets.horizontalUnit1,
       child: Row(
         children: [
           PlatformIconButton(

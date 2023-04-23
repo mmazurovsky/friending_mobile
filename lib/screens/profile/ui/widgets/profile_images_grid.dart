@@ -13,19 +13,6 @@ import '../../../widgets/my_cached_network_image.dart';
 import '../../state/profile_images_manager.dart';
 import '../../state/single_profile_image_manager.dart';
 
-class ProfileImagesGridPage extends StatelessWidget {
-  const ProfileImagesGridPage({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: ProfileImagesGrid(),
-    );
-  }
-}
-
 class ProfileImagesGrid extends StatefulWidget {
   const ProfileImagesGrid({super.key});
 
@@ -77,7 +64,7 @@ class _ProfileImagesGridState extends State<ProfileImagesGrid> {
                           shrinkWrap: true,
                           children: images,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: Spaces.unit2,
                         ),
                         PlatformElevatedButton(

@@ -40,3 +40,32 @@ extension ListWithSeparators<DATAELEMENT> on List<DATAELEMENT> {
     });
   }
 }
+
+extension ListOfWidgetsWithSeparators on List<Widget> {
+  Iterable<Widget> mapWidgetsSeparated({
+    required Widget separator,
+  }) {
+    return asMap().entries.map((e) {
+      if (e.key == length - 1) {
+        final widget = e.value;
+        return widget;
+      } else {
+        final widget = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            e.value,
+            separator,
+          ],
+        );
+        return widget;
+      }
+    });
+  }
+}
+
+//create extension function on DateTime to convert it to string with format dd.MM.yyyy
+extension DateTimeExtension on DateTime {
+  String toDateString() {
+    return "${this.day}.${this.month}.${this.year}";
+  }
+}

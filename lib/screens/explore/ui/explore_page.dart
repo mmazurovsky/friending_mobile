@@ -8,6 +8,7 @@ import '../../../common/bag/stateful/theme.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/navigation/auto_router/app_router.dart';
 import '../../../common/navigation/navigation_tab.dart';
+import '../../widgets/custom_edge_insets.dart';
 import '../../widgets/loading.dart';
 import '../../widgets/snack_bar.dart';
 import '../state/explore_state_manager.dart';
@@ -79,7 +80,7 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    padding: EdgeInsets.horizontalStandart,
+                    padding: CEdgeInsets.horizontalStandart,
                     child: Text(
                       'Users nearby',
                     ),
@@ -102,8 +103,7 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: context.spacesWatch.unit3),
+                    padding: CEdgeInsets.horizontalStandart,
                     child: Text('Users with common interests'),
                   ),
                 ),

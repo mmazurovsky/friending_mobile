@@ -20,6 +20,7 @@ abstract class ProfileRepo {
   Future<void> fetchProfileFromRemoteAndSaveLocally();
   Future<void> deleteProfileLocal();
   Future<Either<RequestFailure, List<String>>> getProfilePhotos();
+  Future<bool> isUsernameFree(String username);
 }
 
 @LazySingleton(as: ProfileRepo)
@@ -86,5 +87,10 @@ class ProfileRepoImpl implements ProfileRepo {
   @override
   Future<Either<RequestFailure, List<String>>> getProfilePhotos() {
     return _profileRemoteDS.getProfilePhotos();
+  }
+
+  @override
+  Future<bool> isUsernameFree(String username) {
+    return _profileRemoteDS.isUsernameFree(username);
   }
 }

@@ -27,6 +27,7 @@ abstract class ProfileRemoteDS {
       List<String> profilePhotoUrls);
 
   Future<Either<RequestFailure, List<String>>> getProfilePhotos();
+  Future<bool> isUsernameFree(String username);
 }
 
 @LazySingleton(as: ProfileRemoteDS)
@@ -357,5 +358,25 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
     );
 
     return finalResult;
+  }
+
+  @override
+  Future<bool> isUsernameFree(String username) async {
+    final future = _firebaseFirestore
+        .collection(shortUserCollection)
+        .where('username', isEqualTo: username)
+        .get();
+
+    final response = await _requestCheckWrapper(future);
+
+    final result = response.fold((l) {
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: l,
+      );
+      throw l;
+    }, (r) => r.docs.isEmpty);
+
+    return result;
   }
 }
