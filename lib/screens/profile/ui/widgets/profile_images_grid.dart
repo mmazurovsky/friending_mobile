@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -11,6 +10,7 @@ import '../../../../common/bag/stateful/theme.dart';
 import '../../../widgets/loading.dart';
 import '../../../widgets/my_cached_network_image.dart';
 import '../../state/profile_images_manager.dart';
+import '../../state/profile_texts_manager.dart';
 import '../../state/single_profile_image_manager.dart';
 
 class ProfileImagesGrid extends StatefulWidget {
@@ -23,62 +23,62 @@ class ProfileImagesGrid extends StatefulWidget {
 class _ProfileImagesGridState extends State<ProfileImagesGrid> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ProfileImagesManager(),
-      builder: (context, _) {
-        return context.watch<ProfileImagesManager>().isLoading
-            ? const LoadingContainer()
-            : MultiProvider(
-                providers: context
-                    .watch<ProfileImagesManager>()
-                    .managers
-                    .map(
-                      (e) => ChangeNotifierProvider(
-                        create: (_) => e,
-                      ),
-                    )
-                    .toList(),
-                builder: (context, _) {
-                  final images =
-                      context.watch<ProfileImagesManager>().managers.mapIndexed(
-                    (i, e) {
-                      return ChangeNotifierProvider.value(
-                        key: ValueKey(e.uuid),
-                        value: e,
-                        child: const ImageContent(),
-                      );
-                    },
-                  ).toList();
-
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        ReorderableGridView.count(
-                          onReorder: (oldIndex, newIndex) => context
-                              .read<ProfileImagesManager>()
-                              .reorderManagers(oldIndex, newIndex),
-                          dragStartDelay: const Duration(milliseconds: 200),
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 5,
-                          crossAxisSpacing: 5,
-                          shrinkWrap: true,
-                          children: images,
-                        ),
-                        const SizedBox(
-                          height: Spaces.unit2,
-                        ),
-                        PlatformElevatedButton(
-                          onPressed: () => context
-                              .read<ProfileImagesManager>()
-                              .uploadNewPhotosAndUpdatePrifle(),
-                          child: Text('Update profile photos'),
-                        ),
-                      ],
-                    ),
+    return context.watch<ProfileImagesManager>().isLoading
+        ? const LoadingContainer()
+        : MultiProvider(
+            providers: context
+                .watch<ProfileImagesManager>()
+                .managers
+                .map(
+                  (e) => ChangeNotifierProvider(
+                    create: (_) => e,
+                  ),
+                )
+                .toList(),
+            builder: (context, _) {
+              final images = context.watch<ProfileImagesManager>().managers.map(
+                (e) {
+                  return ChangeNotifierProvider.value(
+                    key: ValueKey(e.uuid),
+                    value: e,
+                    child: const ImageContent(),
                   );
-                });
-      },
-    );
+                },
+              ).toList();
+
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ReorderableGridView.count(
+                      onDragStart: (dragIndex) {
+                        context.read<ProfileTextsManager>().unfocusAllNodes();
+                      },
+                      onReorder: (oldIndex, newIndex) {
+                        context
+                            .read<ProfileImagesManager>()
+                            .reorderManagers(oldIndex, newIndex);
+                      },
+                      dragStartDelay: const Duration(milliseconds: 200),
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 5,
+                      crossAxisSpacing: 5,
+                      shrinkWrap: true,
+                      children: images,
+                    ),
+                    const SizedBox(
+                      height: Spaces.unit2,
+                    ),
+                    PlatformElevatedButton(
+                      onPressed: () => context
+                          .read<ProfileImagesManager>()
+                          .uploadNewPhotosAndUpdatePrifle(),
+                      child: Text('Update profile photos'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
   }
 }
 
@@ -95,8 +95,10 @@ class ImageContent extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(5),
             child: GestureDetector(
-              onTap: () =>
-                  context.read<SingleProfileImageManager>().removePhoto(),
+              onTap: () {
+                context.read<ProfileTextsManager>().unfocusAllNodes();
+                context.read<SingleProfileImageManager>().removePhoto();
+              },
               child: Container(
                 padding: EdgeInsets.all(Spaces.unit1),
                 // alignment: Alignment.center,
@@ -149,6 +151,7 @@ class ImageContent extends StatelessWidget {
       onTap: () {
         if (context.read<SingleProfileImageManager>().isLoading) {
         } else {
+          context.read<ProfileTextsManager>().unfocusAllNodes();
           context.read<SingleProfileImageManager>().addPhotoFile(
                 backgroundColor: context.theme.colorScheme.background,
                 toolbarColor: context.theme.colorScheme.primary,

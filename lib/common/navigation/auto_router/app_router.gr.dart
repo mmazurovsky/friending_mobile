@@ -23,10 +23,10 @@ class _$AppRouter extends RootStackRouter {
         child: const FrontPage(),
       );
     },
-    ProfileImagesGridRoute.name: (routeData) {
+    ProfileEditingRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const ProfileImagesGridPage(),
+        child: const ProfileEditingPage(),
       );
     },
     SignInRoute.name: (routeData) {
@@ -85,8 +85,8 @@ class _$AppRouter extends RootStackRouter {
           ],
         ),
         RouteConfig(
-          ProfileImagesGridRoute.name,
-          path: '/profile-images-grid-page',
+          ProfileEditingRoute.name,
+          path: '/profile-editing-page',
         ),
         RouteConfig(
           SignInRoute.name,
@@ -113,15 +113,15 @@ class FrontRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [ProfileImagesGridPage]
-class ProfileImagesGridRoute extends PageRouteInfo<void> {
-  const ProfileImagesGridRoute()
+/// [ProfileEditingPage]
+class ProfileEditingRoute extends PageRouteInfo<void> {
+  const ProfileEditingRoute()
       : super(
-          ProfileImagesGridRoute.name,
-          path: '/profile-images-grid-page',
+          ProfileEditingRoute.name,
+          path: '/profile-editing-page',
         );
 
-  static const String name = 'ProfileImagesGridRoute';
+  static const String name = 'ProfileEditingRoute';
 }
 
 /// generated route for

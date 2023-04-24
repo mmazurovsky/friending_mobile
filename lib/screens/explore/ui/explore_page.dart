@@ -119,7 +119,7 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                 SliverToBoxAdapter(
                     child: PlatformElevatedButton(
                         onPressed: () =>
-                            context.router.push(ProfileImagesGridRoute()),
+                            context.router.push(ProfileEditingRoute()),
                         child: Text('Sign in'))),
                 SliverToBoxAdapter(
                   child: SizedBox(

@@ -3,7 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../../widgets/custom_text_fields.dart';
-import '../../state/profile_editing_manager.dart';
+import '../../state/profile_texts_manager.dart';
 
 class TagsAdder extends StatelessWidget {
   const TagsAdder({super.key});
@@ -17,13 +17,13 @@ class TagsAdder extends StatelessWidget {
           textInputType: TextInputType.text,
           isSecret: false,
           textEditingController:
-              context.read<ProfileEditingManager>().addTagsController,
-          focusNode: context.read<ProfileEditingManager>().addTagsFocusNode,
+              context.read<ProfileTextsManager>().addTagsController,
+          focusNode: context.read<ProfileTextsManager>().addTagsFocusNode,
           fillColor: Colors.amber,
         ),
         const SizedBox(width: 5),
         PlatformElevatedButton(
-          onPressed: context.read<ProfileEditingManager>().addTags,
+          onPressed: context.read<ProfileTextsManager>().addTags,
           child: const Text('Add all'),
         ),
       ],

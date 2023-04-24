@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
@@ -11,6 +12,7 @@ import '../../../common/image_handling/image_service.dart';
 import '../repo/profile_repo.dart';
 import 'single_profile_image_manager.dart';
 
+@injectable
 class ProfileImagesManager with ChangeNotifier {
   final ImageService _imageService = getIt<ImageService>();
   final AuthRepo _authRepo = getIt<AuthRepo>();

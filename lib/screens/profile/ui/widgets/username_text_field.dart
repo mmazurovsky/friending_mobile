@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../widgets/custom_text_fields.dart';
-import '../../state/profile_editing_manager.dart';
+import '../../state/profile_texts_manager.dart';
 
 class NicknameTextField extends StatefulWidget {
   final FocusNode focusNode;
@@ -52,8 +52,8 @@ class _NicknameTextFieldState extends State<NicknameTextField> {
 
   String? _basicCheckNickname(String nickname) {
     if (_previouslyCheckedNickname != nickname) {
-      if (nickname.length < 3 || nickname.length > 15) {
-        return 'Username can be 4 to 14 symbols long';
+      if (nickname.length < 4 || nickname.length > 15) {
+        return 'Username can be 4 to 15 symbols long';
       }
       if (!RegExp(r"^[a-z0-9]*$").hasMatch(nickname)) {
         return 'Username can only contain lowercase letters and numbers';
@@ -68,7 +68,7 @@ class _NicknameTextFieldState extends State<NicknameTextField> {
       _previouslyCheckedNickname = username;
 
       final isNicknameFreeResponse = await context
-          .read<ProfileEditingManager>()
+          .read<ProfileTextsManager>()
           .checkUsernameIsFree(username);
 
       if (_isNicknameFree != isNicknameFreeResponse) {

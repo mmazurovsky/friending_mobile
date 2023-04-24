@@ -20,6 +20,7 @@ class CTextField extends StatelessWidget {
   final bool? enableSuggestions;
   final Iterable<String>? autofillHints;
   final bool? autocorrect;
+  final bool enabled;
 
   const CTextField({
     Key? key,
@@ -39,6 +40,7 @@ class CTextField extends StatelessWidget {
     this.autofillHints,
     this.maxLength,
     this.autocorrect,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class CTextField extends StatelessWidget {
       margin: CEdgeInsets.horizontalStandart,
       child: TextFormField(
         initialValue: initialValue,
+        enabled: enabled,
         focusNode: focusNode,
         controller: textEditingController,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -55,7 +58,7 @@ class CTextField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hintText,
           labelText: title,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
           filled: true,
           fillColor: fillColor,
         ),
