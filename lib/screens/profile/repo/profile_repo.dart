@@ -7,16 +7,22 @@ import '../ds/profile_local_ds.dart';
 import '../ds/profile_remote_ds.dart';
 
 abstract class ProfileRepo {
-  Future<Either<RequestFailure, void>> saveProfile(FullUserModel model);
-  Future<Either<RequestFailure, void>> updateProfile(
-    FullUserModel model, {
+  Future<Either<RequestFailure, void>> saveProfile({
+    required ShortCreateUserModel shortModel,
+    required AdditionalUserModel additionalModel,
+    required PrivateInfoUserModel privateModel,
+  });
+  Future<Either<RequestFailure, void>> updateProfile({
+    required ShortUpdateUserModel shortModel,
+    required AdditionalUserModel additionalModel,
+    required PrivateInfoUserModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   });
 
   Future<Either<RequestFailure, void>> updateProfilePhotos(
       List<String> profilePhotoUrls);
-  FullUserModel? getProfileLocal();
+  ShortUpdateUserModel? getShortProfileLocal();
   Future<void> fetchProfileFromRemoteAndSaveLocally();
   Future<void> deleteProfileLocal();
   Future<Either<RequestFailure, List<String>>> getProfilePhotos();
@@ -35,27 +41,39 @@ class ProfileRepoImpl implements ProfileRepo {
 
   // create function to get profile from local DS
   @override
-  FullUserModel? getProfileLocal() {
-    return _profileLocalDS.getProfile();
+  ShortUpdateUserModel? getShortProfileLocal() {
+    return _profileLocalDS.getShortProfile();
   }
 
   // create function to save profile
   @override
-  Future<Either<RequestFailure, void>> saveProfile(FullUserModel model) {
-    _profileLocalDS.saveProfile(model);
-    return _profileRemoteDS.saveProfile(model);
+  Future<Either<RequestFailure, void>> saveProfile({
+    required ShortCreateUserModel shortModel,
+    required AdditionalUserModel additionalModel,
+    required PrivateInfoUserModel privateModel,
+  }) {
+    _profileLocalDS.saveShortProfile(shortModel.toUpdateShortModel);
+    return _profileRemoteDS.saveProfile(
+      shortModel: shortModel,
+      additionalModel: additionalModel,
+      privateModel: privateModel,
+    );
   }
 
   // create function to update profile in remote ds
   @override
-  Future<Either<RequestFailure, void>> updateProfile(
-    FullUserModel model, {
+  Future<Either<RequestFailure, void>> updateProfile({
+    required ShortUpdateUserModel shortModel,
+    required AdditionalUserModel additionalModel,
+    required PrivateInfoUserModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   }) {
-    _profileLocalDS.saveProfile(model);
+    _profileLocalDS.saveShortProfile(shortModel);
     return _profileRemoteDS.updateProfile(
-      model,
+      shortModel: shortModel,
+      additionalModel: additionalModel,
+      privateModel: privateModel,
       tagsToAdd: tagsToAdd,
       tagsToRemove: tagsToRemove,
     );
@@ -68,11 +86,12 @@ class ProfileRepoImpl implements ProfileRepo {
 
   @override
   Future<void> fetchProfileFromRemoteAndSaveLocally() {
-    return _profileRemoteDS.getProfile().then(
+    return _profileRemoteDS.getFullProfile().then(
       (value) {
         value.fold(
           (l) {},
-          (r) => _profileLocalDS.saveProfile(r),
+          (r) =>
+              _profileLocalDS.saveShortProfile(r.shortUserModel.toUpdateModel),
         );
       },
     );

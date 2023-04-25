@@ -70,11 +70,11 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
           (additionalModelRaw as Left).value as RequestFailure);
     }
 
-    late final ShortUserModel shortUserModel;
+    late final ShortReadUserModel shortUserModel;
     late final AdditionalUserModel additionalUserModel;
 
     shortModelRaw.map(
-      (r) => shortUserModel = ShortUserModel.fromJson(
+      (r) => shortUserModel = ShortReadUserModel.fromJson(
         r.data()!,
       ),
     );

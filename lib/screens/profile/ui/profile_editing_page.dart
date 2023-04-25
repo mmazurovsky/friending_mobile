@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/stateful/spaces.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/utils/extensions.dart';
 import '../../widgets/custom_text_fields.dart';
+import '../repo/profile_repo.dart';
 import '../state/profile_editing_manager.dart';
 import '../state/profile_images_manager.dart';
 import '../state/profile_texts_manager.dart';
@@ -22,6 +24,8 @@ class ProfileEditingPage extends StatelessWidget {
     final profileEditingManager = ProfileEditingManager(
       profileImagesManager,
       profileTextsManager,
+      getIt<ProfileRepo>(),
+      getIt<AuthRepo>(),
     );
     return MultiProvider(
       providers: [
@@ -68,7 +72,7 @@ class _GeneralInfoEditingSectionState extends State<GeneralInfoEditingSection> {
       key: _formKey,
       child: Column(
         children: [
-          NicknameTextField(
+          UsernameTextField(
             focusNode: context.read<ProfileTextsManager>().usernameFocusNode,
             textEditingController:
                 context.read<ProfileTextsManager>().usernameController,

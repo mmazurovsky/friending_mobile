@@ -22,7 +22,7 @@ class ConnectRequestAwaitsApprovalUserEvent implements UserEvent {
   });
 
   @override
-  String get text => '${otherUser.nickname} wants to connect with you';
+  String get text => '${otherUser.username} wants to connect with you';
 
   @override
   void Function(BuildContext) get onTap {
@@ -45,7 +45,7 @@ class ConnectRequestWasApprovedUserEvent implements UserEvent {
   });
 
   @override
-  String get text => '${otherUser.nickname} has connected with you';
+  String get text => '${otherUser.username} has connected with you';
 
   @override
   void Function(BuildContext) get onTap {

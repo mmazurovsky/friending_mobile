@@ -1,7 +1,7 @@
-abstract class ShortUserEntity {
-  String get nickname;
+abstract class ShortReadUserEntity {
+  String get username;
   String get id;
   String get avatar;
   List<String> get commonTags;
-  List<String> get tags;
+  // List<String> get tags;
 }

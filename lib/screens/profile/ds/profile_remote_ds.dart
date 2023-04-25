@@ -14,15 +14,21 @@ import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
 
 abstract class ProfileRemoteDS {
-  Future<Either<RequestFailure, FullUserModel>> getProfile();
+  Future<Either<RequestFailure, FullReadUserModel>> getFullProfile();
   Future<Either<RequestFailure, Tuple2<User, List<String>>>>
-      getUserAndProfileTags();
-  Future<Either<RequestFailure, void>> updateProfile(
-    FullUserModel user, {
+      getCurrentUserAndProfileTags();
+  Future<Either<RequestFailure, void>> updateProfile({
+    required ShortUpdateUserModel shortModel,
+    required AdditionalUserModel additionalModel,
+    required PrivateInfoUserModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   });
-  Future<Either<RequestFailure, void>> saveProfile(FullUserModel user);
+  Future<Either<RequestFailure, void>> saveProfile({
+    required ShortCreateUserModel shortModel,
+    required AdditionalUserModel additionalModel,
+    required PrivateInfoUserModel privateModel,
+  });
   Future<Either<RequestFailure, void>> saveProfilePhotos(
       List<String> profilePhotoUrls);
 
@@ -53,7 +59,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
   @override
   Future<Either<RequestFailure, Tuple2<User, List<String>>>>
-      getUserAndProfileTags() {
+      getCurrentUserAndProfileTags() {
     final currentUserRaw = _authRepo.currentUser;
     final result = currentUserRaw.fold((l) async {
       return left<RequestFailure, Tuple2<User, List<String>>>(l);
@@ -66,8 +72,8 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
       final result = await _requestCheckWrapper(future);
 
       return result.map((r) {
-        final shortModel = ShortUserModel.fromJson(r.data()!);
-        final tags = shortModel.commonTags;
+        final shortModel = ShortReadUserModel.fromJson(r.data()!);
+        final tags = shortModel.tags;
         return Tuple2(user, tags);
       });
     });
@@ -76,11 +82,11 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   }
 
   @override
-  Future<Either<RequestFailure, FullUserModel>> getProfile() async {
+  Future<Either<RequestFailure, FullReadUserModel>> getFullProfile() async {
     final currentUserRaw = _authRepo.currentUser;
     final result = await currentUserRaw.fold((l) async {
       _customLogger.logFailure(loggerName: loggerName, failure: l);
-      return left<RequestFailure, FullUserModel>(l);
+      return left<RequestFailure, FullReadUserModel>(l);
     }, (r) async {
       final futureShortModel =
           _firebaseFirestore.collection(shortUserCollection).doc(r.uid).get();
@@ -106,28 +112,28 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
       if (shortModelRaw.isLeft()) {
         //TODO: not sure
-        return left<RequestFailure, FullUserModel>(
+        return left<RequestFailure, FullReadUserModel>(
             (shortModelRaw as Left).value as RequestFailure);
       }
       if (additionalModelRaw.isLeft()) {
         //TODO: not sure
 
-        return left<RequestFailure, FullUserModel>(
+        return left<RequestFailure, FullReadUserModel>(
             (additionalModelRaw as Left).value as RequestFailure);
       }
       if (privateModelRaw.isLeft()) {
         //TODO: not sure
 
-        return left<RequestFailure, FullUserModel>(
+        return left<RequestFailure, FullReadUserModel>(
             (privateModelRaw as Left).value as RequestFailure);
       }
 
-      late final ShortUserModel shortUserModel;
+      late final ShortReadUserModel shortUserModel;
       late final AdditionalUserModel additionalUserModel;
       late final PrivateInfoUserModel privateInfoUserModel;
 
       shortModelRaw.map(
-        (r) => shortUserModel = ShortUserModel.fromJson(
+        (r) => shortUserModel = ShortReadUserModel.fromJson(
           r.data()!,
         ),
       );
@@ -141,8 +147,8 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
           r.data()!,
         ),
       );
-      return right<RequestFailure, FullUserModel>(
-        FullUserModel(
+      return right<RequestFailure, FullReadUserModel>(
+        FullReadUserModel(
           shortUserModel: shortUserModel,
           additionalUserModel: additionalUserModel,
           privateInfoUserModel: privateInfoUserModel,
@@ -161,8 +167,10 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   }
 
   @override
-  Future<Either<RequestFailure, void>> updateProfile(
-    FullUserModel user, {
+  Future<Either<RequestFailure, void>> updateProfile({
+    required ShortUpdateUserModel shortModel,
+    required AdditionalUserModel additionalModel,
+    required PrivateInfoUserModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   }) async {
@@ -176,13 +184,13 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
         batch.update(
           _firebaseFirestore.collection(shortUserCollection).doc(r.uid),
-          user.shortUserModel.toJson(),
+          shortModel.toJson(),
         );
         batch.update(
           _firebaseFirestore
               .collection(additionalInfoUserCollection)
               .doc(r.uid),
-          user.additionalUserModel.toJson(),
+          additionalModel.toJson(),
         );
         batch.update(
           _firebaseFirestore
@@ -190,7 +198,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
               .doc(r.uid)
               .collection(privateInfoUserCollection)
               .doc(r.uid),
-          user.privateInfoUserModel.toJson(),
+          privateModel.toJson(),
         );
 
         for (final tag in tagsToRemove) {
@@ -226,7 +234,11 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   }
 
   @override
-  Future<Either<RequestFailure, void>> saveProfile(FullUserModel user) async {
+  Future<Either<RequestFailure, void>> saveProfile({
+    required ShortCreateUserModel shortModel,
+    required AdditionalUserModel additionalModel,
+    required PrivateInfoUserModel privateModel,
+  }) async {
     // assert(user.shortUserModel.soulsCount != null);
     final currentUserRaw = _authRepo.currentUser;
     final result = await currentUserRaw.fold(
@@ -238,13 +250,13 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
         batch.set(
           _firebaseFirestore.collection(shortUserCollection).doc(r.uid),
           //TODO: not very clean
-          user.shortUserModel.toJson().putIfAbsent('soulsCount', () => 0),
+          shortModel.toJson().putIfAbsent('soulsCount', () => 0),
         );
         batch.set(
           _firebaseFirestore
               .collection(additionalInfoUserCollection)
               .doc(r.uid),
-          user.additionalUserModel.toJson(),
+          additionalModel.toJson(),
         );
         batch.set(
           _firebaseFirestore
@@ -252,10 +264,10 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
               .doc(r.uid)
               .collection(privateInfoUserCollection)
               .doc(r.uid),
-          user.privateInfoUserModel.toJson(),
+          privateModel.toJson(),
         );
 
-        for (var tag in user.shortUserModel.tags) {
+        for (var tag in shortModel.tags) {
           //TODO: check if it works
           batch.set(
             _firebaseFirestore.collection(tagsCollection).doc(tag),
@@ -329,7 +341,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
     final result = await currentUserRaw.fold(
       (l) async {
-        return left<RequestFailure, DocumentSnapshot<ShortUserModel>>(l);
+        return left<RequestFailure, DocumentSnapshot<ShortReadUserModel>>(l);
       },
       (r) async {
         final future = _firebaseFirestore

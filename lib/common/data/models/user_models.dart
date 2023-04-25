@@ -6,18 +6,15 @@ import '../enums.dart';
 part 'user_models.freezed.dart';
 part 'user_models.g.dart';
 
-@freezed
-class FullUserModel with _$FullUserModel {
-  const FullUserModel._();
+@Freezed()
+class FullReadUserModel with _$FullReadUserModel {
+  const FullReadUserModel._();
 
-  const factory FullUserModel({
-    required ShortUserModel shortUserModel,
+  const factory FullReadUserModel({
+    required ShortReadUserModel shortUserModel,
     required AdditionalUserModel additionalUserModel,
     required PrivateInfoUserModel privateInfoUserModel,
-  }) = _FullUserModel;
-
-  factory FullUserModel.fromJson(Map<String, dynamic> json) =>
-      _$FullUserModelFromJson(json);
+  }) = _FullReadUserModel;
 }
 
 @freezed
@@ -25,7 +22,7 @@ class OtherUserFullModel with _$OtherUserFullModel {
   const OtherUserFullModel._();
 
   const factory OtherUserFullModel({
-    required ShortUserModel shortUserModel,
+    required ShortReadUserModel shortUserModel,
     required AdditionalUserModel additionalUserModel,
     required PrivateInfoUserModel? privateInfoUserModel,
     required UserConnectStatusEnum connectStatusEnum,
@@ -59,49 +56,77 @@ class AdditionalUserModel with _$AdditionalUserModel {
       _$AdditionalUserModelFromJson(json);
 }
 
-@freezed
-class ShortUserModel with _$ShortUserModel implements ShortUserEntity {
-  const ShortUserModel._();
+@Freezed(toJson: true)
+class ShortCreateUserModel with _$ShortCreateUserModel {
+  const ShortCreateUserModel._();
 
-  const factory ShortUserModel({
-    required String id,
-    required String nickname,
+  const factory ShortCreateUserModel({
+    required String username,
     required List<String> photos,
     required DateTime birthDate,
-    required DateTime createdAt,
-    @JsonKey(
-      includeFromJson: false,
-      includeToJson: false,
-    )
-    @Default(<String>[])
-        List<String> tags,
-    required int soulsCount,
-    @Default(<String>[])
-        List<String> commonTags,
-  }) = _ShortUserModel;
+    required DateTime createdDateTime,
+    required List<String> tags,
+  }) = _ShortCreateUserModel;
 
-  factory ShortUserModel.fromJson(Map<String, dynamic> json) =>
-      _$ShortUserModelFromJson(json);
+  //TODO!: check this
+  int get soulsCount => 0;
+
+  ShortUpdateUserModel get toUpdateShortModel {
+    return ShortUpdateUserModel(
+      username: username,
+      birthDate: birthDate,
+      photos: photos,
+      tags: tags,
+    );
+  }
+}
+
+@Freezed(toJson: true)
+class ShortUpdateUserModel with _$ShortUpdateUserModel {
+  const ShortUpdateUserModel._();
+
+  const factory ShortUpdateUserModel({
+    required String username,
+    required List<String> photos,
+    required DateTime birthDate,
+    required List<String> tags,
+  }) = _ShortUpdateUserModel;
+
+  factory ShortUpdateUserModel.fromJson(Map<String, dynamic> json) =>
+      _$ShortUpdateUserModelFromJson(json);
+}
+
+@Freezed(toJson: false)
+class ShortReadUserModel
+    with _$ShortReadUserModel
+    implements ShortReadUserEntity {
+  const ShortReadUserModel._();
+
+  const factory ShortReadUserModel({
+    required String id,
+    required String username,
+    required List<String> photos,
+    required DateTime birthDate,
+    required List<String> tags,
+    //*INFO: this gets filled later
+    @Default([]) List<String> commonTags,
+  }) = _ShortReadUserModel;
+
+  factory ShortReadUserModel.fromJson(Map<String, dynamic> json) =>
+      _$ShortReadUserModelFromJson(json);
 
   @override
   String get avatar => photos.first;
+
+  ShortUpdateUserModel get toUpdateModel {
+    return ShortUpdateUserModel(
+      username: username,
+      birthDate: birthDate,
+      photos: photos,
+      tags: tags,
+    );
+  }
 }
-
-// @freezed
-// class ShortUserWriteModel with _$ShortUserWriteModel {
-//   const ShortUserWriteModel._();
-
-//   const factory ShortUserWriteModel({
-//     required String nickname,
-//     required List<String> photos,
-//     required DateTime birthDate,
-//     required List<String> tags,
-//     @JsonKey(includeIfNull: false) int? soulsCount,
-//   }) = _ShortUserWriteModel;
-
-//   factory ShortUserWriteModel.fromJson(Map<String, dynamic> json) =>
-//       _$ShortUserWriteModelFromJson(json);
-// }
 
 @freezed
 class VeryShortUserModel with _$VeryShortUserModel {
@@ -109,23 +134,10 @@ class VeryShortUserModel with _$VeryShortUserModel {
 
   const factory VeryShortUserModel({
     required String id,
-    required String nickname,
+    required String username,
     required String photo,
   }) = _VeryShortUserModel;
 
   factory VeryShortUserModel.fromJson(Map<String, dynamic> json) =>
       _$VeryShortUserModelFromJson(json);
 }
-
-// @freezed
-// class AdditionalUserWriteModel with _$AdditionalUserWriteModel {
-//   const AdditionalUserWriteModel._();
-
-//   const factory AdditionalUserWriteModel({
-//     String? description,
-//     String? lookingFor,
-//   }) = _AdditionalUserWriteModel;
-
-//   factory AdditionalUserWriteModel.fromJson(Map<String, dynamic> json) =>
-//       _$AdditionalUserWriteModelFromJson(json);
-// }

@@ -25,11 +25,12 @@ class ExploreStateManager with ChangeNotifier {
   int _maxDistanceInKm = 100;
   int get maxDistanceInKm => _maxDistanceInKm;
 
-  List<ShortUserEntity> _nearbyUsers = [];
-  List<ShortUserEntity> get nearbyUsers => _nearbyUsers;
+  List<ShortReadUserEntity> _nearbyUsers = [];
+  List<ShortReadUserEntity> get nearbyUsers => _nearbyUsers;
 
-  List<ShortUserEntity> _usersWithMostCommonTags = [];
-  List<ShortUserEntity> get usersWithMostCommonTags => _usersWithMostCommonTags;
+  List<ShortReadUserEntity> _usersWithMostCommonTags = [];
+  List<ShortReadUserEntity> get usersWithMostCommonTags =>
+      _usersWithMostCommonTags;
 
   void changeMaxDistanceInKm(int newMaxDistanceInKm) {
     _maxDistanceInKm = newMaxDistanceInKm;
@@ -45,7 +46,6 @@ class ExploreStateManager with ChangeNotifier {
 
     final usersWithCommonTagsFuture =
         _userListRepo.getUsersWithMostCommonTags();
-
 
     final nearbyUsers = await nearbyUsersFuture;
     final usersWithCommonTags = await usersWithCommonTagsFuture;

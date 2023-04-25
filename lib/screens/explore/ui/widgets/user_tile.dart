@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../common/data/entities/user_entities.dart';
 
 class UserTile extends StatelessWidget {
-  final ShortUserEntity user;
+  final ShortReadUserEntity user;
 
   const UserTile({
     Key? key,
@@ -17,7 +17,7 @@ class UserTile extends StatelessWidget {
       leading: CircleAvatar(
         backgroundImage: CachedNetworkImageProvider(user.avatar),
       ),
-      title: Text(user.nickname),
+      title: Text(user.username),
       subtitle: Wrap(
         spacing: 8,
         runSpacing: 4,

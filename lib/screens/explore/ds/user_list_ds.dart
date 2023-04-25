@@ -18,7 +18,7 @@ abstract class UserListDS {
     required DateTime startDateTime,
   });
 
-  Future<Either<RequestFailure, List<ShortUserModel>>> getUsersByIds({
+  Future<Either<RequestFailure, List<ShortReadUserModel>>> getUsersByIds({
     required Set<String> userIds,
   });
 
@@ -26,7 +26,7 @@ abstract class UserListDS {
     required List<String> tags,
   });
 
-  Future<Either<RequestFailure, List<ShortUserModel>>> getFreshUsers(
+  Future<Either<RequestFailure, List<ShortReadUserModel>>> getFreshUsers(
       int maxQuantity);
 }
 
@@ -140,13 +140,13 @@ class UserListDSImpl implements UserListDS {
   // }
 
   @override
-  Future<Either<RequestFailure, List<ShortUserModel>>> getUsersByIds({
+  Future<Either<RequestFailure, List<ShortReadUserModel>>> getUsersByIds({
     required Set<String> userIds,
   }) async {
     if (userIds.isEmpty) {
       return right([]);
     }
-    final currentUserAndTags = await _profileDS.getUserAndProfileTags();
+    final currentUserAndTags = await _profileDS.getCurrentUserAndProfileTags();
 
     String? currentUserId;
     final Set<String> currentUserTags = {};
@@ -173,7 +173,7 @@ class UserListDSImpl implements UserListDS {
     final users = usersRaw.map(
       (r) => r.docs
           .map(
-            (e) => ShortUserModel.fromJson(
+            (e) => ShortReadUserModel.fromJson(
               e.data(),
             ),
           )
@@ -205,7 +205,8 @@ class UserListDSImpl implements UserListDS {
     }).toSet();
     for (var userId in userIds) {
       if (userIdToQuantityOfTagsInCommon.containsKey(userId)) {
-        userIdToQuantityOfTagsInCommon[userId] = userIdToQuantityOfTagsInCommon[userId]! + 1;
+        userIdToQuantityOfTagsInCommon[userId] =
+            userIdToQuantityOfTagsInCommon[userId]! + 1;
       } else {
         userIdToQuantityOfTagsInCommon[userId] = 1;
       }
@@ -215,7 +216,7 @@ class UserListDSImpl implements UserListDS {
   }
 
   @override
-  Future<Either<RequestFailure, List<ShortUserModel>>> getFreshUsers(
+  Future<Either<RequestFailure, List<ShortReadUserModel>>> getFreshUsers(
       int maxQuantity) async {
     final future = _firestore
         .collection(shortUserCollection)
@@ -223,8 +224,8 @@ class UserListDSImpl implements UserListDS {
         .limit(maxQuantity)
         .withConverter(
             fromFirestore: (snapshot, _) =>
-                ShortUserModel.fromJson(snapshot.data()!),
-            toFirestore: (ShortUserModel model, _) => model.toJson())
+                ShortReadUserModel.fromJson(snapshot.data()!),
+            toFirestore: (ShortReadUserModel model, _) => {})
         .get();
 
     final result = await _requestCheckWrapper(future);

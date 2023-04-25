@@ -54,6 +54,14 @@ class ProfileTextsManager with ChangeNotifier {
   Failure? _failure;
   Failure? get failure => _failure;
 
+  Set<String> get tagsToAddOnServer {
+    return _tagsToDisplay.difference(_initialTags);
+  }
+
+  Set<String> get tagsToRemoveOnServer {
+    return _initialTags.difference(_tagsToDisplay);
+  }
+
   void unfocusAllNodes() {
     _usernameFocusNode.unfocus();
     _descriptionFocusNode.unfocus();

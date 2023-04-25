@@ -10,11 +10,11 @@ import '../ds/user_list_ds.dart';
 import 'coordinates_repo.dart';
 
 abstract class UserListRepo {
-  Future<Either<Failure, List<ShortUserEntity>>> getUsersNearby({
+  Future<Either<Failure, List<ShortReadUserEntity>>> getUsersNearby({
     required int maxDistanceInKm,
   });
 
-  Future<Either<RequestFailure, List<ShortUserEntity>>>
+  Future<Either<RequestFailure, List<ShortReadUserEntity>>>
       getUsersWithMostCommonTags();
 }
 
@@ -31,7 +31,7 @@ class UserListRepoImpl implements UserListRepo {
   );
 
   @override
-  Future<Either<Failure, List<ShortUserEntity>>> getUsersNearby({
+  Future<Either<Failure, List<ShortReadUserEntity>>> getUsersNearby({
     required int maxDistanceInKm,
   }) async {
     // get users last location from storage
@@ -58,7 +58,7 @@ class UserListRepoImpl implements UserListRepo {
 
       final result = userIds.fold(
         (l) async {
-          return left<RequestFailure, List<ShortUserEntity>>(l);
+          return left<RequestFailure, List<ShortReadUserEntity>>(l);
         },
         (r) async {
           final users = await _userListDS.getUsersByIds(userIds: r);
@@ -71,10 +71,10 @@ class UserListRepoImpl implements UserListRepo {
   }
 
   @override
-  Future<Either<RequestFailure, List<ShortUserEntity>>>
+  Future<Either<RequestFailure, List<ShortReadUserEntity>>>
       getUsersWithMostCommonTags() async {
     // get tags of current user
-    final tags = _profileRepo.getProfileLocal()?.shortUserModel.tags;
+    final tags = _profileRepo.getShortProfileLocal()?.tags;
     if (tags == null || tags.isEmpty) {
       final freshUsers = await _userListDS.getFreshUsers(20);
       return freshUsers;

@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import '../../../widgets/custom_text_fields.dart';
 import '../../state/profile_texts_manager.dart';
 
-class NicknameTextField extends StatefulWidget {
+class UsernameTextField extends StatefulWidget {
   final FocusNode focusNode;
   final TextEditingController textEditingController;
   final void Function() triggerValidationOnForm;
-  const NicknameTextField({
+  const UsernameTextField({
     required this.focusNode,
     required this.textEditingController,
     required this.triggerValidationOnForm,
@@ -16,12 +16,12 @@ class NicknameTextField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _NicknameTextFieldState createState() => _NicknameTextFieldState();
+  _UsernameTextFieldState createState() => _UsernameTextFieldState();
 }
 
-class _NicknameTextFieldState extends State<NicknameTextField> {
-  bool _isNicknameFree = true;
-  String? _previouslyCheckedNickname;
+class _UsernameTextFieldState extends State<UsernameTextField> {
+  bool _isUsernameFree = true;
+  String? _previouslyCheckedUsername;
   String? _initialValue;
 
   @override
@@ -36,45 +36,45 @@ class _NicknameTextFieldState extends State<NicknameTextField> {
   ///* async function inside that check is nickname free
   ///* that is why _isNicknameFree field and void
   ///* function _checkNicknameIsFree are used
-  String? _nicknameValidator(
-    String nickname,
+  String? _usernameValidator(
+    String username,
   ) {
-    if (_initialValue == nickname) return null;
-    final nicknameErrorMessage = _basicCheckNickname(nickname);
-    if (nicknameErrorMessage != null) return nicknameErrorMessage;
-    _checkNicknameIsFreeThenWaitForResponseThenTriggerValidationAgain(nickname);
-    if (!_isNicknameFree) {
+    if (_initialValue == username) return null;
+    final usernameErrorMessage = _basicCheckUsername(username);
+    if (usernameErrorMessage != null) return usernameErrorMessage;
+    _checkUsernameIsFreeThenWaitForResponseThenTriggerValidationAgain(username);
+    if (!_isUsernameFree) {
       return 'This username is taken';
     } else {
       return null;
     }
   }
 
-  String? _basicCheckNickname(String nickname) {
-    if (_previouslyCheckedNickname != nickname) {
-      if (nickname.length < 4 || nickname.length > 15) {
+  String? _basicCheckUsername(String username) {
+    if (_previouslyCheckedUsername != username) {
+      if (username.length < 4 || username.length > 15) {
         return 'Username can be 4 to 15 symbols long';
       }
-      if (!RegExp(r"^[a-z0-9]*$").hasMatch(nickname)) {
+      if (!RegExp(r"^[a-z0-9]*$").hasMatch(username)) {
         return 'Username can only contain lowercase letters and numbers';
       }
     }
     return null;
   }
 
-  void _checkNicknameIsFreeThenWaitForResponseThenTriggerValidationAgain(
+  void _checkUsernameIsFreeThenWaitForResponseThenTriggerValidationAgain(
       String username) async {
-    if (_previouslyCheckedNickname != username) {
-      _previouslyCheckedNickname = username;
+    if (_previouslyCheckedUsername != username) {
+      _previouslyCheckedUsername = username;
 
-      final isNicknameFreeResponse = await context
+      final isUsernameFreeResponse = await context
           .read<ProfileTextsManager>()
           .checkUsernameIsFree(username);
 
-      if (_isNicknameFree != isNicknameFreeResponse) {
+      if (_isUsernameFree != isUsernameFreeResponse) {
         setState(() {
           // set state really needed here? Dunno
-          _isNicknameFree = isNicknameFreeResponse;
+          _isUsernameFree = isUsernameFreeResponse;
         });
         //* this will trigget nickname validator to run again
         widget.triggerValidationOnForm();
@@ -91,7 +91,7 @@ class _NicknameTextFieldState extends State<NicknameTextField> {
       textInputType: TextInputType.text,
       isSecret: false,
       textEditingController: widget.textEditingController,
-      validatorFunction: _nicknameValidator,
+      validatorFunction: _usernameValidator,
       fillColor: Colors.transparent,
       enableSuggestions: false,
       autocorrect: false,
