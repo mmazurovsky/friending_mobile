@@ -28,7 +28,7 @@ class CTextField extends StatelessWidget {
     required this.textInputType,
     required this.isSecret,
     required this.textEditingController,
-    required this.fillColor,
+    this.fillColor = Colors.transparent,
     // required this.activeBorderColor,
     // required this.inactiveBorderColor,
     this.validatorFunction,

@@ -12,20 +12,22 @@ class TagsAdder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CTextField(
-          title: 'Add tags',
-          textInputType: TextInputType.text,
-          isSecret: false,
-          textEditingController:
-              context.read<ProfileTextsManager>().addTagsController,
-          focusNode: context.read<ProfileTextsManager>().addTagsFocusNode,
-          fillColor: Colors.amber,
+        Expanded(
+          child: CTextField(
+            title: 'Add tags',
+            textInputType: TextInputType.text,
+            isSecret: false,
+            textEditingController:
+                context.read<ProfileTextsManager>().addTagsController,
+            focusNode: context.read<ProfileTextsManager>().addTagsFocusNode,
+          ),
         ),
-        const SizedBox(width: 5),
-        PlatformElevatedButton(
+        // const SizedBox(width: 5),
+        PlatformTextButton(
           onPressed: context.read<ProfileTextsManager>().addTags,
           child: const Text('Add all'),
         ),
+        const SizedBox(width: 5),
       ],
     );
   }

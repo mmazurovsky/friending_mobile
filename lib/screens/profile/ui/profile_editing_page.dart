@@ -12,6 +12,8 @@ import '../state/profile_images_manager.dart';
 import '../state/profile_texts_manager.dart';
 import 'widgets/date_widget.dart';
 import 'widgets/profile_images_grid.dart';
+import 'widgets/tags_adder.dart';
+import 'widgets/tags_displayer.dart';
 import 'widgets/username_text_field.dart';
 
 class ProfileEditingPage extends StatelessWidget {
@@ -38,10 +40,13 @@ class ProfileEditingPage extends StatelessWidget {
           body: SingleChildScrollView(
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 ProfileImagesGrid(),
                 SizedBox(height: 20),
-                GeneralInfoEditingSection(),
+                TagsEditingSection(),
+                SizedBox(height: 20),
+                TextInfoEditingSection(),
               ],
             ),
           ),
@@ -51,15 +56,32 @@ class ProfileEditingPage extends StatelessWidget {
   }
 }
 
-class GeneralInfoEditingSection extends StatefulWidget {
-  const GeneralInfoEditingSection({super.key});
+class TagsEditingSection extends StatelessWidget {
+  const TagsEditingSection({super.key});
 
   @override
-  State<GeneralInfoEditingSection> createState() =>
-      _GeneralInfoEditingSectionState();
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        TagsAdder(),
+        SizedBox(
+          height: 10,
+        ),
+        TagsDisplayer(),
+      ],
+    );
+  }
 }
 
-class _GeneralInfoEditingSectionState extends State<GeneralInfoEditingSection> {
+class TextInfoEditingSection extends StatefulWidget {
+  const TextInfoEditingSection({super.key});
+
+  @override
+  State<TextInfoEditingSection> createState() => _TextInfoEditingSectionState();
+}
+
+class _TextInfoEditingSectionState extends State<TextInfoEditingSection> {
   final _formKey = GlobalKey<FormState>();
 
   void _triggerFormValidation() {
@@ -117,10 +139,13 @@ class _GeneralInfoEditingSectionState extends State<GeneralInfoEditingSection> {
                 context.read<ProfileTextsManager>().telegramUsernameFocusNode,
             fillColor: Colors.transparent,
           ),
+          const SizedBox(
+            height: 50,
+          ),
         ]
             .mapWidgetsSeparated(
               separator: const SizedBox(
-                height: Spaces.unit2,
+                height: Spaces.unit4,
               ),
             )
             .toList(),

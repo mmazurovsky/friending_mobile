@@ -49,6 +49,13 @@ class Themes {
       hoverColor: Colors.transparent,
       focusColor: Colors.transparent,
       highlightColor: Colors.transparent,
+      inputDecorationTheme: const InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.grey,
+          ),
+        ),
+      ),
     );
   }
 
@@ -62,6 +69,13 @@ class Themes {
       hoverColor: Colors.transparent,
       focusColor: Colors.transparent,
       highlightColor: Colors.transparent,
+      inputDecorationTheme: const InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }

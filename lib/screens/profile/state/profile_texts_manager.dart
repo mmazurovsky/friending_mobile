@@ -101,6 +101,7 @@ class ProfileTextsManager with ChangeNotifier {
     });
     if (inputTags.isNotEmpty) {
       _addTagsSet(inputTags);
+      _addTagsController.clear();
     }
   }
 
