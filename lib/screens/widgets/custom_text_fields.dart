@@ -21,6 +21,7 @@ class CTextField extends StatelessWidget {
   final Iterable<String>? autofillHints;
   final bool? autocorrect;
   final bool enabled;
+  final bool requiresMargin;
 
   const CTextField({
     Key? key,
@@ -41,36 +42,41 @@ class CTextField extends StatelessWidget {
     this.maxLength,
     this.autocorrect,
     this.enabled = true,
+    this.requiresMargin = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: CEdgeInsets.horizontalStandart,
-      child: TextFormField(
-        initialValue: initialValue,
-        enabled: enabled,
-        focusNode: focusNode,
-        controller: textEditingController,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: (value) =>
-            validatorFunction != null ? validatorFunction!(value) : null,
-        decoration: InputDecoration(
-          hintText: hintText,
-          labelText: title,
-          floatingLabelBehavior: FloatingLabelBehavior.auto,
-          filled: true,
-          fillColor: fillColor,
-        ),
-        keyboardType: textInputType,
-        obscureText: isSecret,
-        maxLines: maxLines,
-        enableSuggestions: enableSuggestions ?? true,
-        autofillHints: autofillHints,
-        maxLength: maxLength,
-        maxLengthEnforcement: MaxLengthEnforcement.enforced,
-        autocorrect: autocorrect ?? true,
+    final textField = TextFormField(
+      initialValue: initialValue,
+      enabled: enabled,
+      focusNode: focusNode,
+      controller: textEditingController,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) =>
+          validatorFunction != null ? validatorFunction!(value) : null,
+      decoration: InputDecoration(
+        hintText: hintText,
+        labelText: title,
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        filled: true,
+        fillColor: fillColor,
       ),
+      keyboardType: textInputType,
+      obscureText: isSecret,
+      maxLines: maxLines,
+      minLines: 1,
+      enableSuggestions: enableSuggestions ?? true,
+      autofillHints: autofillHints,
+      maxLength: maxLength,
+      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+      autocorrect: autocorrect ?? true,
     );
+    return requiresMargin
+        ? Container(
+            margin: CEdgeInsets.horizontalStandart,
+            child: textField,
+          )
+        : textField;
   }
 }

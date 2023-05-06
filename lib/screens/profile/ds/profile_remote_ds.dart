@@ -365,8 +365,15 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
     }, (r) => null);
 
     final finalResult = result.map(
-      (r) => List<String>.from(
-          (r.data()! as Map<String, dynamic>)['photos'] as List),
+      (r) {
+        final data = r.data();
+        if (data == null) {
+          return <String>[];
+        } else {
+          return List<String>.from(
+              (data as Map<String, dynamic>)['photos'] as List);
+        }
+      },
     );
 
     return finalResult;

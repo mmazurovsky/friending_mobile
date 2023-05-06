@@ -15,27 +15,27 @@ class TagsDisplayer extends StatelessWidget {
         ? Padding(
             padding: CEdgeInsets.horizontalStandart,
             child: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.start,
-              alignment: WrapAlignment.start,
-              runAlignment: WrapAlignment.start,
-              runSpacing: 1,
-              spacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.start,
+                alignment: WrapAlignment.start,
+                runAlignment: WrapAlignment.start,
+                runSpacing: 1,
+                spacing: 8,
                 children: tagsToDisplay.map(
-              (e) {
-                return Chip(
-                  label: Text(e),
-                  onDeleted: () {
-                    context.read<ProfileTextsManager>().removeTag(e);
+                  (e) {
+                    return Chip(
+                      label: Text(e),
+                      onDeleted: () {
+                        context.read<ProfileTextsManager>().removeTag(e);
+                      },
+                    );
                   },
-                );
-              },
-            ).toList()),
+                ).toList()),
           )
         : Container(
             padding: CEdgeInsets.horizontalStandart,
             alignment: Alignment.centerLeft,
             child: const Text(
-              'Tags are empty',
+              "Add your first tags to see people who share your interests! Example: \"cats, vegan, radiohead, crying\"",
             ),
           );
   }

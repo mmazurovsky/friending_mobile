@@ -37,17 +37,19 @@ class ProfileEditingPage extends StatelessWidget {
       ],
       builder: (context, _) {
         return Scaffold(
-          body: SingleChildScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                ProfileImagesGrid(),
-                SizedBox(height: 20),
-                TagsEditingSection(),
-                SizedBox(height: 20),
-                TextInfoEditingSection(),
-              ],
+          body: SafeArea(
+            child: SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  ProfileImagesGrid(),
+                  SizedBox(height: 20),
+                  TagsEditingSection(),
+                  SizedBox(height: 20),
+                  TextInfoEditingSection(),
+                ],
+              ),
             ),
           ),
         );
@@ -103,21 +105,25 @@ class _TextInfoEditingSectionState extends State<TextInfoEditingSection> {
           const DateWidget(),
           CTextField(
             title: 'Description',
-            textInputType: TextInputType.text,
+            textInputType: TextInputType.multiline,
             isSecret: false,
             textEditingController:
                 context.read<ProfileTextsManager>().descriptionController,
             focusNode: context.read<ProfileTextsManager>().descriptionFocusNode,
             fillColor: Colors.transparent,
+            maxLines: 7,
+            maxLength: 32 * 7,
           ),
           CTextField(
             title: 'Looking for',
-            textInputType: TextInputType.text,
+            textInputType: TextInputType.multiline,
             isSecret: false,
             textEditingController:
                 context.read<ProfileTextsManager>().lookingForController,
             focusNode: context.read<ProfileTextsManager>().lookingForFocusNode,
             fillColor: Colors.transparent,
+            maxLines: 4,
+            maxLength: 32 * 4,
           ),
           CTextField(
             title: 'Instragram username',

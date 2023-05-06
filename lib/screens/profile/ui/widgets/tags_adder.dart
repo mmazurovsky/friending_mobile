@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_starter/screens/widgets/custom_edge_insets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -10,25 +11,32 @@ class TagsAdder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: CTextField(
-            title: 'Add tags',
-            textInputType: TextInputType.text,
-            isSecret: false,
-            textEditingController:
-                context.read<ProfileTextsManager>().addTagsController,
-            focusNode: context.read<ProfileTextsManager>().addTagsFocusNode,
+    return Padding(
+      padding: CEdgeInsets.horizontalStandart,
+      child: Row(
+        children: [
+          Expanded(
+            child: CTextField(
+              requiresMargin: false,
+              title: 'Your tags (interests)',
+              textInputType: TextInputType.text,
+              isSecret: false,
+              textEditingController:
+                  context.read<ProfileTextsManager>().addTagsController,
+              focusNode: context.read<ProfileTextsManager>().addTagsFocusNode,
+            ),
           ),
-        ),
-        // const SizedBox(width: 5),
-        PlatformTextButton(
-          onPressed: context.read<ProfileTextsManager>().addTags,
-          child: const Text('Add all'),
-        ),
-        const SizedBox(width: 5),
-      ],
+          // const SizedBox(width: 5),
+          PlatformTextButton(
+            alignment: Alignment.center,
+            onPressed: context.read<ProfileTextsManager>().addTags,
+            child: const Text(
+              'Add tags',
+            ),
+          ),
+          // const SizedBox(width: 5),
+        ],
+      ),
     );
   }
 }

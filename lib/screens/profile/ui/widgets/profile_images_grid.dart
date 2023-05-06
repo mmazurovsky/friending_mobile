@@ -1,5 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import '../../../widgets/custom_edge_insets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
@@ -46,36 +47,41 @@ class _ProfileImagesGridState extends State<ProfileImagesGrid> {
                 },
               ).toList();
 
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ReorderableGridView.count(
-                      onDragStart: (dragIndex) {
-                        context.read<ProfileTextsManager>().unfocusAllNodes();
-                      },
-                      onReorder: (oldIndex, newIndex) {
-                        context
-                            .read<ProfileImagesManager>()
-                            .reorderManagers(oldIndex, newIndex);
-                      },
-                      dragStartDelay: const Duration(milliseconds: 200),
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 5,
-                      crossAxisSpacing: 5,
-                      shrinkWrap: true,
-                      children: images,
-                    ),
-                    const SizedBox(
-                      height: Spaces.unit2,
-                    ),
-                    PlatformElevatedButton(
-                      onPressed: () => context
+              return Column(
+                children: [
+                  ReorderableGridView.count(
+                    padding: CEdgeInsets.horizontalStandart,
+                    onDragStart: (dragIndex) {
+                      context.read<ProfileTextsManager>().unfocusAllNodes();
+                    },
+                    onReorder: (oldIndex, newIndex) {
+                      context
                           .read<ProfileImagesManager>()
-                          .uploadNewPhotosAndUpdatePrifle(),
-                      child: Text('Update profile photos'),
+                          .reorderManagers(oldIndex, newIndex);
+                    },
+                    dragStartDelay: const Duration(milliseconds: 200),
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 5,
+                    crossAxisSpacing: 5,
+                    shrinkWrap: true,
+                    children: images,
+                  ),
+                  const SizedBox(
+                    height: Spaces.unit2,
+                  ),
+                  Padding(
+                    padding: CEdgeInsets.horizontalStandart,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: PlatformElevatedButton(
+                        onPressed: () => context
+                            .read<ProfileImagesManager>()
+                            .uploadNewPhotosAndUpdatePrifle(),
+                        child: Text('Update profile photos'),
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             },
           );
