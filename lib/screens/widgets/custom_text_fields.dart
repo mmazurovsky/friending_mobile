@@ -22,6 +22,8 @@ class CTextField extends StatelessWidget {
   final bool? autocorrect;
   final bool enabled;
   final bool requiresMargin;
+  final List<TextInputFormatter>? inputFormatters;
+  final Widget? counter;
 
   const CTextField({
     Key? key,
@@ -43,6 +45,8 @@ class CTextField extends StatelessWidget {
     this.autocorrect,
     this.enabled = true,
     this.requiresMargin = true,
+    this.inputFormatters,
+    this.counter,
   }) : super(key: key);
 
   @override
@@ -61,6 +65,7 @@ class CTextField extends StatelessWidget {
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         filled: true,
         fillColor: fillColor,
+        counter: counter,
       ),
       keyboardType: textInputType,
       obscureText: isSecret,
@@ -71,6 +76,7 @@ class CTextField extends StatelessWidget {
       maxLength: maxLength,
       maxLengthEnforcement: MaxLengthEnforcement.enforced,
       autocorrect: autocorrect ?? true,
+      inputFormatters: inputFormatters,
     );
     return requiresMargin
         ? Container(

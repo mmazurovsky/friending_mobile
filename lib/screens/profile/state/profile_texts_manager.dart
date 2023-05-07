@@ -6,9 +6,9 @@ import '../../../common/utils/extensions.dart';
 import '../repo/profile_repo.dart';
 
 @injectable
-class ProfileTextsManager with ChangeNotifier {
+class ProfileTextsAndTagsManager with ChangeNotifier {
   final ProfileRepo _profileRepo;
-  ProfileTextsManager(this._profileRepo);
+  ProfileTextsAndTagsManager(this._profileRepo);
 
   final _usernameController = TextEditingController();
   TextEditingController get usernameController => _usernameController;

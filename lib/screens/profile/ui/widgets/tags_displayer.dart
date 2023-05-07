@@ -9,7 +9,8 @@ class TagsDisplayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tagsToDisplay = context.watch<ProfileTextsManager>().tagsToDisplay;
+    final tagsToDisplay =
+        context.watch<ProfileTextsAndTagsManager>().tagsToDisplay;
     // create widget to display tags of profile as wrap with chips
     return tagsToDisplay.isNotEmpty
         ? Padding(
@@ -25,7 +26,7 @@ class TagsDisplayer extends StatelessWidget {
                     return Chip(
                       label: Text(e),
                       onDeleted: () {
-                        context.read<ProfileTextsManager>().removeTag(e);
+                        context.read<ProfileTextsAndTagsManager>().removeTag(e);
                       },
                     );
                   },

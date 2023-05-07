@@ -65,21 +65,21 @@ class _ProfileImagesGridState extends State<ProfileImagesGrid> {
                     shrinkWrap: true,
                     children: images,
                   ),
-                  const SizedBox(
-                    height: Spaces.unit2,
-                  ),
-                  Padding(
-                    padding: CEdgeInsets.horizontalStandart,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: PlatformElevatedButton(
-                        onPressed: () => context
-                            .read<ProfileImagesManager>()
-                            .uploadNewPhotosAndUpdatePrifle(),
-                        child: Text('Update profile photos'),
-                      ),
-                    ),
-                  ),
+                  // const SizedBox(
+                  //   height: Spaces.unit2,
+                  // ),
+                  // Padding(
+                  //   padding: CEdgeInsets.horizontalStandart,
+                  //   child: SizedBox(
+                  //     width: double.infinity,
+                  //     child: PlatformElevatedButton(
+                  //       onPressed: () => context
+                  //           .read<ProfileImagesManager>()
+                  //           .uploadNewPhotosToRemote(),
+                  //       child: Text('Update profile photos'),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               );
             },
@@ -101,7 +101,7 @@ class ImageContent extends StatelessWidget {
             padding: const EdgeInsets.all(5),
             child: GestureDetector(
               onTap: () {
-                context.read<ProfileTextsManager>().unfocusAllNodes();
+                context.read<ProfileTextsAndTagsManager>().unfocusAllNodes();
                 context.read<SingleProfileImageManager>().removePhoto();
               },
               child: Container(
@@ -156,7 +156,7 @@ class ImageContent extends StatelessWidget {
       onTap: () {
         if (context.read<SingleProfileImageManager>().isLoading) {
         } else {
-          context.read<ProfileTextsManager>().unfocusAllNodes();
+          context.read<ProfileTextsAndTagsManager>().unfocusAllNodes();
           context.read<SingleProfileImageManager>().addPhotoFile(
                 backgroundColor: context.theme.colorScheme.background,
                 toolbarColor: context.theme.colorScheme.primary,

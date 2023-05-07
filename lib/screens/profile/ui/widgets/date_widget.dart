@@ -12,7 +12,7 @@ class DateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        final manager = context.read<ProfileTextsManager>();
+        final manager = context.read<ProfileTextsAndTagsManager>();
         final pickedDate = await showPlatformDatePicker(
             context: context,
             initialDate: manager.birthDate ?? DateTime(2007, 1, 1),
@@ -31,7 +31,7 @@ class DateWidget extends StatelessWidget {
             isSecret: false,
             fillColor: Colors.transparent,
             textEditingController:
-                context.watch<ProfileTextsManager>().birthDateController,
+                context.watch<ProfileTextsAndTagsManager>().birthDateController,
           ),
         ),
       ),

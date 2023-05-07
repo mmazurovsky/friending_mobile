@@ -10,7 +10,7 @@ import 'profile_texts_manager.dart';
 
 class ProfileEditingManager with ChangeNotifier {
   final ProfileImagesManager _imagesManager;
-  final ProfileTextsManager _textsManager;
+  final ProfileTextsAndTagsManager _textsManager;
   final ProfileRepo _profileRepo;
   final AuthRepo _authRepo;
 

@@ -68,7 +68,7 @@ class _UsernameTextFieldState extends State<UsernameTextField> {
       _previouslyCheckedUsername = username;
 
       final isUsernameFreeResponse = await context
-          .read<ProfileTextsManager>()
+          .read<ProfileTextsAndTagsManager>()
           .checkUsernameIsFree(username);
 
       if (_isUsernameFree != isUsernameFreeResponse) {

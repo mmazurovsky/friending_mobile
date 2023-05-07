@@ -25,6 +25,10 @@ class ProfileImagesManager with ChangeNotifier {
 
   List<SingleProfileImageManager> get managers => _managers;
 
+  bool get areThereUploadedPhotosInManagers {
+    return _managers.any((element) => element.photo.url != null);
+  }
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
@@ -75,9 +79,9 @@ class ProfileImagesManager with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> uploadNewPhotosAndUpdatePrifle() async {
+  Future<void> uploadNewPhotosToRemote() async {
     await _uploadPhotosToGetTheirUrlsAndUpdateManagers();
-    _updateProfilePhotos();
+    // _updateProfilePhotos();
   }
 
   Future<void> _uploadPhotosToGetTheirUrlsAndUpdateManagers() async {
@@ -128,13 +132,13 @@ class ProfileImagesManager with ChangeNotifier {
     );
   }
 
-  Future<void> _updateProfilePhotos() async {
-    final photosWithTheRightOrder = _managers
-        .map(
-          (e) => e.photo.url,
-        )
-        .whereType<String>()
-        .toList();
-    _profileRepo.updateProfilePhotos(photosWithTheRightOrder);
-  }
+  // Future<void> _updateProfilePhotos() async {
+  //   final photosWithTheRightOrder = _managers
+  //       .map(
+  //         (e) => e.photo.url,
+  //       )
+  //       .whereType<String>()
+  //       .toList();
+  //   _profileRepo.updateProfilePhotos(photosWithTheRightOrder);
+  // }
 }

@@ -22,14 +22,15 @@ class TagsAdder extends StatelessWidget {
               textInputType: TextInputType.text,
               isSecret: false,
               textEditingController:
-                  context.read<ProfileTextsManager>().addTagsController,
-              focusNode: context.read<ProfileTextsManager>().addTagsFocusNode,
+                  context.read<ProfileTextsAndTagsManager>().addTagsController,
+              focusNode:
+                  context.read<ProfileTextsAndTagsManager>().addTagsFocusNode,
             ),
           ),
           // const SizedBox(width: 5),
           PlatformTextButton(
             alignment: Alignment.center,
-            onPressed: context.read<ProfileTextsManager>().addTags,
+            onPressed: context.read<ProfileTextsAndTagsManager>().addTags,
             child: const Text(
               'Add tags',
             ),

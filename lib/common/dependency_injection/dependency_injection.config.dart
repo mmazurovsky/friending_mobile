@@ -144,8 +144,8 @@ _i1.GetIt init(
         gh<_i18.ProfileLocalDS>(),
         gh<_i29.ProfileRemoteDS>(),
       ));
-  gh.factory<_i31.ProfileTextsManager>(
-      () => _i31.ProfileTextsManager(gh<_i30.ProfileRepo>()));
+  gh.factory<_i31.ProfileTextsAndTagsManager>(
+      () => _i31.ProfileTextsAndTagsManager(gh<_i30.ProfileRepo>()));
   gh.lazySingleton<_i32.SoulsDS>(() => _i32.SoulsDSImpl(
         gh<_i19.RequestCheckWrapper>(),
         gh<_i10.FirebaseFirestore>(),
