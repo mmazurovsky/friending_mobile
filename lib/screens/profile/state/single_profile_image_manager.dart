@@ -109,6 +109,8 @@ class ProfileImageData {
   final String? url;
   final File? file;
 
+  bool get isEmpty => url == null && file == null;
+
   ProfileImageData({
     this.url,
     this.file,

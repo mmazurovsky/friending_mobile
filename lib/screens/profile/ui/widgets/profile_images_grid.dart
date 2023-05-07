@@ -1,6 +1,5 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import '../../../widgets/custom_edge_insets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +7,7 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../../../../common/bag/stateful/spaces.dart';
 import '../../../../common/bag/stateful/theme.dart';
+import '../../../widgets/custom_edge_insets.dart';
 import '../../../widgets/loading.dart';
 import '../../../widgets/my_cached_network_image.dart';
 import '../../state/profile_images_manager.dart';
@@ -50,9 +50,18 @@ class _ProfileImagesGridState extends State<ProfileImagesGrid> {
               return Column(
                 children: [
                   ReorderableGridView.count(
+                    
                     padding: CEdgeInsets.horizontalStandart,
-                    keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
+                    
                     onDragStart: (dragIndex) {
+                      // final draggedManager = context
+                      //     .read<ProfileImagesManager>()
+                      //     .managers[dragIndex];
+                      //     if (draggedManager.photo.isEmpty) {
+
+                      //     }
                       // context.read<ProfileTextsManager>().unfocusAllNodes();
                     },
                     onReorder: (oldIndex, newIndex) {
