@@ -54,6 +54,7 @@ class CoordinatesRepoImpl implements CoordinatesRepo {
       return futureForRemote;
     } else {
       _lastPositionUpdate = null;
+      await _coordinatesLocalDS.deletePosition();
       return left(
         RequestFailure.client(
           m: Strings.failures.clientFailure,

@@ -32,7 +32,7 @@ class ProfileImagesManager with ChangeNotifier {
     _isLoading = true;
     final photosRaw = await _profileRepo.getProfilePhotos();
 
-    late List<String> photos;
+    List<String> photos = [];
 
     photosRaw.fold((l) => null, (r) => photos = r);
 

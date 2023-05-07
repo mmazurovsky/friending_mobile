@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SingleProfileImageManager with ChangeNotifier {
   // final int _orderOfManager;
@@ -28,43 +30,52 @@ class SingleProfileImageManager with ChangeNotifier {
     required Color backgroundColor,
     required Color toolbarColor,
   }) async {
-    _isLoading = true;
-
-    final pickedFile =
-        await _imagePicker.pickImage(source: ImageSource.gallery);
-    CroppedFile? croppedFile;
-    if (pickedFile != null) {
-      croppedFile = await _imageCropper.cropImage(
-        sourcePath: pickedFile.path,
-        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-        aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-        ],
-        uiSettings: [
-          AndroidUiSettings(
-            toolbarTitle: 'Crop image',
-            toolbarColor: toolbarColor,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: true,
-            backgroundColor: backgroundColor,
-            hideBottomControls: true,
-          ),
-          IOSUiSettings(
-            minimumAspectRatio: 1.0,
-            aspectRatioLockEnabled: true,
-            resetAspectRatioEnabled: false,
-          ),
-        ],
-      );
+    PermissionStatus imagePermissionStatus = await Permission.photos.status;
+    if (imagePermissionStatus == PermissionStatus.permanentlyDenied) {
+      //TODO add dialog and explain that user needs to go to settings and enable permissions
+      await Geolocator.openAppSettings();
     }
 
-    if (croppedFile != null) {
-      final pickedCroppedImageAsFile = File(croppedFile.path);
-      _photo = ProfileImageData(file: pickedCroppedImageAsFile);
-    }
+    if (imagePermissionStatus == PermissionStatus.granted ||
+        imagePermissionStatus == PermissionStatus.limited) {
+      _isLoading = true;
 
-    _isLoading = false;
-    notifyListeners();
+      final pickedFile =
+          await _imagePicker.pickImage(source: ImageSource.gallery);
+      CroppedFile? croppedFile;
+      if (pickedFile != null) {
+        croppedFile = await _imageCropper.cropImage(
+          sourcePath: pickedFile.path,
+          aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          uiSettings: [
+            AndroidUiSettings(
+              toolbarTitle: 'Crop image',
+              toolbarColor: toolbarColor,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: true,
+              backgroundColor: backgroundColor,
+              hideBottomControls: true,
+            ),
+            IOSUiSettings(
+              minimumAspectRatio: 1.0,
+              aspectRatioLockEnabled: true,
+              resetAspectRatioEnabled: false,
+            ),
+          ],
+        );
+      }
+
+      if (croppedFile != null) {
+        final pickedCroppedImageAsFile = File(croppedFile.path);
+        _photo = ProfileImageData(file: pickedCroppedImageAsFile);
+      }
+
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   void switchProgressIndicator(bool isLoading) {

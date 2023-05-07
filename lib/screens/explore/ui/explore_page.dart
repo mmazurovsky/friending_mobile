@@ -4,7 +4,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/bag/stateful/spaces.dart';
-import '../../../common/bag/stateful/theme.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/navigation/auto_router/app_router.dart';
 import '../../../common/navigation/navigation_tab.dart';
@@ -50,18 +49,9 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
               context.read<GlobalKey<ScaffoldMessengerState>>();
           scaffoldMessengerKey.currentState
             ?..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    Spaces.unit1,
-                  ),
-                ),
-                backgroundColor: context.theme.snackBarTheme.backgroundColor,
-                content: CustomSnackBarContent(
-                  failure.forUser,
-                ),
-                duration: const Duration(milliseconds: 1400),
+            ..showCSnackBar(
+              CustomSnackBarContent(
+                failure.forUser,
               ),
             );
         }

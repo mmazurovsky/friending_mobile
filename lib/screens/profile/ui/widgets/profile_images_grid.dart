@@ -51,8 +51,9 @@ class _ProfileImagesGridState extends State<ProfileImagesGrid> {
                 children: [
                   ReorderableGridView.count(
                     padding: CEdgeInsets.horizontalStandart,
+                    keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                     onDragStart: (dragIndex) {
-                      context.read<ProfileTextsManager>().unfocusAllNodes();
+                      // context.read<ProfileTextsManager>().unfocusAllNodes();
                     },
                     onReorder: (oldIndex, newIndex) {
                       context

@@ -4,8 +4,6 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 
 import '../../screens/widgets/snack_bar.dart';
-import '../bag/stateful/spaces.dart';
-import '../bag/stateful/theme.dart';
 
 class ConnectionListenerWidget extends StatefulWidget {
   final Widget child;
@@ -36,18 +34,9 @@ class _ConnectionListenerWidgetState extends State<ConnectionListenerWidget> {
         if (!hasConnection && context.mounted) {
           scaffoldMessengerKey.currentState
             ?..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    Spaces.unit1,
-                  ),
-                ),
-                backgroundColor: context.theme.snackBarTheme.backgroundColor,
-                content: const CustomSnackBarContent(
-                  'No internet connection',
-                ),
-                duration: const Duration(milliseconds: 1400),
+            ..showCSnackBar(
+              const CustomSnackBarContent(
+                'No internet connection',
               ),
             );
         }
