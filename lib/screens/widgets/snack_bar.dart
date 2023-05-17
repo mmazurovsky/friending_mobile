@@ -31,10 +31,11 @@ class CustomSnackBarContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: Spaces.unit2,
+        horizontal: Spaces.unit3,
         vertical: Spaces.unit4,
       ),
       alignment: Alignment.centerLeft,
+      color: Colors.grey.shade600,
       child: Text(
         _message,
         style: TextStyle(

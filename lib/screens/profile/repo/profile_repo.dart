@@ -23,10 +23,12 @@ abstract class ProfileRepo {
   Future<Either<RequestFailure, void>> updateProfilePhotos(
       List<String> profilePhotoUrls);
   ShortUpdateUserModel? getShortProfileLocal();
-  Future<void> fetchProfileFromRemoteAndSaveLocally();
+  Future<Either<RequestFailure, FullReadUserModel?>>
+      fetchProfileFromRemoteAndSaveLocally();
   Future<void> deleteProfileLocal();
   Future<Either<RequestFailure, List<String>>> getProfilePhotos();
   Future<bool> isUsernameFree(String username);
+  Stream<ShortReadUserModel?> getProfileStream();
 }
 
 @LazySingleton(as: ProfileRepo)
@@ -85,16 +87,23 @@ class ProfileRepoImpl implements ProfileRepo {
   }
 
   @override
-  Future<void> fetchProfileFromRemoteAndSaveLocally() {
-    return _profileRemoteDS.getFullProfile().then(
-      (value) {
-        value.fold(
-          (l) {},
-          (r) =>
-              _profileLocalDS.saveShortProfile(r.shortUserModel.toUpdateModel),
-        );
-      },
-    );
+  Future<Either<RequestFailure, FullReadUserModel?>>
+      fetchProfileFromRemoteAndSaveLocally() {
+    return _profileRemoteDS.getFullProfile()
+      ..then(
+        (value) {
+          value.fold(
+            (l) {},
+            (r) {
+              final profileToSaveLocally =
+                  r?.shortUserModel.convertToUpdateModel;
+              if (profileToSaveLocally != null) {
+                _profileLocalDS.saveShortProfile(profileToSaveLocally);
+              }
+            },
+          );
+        },
+      );
   }
 
   @override
@@ -111,5 +120,10 @@ class ProfileRepoImpl implements ProfileRepo {
   @override
   Future<bool> isUsernameFree(String username) {
     return _profileRemoteDS.isUsernameFree(username);
+  }
+  
+  @override
+  Stream<ShortReadUserModel?> getProfileStream() {
+    return _profileRemoteDS.getProfileStream();
   }
 }

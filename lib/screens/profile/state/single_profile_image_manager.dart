@@ -36,8 +36,8 @@ class SingleProfileImageManager with ChangeNotifier {
       await Geolocator.openAppSettings();
     }
 
-    if (imagePermissionStatus == PermissionStatus.granted ||
-        imagePermissionStatus == PermissionStatus.limited) {
+    // if (imagePermissionStatus == PermissionStatus.granted ||
+    //     imagePermissionStatus == PermissionStatus.limited) {
       _isLoading = true;
 
       final pickedFile =
@@ -75,7 +75,7 @@ class SingleProfileImageManager with ChangeNotifier {
 
       _isLoading = false;
       notifyListeners();
-    }
+    // }
   }
 
   void switchProgressIndicator(bool isLoading) {

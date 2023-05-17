@@ -14,7 +14,7 @@ import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
 
 abstract class ProfileRemoteDS {
-  Future<Either<RequestFailure, FullReadUserModel>> getFullProfile();
+  Future<Either<RequestFailure, FullReadUserModel?>> getFullProfile();
   Future<Either<RequestFailure, Tuple2<User, List<String>>>>
       getCurrentUserAndProfileTags();
   Future<Either<RequestFailure, void>> updateProfile({
@@ -34,6 +34,7 @@ abstract class ProfileRemoteDS {
 
   Future<Either<RequestFailure, List<String>>> getProfilePhotos();
   Future<bool> isUsernameFree(String username);
+  Stream<ShortReadUserModel?> getProfileStream();
 }
 
 @LazySingleton(as: ProfileRemoteDS)
@@ -82,79 +83,102 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   }
 
   @override
-  Future<Either<RequestFailure, FullReadUserModel>> getFullProfile() async {
+  Future<Either<RequestFailure, FullReadUserModel?>> getFullProfile() async {
     final currentUserRaw = _authRepo.currentUser;
-    final result = await currentUserRaw.fold((l) async {
-      _customLogger.logFailure(loggerName: loggerName, failure: l);
-      return left<RequestFailure, FullReadUserModel>(l);
-    }, (r) async {
-      final futureShortModel =
-          _firebaseFirestore.collection(shortUserCollection).doc(r.uid).get();
-      final futureAdditionalModel = _firebaseFirestore
-          .collection(additionalInfoUserCollection)
-          .doc(r.uid)
-          .get();
-      final futurePrivateModel = _firebaseFirestore
-          .collection(additionalInfoUserCollection)
-          .doc(r.uid)
-          .collection(privateInfoUserCollection)
-          .doc(r.uid)
-          .get();
+    final result = await currentUserRaw.fold(
+      (l) async {
+        _customLogger.logFailure(loggerName: loggerName, failure: l);
+        return left<RequestFailure, FullReadUserModel>(l);
+      },
+      (r) async {
+        final futureShortModel =
+            _firebaseFirestore.collection(shortUserCollection).doc(r.uid).get();
+        final futureAdditionalModel = _firebaseFirestore
+            .collection(additionalInfoUserCollection)
+            .doc(r.uid)
+            .get();
+        final futurePrivateModel = _firebaseFirestore
+            .collection(additionalInfoUserCollection)
+            .doc(r.uid)
+            .collection(privateInfoUserCollection)
+            .doc(r.uid)
+            .get();
 
-      final futureShortModelRaw = _requestCheckWrapper(futureShortModel);
-      final futureAdditionalModelRaw =
-          _requestCheckWrapper(futureAdditionalModel);
-      final futurePrivateModelRaw = _requestCheckWrapper(futurePrivateModel);
+        final futureShortModelRaw = _requestCheckWrapper(futureShortModel);
+        final futureAdditionalModelRaw =
+            _requestCheckWrapper(futureAdditionalModel);
+        final futurePrivateModelRaw = _requestCheckWrapper(futurePrivateModel);
 
-      final shortModelRaw = await futureShortModelRaw;
-      final additionalModelRaw = await futureAdditionalModelRaw;
-      final privateModelRaw = await futurePrivateModelRaw;
+        final shortModelRaw = await futureShortModelRaw;
+        final additionalModelRaw = await futureAdditionalModelRaw;
+        final privateModelRaw = await futurePrivateModelRaw;
 
-      if (shortModelRaw.isLeft()) {
-        //TODO: not sure
-        return left<RequestFailure, FullReadUserModel>(
-            (shortModelRaw as Left).value as RequestFailure);
-      }
-      if (additionalModelRaw.isLeft()) {
-        //TODO: not sure
+        if (shortModelRaw.isLeft()) {
+          //TODO: not sure
+          return left<RequestFailure, FullReadUserModel>(
+              (shortModelRaw as Left).value as RequestFailure);
+        }
+        if (additionalModelRaw.isLeft()) {
+          //TODO: not sure
 
-        return left<RequestFailure, FullReadUserModel>(
-            (additionalModelRaw as Left).value as RequestFailure);
-      }
-      if (privateModelRaw.isLeft()) {
-        //TODO: not sure
+          return left<RequestFailure, FullReadUserModel>(
+              (additionalModelRaw as Left).value as RequestFailure);
+        }
+        if (privateModelRaw.isLeft()) {
+          //TODO: not sure
 
-        return left<RequestFailure, FullReadUserModel>(
-            (privateModelRaw as Left).value as RequestFailure);
-      }
+          return left<RequestFailure, FullReadUserModel>(
+              (privateModelRaw as Left).value as RequestFailure);
+        }
 
-      late final ShortReadUserModel shortUserModel;
-      late final AdditionalUserModel additionalUserModel;
-      late final PrivateInfoUserModel privateInfoUserModel;
+        late final ShortReadUserModel? shortUserModel;
+        late final AdditionalUserModel? additionalUserModel;
+        late final PrivateInfoUserModel? privateInfoUserModel;
 
-      shortModelRaw.map(
-        (r) => shortUserModel = ShortReadUserModel.fromJson(
-          r.data()!,
-        ),
-      );
-      additionalModelRaw.map(
-        (r) => additionalUserModel = AdditionalUserModel.fromJson(
-          r.data()!,
-        ),
-      );
-      privateModelRaw.map(
-        (r) => privateInfoUserModel = PrivateInfoUserModel.fromJson(
-          r.data()!,
-        ),
-      );
-      return right<RequestFailure, FullReadUserModel>(
-        FullReadUserModel(
-          shortUserModel: shortUserModel,
-          additionalUserModel: additionalUserModel,
-          privateInfoUserModel: privateInfoUserModel,
-        ),
-      );
-    });
+        shortModelRaw.map(
+          (r) {
+            final data = r.data();
+            if (data != null && data.isNotEmpty) {
+              shortUserModel = ShortReadUserModel.fromJson(data);
+            } else {
+              shortUserModel = null;
+            }
+          },
+        );
+        additionalModelRaw.map(
+          (r) {
+            final data = r.data();
+            if (data != null && data.isNotEmpty) {
+              additionalUserModel = AdditionalUserModel.fromJson(data);
+            } else {
+              additionalUserModel = null;
+            }
+          },
+        );
+        privateModelRaw.map((r) {
+          final data = r.data();
+          if (data != null && data.isNotEmpty) {
+            privateInfoUserModel = PrivateInfoUserModel.fromJson(data);
+          } else {
+            privateInfoUserModel = null;
+          }
+        });
+
+        if (shortUserModel != null &&
+            additionalUserModel != null &&
+            privateInfoUserModel != null) {
+          return right<RequestFailure, FullReadUserModel?>(
+            FullReadUserModel(
+              shortUserModel: shortUserModel!,
+              additionalUserModel: additionalUserModel!,
+              privateInfoUserModel: privateInfoUserModel!,
+            ),
+          );
+        } else {
+          return right<RequestFailure, FullReadUserModel?>(null);
+        }
+      },
+    );
 
     result.fold((l) {
       _customLogger.logFailure(
@@ -249,8 +273,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
         final batch = _firebaseFirestore.batch();
         batch.set(
           _firebaseFirestore.collection(shortUserCollection).doc(r.uid),
-          //TODO: not very clean
-          shortModel.toJson().putIfAbsent('soulsCount', () => 0),
+          shortModel.toJson(),
         );
         batch.set(
           _firebaseFirestore
@@ -395,6 +418,40 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
       );
       throw l;
     }, (r) => r.docs.isEmpty);
+
+    return result;
+  }
+
+  @override
+  Stream<ShortReadUserModel?> getProfileStream() {
+    final currentUserRaw = _authRepo.currentUser;
+
+    final result = currentUserRaw.fold(
+      (l) {
+        _customLogger.logFailure(
+          loggerName: loggerName,
+          failure: l,
+        );
+        throw l;
+      },
+      (r) {
+        final stream = _firebaseFirestore
+            .collection(shortUserCollection)
+            .doc(r.uid)
+            .snapshots()
+            .map(
+          (snapshot) {
+            final data = snapshot.data();
+            if (data == null) {
+              return null;
+            } else {
+              return ShortReadUserModel.fromJson(data);
+            }
+          },
+        );
+        return stream;
+      },
+    );
 
     return result;
   }

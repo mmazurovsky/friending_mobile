@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/data/failures/failures.dart';
+import '../../../common/data/models/user_models.dart';
 import '../../../common/utils/extensions.dart';
 import '../repo/profile_repo.dart';
 
@@ -9,6 +10,9 @@ import '../repo/profile_repo.dart';
 class ProfileTextsAndTagsManager with ChangeNotifier {
   final ProfileRepo _profileRepo;
   ProfileTextsAndTagsManager(this._profileRepo);
+
+  bool _isLoading = true;
+  bool get isLoading => _isLoading;
 
   final _usernameController = TextEditingController();
   TextEditingController get usernameController => _usernameController;
@@ -60,6 +64,26 @@ class ProfileTextsAndTagsManager with ChangeNotifier {
 
   Set<String> get tagsToRemoveOnServer {
     return _initialTags.difference(_tagsToDisplay);
+  }
+
+  void fillFieldsBasedOnProfile(FullReadUserModel? profile) async {
+    _isLoading = true;
+    if (profile != null) {
+      _usernameController.text = profile.shortUserModel.username;
+      _birthDate = profile.shortUserModel.birthDate;
+      _birthDateController.text = _birthDate?.toDateString() ?? '';
+      _descriptionController.text =
+          profile.additionalUserModel.description ?? '';
+      _lookingForController.text = profile.additionalUserModel.lookingFor ?? '';
+      _instagramUsernameController.text =
+          profile.privateInfoUserModel.instagramUsername ?? '';
+      _telegreamUsernameController.text =
+          profile.privateInfoUserModel.telegramUsername ?? '';
+      _initialTags.addAll(profile.shortUserModel.tags);
+      _tagsToDisplay.addAll(_initialTags);
+    }
+    _isLoading = false;
+    notifyListeners();
   }
 
   void unfocusAllNodes() {

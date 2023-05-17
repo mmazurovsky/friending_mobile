@@ -62,4 +62,5 @@ class Spaces {
   static const double unit3 = unit1 * 3;
   static const double unit4 = unit1 * 4;
   static const double unit5 = unit1 * 5;
+  static const double unit6 = unit1 * 6;
 }

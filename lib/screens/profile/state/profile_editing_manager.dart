@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
@@ -20,12 +21,57 @@ class ProfileEditingManager with ChangeNotifier {
   bool? _isOperationSuccessful;
   bool? get isOperationSuccessful => _isOperationSuccessful;
 
+  bool _isItProfileCreation = false;
+  bool get isItProfileCreation => _isItProfileCreation;
+
+  bool _imagesLoading = true;
+  bool _fieldsLoading = true;
+
+  bool get isLoading {
+    return _imagesLoading || _fieldsLoading;
+  }
+
   ProfileEditingManager(
     this._imagesManager,
     this._textsManager,
     this._profileRepo,
     this._authRepo,
-  );
+  ) {
+    _imagesManager.addListener(() {
+      if (_imagesLoading != _imagesManager.isLoading) {
+        _imagesLoading = _imagesManager.isLoading;
+        notifyListeners();
+      }
+    });
+    _textsManager.addListener(() {
+      if (_fieldsLoading != _textsManager.isLoading) {
+        _fieldsLoading = _textsManager.isLoading;
+        notifyListeners();
+      }
+    });
+    _fetchProfileAndInitManagers();
+  }
+
+  void _fetchProfileAndInitManagers() async {
+    final profileRaw =
+        await _profileRepo.fetchProfileFromRemoteAndSaveLocally();
+    FullReadUserModel? profile;
+    profileRaw.fold((l) {
+      _failure = l;
+      notifyListeners();
+      _failure = null;
+    }, (r) {
+      profile = r;
+    });
+
+    if (profile == null) {
+      _isItProfileCreation = true;
+    }
+
+    _imagesManager
+        .createManagersBasedOnPhotos(profile?.shortUserModel.photos ?? []);
+    _textsManager.fillFieldsBasedOnProfile(profile);
+  }
 
   void updateProfile() async {
     final imageUrls =
@@ -65,13 +111,23 @@ class ProfileEditingManager with ChangeNotifier {
         telegramUsername: telegramUsername,
       );
 
-      final response = await _profileRepo.updateProfile(
-        shortModel: shortModel,
-        additionalModel: additionalModel,
-        privateModel: privateModel,
-        tagsToAdd: tagsToAddOnServer.toList(),
-        tagsToRemove: tagsToRemoveOnServer.toList(),
-      );
+      late final Either<RequestFailure, void> response;
+
+      if (_isItProfileCreation) {
+        response = await _profileRepo.saveProfile(
+          shortModel: shortModel.toCreateShortModel(userId),
+          additionalModel: additionalModel,
+          privateModel: privateModel,
+        );
+      } else {
+        response = await _profileRepo.updateProfile(
+          shortModel: shortModel,
+          additionalModel: additionalModel,
+          privateModel: privateModel,
+          tagsToAdd: tagsToAddOnServer.toList(),
+          tagsToRemove: tagsToRemoveOnServer.toList(),
+        );
+      }
 
       response.fold((l) {
         _failure = l;

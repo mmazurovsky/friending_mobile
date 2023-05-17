@@ -61,6 +61,7 @@ class ShortCreateUserModel with _$ShortCreateUserModel {
   const ShortCreateUserModel._();
 
   const factory ShortCreateUserModel({
+    required String id,
     required String username,
     required List<String> photos,
     required DateTime birthDate,
@@ -94,6 +95,17 @@ class ShortUpdateUserModel with _$ShortUpdateUserModel {
 
   factory ShortUpdateUserModel.fromJson(Map<String, dynamic> json) =>
       _$ShortUpdateUserModelFromJson(json);
+
+  ShortCreateUserModel toCreateShortModel(String id) {
+    return ShortCreateUserModel(
+      id: id,
+      username: username,
+      birthDate: birthDate,
+      photos: photos,
+      tags: tags,
+      createdDateTime: DateTime.now(),
+    );
+  }
 }
 
 @Freezed(toJson: false)
@@ -118,7 +130,7 @@ class ShortReadUserModel
   @override
   String get avatar => photos.first;
 
-  ShortUpdateUserModel get toUpdateModel {
+  ShortUpdateUserModel get convertToUpdateModel {
     return ShortUpdateUserModel(
       username: username,
       birthDate: birthDate,

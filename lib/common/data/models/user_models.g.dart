@@ -38,6 +38,8 @@ Map<String, dynamic> _$$_ShortCreateUserModelToJson(
         _$_ShortCreateUserModel instance) =>
     <String, dynamic>{
       'soulsCount': instance.soulsCount,
+      'toUpdateShortModel': instance.toUpdateShortModel.toJson(),
+      'id': instance.id,
       'username': instance.username,
       'photos': instance.photos,
       'birthDate': instance.birthDate.toIso8601String(),

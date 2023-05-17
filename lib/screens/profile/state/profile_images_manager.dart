@@ -9,19 +9,15 @@ import 'package:uuid/uuid.dart';
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/image_handling/image_service.dart';
-import '../repo/profile_repo.dart';
 import 'single_profile_image_manager.dart';
 
 @injectable
 class ProfileImagesManager with ChangeNotifier {
   final ImageService _imageService = getIt<ImageService>();
   final AuthRepo _authRepo = getIt<AuthRepo>();
-  final ProfileRepo _profileRepo = getIt<ProfileRepo>();
   final List<SingleProfileImageManager> _managers = [];
 
-  ProfileImagesManager() {
-    loadPhotosAndCreateManagers();
-  }
+  ProfileImagesManager();
 
   List<SingleProfileImageManager> get managers => _managers;
 
@@ -29,16 +25,11 @@ class ProfileImagesManager with ChangeNotifier {
     return _managers.any((element) => element.photo.url != null);
   }
 
-  bool _isLoading = false;
+  bool _isLoading = true;
   bool get isLoading => _isLoading;
 
-  void loadPhotosAndCreateManagers() async {
+  void createManagersBasedOnPhotos(List<String> photos) async {
     _isLoading = true;
-    final photosRaw = await _profileRepo.getProfilePhotos();
-
-    List<String> photos = [];
-
-    photosRaw.fold((l) => null, (r) => photos = r);
 
     final List<SingleProfileImageManager> managers = [];
     List.generate(6, (index) => null).forEachIndexed((i, _) {
@@ -54,15 +45,6 @@ class ProfileImagesManager with ChangeNotifier {
 
       managers.add(manager);
     });
-
-    // final managers = photos.map((e) {
-    //   return SingleProfileImageManager(
-    //     getIt<Uuid>().v4(),
-    //     ProfileImageData(url: e),
-    //     getIt<ImagePicker>(),
-    //     getIt<ImageCropper>(),
-    //   );
-    // });
 
     _managers.clear();
     _managers.addAll(managers);

@@ -1,6 +1,5 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
@@ -24,66 +23,45 @@ class ProfileImagesGrid extends StatefulWidget {
 class _ProfileImagesGridState extends State<ProfileImagesGrid> {
   @override
   Widget build(BuildContext context) {
-    return context.watch<ProfileImagesManager>().isLoading
-        ? const LoadingContainer()
-        : MultiProvider(
-            providers: context
-                .watch<ProfileImagesManager>()
-                .managers
-                .map(
-                  (e) => ChangeNotifierProvider(
-                    create: (_) => e,
-                  ),
-                )
-                .toList(),
-            builder: (context, _) {
-              final images = context.watch<ProfileImagesManager>().managers.map(
-                (e) {
-                  return ChangeNotifierProvider.value(
-                    key: ValueKey(e.uuid),
-                    value: e,
-                    child: const ImageContent(),
-                  );
-                },
-              ).toList();
+    return MultiProvider(
+      providers: context
+          .watch<ProfileImagesManager>()
+          .managers
+          .map(
+            (e) => ChangeNotifierProvider(
+              create: (_) => e,
+            ),
+          )
+          .toList(),
+      builder: (context, _) {
+        final images = context.watch<ProfileImagesManager>().managers.map(
+          (e) {
+            return ChangeNotifierProvider.value(
+              key: ValueKey(e.uuid),
+              value: e,
+              child: const ImageContent(),
+            );
+          },
+        ).toList();
 
-              return Column(
-                children: [
-                  ReorderableGridView.count(
-                    padding: CEdgeInsets.horizontalStandart,
-                    keyboardDismissBehavior:
-                        ScrollViewKeyboardDismissBehavior.onDrag,
-                    onReorder: (oldIndex, newIndex) {
-                      context
-                          .read<ProfileImagesManager>()
-                          .reorderManagers(oldIndex, newIndex);
-                    },
-                    dragStartDelay: const Duration(milliseconds: 200),
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 5,
-                    crossAxisSpacing: 5,
-                    shrinkWrap: true,
-                    children: images,
-                  ),
-                  // const SizedBox(
-                  //   height: Spaces.unit2,
-                  // ),
-                  // Padding(
-                  //   padding: CEdgeInsets.horizontalStandart,
-                  //   child: SizedBox(
-                  //     width: double.infinity,
-                  //     child: PlatformElevatedButton(
-                  //       onPressed: () => context
-                  //           .read<ProfileImagesManager>()
-                  //           .uploadNewPhotosToRemote(),
-                  //       child: Text('Update profile photos'),
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              );
-            },
-          );
+        return ReorderableGridView.count(
+          primary: false,
+          padding: CEdgeInsets.horizontalStandart,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          onReorder: (oldIndex, newIndex) {
+            context
+                .read<ProfileImagesManager>()
+                .reorderManagers(oldIndex, newIndex);
+          },
+          dragStartDelay: const Duration(milliseconds: 200),
+          crossAxisCount: 3,
+          mainAxisSpacing: 5,
+          crossAxisSpacing: 5,
+          shrinkWrap: true,
+          children: images,
+        );
+      },
+    );
   }
 }
 

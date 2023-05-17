@@ -4,10 +4,12 @@ import 'package:provider/provider.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/stateful/spaces.dart';
+import '../../../common/bag/stateful/theme.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/utils/extensions.dart';
 import '../../widgets/custom_edge_insets.dart';
 import '../../widgets/custom_text_fields.dart';
+import '../../widgets/loading.dart';
 import '../../widgets/snack_bar.dart';
 import '../repo/profile_repo.dart';
 import '../state/profile_editing_manager.dart';
@@ -29,38 +31,61 @@ class ProfileEditingPage extends StatelessWidget {
     final scaffoldMessengerKey =
         context.read<GlobalKey<ScaffoldMessengerState>>();
     await context.read<ProfileImagesManager>().uploadNewPhotosToRemote();
+
+    List<CustomSnackBarContent> messagesOfInvalidity = [];
+
+    final areThereUploadedPhotosInManagers =
+        context.read<ProfileImagesManager>().areThereUploadedPhotosInManagers;
+    if (!areThereUploadedPhotosInManagers) {
+      messagesOfInvalidity.add(
+        const CustomSnackBarContent('Please, add at least one photo'),
+      );
+    }
+
+    final areThereTags =
+        context.read<ProfileTextsAndTagsManager>().tagsToDisplay.isNotEmpty;
+    if (!areThereTags) {
+      messagesOfInvalidity.add(
+        const CustomSnackBarContent('Please, add tags'),
+      );
+    }
+
     final formIsValid = formKey.currentState?.validate();
-    if (formIsValid != null && formIsValid) {
-      final areThereUploadedPhotosInManagers =
-          context.read<ProfileImagesManager>().areThereUploadedPhotosInManagers;
-      if (areThereUploadedPhotosInManagers) {
-        final areThereTags =
-            context.read<ProfileTextsAndTagsManager>().tagsToDisplay.isNotEmpty;
-        if (areThereTags) {
-          context.read<ProfileEditingManager>().updateProfile();
-        } else {
-          scaffoldMessengerKey.currentState
-            ?..hideCurrentSnackBar()
-            ..showCSnackBar(
-              const CustomSnackBarContent('Please, add tags'),
-            );
-        }
-      } else {
-        scaffoldMessengerKey.currentState
-          ?..hideCurrentSnackBar()
-          ..showCSnackBar(
-            const CustomSnackBarContent('Please, add at least one photo'),
-          );
-      }
-    } else {
+    if (formIsValid == null || !formIsValid) {
+      messagesOfInvalidity.add(
+        const CustomSnackBarContent(
+          'Some text field is not valid, pay attention to red borders',
+        ),
+      );
+    }
+
+    final instagramNotFilledCorrectly = context
+            .read<ProfileTextsAndTagsManager>()
+            .instagramUsernameController
+            .text
+            .length <
+        3;
+    final telegramNotFilledCorrectly = context
+            .read<ProfileTextsAndTagsManager>()
+            .telegramUsernameController
+            .text
+            .length <
+        3;
+
+    if (instagramNotFilledCorrectly && telegramNotFilledCorrectly) {
+      messagesOfInvalidity.add(
+        const CustomSnackBarContent(
+          'One of social media fields should be correct',
+        ),
+      );
+    }
+
+    if (messagesOfInvalidity.isNotEmpty) {
       scaffoldMessengerKey.currentState
         ?..hideCurrentSnackBar()
-        ..showCSnackBar(
-          const CustomSnackBarContent(
-            'Some text field is not valid, pay attention to red borders',
-          ),
-        );
-      //TODO: add validators to text fields
+        ..showCSnackBar(messagesOfInvalidity.first);
+    } else {
+      context.read<ProfileEditingManager>().updateProfile();
     }
   }
 
@@ -74,51 +99,67 @@ class ProfileEditingPage extends StatelessWidget {
       getIt<ProfileRepo>(),
       getIt<AuthRepo>(),
     );
+    final formKey = GlobalKey<FormState>();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => profileImagesManager),
         ChangeNotifierProvider(create: (_) => profileTextsAndTagsManager),
         ChangeNotifierProvider(create: (_) => profileEditingManager),
+        Provider(create: (context) => formKey),
       ],
       builder: (context, _) {
-        final _formKey = GlobalKey<FormState>();
-
-        return Provider(
-          create: (context) => _formKey,
-          builder: (context, _) => Scaffold(
-            body: SafeArea(
-              child: SingleChildScrollView(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const ProfileImagesGrid(),
-                      const SizedBox(height: 20),
-                      const TagsEditingSection(),
-                      const SizedBox(height: 20),
-                      const TextInfoEditingSection(),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Padding(
-                          padding: CEdgeInsets.horizontalStandart,
-                          child: PlatformElevatedButton(
-                            child: const Text('Update profile'),
-                            onPressed: () => _onUpdateProfile(
-                              context: context,
-                              formKey: _formKey,
+        final isItProfileCreation =
+            context.read<ProfileEditingManager>().isItProfileCreation;
+        return Scaffold(
+          body: SafeArea(
+            child: context.watch<ProfileEditingManager>().isLoading
+                ? const LoadingContainer()
+                : SingleChildScrollView(
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 40),
+                          Padding(
+                            padding: CEdgeInsets.horizontalStandart,
+                            child: Text(
+                              isItProfileCreation
+                                  ? 'Profile creation'
+                                  : 'Profile editing',
+                              style: context.theme.textTheme.headlineMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ),
-                        ),
-                      )
-                    ],
+                          const SizedBox(height: 40),
+                          const ProfileImagesGrid(),
+                          const SizedBox(height: 40),
+                          const TagsEditingSection(),
+                          const SizedBox(height: 40),
+                          const TextInfoEditingSection(),
+                          const SizedBox(height: 40),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Padding(
+                              padding: CEdgeInsets.horizontalStandart,
+                              child: PlatformElevatedButton(
+                                child: Text(isItProfileCreation
+                                    ? 'Create profile'
+                                    : 'Update profile'),
+                                onPressed: () => _onUpdateProfile(
+                                  context: context,
+                                  formKey: formKey,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 40),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
           ),
         );
       },
@@ -161,7 +202,7 @@ class TextInfoEditingSection extends StatelessWidget {
 
   String? _checkLookingFor(String? lookingFor) {
     if (lookingFor == null) {
-      return 'Description is required';
+      return 'Looking for section is required';
     } else {
       if (lookingFor.length < 3) {
         return 'Please, write at least 3 characters';
@@ -240,7 +281,7 @@ class TextInfoEditingSection extends StatelessWidget {
       ]
           .mapWidgetsSeparated(
             separator: const SizedBox(
-              height: Spaces.unit4,
+              height: Spaces.unit5,
             ),
           )
           .toList(),

@@ -779,6 +779,7 @@ abstract class _AdditionalUserModel extends AdditionalUserModel {
 
 /// @nodoc
 mixin _$ShortCreateUserModel {
+  String get id => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   List<String> get photos => throw _privateConstructorUsedError;
   DateTime get birthDate => throw _privateConstructorUsedError;
@@ -798,7 +799,8 @@ abstract class $ShortCreateUserModelCopyWith<$Res> {
       _$ShortCreateUserModelCopyWithImpl<$Res, ShortCreateUserModel>;
   @useResult
   $Res call(
-      {String username,
+      {String id,
+      String username,
       List<String> photos,
       DateTime birthDate,
       DateTime createdDateTime,
@@ -819,6 +821,7 @@ class _$ShortCreateUserModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? username = null,
     Object? photos = null,
     Object? birthDate = null,
@@ -826,6 +829,10 @@ class _$ShortCreateUserModelCopyWithImpl<$Res,
     Object? tags = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -859,7 +866,8 @@ abstract class _$$_ShortCreateUserModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String username,
+      {String id,
+      String username,
       List<String> photos,
       DateTime birthDate,
       DateTime createdDateTime,
@@ -877,6 +885,7 @@ class __$$_ShortCreateUserModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? username = null,
     Object? photos = null,
     Object? birthDate = null,
@@ -884,6 +893,10 @@ class __$$_ShortCreateUserModelCopyWithImpl<$Res>
     Object? tags = null,
   }) {
     return _then(_$_ShortCreateUserModel(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -912,7 +925,8 @@ class __$$_ShortCreateUserModelCopyWithImpl<$Res>
 @JsonSerializable(createFactory: false)
 class _$_ShortCreateUserModel extends _ShortCreateUserModel {
   const _$_ShortCreateUserModel(
-      {required this.username,
+      {required this.id,
+      required this.username,
       required final List<String> photos,
       required this.birthDate,
       required this.createdDateTime,
@@ -921,6 +935,8 @@ class _$_ShortCreateUserModel extends _ShortCreateUserModel {
         _tags = tags,
         super._();
 
+  @override
+  final String id;
   @override
   final String username;
   final List<String> _photos;
@@ -945,7 +961,7 @@ class _$_ShortCreateUserModel extends _ShortCreateUserModel {
 
   @override
   String toString() {
-    return 'ShortCreateUserModel(username: $username, photos: $photos, birthDate: $birthDate, createdDateTime: $createdDateTime, tags: $tags)';
+    return 'ShortCreateUserModel(id: $id, username: $username, photos: $photos, birthDate: $birthDate, createdDateTime: $createdDateTime, tags: $tags)';
   }
 
   @override
@@ -953,6 +969,7 @@ class _$_ShortCreateUserModel extends _ShortCreateUserModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ShortCreateUserModel &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.username, username) ||
                 other.username == username) &&
             const DeepCollectionEquality().equals(other._photos, _photos) &&
@@ -967,6 +984,7 @@ class _$_ShortCreateUserModel extends _ShortCreateUserModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       username,
       const DeepCollectionEquality().hash(_photos),
       birthDate,
@@ -990,13 +1008,16 @@ class _$_ShortCreateUserModel extends _ShortCreateUserModel {
 
 abstract class _ShortCreateUserModel extends ShortCreateUserModel {
   const factory _ShortCreateUserModel(
-      {required final String username,
+      {required final String id,
+      required final String username,
       required final List<String> photos,
       required final DateTime birthDate,
       required final DateTime createdDateTime,
       required final List<String> tags}) = _$_ShortCreateUserModel;
   const _ShortCreateUserModel._() : super._();
 
+  @override
+  String get id;
   @override
   String get username;
   @override
