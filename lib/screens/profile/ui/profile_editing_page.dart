@@ -22,6 +22,48 @@ import 'widgets/username_text_field.dart';
 class ProfileEditingPage extends StatelessWidget {
   const ProfileEditingPage({super.key});
 
+  void _onUpdateProfile({
+    required BuildContext context,
+    required GlobalKey<FormState> formKey,
+  }) async {
+    final scaffoldMessengerKey =
+        context.read<GlobalKey<ScaffoldMessengerState>>();
+    await context.read<ProfileImagesManager>().uploadNewPhotosToRemote();
+    final formIsValid = formKey.currentState?.validate();
+    if (formIsValid != null && formIsValid) {
+      final areThereUploadedPhotosInManagers =
+          context.read<ProfileImagesManager>().areThereUploadedPhotosInManagers;
+      if (areThereUploadedPhotosInManagers) {
+        final areThereTags =
+            context.read<ProfileTextsAndTagsManager>().tagsToDisplay.isNotEmpty;
+        if (areThereTags) {
+          context.read<ProfileEditingManager>().updateProfile();
+        } else {
+          scaffoldMessengerKey.currentState
+            ?..hideCurrentSnackBar()
+            ..showCSnackBar(
+              const CustomSnackBarContent('Please, add tags'),
+            );
+        }
+      } else {
+        scaffoldMessengerKey.currentState
+          ?..hideCurrentSnackBar()
+          ..showCSnackBar(
+            const CustomSnackBarContent('Please, add at least one photo'),
+          );
+      }
+    } else {
+      scaffoldMessengerKey.currentState
+        ?..hideCurrentSnackBar()
+        ..showCSnackBar(
+          const CustomSnackBarContent(
+            'Some text field is not valid, pay attention to red borders',
+          ),
+        );
+      //TODO: add validators to text fields
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final profileImagesManager = getIt<ProfileImagesManager>();
@@ -65,54 +107,10 @@ class ProfileEditingPage extends StatelessWidget {
                           padding: CEdgeInsets.horizontalStandart,
                           child: PlatformElevatedButton(
                             child: const Text('Update profile'),
-                            onPressed: () async {
-                              final scaffoldMessengerKey = context
-                                  .read<GlobalKey<ScaffoldMessengerState>>();
-                              await context
-                                  .read<ProfileImagesManager>()
-                                  .uploadNewPhotosToRemote();
-                              final formIsValid =
-                                  _formKey.currentState?.validate();
-                              if (formIsValid != null && formIsValid) {
-                                final areThereUploadedPhotosInManagers = context
-                                    .read<ProfileImagesManager>()
-                                    .areThereUploadedPhotosInManagers;
-                                if (areThereUploadedPhotosInManagers) {
-                                  final areThereTags = context
-                                      .read<ProfileTextsAndTagsManager>()
-                                      .tagsToDisplay
-                                      .isNotEmpty;
-                                  if (areThereTags) {
-                                    context
-                                        .read<ProfileEditingManager>()
-                                        .updateProfile();
-                                  } else {
-                                    scaffoldMessengerKey.currentState
-                                      ?..hideCurrentSnackBar()
-                                      ..showCSnackBar(
-                                        const CustomSnackBarContent(
-                                            'Please, add tags'),
-                                      );
-                                  }
-                                } else {
-                                  scaffoldMessengerKey.currentState
-                                    ?..hideCurrentSnackBar()
-                                    ..showCSnackBar(
-                                      const CustomSnackBarContent(
-                                          'Please, add at least one photo'),
-                                    );
-                                }
-                              } else {
-                                scaffoldMessengerKey.currentState
-                                  ?..hideCurrentSnackBar()
-                                  ..showCSnackBar(
-                                    const CustomSnackBarContent(
-                                      'Some text field is not valid, pay attention to red borders',
-                                    ),
-                                  );
-                                //TODO: add validators to text fields
-                              }
-                            },
+                            onPressed: () => _onUpdateProfile(
+                              context: context,
+                              formKey: _formKey,
+                            ),
                           ),
                         ),
                       )
@@ -149,6 +147,30 @@ class TagsEditingSection extends StatelessWidget {
 class TextInfoEditingSection extends StatelessWidget {
   const TextInfoEditingSection({super.key});
 
+  String? _checkDescription(String? description) {
+    if (description == null) {
+      return 'Description is required';
+    } else {
+      if (description.length < 32) {
+        return 'Please, write at least 32 characters, it is just about 7 words 😉';
+      } else {
+        return null;
+      }
+    }
+  }
+
+  String? _checkLookingFor(String? lookingFor) {
+    if (lookingFor == null) {
+      return 'Description is required';
+    } else {
+      if (lookingFor.length < 3) {
+        return 'Please, write at least 3 characters';
+      } else {
+        return null;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -175,6 +197,7 @@ class TextInfoEditingSection extends StatelessWidget {
           maxLines: 7,
           maxLength: 32 * 7,
           counter: const SizedBox(),
+          validatorFunction: _checkDescription,
         ),
         CTextField(
           title: 'Looking for',
@@ -188,6 +211,7 @@ class TextInfoEditingSection extends StatelessWidget {
           maxLines: 4,
           maxLength: 32 * 4,
           counter: const SizedBox(),
+          validatorFunction: _checkLookingFor,
         ),
         CTextField(
           title: 'Instragram username',

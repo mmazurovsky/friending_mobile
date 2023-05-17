@@ -8,6 +8,12 @@ import '../../state/profile_texts_manager.dart';
 class DateWidget extends StatelessWidget {
   const DateWidget({super.key});
 
+  String? _checkBirthDate(String? date) {
+    if (date == null || date.isEmpty) {
+      return 'Birth date is required';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -32,6 +38,7 @@ class DateWidget extends StatelessWidget {
             fillColor: Colors.transparent,
             textEditingController:
                 context.watch<ProfileTextsAndTagsManager>().birthDateController,
+            validatorFunction: _checkBirthDate,
           ),
         ),
       ),

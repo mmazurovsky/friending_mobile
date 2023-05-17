@@ -8,7 +8,7 @@ class CTextField extends StatelessWidget {
   final TextInputType textInputType;
   final bool isSecret;
   final TextEditingController textEditingController;
-  final Function? validatorFunction;
+  final String? Function(String)? validatorFunction;
   final FocusNode? focusNode;
   final Color fillColor;
   // final Color activeBorderColor;
@@ -58,7 +58,7 @@ class CTextField extends StatelessWidget {
       controller: textEditingController,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) =>
-          validatorFunction != null ? validatorFunction!(value) : null,
+          validatorFunction != null ? validatorFunction!(value!) : null,
       decoration: InputDecoration(
         hintText: hintText,
         labelText: title,
