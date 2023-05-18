@@ -5,12 +5,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
-import '../../common/bag/stateful/theme.dart';
+import '../../../common/bag/stateful/theme.dart';
 
-class MyCachedNetworkImage extends StatelessWidget {
+class CCachedNetworkImage extends StatelessWidget {
   final String? imageLink;
   final Completer<ImageInfo> _imageCompleter;
-  MyCachedNetworkImage(this.imageLink, {Key? key})
+  CCachedNetworkImage(this.imageLink, {Key? key})
       : _imageCompleter = Completer<ImageInfo>(),
         super(key: ValueKey(imageLink));
 
@@ -53,8 +53,6 @@ class MyCachedNetworkImage extends StatelessWidget {
           );
   }
 }
-
-
 
 class EmptyImagePlaceholder extends StatelessWidget {
   const EmptyImagePlaceholder({Key? key}) : super(key: key);

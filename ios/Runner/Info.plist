@@ -59,5 +59,11 @@
 		<string>This app requires access to the camera to make photos</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>This app requires access to the photo library to add photos</string>
+		<!-- THIS IS FOR URL LAUNCHER AND MAYBE NOT NEEDED -->
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>sms</string>
+			<string>tel</string>
+		</array>
 	</dict>
 </plist>

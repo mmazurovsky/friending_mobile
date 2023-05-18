@@ -33,10 +33,12 @@ class _ExplorePageContent extends StatefulWidget {
 }
 
 class _ExplorePageContentState extends State<_ExplorePageContent> {
+  late final ScrollController _scrollController;
   @override
   void initState() {
     super.initState();
     Provider.of<ExploreStateManager>(context, listen: false).fetchUsers();
+    _scrollController = allTabsOrderedAccordingToIndex[0].scrollController;
   }
 
   @override
@@ -59,7 +61,7 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
     );
     return SafeArea(
       child: CustomScrollView(
-        controller: allTabsOrderedAccordingToIndex[0].scrollController,
+        controller: _scrollController,
         slivers: context.watch<ExploreStateManager>().isLoading
             ? [const SliverToBoxAdapter(child: LoadingContainer())]
             : [

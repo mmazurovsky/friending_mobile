@@ -8,7 +8,7 @@ import '../../../../common/bag/stateful/spaces.dart';
 import '../../../../common/bag/stateful/theme.dart';
 import '../../../widgets/custom_edge_insets.dart';
 import '../../../widgets/loading.dart';
-import '../../../widgets/my_cached_network_image.dart';
+import '../../../widgets/image/my_cached_network_image.dart';
 import '../../state/profile_images_manager.dart';
 import '../../state/profile_texts_manager.dart';
 import '../../state/single_profile_image_manager.dart';
@@ -106,7 +106,7 @@ class ImageContent extends StatelessWidget {
     late Widget contentImage;
 
     if (photo.url != null) {
-      contentImage = wrapperForDeletion(MyCachedNetworkImage(photo.url!));
+      contentImage = wrapperForDeletion(CCachedNetworkImage(photo.url!));
     } else if (photo.file != null) {
       contentImage = wrapperForDeletion(Image.file(photo.file!));
     } else {
