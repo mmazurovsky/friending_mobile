@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/data/failures/failures.dart';
@@ -24,31 +25,12 @@ class ProfileEditingManager with ChangeNotifier {
   bool _isItProfileCreation = false;
   bool get isItProfileCreation => _isItProfileCreation;
 
-  bool _imagesLoading = true;
-  bool _fieldsLoading = true;
-
-  bool get isLoading {
-    return _imagesLoading || _fieldsLoading;
-  }
-
   ProfileEditingManager(
     this._imagesManager,
     this._textsManager,
     this._profileRepo,
     this._authRepo,
   ) {
-    _imagesManager.addListener(() {
-      if (_imagesLoading != _imagesManager.isLoading) {
-        _imagesLoading = _imagesManager.isLoading;
-        notifyListeners();
-      }
-    });
-    _textsManager.addListener(() {
-      if (_fieldsLoading != _textsManager.isLoading) {
-        _fieldsLoading = _textsManager.isLoading;
-        notifyListeners();
-      }
-    });
     _fetchProfileAndInitManagers();
   }
 

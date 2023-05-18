@@ -1,20 +1,31 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 
+import '../../../common/auth/repo/auth_repo.dart';
+import '../../../common/bag/stateful/theme.dart';
+import '../../../common/bag/strings.dart';
 import '../../../common/data/models/user_models.dart';
+import '../../../common/dependency_injection/dependency_injection.dart';
+import '../../../common/navigation/auto_router/app_router.dart';
 import '../../../common/navigation/navigation_tab.dart';
+import '../../../common/service/open_link_service.dart';
+import '../../widgets/buttons/button_content.dart';
 import '../../widgets/canvas/profile_canvas.dart';
 import '../../widgets/custom_edge_insets.dart';
+import '../../widgets/loading.dart';
+import '../../widgets/modal_bottom_sheet/modal_bottom_sheet_content.dart';
 import '../../widgets/social_links_list.dart';
-import '../../widgets/texts/entity_subtitle.dart';
 import '../../widgets/texts/expandable_text_section.dart';
+import '../state/profile_content_manager.dart';
 
 class ThisUserProfilePage extends StatefulWidget {
-  final FullReadUserModel profile;
+  final ShortReadUserModel shortProfile;
   const ThisUserProfilePage({
     Key? key,
-    required this.profile,
+    required this.shortProfile,
   }) : super(key: key);
 
   @override
@@ -40,8 +51,8 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
   @override
   Widget build(BuildContext context) {
     return EntityPageCanvas(
-      data: widget.profile.shortUserModel,
-      loadableContent: Container(),
+      data: widget.shortProfile,
+      loadableContent: const _ProfileContent(),
       scrollController: _scrollController,
       isBackButtonOn: false,
     );
@@ -49,10 +60,8 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
 }
 
 class _ProfileContent extends StatefulWidget {
-  final FullReadUserModel userProfile;
   const _ProfileContent({
     Key? key,
-    required this.userProfile,
   }) : super(key: key);
 
   @override
@@ -71,41 +80,65 @@ class _ProfileContentState extends State<_ProfileContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 5),
-        Padding(
-          padding: CEdgeInsets.horizontalStandart,
-          child: PlatformElevatedButton(
-            onPressed: () => showModalBottomSheet(
-              context: context,
-              builder: (context) => SettingsSelector(
-                  _functionToCloseModalBottomSheetAndDoSomething),
-            ),
-            child: const Text('Open settings'),
-          ),
-        ),
-        Padding(
-          padding: CEdgeInsets.horizontalStandart,
-          child: ExpandableTextSection(
-            widget.userProfile.additionalUserModel.description!,
-          ),
-        ),
-        Padding(
-          padding: CEdgeInsets.horizontalStandart,
-          child: ExpandableTextSection(
-            widget.userProfile.additionalUserModel.lookingFor!,
-          ),
-        ),
-        SocialLinksList(
-          instagramUsername:
-              widget.userProfile.privateInfoUserModel.instagramUsername,
-          telegramUsername:
-              widget.userProfile.privateInfoUserModel.telegramUsername,
-        ),
-      ],
-    );
+    return ChangeNotifierProvider(
+        create: (context) => getIt<ProfileContentManager>()..loadProfile(),
+        builder: (context, _) {
+          return context.watch<ProfileContentManager>().isLoading
+              ? const LoadingContainer()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 5),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Padding(
+                        padding: CEdgeInsets.horizontalStandart,
+                        child: PlatformElevatedButton(
+                          onPressed: () => showModalBottomSheet(
+                            context: context,
+                            builder: (context) => SettingsSelector(
+                                _functionToCloseModalBottomSheetAndDoSomething),
+                          ),
+                          child: const Text('Open settings'),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: CEdgeInsets.horizontalStandart,
+                      child: ExpandableTextSection(
+                        context
+                            .read<ProfileContentManager>()
+                            .profile
+                            .additionalUserModel
+                            .description!,
+                      ),
+                    ),
+                    Padding(
+                      padding: CEdgeInsets.horizontalStandart,
+                      child: ExpandableTextSection(
+                        context
+                            .read<ProfileContentManager>()
+                            .profile
+                            .additionalUserModel
+                            .lookingFor!,
+                      ),
+                    ),
+                    SocialLinksList(
+                      instagramUsername: context
+                          .read<ProfileContentManager>()
+                          .profile
+                          .privateInfoUserModel
+                          .instagramUsername,
+                      telegramUsername: context
+                          .read<ProfileContentManager>()
+                          .profile
+                          .privateInfoUserModel
+                          .telegramUsername,
+                    ),
+                    Container(height: 600,)
+                  ],
+                );
+        });
   }
 }
 
@@ -128,43 +161,73 @@ class SettingsSelector extends StatelessWidget {
       {Key? key})
       : super(key: key);
 
-  List<_SettingsButtonData> _getSettingsList() {
+  List<_SettingsButtonData> _getSettingsList(BuildContext context) {
+    final colorOfIcons = context.theme.primaryColor;
     return [
       _SettingsButtonData(
-        text: 'modifyProfile'.tr(),
-        leadingIcon: const Icon(Ionicons.clipboard_outline,
-            color: MyColors.main, size: 18),
+        text: 'Modify profile',
+        leadingIcon: Icon(
+          Ionicons.clipboard_outline,
+          color: colorOfIcons,
+          size: 18,
+        ),
         onTap: (_) => _functionToCloseModalBottomSheetAndDoSomething(
-            (BuildContext ctx) => NavigatorFunctions.pushModifyUser(ctx)),
+            (BuildContext ctx) => ctx.router.push(ProfileEditingRoute())),
       ),
       _SettingsButtonData(
-        text: 'writeToUs'.tr(),
-        leadingIcon: const Icon(Ionicons.chatbox_outline,
-            color: MyColors.main, size: 18),
+        text: 'Write to support',
+        leadingIcon: Icon(
+          Ionicons.chatbox_outline,
+          color: colorOfIcons,
+          size: 18,
+        ),
         onTap: (_) => _functionToCloseModalBottomSheetAndDoSomething(
-          (BuildContext _) => OpenLinkService.openTelegramOrEmail(
-            MyConstants.telegramSupportAccount,
-            MyConstants.emailSupportAccount,
-          ),
+          (BuildContext _) => OpenLinkService.openTelegram('jkjkjkjkjjkjkk'),
         ),
       ),
       _SettingsButtonData(
-        text: 'signOut'.tr(),
-        leadingIcon: const Icon(Ionicons.log_out_outline,
-            color: MyColors.main, size: 18),
+        text: 'Sign out',
+        leadingIcon: Icon(
+          Ionicons.log_out_outline,
+          color: colorOfIcons,
+          size: 18,
+        ),
         onTap: (_) => _functionToCloseModalBottomSheetAndDoSomething(
-          (BuildContext ctx) =>
-              BlocProvider.of<AuthenticationCubit>(ctx).signOut(),
+          (BuildContext ctx) => ctx.read<AuthRepo>().signOut(),
         ),
       ),
       _SettingsButtonData(
-        text: 'deleteProfile'.tr(),
-        leadingIcon: const Icon(Ionicons.close_circle_outline,
-            color: MyColors.main, size: 18),
+        text: 'Delete profile',
+        leadingIcon: Icon(
+          Ionicons.close_circle_outline,
+          color: colorOfIcons,
+          size: 18,
+        ),
         onTap: (_) => _functionToCloseModalBottomSheetAndDoSomething(
           (BuildContext ctx) => showDialog(
             context: ctx,
-            builder: (_) => const AccountDeletionConfirmationDialog(),
+            builder: (_) => AlertDialog(
+              title: const Text('Are you sure?'),
+              content: const Text('You are going to delete your profile'),
+              actions: [
+                TextButton(
+                  child: Text(Strings.ui.cancel),
+                  onPressed: () {
+                    getIt<AppRouter>()
+                        .navigatorKey
+                        .currentContext!
+                        .router
+                        .pop();
+                  },
+                ),
+                TextButton(
+                  child: Text(Strings.ui.proceed),
+                  onPressed: () {
+                    context.read<AuthRepo>().deleteProfile();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -173,11 +236,11 @@ class SettingsSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsList = _getSettingsList();
+    final settingsList = _getSettingsList(context);
     return ModalBottomSheetContent(
-      height: ScreenSize.height * 0.4,
+      height: MediaQuery.of(context).size.height * 0.4,
       iconData: Ionicons.settings_outline,
-      title: 'settings'.tr(),
+      title: 'Settings',
       content: ListView.separated(
         padding: const EdgeInsets.only(top: 18),
         physics: const NeverScrollableScrollPhysics(),
@@ -199,7 +262,8 @@ class SettingsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => data.onTap(context),
-      child: MyHorizontalPadding(
+      child: Padding(
+        padding: CEdgeInsets.horizontalStandart,
         child: ButtonContent(
           leading: Container(
             height: 30,
@@ -209,7 +273,7 @@ class SettingsButton extends StatelessWidget {
           ),
           distanceBetweenLeadingAndText: 13,
           text: data.text,
-          textStyle: MyTextStyles.modalBottomSheetItem,
+          textStyle: context.theme.textTheme.titleSmall!,
           mainAxisAlignment: MainAxisAlignment.start,
         ),
       ),

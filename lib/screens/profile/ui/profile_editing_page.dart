@@ -21,8 +21,29 @@ import 'widgets/tags_adder.dart';
 import 'widgets/tags_displayer.dart';
 import 'widgets/username_text_field.dart';
 
-class ProfileEditingPage extends StatelessWidget {
+class ProfileEditingPage extends StatefulWidget {
   const ProfileEditingPage({super.key});
+
+  @override
+  State<ProfileEditingPage> createState() => _ProfileEditingPageState();
+}
+
+class _ProfileEditingPageState extends State<ProfileEditingPage> {
+  final profileImagesManager = getIt<ProfileImagesManager>();
+  final profileTextsAndTagsManager = getIt<ProfileTextsAndTagsManager>();
+  late final ProfileEditingManager profileEditingManager;
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    profileEditingManager = ProfileEditingManager(
+      profileImagesManager,
+      profileTextsAndTagsManager,
+      getIt<ProfileRepo>(),
+      getIt<AuthRepo>(),
+    );
+  }
 
   void _onUpdateProfile({
     required BuildContext context,
@@ -91,15 +112,6 @@ class ProfileEditingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profileImagesManager = getIt<ProfileImagesManager>();
-    final profileTextsAndTagsManager = getIt<ProfileTextsAndTagsManager>();
-    final profileEditingManager = ProfileEditingManager(
-      profileImagesManager,
-      profileTextsAndTagsManager,
-      getIt<ProfileRepo>(),
-      getIt<AuthRepo>(),
-    );
-    final formKey = GlobalKey<FormState>();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => profileImagesManager),
@@ -112,7 +124,8 @@ class ProfileEditingPage extends StatelessWidget {
             context.read<ProfileEditingManager>().isItProfileCreation;
         return Scaffold(
           body: SafeArea(
-            child: context.watch<ProfileEditingManager>().isLoading
+            child: context.watch<ProfileImagesManager>().isLoading ||
+                    context.watch<ProfileTextsAndTagsManager>().isLoading
                 ? const LoadingContainer()
                 : SingleChildScrollView(
                     keyboardDismissBehavior:

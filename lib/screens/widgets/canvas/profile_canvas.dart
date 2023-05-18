@@ -48,9 +48,6 @@ class _EntityPageCanvasState extends State<EntityPageCanvas> {
       body: SafeArea(
         child: CustomScrollView(
           controller: _scrollController,
-          physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics(),
-          ),
           slivers: [
             AnimatedSliverAppBar(
               scrollController: _scrollController,

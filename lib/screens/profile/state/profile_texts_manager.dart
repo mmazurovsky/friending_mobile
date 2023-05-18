@@ -66,9 +66,35 @@ class ProfileTextsAndTagsManager with ChangeNotifier {
     return _initialTags.difference(_tagsToDisplay);
   }
 
+  bool _isDisposed = false;
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    _usernameController.dispose();
+    _usernameFocusNode.dispose();
+    _birthDateController.dispose();
+    _descriptionController.dispose();
+    _descriptionFocusNode.dispose();
+    _lookingForController.dispose();
+    _lookingForFocusNode.dispose();
+    _instagramUsernameController.dispose();
+    _instagramUsernameFocusNode.dispose();
+    _telegreamUsernameController.dispose();
+    _telegramUsernameFocusNode.dispose();
+    _addTagsController.dispose();
+    _addTagsFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_isDisposed) super.notifyListeners();
+  }
+
   void fillFieldsBasedOnProfile(FullReadUserModel? profile) async {
     _isLoading = true;
-    if (profile != null) {
+    if (profile != null && !_isDisposed) {
       _usernameController.text = profile.shortUserModel.username;
       _birthDate = profile.shortUserModel.birthDate;
       _birthDateController.text = _birthDate?.toDateString() ?? '';

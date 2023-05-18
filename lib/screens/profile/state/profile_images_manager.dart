@@ -16,6 +16,7 @@ class ProfileImagesManager with ChangeNotifier {
   final ImageService _imageService = getIt<ImageService>();
   final AuthRepo _authRepo = getIt<AuthRepo>();
   final List<SingleProfileImageManager> _managers = [];
+  bool _isDisposed = false;
 
   ProfileImagesManager();
 
@@ -50,6 +51,17 @@ class ProfileImagesManager with ChangeNotifier {
     _managers.addAll(managers);
     _isLoading = false;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_isDisposed) super.notifyListeners();
   }
 
   void reorderManagers(int oldIndex, int newIndex) {

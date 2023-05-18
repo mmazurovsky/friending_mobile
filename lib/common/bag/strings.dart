@@ -31,6 +31,7 @@ class _UiStrings {
   final cancel = 'Cancel';
   final enableLocationServices = "Enable location services";
   final openSettings = 'Open settings';
+  final proceed = 'Proceed';
 }
 
 class _FailureStrings {

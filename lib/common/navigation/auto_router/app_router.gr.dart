@@ -41,6 +41,16 @@ class _$AppRouter extends RootStackRouter {
         child: const ForgotPasswordPage(),
       );
     },
+    ThisUserProfileRoute.name: (routeData) {
+      final args = routeData.argsAs<ThisUserProfileRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ThisUserProfilePage(
+          key: args.key,
+          shortProfile: args.shortProfile,
+        ),
+      );
+    },
     ExploreRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -96,6 +106,10 @@ class _$AppRouter extends RootStackRouter {
           ForgotPasswordRoute.name,
           path: '/forgot-password-page',
         ),
+        RouteConfig(
+          ThisUserProfileRoute.name,
+          path: '/this-user-profile-page',
+        ),
       ];
 }
 
@@ -146,6 +160,40 @@ class ForgotPasswordRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ForgotPasswordRoute';
+}
+
+/// generated route for
+/// [ThisUserProfilePage]
+class ThisUserProfileRoute extends PageRouteInfo<ThisUserProfileRouteArgs> {
+  ThisUserProfileRoute({
+    Key? key,
+    required ShortReadUserModel shortProfile,
+  }) : super(
+          ThisUserProfileRoute.name,
+          path: '/this-user-profile-page',
+          args: ThisUserProfileRouteArgs(
+            key: key,
+            shortProfile: shortProfile,
+          ),
+        );
+
+  static const String name = 'ThisUserProfileRoute';
+}
+
+class ThisUserProfileRouteArgs {
+  const ThisUserProfileRouteArgs({
+    this.key,
+    required this.shortProfile,
+  });
+
+  final Key? key;
+
+  final ShortReadUserModel shortProfile;
+
+  @override
+  String toString() {
+    return 'ThisUserProfileRouteArgs{key: $key, shortProfile: $shortProfile}';
+  }
 }
 
 /// generated route for

@@ -90,6 +90,7 @@ class _AnimatedSliverAppBarState extends State<AnimatedSliverAppBar> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      backgroundColor: context.theme.colorScheme.background,
       pinned: true,
       leading: widget.isBackButtonOn
           ? AppBarButton(
@@ -113,12 +114,13 @@ class _AnimatedSliverAppBarState extends State<AnimatedSliverAppBar> {
             children: [
               Text(
                 widget.data.username,
-                style: context.theme.appBarTheme.titleTextStyle,
+                style: context.theme.textTheme.bodyMedium
+                    ?.copyWith(fontWeight: FontWeight.bold),
                 overflow: TextOverflow.fade,
               ),
               Text(
                 'User',
-                style: context.theme.appBarTheme.toolbarTextStyle,
+                style: context.theme.textTheme.bodyMedium,
                 overflow: TextOverflow.fade,
               ),
             ],

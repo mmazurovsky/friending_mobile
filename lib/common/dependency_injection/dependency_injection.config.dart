@@ -51,6 +51,8 @@ import 'package:flutter_mobile_starter/screens/profile/ds/souls_ds.dart'
     as _i32;
 import 'package:flutter_mobile_starter/screens/profile/repo/profile_repo.dart'
     as _i30;
+import 'package:flutter_mobile_starter/screens/profile/state/profile_content_manager.dart'
+    as _i37;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_images_manager.dart'
     as _i17;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_texts_manager.dart'
@@ -64,7 +66,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i15;
 import 'package:uuid/uuid.dart' as _i22;
 
-import 'modules.dart' as _i37;
+import 'modules.dart' as _i38;
 
 // ignore_for_file: unnecessary_lambdas
 // ignore_for_file: lines_longer_than_80_chars
@@ -173,7 +175,9 @@ _i1.GetIt init(
         gh<_i34.UserListRepo>(),
         gh<_i26.CoordinatesRepo>(),
       ));
+  gh.lazySingleton<_i37.ProfileContentManager>(
+      () => _i37.ProfileContentManager(gh<_i30.ProfileRepo>()));
   return getIt;
 }
 
-class _$Modules extends _i37.Modules {}
+class _$Modules extends _i38.Modules {}

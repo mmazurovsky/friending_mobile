@@ -200,7 +200,7 @@ class UserListDSImpl implements UserListDS {
     final c =
         b.getOrElse(() => <QueryDocumentSnapshot<Map<String, dynamic>>>[]);
     final userIds = c.fold<List<String>>([], (prev, e) {
-      prev.addAll(e.get('usersWithThisTag') as List<String>);
+      prev.addAll((e.get('usersWithThisTag') as List<dynamic>).cast<String>());
       return prev;
     }).toSet();
     for (var userId in userIds) {

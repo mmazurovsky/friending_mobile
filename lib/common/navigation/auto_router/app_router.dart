@@ -9,6 +9,8 @@ import '../../../screens/explore/ui/explore_page.dart';
 import '../../../screens/front_page.dart';
 import '../../../screens/profile/ui/profile_editing_page.dart';
 import '../../../screens/profile/ui/profile_page.dart';
+import '../../../screens/profile/ui/this_user_profile_page.dart';
+import '../../data/models/user_models.dart';
 
 part 'app_router.gr.dart';
 
@@ -38,6 +40,9 @@ part 'app_router.gr.dart';
     ),
     AutoRoute(
       page: ForgotPasswordPage,
+    ),
+    AutoRoute(
+      page: ThisUserProfilePage,
     ),
   ],
 )

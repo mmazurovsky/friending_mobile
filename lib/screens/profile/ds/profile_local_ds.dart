@@ -7,7 +7,7 @@ import '../../../common/data/models/user_models.dart';
 abstract class ProfileLocalDS {
   Future<void> saveShortProfile(ShortUpdateUserModel model);
 
-  Future<void> updateProfilePhotoUrls(List<String> photos);
+  // Future<void> updateProfilePhotoUrls(List<String> photos);
 
   ShortUpdateUserModel? getShortProfile();
 
@@ -25,7 +25,8 @@ class ProfileLocalDSImpl implements ProfileLocalDS {
   @override
   ShortUpdateUserModel? getShortProfile() {
     final box = Hive.box(Strings.ids.profileBox);
-    final profileRaw = box.get('my');
+    final profileRaw =
+        (box.get('my') as Map<dynamic, dynamic>?)?.cast<String, dynamic>();
     if (profileRaw == null) {
       return null;
     } else {
@@ -39,16 +40,16 @@ class ProfileLocalDSImpl implements ProfileLocalDS {
     return box.delete('my');
   }
 
-  @override
-  Future<void> updateProfilePhotoUrls(List<String> photos) {
-    final box = Hive.box(Strings.ids.profileBox);
-    final profileRaw = box.get('my');
-    if (profileRaw == null) {
-      return Future.value();
-    } else {
-      final profile = ShortUpdateUserModel.fromJson(profileRaw);
-      final newShortUserModel = profile.copyWith(photos: photos);
-      return box.put('my', newShortUserModel.toJson());
-    }
-  }
+  // @override
+  // Future<void> updateProfilePhotoUrls(List<String> photos) {
+  //   final box = Hive.box(Strings.ids.profileBox);
+  //   final profileRaw = box.get('my');
+  //   if (profileRaw == null) {
+  //     return Future.value();
+  //   } else {
+  //     final profile = ShortUpdateUserModel.fromJson(profileRaw);
+  //     final newShortUserModel = profile.copyWith(photos: photos);
+  //     return box.put('my', newShortUserModel.toJson());
+  //   }
+  // }
 }
