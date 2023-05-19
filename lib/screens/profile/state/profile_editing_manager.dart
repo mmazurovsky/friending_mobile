@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/data/failures/failures.dart';
@@ -80,7 +79,7 @@ class ProfileEditingManager with ChangeNotifier {
         username: username,
         birthDate: birthDate,
         photos: imageUrls.toList(),
-        tags: newTagsList.toList(),
+        tags: newTagsList.map((e) => e.title).toList(),
       );
 
       final additionalModel = AdditionalUserModel(

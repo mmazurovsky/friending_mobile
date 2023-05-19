@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../entities/tag_entity.dart';
 import '../entities/user_entities.dart';
 import '../enums.dart';
 
@@ -126,6 +127,24 @@ class ShortReadUserModel
 
   factory ShortReadUserModel.fromJson(Map<String, dynamic> json) =>
       _$ShortReadUserModelFromJson(json);
+
+  List<TagEntity> get tagsEntities {
+    final commonTagsEntities = commonTags
+        .map((e) => TagEntity(
+              e,
+              true,
+            ))
+        .toList();
+
+    final nonCommonTagsEntities = tags
+        .where((element) => !commonTags.contains(element))
+        .map((e) => TagEntity(
+              e,
+            ))
+        .toList();
+
+    return [...commonTagsEntities, ...nonCommonTagsEntities];
+  }
 
   @override
   String get avatar => photos.first;

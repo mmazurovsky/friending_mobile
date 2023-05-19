@@ -23,7 +23,6 @@ class ButtonWithIcons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      highlightColor: context.theme.splashColor,
       onTap: () => onButtonTap(),
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -41,7 +40,7 @@ class ButtonWithIcons extends StatelessWidget {
                 size: 26,
                 color: context.theme.indicatorColor,
               ),
-          textStyle: context.theme.textTheme.bodyMedium!,
+          textStyle: context.theme.textTheme.bodyLarge!,
         ),
       ),
     );

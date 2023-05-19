@@ -20,11 +20,19 @@ class EntitySubtitle extends StatelessWidget {
         children: [
           Text(
             'User speaking',
-            style: context.theme.textTheme.bodyMedium,
+            style: context.theme.textTheme.bodyLarge,
             maxLines: 1,
             overflow: TextOverflow.fade,
           ),
-          //TODO: languages widget
+          ...languages.map(
+            (e) => Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Text(
+                e.emojiCode,
+                style: context.theme.textTheme.bodyLarge,
+              ),
+            ),
+          ),
         ],
       ),
     );

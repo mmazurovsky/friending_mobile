@@ -25,72 +25,72 @@ class SocialLinksList extends StatelessWidget {
         ? Column(
             children: [
               soundcloudUsername != null
-                  ? ButtonWithIcons(
-                      buttonText: 'Soundcloud',
-                      onButtonTap: () => OpenLinkService.openSoundcloud(
-                        soundcloudUsername!,
-                      ),
-                      leadingIcon: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          image: const DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              ImageAssets.soundcloudLogo,
-                            ),
+                  ? SocialLinksLine(
+                      text: 'Soundcloud',
+                      logoAsset: ImageAssets.soundcloudLogo,
+                      onTap: () => () => OpenLinkService.openSoundcloud(
+                            soundcloudUsername!,
                           ),
-                        ),
-                      ),
                       verticalPadding: _verticalPadding,
                     )
                   : Container(),
               instagramUsername != null
-                  ? ButtonWithIcons(
-                      buttonText: 'Instagram',
-                      onButtonTap: () =>
+                  ? SocialLinksLine(
+                      text: 'Instagram',
+                      logoAsset: ImageAssets.instagramLogo,
+                      onTap: () =>
                           OpenLinkService.openInstagram(instagramUsername!),
-                      leadingIcon: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          image: const DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              ImageAssets.instagramLogo,
-                            ),
-                          ),
-                        ),
-                      ),
                       verticalPadding: _verticalPadding,
                     )
                   : Container(),
               telegramUsername != null
-                  ? ButtonWithIcons(
-                      buttonText: 'Telegram',
-                      onButtonTap: () => OpenLinkService.openUrl(
+                  ? SocialLinksLine(
+                      text: 'Telegram',
+                      logoAsset: ImageAssets.telegramLogo,
+                      onTap: () => OpenLinkService.openUrl(
                           SocialLinksHelper.getTelegramLinkForNickname(
                               telegramUsername!)),
-                      leadingIcon: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          image: const DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              ImageAssets.telegramLogo,
-                            ),
-                          ),
-                        ),
-                      ),
                       verticalPadding: _verticalPadding,
                     )
                   : Container(),
             ],
           )
         : Container();
+  }
+}
+
+class SocialLinksLine extends StatelessWidget {
+  final String text;
+  final String logoAsset;
+  final VoidCallback onTap;
+  final double verticalPadding;
+  const SocialLinksLine({
+    super.key,
+    required this.text,
+    required this.logoAsset,
+    required this.onTap,
+    required this.verticalPadding,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ButtonWithIcons(
+      buttonText: text,
+      onButtonTap: onTap,
+      leadingIcon: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage(
+              logoAsset,
+            ),
+          ),
+        ),
+      ),
+      verticalPadding: verticalPadding,
+    );
   }
 }

@@ -187,12 +187,25 @@ class TagsEditingSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        TagsAdder(),
-        SizedBox(
+      children: [
+        const TagsAdder(),
+        const SizedBox(
           height: 10,
         ),
-        TagsDisplayer(),
+        TagsDisplayer(
+          tagsToDisplay:
+              context.watch<ProfileTextsAndTagsManager>().tagsToDisplay,
+          displayIfTagsEmpty: Container(
+            padding: CEdgeInsets.horizontalStandart,
+            alignment: Alignment.centerLeft,
+            child: const Text(
+              "Add your first tags to see people who share your interests! Example: \"cats, vegan, radiohead, crying\"",
+            ),
+          ),
+          onDeleteTag: (String e) {
+            context.read<ProfileTextsAndTagsManager>().removeTag(e);
+          },
+        ),
       ],
     );
   }

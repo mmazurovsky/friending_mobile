@@ -235,11 +235,12 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
         }
 
         for (final tag in tagsToAdd) {
-          batch.update(
+          batch.set(
             _firebaseFirestore.collection(tagsCollection).doc(tag),
             {
               'usersWithThisTag': FieldValue.arrayUnion([r.uid]),
             },
+            SetOptions(merge: true),
           );
         }
 

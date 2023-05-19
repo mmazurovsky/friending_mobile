@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../../../common/bag/stateful/theme.dart';
-import '../custom_edge_insets.dart';
 
 class ExpandableTextSection extends StatefulWidget {
   final String text;
@@ -31,32 +30,29 @@ class _ExpandableTextSectionState extends State<ExpandableTextSection>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: CEdgeInsets.horizontalStandart,
-      child: SelectableText.rich(
-        TextSpan(
-          children: [
-            TextSpan(
-              text: widget.text.length > _minPreviewLength && !_isExpanded
-                  ? '${widget.text.substring(0, _previewLength)}...'
-                  : widget.text,
-              style: context.theme.textTheme.bodyMedium,
-            ),
-            widget.text.length > _minPreviewLength
-                ? WidgetSpan(
-                    child: GestureDetector(
-                      onTap: () => setState(() => _isExpanded = !_isExpanded),
-                      child: RichText(
-                        text: TextSpan(
-                          text: ' ${_isExpanded ? 'Show less' : 'Show more'}',
-                          style: context.theme.textTheme.bodyMedium,
-                        ),
+    return SelectableText.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: widget.text.length > _minPreviewLength && !_isExpanded
+                ? '${widget.text.substring(0, _previewLength)}...'
+                : widget.text,
+            style: context.theme.textTheme.bodyLarge,
+          ),
+          widget.text.length > _minPreviewLength
+              ? WidgetSpan(
+                  child: GestureDetector(
+                    onTap: () => setState(() => _isExpanded = !_isExpanded),
+                    child: RichText(
+                      text: TextSpan(
+                        text: ' ${_isExpanded ? 'Show less' : 'Show more'}',
+                        style: context.theme.textTheme.bodyLarge,
                       ),
                     ),
-                  )
-                : const TextSpan(),
-          ],
-        ),
+                  ),
+                )
+              : const TextSpan(),
+        ],
       ),
     );
   }

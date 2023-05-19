@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import '../../../../common/bag/stateful/theme.dart';
+import '../../../../common/data/entities/tag_entity.dart';
 import '../../../widgets/custom_edge_insets.dart';
-import '../../state/profile_texts_manager.dart';
 
 class TagsDisplayer extends StatelessWidget {
-  const TagsDisplayer({super.key});
+  final List<TagEntity> tagsToDisplay;
+  final Widget displayIfTagsEmpty;
+  final void Function(String)? onDeleteTag;
+  const TagsDisplayer({
+    super.key,
+    required this.tagsToDisplay,
+    required this.displayIfTagsEmpty,
+    this.onDeleteTag,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final tagsToDisplay =
-        context.watch<ProfileTextsAndTagsManager>().tagsToDisplay;
     // create widget to display tags of profile as wrap with chips
     return tagsToDisplay.isNotEmpty
         ? Padding(
@@ -24,20 +30,17 @@ class TagsDisplayer extends StatelessWidget {
                 children: tagsToDisplay.map(
                   (e) {
                     return Chip(
-                      label: Text(e),
-                      onDeleted: () {
-                        context.read<ProfileTextsAndTagsManager>().removeTag(e);
-                      },
+                      label: Text(e.title),
+                      backgroundColor: e.isHighlighted
+                          ? context.theme.chipTheme.selectedColor
+                          : context.theme.chipTheme.disabledColor,
+                      onDeleted: onDeleteTag != null
+                          ? () => onDeleteTag!(e.title)
+                          : null,
                     );
                   },
                 ).toList()),
           )
-        : Container(
-            padding: CEdgeInsets.horizontalStandart,
-            alignment: Alignment.centerLeft,
-            child: const Text(
-              "Add your first tags to see people who share your interests! Example: \"cats, vegan, radiohead, crying\"",
-            ),
-          );
+        : displayIfTagsEmpty;
   }
 }

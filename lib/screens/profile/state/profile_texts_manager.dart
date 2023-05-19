@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../common/data/entities/tag_entity.dart';
 import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../../common/utils/extensions.dart';
@@ -53,7 +54,8 @@ class ProfileTextsAndTagsManager with ChangeNotifier {
 
   final Set<String> _initialTags = {};
   final Set<String> _tagsToDisplay = {};
-  Set<String> get tagsToDisplay => _tagsToDisplay;
+  List<TagEntity> get tagsToDisplay =>
+      _tagsToDisplay.map((e) => TagEntity(e)).toList();
 
   Failure? _failure;
   Failure? get failure => _failure;

@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/animations/wrappers.dart';
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/bag/strings.dart';
@@ -18,8 +19,11 @@ import '../../widgets/custom_edge_insets.dart';
 import '../../widgets/loading.dart';
 import '../../widgets/modal_bottom_sheet/modal_bottom_sheet_content.dart';
 import '../../widgets/social_links_list.dart';
+import '../../widgets/spacers/section_divider_with_spacers.dart';
 import '../../widgets/texts/expandable_text_section.dart';
+import '../../widgets/texts/section_title.dart';
 import '../state/profile_content_manager.dart';
+import 'widgets/tags_displayer.dart';
 
 class ThisUserProfilePage extends StatefulWidget {
   final ShortReadUserModel shortProfile;
@@ -38,7 +42,7 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
   @override
   void initState() {
     super.initState();
-    _scrollController = allTabsOrderedAccordingToIndex[0].scrollController;
+    _scrollController = allTabsOrderedAccordingToIndex[2].scrollController;
   }
 
   @override
@@ -81,14 +85,15 @@ class _ProfileContentState extends State<_ProfileContent> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => getIt<ProfileContentManager>()..loadProfile(),
-        builder: (context, _) {
-          return context.watch<ProfileContentManager>().isLoading
-              ? const LoadingContainer()
-              : Column(
+      create: (context) => getIt<ProfileContentManager>()..loadProfile(),
+      builder: (context, _) {
+        return context.watch<ProfileContentManager>().isLoading
+            ? const LoadingContainer()
+            : SlideAnimationWrapper(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 15),
                     SizedBox(
                       width: double.infinity,
                       child: Padding(
@@ -99,10 +104,30 @@ class _ProfileContentState extends State<_ProfileContent> {
                             builder: (context) => SettingsSelector(
                                 _functionToCloseModalBottomSheetAndDoSomething),
                           ),
-                          child: const Text('Open settings'),
+                          child: Text(
+                            'Open settings',
+                            style:
+                                context.theme.textTheme.titleMedium?.copyWith(
+                              color: context.theme.colorScheme.onPrimary,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
                       ),
                     ),
+                    const SizedBox(height: 20),
+                    const SectionTitle('Tags'),
+                    const SizedBox(height: 10),
+                    TagsDisplayer(
+                      tagsToDisplay: context
+                          .read<ProfileContentManager>()
+                          .profile
+                          .shortUserModel
+                          .tagsEntities,
+                      displayIfTagsEmpty: Container(),
+                    ),
+                    const SectionDividerWithSpacers(),
+                    const SectionTitle('Description'),
                     Padding(
                       padding: CEdgeInsets.horizontalStandart,
                       child: ExpandableTextSection(
@@ -113,6 +138,8 @@ class _ProfileContentState extends State<_ProfileContent> {
                             .description!,
                       ),
                     ),
+                    const SectionDividerWithSpacers(),
+                    const SectionTitle('Looking for'),
                     Padding(
                       padding: CEdgeInsets.horizontalStandart,
                       child: ExpandableTextSection(
@@ -123,6 +150,9 @@ class _ProfileContentState extends State<_ProfileContent> {
                             .lookingFor!,
                       ),
                     ),
+                    const SectionDividerWithSpacers(),
+                    const SectionTitle('Social links'),
+                    const SizedBox(height: 10),
                     SocialLinksList(
                       instagramUsername: context
                           .read<ProfileContentManager>()
@@ -135,10 +165,14 @@ class _ProfileContentState extends State<_ProfileContent> {
                           .privateInfoUserModel
                           .telegramUsername,
                     ),
-                    Container(height: 600,)
+                    Container(
+                      height: 600,
+                    )
                   ],
-                );
-        });
+                ),
+              );
+      },
+    );
   }
 }
 
@@ -172,7 +206,12 @@ class SettingsSelector extends StatelessWidget {
           size: 18,
         ),
         onTap: (_) => _functionToCloseModalBottomSheetAndDoSomething(
-            (BuildContext ctx) => ctx.router.push(ProfileEditingRoute())),
+          (BuildContext ctx) =>
+              //TODO: update profile on profile editing page pop
+              ctx.router.push(const ProfileEditingRoute()).then(
+                    (value) => ctx.read<ProfileContentManager>().loadProfile(),
+                  ),
+        ),
       ),
       _SettingsButtonData(
         text: 'Write to support',
