@@ -151,7 +151,7 @@ class _ProfileContentState extends State<_ProfileContent> {
                       ),
                     ),
                     const SectionDividerWithSpacers(),
-                    const SectionTitle('Social links'),
+                    const SectionTitle('Social links (private)'),
                     const SizedBox(height: 10),
                     SocialLinksList(
                       instagramUsername: context

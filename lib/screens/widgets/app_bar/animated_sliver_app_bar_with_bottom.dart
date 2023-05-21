@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/data/entities/user_entities.dart';
 import '../image/my_cached_network_image.dart';
 import 'app_bar_button.dart';
 
-class AnimatedSliverAppBar extends StatefulWidget {
+class AnimatedSliverAppBarWithBottom extends StatefulWidget {
   final ScrollController scrollController;
   final bool isBackButtonOn;
   final List<Widget> actions;
   final ShortReadUserEntity data;
 
-  const AnimatedSliverAppBar({
+  const AnimatedSliverAppBarWithBottom({
     Key? key,
     required this.scrollController,
     required this.isBackButtonOn,
@@ -21,16 +22,19 @@ class AnimatedSliverAppBar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AnimatedSliverAppBarState createState() => _AnimatedSliverAppBarState();
+  _AnimatedSliverAppBarWithBottomState createState() =>
+      _AnimatedSliverAppBarWithBottomState();
 }
 
-class _AnimatedSliverAppBarState extends State<AnimatedSliverAppBar> {
+class _AnimatedSliverAppBarWithBottomState
+    extends State<AnimatedSliverAppBarWithBottom> {
   double _backArrowOpacity = 0.5;
   late double _scrollOffsetFromWhichAppBarDarkeningStarts;
   late double _scrollOffsetFromWhichAppBarDarkeningEnds;
   late double flexibleSpaceHeight;
-  late CCachedNetworkImage _flexibleSpaceImage;
+  late Widget _flexibleSpaceImage;
   late bool _showAppBarTitle;
+  late final PageController _pageController;
 
   static const _heightOfFlexibleSpace = 500.0;
 
@@ -38,12 +42,15 @@ class _AnimatedSliverAppBarState extends State<AnimatedSliverAppBar> {
   void initState() {
     super.initState();
     widget.scrollController.addListener(_scrollListener);
-    _flexibleSpaceImage = CCachedNetworkImage(widget.data.photos.first);
     _showAppBarTitle = false;
     flexibleSpaceHeight = _heightOfFlexibleSpace;
     _scrollOffsetFromWhichAppBarDarkeningEnds = flexibleSpaceHeight - 55;
     _scrollOffsetFromWhichAppBarDarkeningStarts =
         _scrollOffsetFromWhichAppBarDarkeningEnds - 40;
+    _pageController = PageController(
+      initialPage: 0,
+      
+    );
   }
 
   void _scrollListener() {
@@ -89,6 +96,45 @@ class _AnimatedSliverAppBarState extends State<AnimatedSliverAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    _flexibleSpaceImage = Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        PageView.builder(
+          controller: _pageController,
+          scrollDirection: Axis.horizontal,
+          itemCount: widget.data.photos.length,
+          itemBuilder: (context, i) {
+            return CCachedNetworkImage(widget.data.photos[i]);
+          },
+        ),
+        Positioned(
+          bottom: 15,
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 6,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.4),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: SmoothPageIndicator(
+              controller: _pageController,
+              count: widget.data.photos.length,
+              effect: SlideEffect(
+                type: SlideType.slideUnder,
+                dotColor: context.theme.colorScheme.background,
+                activeDotColor: context.theme.colorScheme.primary,
+                dotHeight: 10,
+                dotWidth: 10,
+                spacing: 6,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+
     return SliverAppBar(
       backgroundColor: context.theme.colorScheme.background,
       pinned: true,

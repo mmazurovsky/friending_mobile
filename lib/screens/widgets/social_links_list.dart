@@ -47,9 +47,8 @@ class SocialLinksList extends StatelessWidget {
                   ? SocialLinksLine(
                       text: 'Telegram',
                       logoAsset: ImageAssets.telegramLogo,
-                      onTap: () => OpenLinkService.openUrl(
-                          SocialLinksHelper.getTelegramLinkForNickname(
-                              telegramUsername!)),
+                      onTap: () =>
+                          OpenLinkService.openTelegram(telegramUsername!),
                       verticalPadding: _verticalPadding,
                     )
                   : Container(),

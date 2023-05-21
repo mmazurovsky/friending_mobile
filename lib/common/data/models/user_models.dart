@@ -157,6 +157,17 @@ class ShortReadUserModel
       tags: tags,
     );
   }
+
+  @override
+  int get age {
+    final now = DateTime.now();
+    final ageWillBeAtEndOfCurrentYear = now.year - birthDate.year;
+    final isBeforeBirthday = now.month < birthDate.month ||
+        (now.month == birthDate.month && now.day < birthDate.day);
+    return isBeforeBirthday
+        ? ageWillBeAtEndOfCurrentYear - 1
+        : ageWillBeAtEndOfCurrentYear;
+  }
 }
 
 @freezed

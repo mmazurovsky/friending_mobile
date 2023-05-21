@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/data/entities/user_entities.dart';
-import '../app_bar/animated_sliver_app_bar.dart';
+import '../app_bar/animated_sliver_app_bar_with_bottom.dart';
 import '../spacers/screen_ending.dart';
 import '../texts/entity_subtitle.dart';
 import '../texts/entity_title.dart';
@@ -49,7 +49,7 @@ class _EntityPageCanvasState extends State<EntityPageCanvas> {
         child: CustomScrollView(
           controller: _scrollController,
           slivers: [
-            AnimatedSliverAppBar(
+            AnimatedSliverAppBarWithBottom(
               scrollController: _scrollController,
               isBackButtonOn: widget.isBackButtonOn,
               data: widget.data,
@@ -61,7 +61,10 @@ class _EntityPageCanvasState extends State<EntityPageCanvas> {
                   const SizedBox(height: 20),
                   EntityTitle(title: widget.data.username),
                   const SizedBox(height: 5),
-                  const EntitySubtitle(languages: []),
+                  EntitySubtitle(
+                    languages: const [],
+                    age: widget.data.age,
+                  ),
                   widget.loadableContent,
                   const ScreenEnding(),
                 ],

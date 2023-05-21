@@ -6,9 +6,11 @@ import '../custom_edge_insets.dart';
 import '../row/row_of_widgets.dart';
 
 class EntitySubtitle extends StatelessWidget {
+  final int age;
   final List<LanguageModel> languages;
   const EntitySubtitle({
     Key? key,
+    required this.age,
     required this.languages,
   }) : super(key: key);
 
@@ -19,7 +21,7 @@ class EntitySubtitle extends StatelessWidget {
       child: RowOfWidgets(
         children: [
           Text(
-            'User speaking',
+            '$age y.o., speaking 🇷🇺🇳🇱',
             style: context.theme.textTheme.bodyLarge,
             maxLines: 1,
             overflow: TextOverflow.fade,
