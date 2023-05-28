@@ -21,7 +21,7 @@ class EntitySubtitle extends StatelessWidget {
       child: RowOfWidgets(
         children: [
           Text(
-            '$age y.o., speaking 🇷🇺🇳🇱',
+            '$age y.o.',
             style: context.theme.textTheme.bodyLarge,
             maxLines: 1,
             overflow: TextOverflow.fade,

@@ -39,7 +39,6 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
   String get shortUserCollection => Strings.server.shortUsersCollection;
   String get connectionsCollection => Strings.server.connectionsCollection;
   String get privateInfoUserCollection => Strings.server.privateInfoCollection;
-  String get additionalInfoUserCollection => Strings.server.fullUsersCollection;
 
   @override
   Future<Either<RequestFailure, OtherUserFullModel>> getOtherUserFullProfile(
@@ -47,7 +46,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
     final futureShortModel =
         _firebaseFirestore.collection(shortUserCollection).doc(userId).get();
     final futureAdditionalModel = _firebaseFirestore
-        .collection(additionalInfoUserCollection)
+        .collection(fullUserCollection)
         .doc(userId)
         .get();
 
@@ -103,10 +102,10 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
       }
     }, (currentUser) async {
       final futureConnection = _firebaseFirestore
-          .collection(additionalInfoUserCollection)
-          .doc(userId)
-          .collection(connectionsCollection)
+          .collection(fullUserCollection)
           .doc(currentUser.uid)
+          .collection(connectionsCollection)
+          .doc(userId)
           .get();
 
       final futureConnectionRaw = _requestCheckWrapper(futureConnection);
@@ -126,7 +125,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
           connectStatusEnum =
               connectionTypeRaw.toEnum(UserConnectStatusEnum.values) ??
                   UserConnectStatusEnum.disconnected;
-          //TODO: not very clear, better rewrite
+          //TODO: not very clean, better rewrite
           if (connectStatusEnum == UserConnectStatusEnum.disconnected) {
             _customLogger.logMessage(
                 loggerName: loggerName,
@@ -167,7 +166,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
   Future<Either<RequestFailure, PrivateInfoUserModel>> _getPrivateInfo(
       String userId) async {
     final futurePrivateModel = _firebaseFirestore
-        .collection(additionalInfoUserCollection)
+        .collection(fullUserCollection)
         .doc(userId)
         .collection(privateInfoUserCollection)
         .doc(userId)
