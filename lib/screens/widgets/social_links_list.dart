@@ -8,7 +8,7 @@ class SocialLinksList extends StatelessWidget {
   final String? instagramUsername;
   final String? soundcloudUsername;
   final String? telegramUsername;
-  static const double _verticalPadding = 10;
+  static const double _verticalPadding = 12;
 
   const SocialLinksList({
     Key? key,

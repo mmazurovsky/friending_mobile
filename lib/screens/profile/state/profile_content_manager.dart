@@ -10,7 +10,7 @@ class ProfileContentManager with ChangeNotifier {
 
   ProfileContentManager(this._profileRepo);
 
-  late final FullReadUserModel _profile;
+  late FullReadUserModel _profile;
   FullReadUserModel get profile => _profile;
 
   bool _isLoading = true;

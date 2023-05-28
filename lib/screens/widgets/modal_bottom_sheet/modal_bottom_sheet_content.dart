@@ -50,7 +50,7 @@ class ModalBottomSheetContent extends StatelessWidget {
                     Icon(
                       iconData,
                       size: 24,
-                      color: Colors.amber,
+                      color: context.theme.indicatorColor,
                     ),
                     const SizedBox(
                       width: 15,
@@ -59,7 +59,7 @@ class ModalBottomSheetContent extends StatelessWidget {
                       child: Text(
                         title,
                         textAlign: TextAlign.start,
-                        style: TextStyle(),
+                        style: context.theme.textTheme.titleMedium,
                       ),
                     ),
                   ],

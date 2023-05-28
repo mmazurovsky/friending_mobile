@@ -107,6 +107,7 @@ class _ProfileEditingPageState extends State<ProfileEditingPage> {
         ..showCSnackBar(messagesOfInvalidity.first);
     } else {
       context.read<ProfileEditingManager>().updateProfile();
+      Navigator.of(context).pop(true);
     }
   }
 

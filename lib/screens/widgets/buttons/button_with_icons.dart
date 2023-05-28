@@ -38,7 +38,7 @@ class ButtonWithIcons extends StatelessWidget {
               Icon(
                 Ionicons.chevron_forward_outline,
                 size: 26,
-                color: context.theme.indicatorColor,
+                color: context.theme.primaryColor,
               ),
           textStyle: context.theme.textTheme.bodyLarge!,
         ),

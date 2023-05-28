@@ -46,6 +46,14 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
   }
 
   @override
+  void didUpdateWidget(covariant ThisUserProfilePage oldWidget) {
+    if (oldWidget.shortProfile != widget.shortProfile) {
+      getIt<ProfileContentManager>().loadProfile();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void dispose() {
     //* disposing this controller causes crash on city change
     // _scrollController.dispose();
@@ -54,11 +62,14 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return EntityPageCanvas(
-      data: widget.shortProfile,
-      loadableContent: const _ProfileContent(),
-      scrollController: _scrollController,
-      isBackButtonOn: false,
+    return ChangeNotifierProvider(
+      create: (context) => getIt<ProfileContentManager>()..loadProfile(),
+      builder: (context, child) => EntityPageCanvas(
+        data: widget.shortProfile,
+        loadableContent: const _ProfileContent(),
+        scrollController: _scrollController,
+        isBackButtonOn: false,
+      ),
     );
   }
 }
@@ -84,95 +95,90 @@ class _ProfileContentState extends State<_ProfileContent> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => getIt<ProfileContentManager>()..loadProfile(),
-      builder: (context, _) {
-        return context.watch<ProfileContentManager>().isLoading
-            ? const LoadingContainer()
-            : SlideAnimationWrapper(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 15),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: CEdgeInsets.horizontalStandart,
-                        child: PlatformElevatedButton(
-                          onPressed: () => showModalBottomSheet(
-                            context: context,
-                            builder: (context) => SettingsSelector(
-                                _functionToCloseModalBottomSheetAndDoSomething),
-                          ),
-                          child: Text(
-                            'Open settings',
-                            style:
-                                context.theme.textTheme.titleMedium?.copyWith(
-                              color: context.theme.colorScheme.onPrimary,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+    return context.watch<ProfileContentManager>().isLoading
+        ? const LoadingContainer()
+        : SlideAnimationWrapper(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 15),
+                SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: CEdgeInsets.horizontalStandart,
+                    child: PlatformElevatedButton(
+                      onPressed: () => showModalBottomSheet(
+                        context: context,
+                        builder: (context) => SettingsSelector(
+                            _functionToCloseModalBottomSheetAndDoSomething),
+                      ),
+                      child: Text(
+                        'Open settings',
+                        style: context.theme.textTheme.titleMedium?.copyWith(
+                          fontSize: 17,
+                          color: context.theme.colorScheme.onPrimary,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    const SectionTitle('Tags'),
-                    const SizedBox(height: 10),
-                    TagsDisplayer(
-                      tagsToDisplay: context
-                          .read<ProfileContentManager>()
-                          .profile
-                          .shortUserModel
-                          .tagsEntities,
-                      displayIfTagsEmpty: Container(),
-                    ),
-                    const SectionDividerWithSpacers(),
-                    const SectionTitle('Description'),
-                    Padding(
-                      padding: CEdgeInsets.horizontalStandart,
-                      child: ExpandableTextSection(
-                        context
-                            .read<ProfileContentManager>()
-                            .profile
-                            .additionalUserModel
-                            .description!,
-                      ),
-                    ),
-                    const SectionDividerWithSpacers(),
-                    const SectionTitle('Looking for'),
-                    Padding(
-                      padding: CEdgeInsets.horizontalStandart,
-                      child: ExpandableTextSection(
-                        context
-                            .read<ProfileContentManager>()
-                            .profile
-                            .additionalUserModel
-                            .lookingFor!,
-                      ),
-                    ),
-                    const SectionDividerWithSpacers(),
-                    const SectionTitle('Social links (private)'),
-                    const SizedBox(height: 10),
-                    SocialLinksList(
-                      instagramUsername: context
-                          .read<ProfileContentManager>()
-                          .profile
-                          .privateInfoUserModel
-                          .instagramUsername,
-                      telegramUsername: context
-                          .read<ProfileContentManager>()
-                          .profile
-                          .privateInfoUserModel
-                          .telegramUsername,
-                    ),
-                    Container(
-                      height: 600,
-                    )
-                  ],
+                  ),
                 ),
-              );
-      },
-    );
+                const SizedBox(height: 20),
+                const SectionTitle('Tags'),
+                const SizedBox(height: 10),
+                TagsDisplayer(
+                  tagsToDisplay: context
+                      .read<ProfileContentManager>()
+                      .profile
+                      .shortUserModel
+                      .tagsEntities,
+                  displayIfTagsEmpty: Container(),
+                ),
+                const SectionDividerWithSpacers(),
+                const SectionTitle('Description'),
+                Padding(
+                  padding: CEdgeInsets.horizontalStandart,
+                  child: ExpandableTextSection(
+                    context
+                        .read<ProfileContentManager>()
+                        .profile
+                        .additionalUserModel
+                        .description!,
+                  ),
+                ),
+                const SectionDividerWithSpacers(),
+                const SectionTitle('Looking for'),
+                Padding(
+                  padding: CEdgeInsets.horizontalStandart,
+                  child: ExpandableTextSection(
+                    context
+                        .read<ProfileContentManager>()
+                        .profile
+                        .additionalUserModel
+                        .lookingFor!,
+                  ),
+                ),
+                const SectionDividerWithSpacers(),
+                const SectionTitle('Social links (private)'),
+                const SizedBox(height: 10),
+                SocialLinksList(
+                  instagramUsername: context
+                      .read<ProfileContentManager>()
+                      .profile
+                      .privateInfoUserModel
+                      .instagramUsername,
+                  telegramUsername: context
+                      .read<ProfileContentManager>()
+                      .profile
+                      .privateInfoUserModel
+                      .telegramUsername,
+                ),
+                Container(
+                  height: 600,
+                )
+              ],
+            ),
+          );
   }
 }
 
@@ -206,12 +212,13 @@ class SettingsSelector extends StatelessWidget {
           size: 18,
         ),
         onTap: (_) => _functionToCloseModalBottomSheetAndDoSomething(
-          (BuildContext ctx) =>
-              //TODO: update profile on profile editing page pop
-              ctx.router.push(const ProfileEditingRoute()).then(
-                    (value) => ctx.read<ProfileContentManager>().loadProfile(),
-                  ),
-        ),
+            (BuildContext ctx) =>
+                //TODO: update profile on profile editing page pop
+                ctx.router.push(const ProfileEditingRoute())
+            // .then(
+            //       (value) => ctx.read<ProfileContentManager>().loadProfile(),
+            //     ),
+            ),
       ),
       _SettingsButtonData(
         text: 'Write to support',
@@ -302,7 +309,7 @@ class SettingsButton extends StatelessWidget {
     return InkWell(
       onTap: () => data.onTap(context),
       child: Padding(
-        padding: CEdgeInsets.horizontalStandart,
+        padding: CEdgeInsets.horizontalStandartVerticalUnit1,
         child: ButtonContent(
           leading: Container(
             height: 30,
@@ -312,7 +319,7 @@ class SettingsButton extends StatelessWidget {
           ),
           distanceBetweenLeadingAndText: 13,
           text: data.text,
-          textStyle: context.theme.textTheme.titleSmall!,
+          textStyle: context.theme.textTheme.titleMedium!,
           mainAxisAlignment: MainAxisAlignment.start,
         ),
       ),
