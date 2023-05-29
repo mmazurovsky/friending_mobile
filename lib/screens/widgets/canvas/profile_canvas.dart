@@ -44,34 +44,32 @@ class _EntityPageCanvasState extends State<EntityPageCanvas> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            AnimatedSliverAppBarWithBottom(
-              scrollController: _scrollController,
-              isBackButtonOn: widget.isBackButtonOn,
-              data: widget.data,
+    return SafeArea(
+      child: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          AnimatedSliverAppBarWithBottom(
+            scrollController: _scrollController,
+            isBackButtonOn: widget.isBackButtonOn,
+            data: widget.data,
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                EntityTitle(title: widget.data.username),
+                const SizedBox(height: 5),
+                EntitySubtitle(
+                  languages: const [],
+                  age: widget.data.age,
+                ),
+                widget.loadableContent,
+                const ScreenEnding(),
+              ],
             ),
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  EntityTitle(title: widget.data.username),
-                  const SizedBox(height: 5),
-                  EntitySubtitle(
-                    languages: const [],
-                    age: widget.data.age,
-                  ),
-                  widget.loadableContent,
-                  const ScreenEnding(),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

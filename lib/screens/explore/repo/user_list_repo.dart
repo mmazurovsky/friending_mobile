@@ -41,7 +41,7 @@ class UserListRepoImpl implements UserListRepo {
       return left(
         CacheFailure(
           m: Strings.failures.cacheFailure.copyWith(
-            forUser: 'Can not get your latest point',
+            forUser: 'Enable location services to see users nearby',
           ),
           e: Exception('Latest point is not available'),
         ),

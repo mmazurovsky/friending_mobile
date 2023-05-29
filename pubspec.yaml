@@ -63,6 +63,7 @@ dependencies:
   permission_handler: ^10.2.0
   url_launcher: ^6.1.11
   smooth_page_indicator: ^1.1.0
+  sliver_tools: ^0.2.10
 
 dev_dependencies:
   flutter_test:

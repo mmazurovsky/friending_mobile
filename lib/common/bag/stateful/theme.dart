@@ -41,9 +41,19 @@ extension BrightnessExt on ThemeStateManager {
 class Themes {
   static ThemeData get light {
     return FlexThemeData.light(
+      scheme: FlexScheme.materialBaseline,
+      surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+      blendLevel: 7,
+      subThemesData: const FlexSubThemesData(
+        blendOnLevel: 10,
+        blendOnColors: false,
+        useTextTheme: true,
+      ),
+      visualDensity: FlexColorScheme.comfortablePlatformDensity,
       useMaterial3: true,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-      scheme: FlexScheme.material,
+      swapLegacyOnMaterial3: true,
+      // To use the Playground font, add GoogleFonts package and uncomment
+      // fontFamily: GoogleFonts.notoSans().fontFamily,
     ).copyWith(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
@@ -61,9 +71,18 @@ class Themes {
 
   static ThemeData get dark {
     return FlexThemeData.dark(
+      scheme: FlexScheme.materialBaseline,
+      surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+      blendLevel: 13,
+      subThemesData: const FlexSubThemesData(
+        blendOnLevel: 20,
+        useTextTheme: true,
+      ),
+      visualDensity: FlexColorScheme.comfortablePlatformDensity,
       useMaterial3: true,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-      scheme: FlexScheme.material,
+      swapLegacyOnMaterial3: true,
+      // To use the Playground font, add GoogleFonts package and uncomment
+      // fontFamily: GoogleFonts.notoSans().fontFamily,
     ).copyWith(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,

@@ -22,11 +22,11 @@ class AnimatedSliverAppBarWithBottom extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AnimatedSliverAppBarWithBottomState createState() =>
-      _AnimatedSliverAppBarWithBottomState();
+  AnimatedSliverAppBarWithBottomState createState() =>
+      AnimatedSliverAppBarWithBottomState();
 }
 
-class _AnimatedSliverAppBarWithBottomState
+class AnimatedSliverAppBarWithBottomState
     extends State<AnimatedSliverAppBarWithBottom> {
   double _backArrowOpacity = 0.5;
   late double _scrollOffsetFromWhichAppBarDarkeningStarts;
@@ -49,7 +49,6 @@ class _AnimatedSliverAppBarWithBottomState
         _scrollOffsetFromWhichAppBarDarkeningEnds - 40;
     _pageController = PageController(
       initialPage: 0,
-      
     );
   }
 
@@ -122,7 +121,7 @@ class _AnimatedSliverAppBarWithBottomState
               controller: _pageController,
               count: widget.data.photos.length,
               effect: SlideEffect(
-                type: SlideType.slideUnder,
+                type: SlideType.normal,
                 dotColor: context.theme.colorScheme.background,
                 activeDotColor: context.theme.colorScheme.primary,
                 dotHeight: 10,
@@ -137,7 +136,10 @@ class _AnimatedSliverAppBarWithBottomState
 
     return SliverAppBar(
       backgroundColor: context.theme.colorScheme.background,
+      surfaceTintColor: Colors.transparent,
       pinned: true,
+      floating: false,
+      snap: false,
       leading: widget.isBackButtonOn
           ? AppBarButton(
               containerOpacity: _backArrowOpacity,
