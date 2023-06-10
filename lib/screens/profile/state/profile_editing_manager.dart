@@ -80,10 +80,7 @@ class ProfileEditingManager with ChangeNotifier {
         birthDate: birthDate,
         photos: imageUrls.toList(),
         tags: newTagsList.map((e) => e.title).toList(),
-      );
-
-      final additionalModel = AdditionalUserModel(
-        description: description,
+        about: description,
         lookingFor: lookingFor,
       );
 
@@ -97,13 +94,11 @@ class ProfileEditingManager with ChangeNotifier {
       if (_isItProfileCreation) {
         response = await _profileRepo.saveProfile(
           shortModel: shortModel.toCreateShortModel(userId),
-          additionalModel: additionalModel,
           privateModel: privateModel,
         );
       } else {
         response = await _profileRepo.updateProfile(
           shortModel: shortModel,
-          additionalModel: additionalModel,
           privateModel: privateModel,
           tagsToAdd: tagsToAddOnServer.toList(),
           tagsToRemove: tagsToRemoveOnServer.toList(),

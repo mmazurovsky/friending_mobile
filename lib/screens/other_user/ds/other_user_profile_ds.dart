@@ -45,40 +45,21 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
       String userId) async {
     final futureShortModel =
         _firebaseFirestore.collection(shortUserCollection).doc(userId).get();
-    final futureAdditionalModel = _firebaseFirestore
-        .collection(fullUserCollection)
-        .doc(userId)
-        .get();
 
     final futureShortModelRaw = _requestCheckWrapper(futureShortModel);
-    final futureAdditionalModelRaw =
-        _requestCheckWrapper(futureAdditionalModel);
 
     final shortModelRaw = await futureShortModelRaw;
-    final additionalModelRaw = await futureAdditionalModelRaw;
 
     if (shortModelRaw.isLeft()) {
       //TODO: not sure
       return left<RequestFailure, OtherUserFullModel>(
           (shortModelRaw as Left).value as RequestFailure);
     }
-    if (additionalModelRaw.isLeft()) {
-      //TODO: not sure
-
-      return left<RequestFailure, OtherUserFullModel>(
-          (additionalModelRaw as Left).value as RequestFailure);
-    }
 
     late final ShortReadUserModel shortUserModel;
-    late final AdditionalUserModel additionalUserModel;
 
     shortModelRaw.map(
       (r) => shortUserModel = ShortReadUserModel.fromJson(
-        r.data()!,
-      ),
-    );
-    additionalModelRaw.map(
-      (r) => additionalUserModel = AdditionalUserModel.fromJson(
         r.data()!,
       ),
     );
@@ -92,7 +73,6 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
         return right<RequestFailure, OtherUserFullModel>(
           OtherUserFullModel(
             shortUserModel: shortUserModel,
-            additionalUserModel: additionalUserModel,
             privateInfoUserModel: null,
             connectStatusEnum: connectStatusEnum,
           ),
@@ -147,7 +127,6 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
       return right<RequestFailure, OtherUserFullModel>(
         OtherUserFullModel(
           shortUserModel: shortUserModel,
-          additionalUserModel: additionalUserModel,
           privateInfoUserModel: privateInfoUserModel,
           connectStatusEnum: connectStatusEnum,
         ),

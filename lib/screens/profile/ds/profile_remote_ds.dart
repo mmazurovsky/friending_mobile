@@ -19,14 +19,12 @@ abstract class ProfileRemoteDS {
       getCurrentUserAndProfileTags();
   Future<Either<RequestFailure, void>> updateProfile({
     required ShortUpdateUserModel shortModel,
-    required AdditionalUserModel additionalModel,
     required PrivateInfoUserModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   });
   Future<Either<RequestFailure, void>> saveProfile({
     required ShortCreateUserModel shortModel,
-    required AdditionalUserModel additionalModel,
     required PrivateInfoUserModel privateModel,
   });
   Future<Either<RequestFailure, void>> saveProfilePhotos(
@@ -54,7 +52,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   @override
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
   String get shortUserCollection => Strings.server.shortUsersCollection;
-  String get additionalInfoUserCollection => Strings.server.fullUsersCollection;
+  String get fullUserCollection => Strings.server.fullUsersCollection;
   String get privateInfoUserCollection => Strings.server.privateInfoCollection;
   String get tagsCollection => Strings.server.tagsCollection;
 
@@ -93,24 +91,17 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
       (r) async {
         final futureShortModel =
             _firebaseFirestore.collection(shortUserCollection).doc(r.uid).get();
-        final futureAdditionalModel = _firebaseFirestore
-            .collection(additionalInfoUserCollection)
-            .doc(r.uid)
-            .get();
         final futurePrivateModel = _firebaseFirestore
-            .collection(additionalInfoUserCollection)
+            .collection(fullUserCollection)
             .doc(r.uid)
             .collection(privateInfoUserCollection)
             .doc(r.uid)
             .get();
 
         final futureShortModelRaw = _requestCheckWrapper(futureShortModel);
-        final futureAdditionalModelRaw =
-            _requestCheckWrapper(futureAdditionalModel);
         final futurePrivateModelRaw = _requestCheckWrapper(futurePrivateModel);
 
         final shortModelRaw = await futureShortModelRaw;
-        final additionalModelRaw = await futureAdditionalModelRaw;
         final privateModelRaw = await futurePrivateModelRaw;
 
         if (shortModelRaw.isLeft()) {
@@ -118,12 +109,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
           return left<RequestFailure, FullReadUserModel>(
               (shortModelRaw as Left).value as RequestFailure);
         }
-        if (additionalModelRaw.isLeft()) {
-          //TODO: not sure
 
-          return left<RequestFailure, FullReadUserModel>(
-              (additionalModelRaw as Left).value as RequestFailure);
-        }
         if (privateModelRaw.isLeft()) {
           //TODO: not sure
 
@@ -132,7 +118,6 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
         }
 
         late final ShortReadUserModel? shortUserModel;
-        late final AdditionalUserModel? additionalUserModel;
         late final PrivateInfoUserModel? privateInfoUserModel;
 
         shortModelRaw.map(
@@ -145,16 +130,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
             }
           },
         );
-        additionalModelRaw.map(
-          (r) {
-            final data = r.data();
-            if (data != null && data.isNotEmpty) {
-              additionalUserModel = AdditionalUserModel.fromJson(data);
-            } else {
-              additionalUserModel = null;
-            }
-          },
-        );
+
         privateModelRaw.map((r) {
           final data = r.data();
           if (data != null && data.isNotEmpty) {
@@ -165,12 +141,10 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
         });
 
         if (shortUserModel != null &&
-            additionalUserModel != null &&
             privateInfoUserModel != null) {
           return right<RequestFailure, FullReadUserModel?>(
             FullReadUserModel(
               shortUserModel: shortUserModel!,
-              additionalUserModel: additionalUserModel!,
               privateInfoUserModel: privateInfoUserModel!,
             ),
           );
@@ -193,7 +167,6 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   @override
   Future<Either<RequestFailure, void>> updateProfile({
     required ShortUpdateUserModel shortModel,
-    required AdditionalUserModel additionalModel,
     required PrivateInfoUserModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
@@ -210,15 +183,10 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
           _firebaseFirestore.collection(shortUserCollection).doc(r.uid),
           shortModel.toJson(),
         );
+
         batch.update(
           _firebaseFirestore
-              .collection(additionalInfoUserCollection)
-              .doc(r.uid),
-          additionalModel.toJson(),
-        );
-        batch.update(
-          _firebaseFirestore
-              .collection(additionalInfoUserCollection)
+              .collection(fullUserCollection)
               .doc(r.uid)
               .collection(privateInfoUserCollection)
               .doc(r.uid),
@@ -262,7 +230,6 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   @override
   Future<Either<RequestFailure, void>> saveProfile({
     required ShortCreateUserModel shortModel,
-    required AdditionalUserModel additionalModel,
     required PrivateInfoUserModel privateModel,
   }) async {
     // assert(user.shortUserModel.soulsCount != null);
@@ -279,13 +246,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
         );
         batch.set(
           _firebaseFirestore
-              .collection(additionalInfoUserCollection)
-              .doc(r.uid),
-          additionalModel.toJson(),
-        );
-        batch.set(
-          _firebaseFirestore
-              .collection(additionalInfoUserCollection)
+              .collection(fullUserCollection)
               .doc(r.uid)
               .collection(privateInfoUserCollection)
               .doc(r.uid),

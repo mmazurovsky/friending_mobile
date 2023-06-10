@@ -9,12 +9,10 @@ import '../ds/profile_remote_ds.dart';
 abstract class ProfileRepo {
   Future<Either<RequestFailure, void>> saveProfile({
     required ShortCreateUserModel shortModel,
-    required AdditionalUserModel additionalModel,
     required PrivateInfoUserModel privateModel,
   });
   Future<Either<RequestFailure, void>> updateProfile({
     required ShortUpdateUserModel shortModel,
-    required AdditionalUserModel additionalModel,
     required PrivateInfoUserModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
@@ -51,13 +49,11 @@ class ProfileRepoImpl implements ProfileRepo {
   @override
   Future<Either<RequestFailure, void>> saveProfile({
     required ShortCreateUserModel shortModel,
-    required AdditionalUserModel additionalModel,
     required PrivateInfoUserModel privateModel,
   }) {
     _profileLocalDS.saveShortProfile(shortModel.toUpdateShortModel);
     return _profileRemoteDS.saveProfile(
       shortModel: shortModel,
-      additionalModel: additionalModel,
       privateModel: privateModel,
     );
   }
@@ -66,7 +62,6 @@ class ProfileRepoImpl implements ProfileRepo {
   @override
   Future<Either<RequestFailure, void>> updateProfile({
     required ShortUpdateUserModel shortModel,
-    required AdditionalUserModel additionalModel,
     required PrivateInfoUserModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
@@ -74,7 +69,6 @@ class ProfileRepoImpl implements ProfileRepo {
     _profileLocalDS.saveShortProfile(shortModel);
     return _profileRemoteDS.updateProfile(
       shortModel: shortModel,
-      additionalModel: additionalModel,
       privateModel: privateModel,
       tagsToAdd: tagsToAdd,
       tagsToRemove: tagsToRemove,

@@ -126,15 +126,15 @@ class _ProfileContentState extends State<_ProfileContent> {
                   displayIfTagsEmpty: Container(),
                 ),
                 const SectionDividerWithSpacers(),
-                const SectionTitle('Description'),
+                const SectionTitle('About'),
                 Padding(
                   padding: CEdgeInsets.horizontalStandart,
                   child: ExpandableTextSection(
                     context
                         .read<ProfileContentManager>()
                         .profile
-                        .additionalUserModel
-                        .description!,
+                        .shortUserModel
+                        .about,
                   ),
                 ),
                 const SectionDividerWithSpacers(),
@@ -145,8 +145,8 @@ class _ProfileContentState extends State<_ProfileContent> {
                     context
                         .read<ProfileContentManager>()
                         .profile
-                        .additionalUserModel
-                        .lookingFor!,
+                        .shortUserModel
+                        .lookingFor,
                   ),
                 ),
                 const SectionDividerWithSpacers(),

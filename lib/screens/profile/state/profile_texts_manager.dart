@@ -101,8 +101,8 @@ class ProfileTextsAndTagsManager with ChangeNotifier {
       _birthDate = profile.shortUserModel.birthDate;
       _birthDateController.text = _birthDate?.toDateString() ?? '';
       _descriptionController.text =
-          profile.additionalUserModel.description ?? '';
-      _lookingForController.text = profile.additionalUserModel.lookingFor ?? '';
+          profile.shortUserModel.about ?? '';
+      _lookingForController.text = profile.shortUserModel.lookingFor ?? '';
       _instagramUsernameController.text =
           profile.privateInfoUserModel.instagramUsername ?? '';
       _telegreamUsernameController.text =

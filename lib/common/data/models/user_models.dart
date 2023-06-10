@@ -13,7 +13,7 @@ class FullReadUserModel with _$FullReadUserModel {
 
   const factory FullReadUserModel({
     required ShortReadUserModel shortUserModel,
-    required AdditionalUserModel additionalUserModel,
+    // required AdditionalUserModel additionalUserModel,
     required PrivateInfoUserModel privateInfoUserModel,
   }) = _FullReadUserModel;
 }
@@ -24,7 +24,7 @@ class OtherUserFullModel with _$OtherUserFullModel {
 
   const factory OtherUserFullModel({
     required ShortReadUserModel shortUserModel,
-    required AdditionalUserModel additionalUserModel,
+    // required AdditionalUserModel additionalUserModel,
     required PrivateInfoUserModel? privateInfoUserModel,
     required UserConnectStatusEnum connectStatusEnum,
   }) = _OtherUserFullModel;
@@ -43,19 +43,19 @@ class PrivateInfoUserModel with _$PrivateInfoUserModel {
       _$PrivateInfoUserModelFromJson(json);
 }
 
-@freezed
-class AdditionalUserModel with _$AdditionalUserModel {
-  const AdditionalUserModel._();
+// @freezed
+// class AdditionalUserModel with _$AdditionalUserModel {
+//   const AdditionalUserModel._();
 
-  const factory AdditionalUserModel({
-    // required String id,
-    String? description,
-    String? lookingFor,
-  }) = _AdditionalUserModel;
+//   const factory AdditionalUserModel({
+//     // required String id,
+//     String? description,
+//     String? lookingFor,
+//   }) = _AdditionalUserModel;
 
-  factory AdditionalUserModel.fromJson(Map<String, dynamic> json) =>
-      _$AdditionalUserModelFromJson(json);
-}
+//   factory AdditionalUserModel.fromJson(Map<String, dynamic> json) =>
+//       _$AdditionalUserModelFromJson(json);
+// }
 
 @Freezed(toJson: true)
 class ShortCreateUserModel with _$ShortCreateUserModel {
@@ -68,6 +68,8 @@ class ShortCreateUserModel with _$ShortCreateUserModel {
     required DateTime birthDate,
     required DateTime createdDateTime,
     required List<String> tags,
+    required String about,
+    required String lookingFor,
   }) = _ShortCreateUserModel;
 
   //TODO!: check this
@@ -80,6 +82,8 @@ class ShortCreateUserModel with _$ShortCreateUserModel {
       birthDate: birthDate,
       photos: photos,
       tags: tags,
+      about: about,
+      lookingFor: lookingFor,
     );
   }
 }
@@ -93,6 +97,8 @@ class ShortUpdateUserModel with _$ShortUpdateUserModel {
     required List<String> photos,
     required DateTime birthDate,
     required List<String> tags,
+    required String about,
+    required String lookingFor,
   }) = _ShortUpdateUserModel;
 
   factory ShortUpdateUserModel.fromJson(Map<String, dynamic> json) =>
@@ -106,6 +112,8 @@ class ShortUpdateUserModel with _$ShortUpdateUserModel {
       photos: photos,
       tags: tags,
       createdDateTime: DateTime.now(),
+      about: about,
+      lookingFor: lookingFor,
     );
   }
 }
@@ -122,6 +130,8 @@ class ShortReadUserModel
     required List<String> photos,
     required DateTime birthDate,
     required List<String> tags,
+    required String about,
+    required String lookingFor,
     //*INFO: this gets filled later
     @Default([]) List<String> commonTags,
   }) = _ShortReadUserModel;
@@ -156,6 +166,8 @@ class ShortReadUserModel
       birthDate: birthDate,
       photos: photos,
       tags: tags,
+      about: about,
+      lookingFor: lookingFor,
     );
   }
 

@@ -16,9 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$FullReadUserModel {
-  ShortReadUserModel get shortUserModel => throw _privateConstructorUsedError;
-  AdditionalUserModel get additionalUserModel =>
-      throw _privateConstructorUsedError;
+  ShortReadUserModel get shortUserModel =>
+      throw _privateConstructorUsedError; // required AdditionalUserModel additionalUserModel,
   PrivateInfoUserModel get privateInfoUserModel =>
       throw _privateConstructorUsedError;
 
@@ -35,11 +34,9 @@ abstract class $FullReadUserModelCopyWith<$Res> {
   @useResult
   $Res call(
       {ShortReadUserModel shortUserModel,
-      AdditionalUserModel additionalUserModel,
       PrivateInfoUserModel privateInfoUserModel});
 
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
-  $AdditionalUserModelCopyWith<$Res> get additionalUserModel;
   $PrivateInfoUserModelCopyWith<$Res> get privateInfoUserModel;
 }
 
@@ -57,7 +54,6 @@ class _$FullReadUserModelCopyWithImpl<$Res, $Val extends FullReadUserModel>
   @override
   $Res call({
     Object? shortUserModel = null,
-    Object? additionalUserModel = null,
     Object? privateInfoUserModel = null,
   }) {
     return _then(_value.copyWith(
@@ -65,10 +61,6 @@ class _$FullReadUserModelCopyWithImpl<$Res, $Val extends FullReadUserModel>
           ? _value.shortUserModel
           : shortUserModel // ignore: cast_nullable_to_non_nullable
               as ShortReadUserModel,
-      additionalUserModel: null == additionalUserModel
-          ? _value.additionalUserModel
-          : additionalUserModel // ignore: cast_nullable_to_non_nullable
-              as AdditionalUserModel,
       privateInfoUserModel: null == privateInfoUserModel
           ? _value.privateInfoUserModel
           : privateInfoUserModel // ignore: cast_nullable_to_non_nullable
@@ -81,15 +73,6 @@ class _$FullReadUserModelCopyWithImpl<$Res, $Val extends FullReadUserModel>
   $ShortReadUserModelCopyWith<$Res> get shortUserModel {
     return $ShortReadUserModelCopyWith<$Res>(_value.shortUserModel, (value) {
       return _then(_value.copyWith(shortUserModel: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AdditionalUserModelCopyWith<$Res> get additionalUserModel {
-    return $AdditionalUserModelCopyWith<$Res>(_value.additionalUserModel,
-        (value) {
-      return _then(_value.copyWith(additionalUserModel: value) as $Val);
     });
   }
 
@@ -113,13 +96,10 @@ abstract class _$$_FullReadUserModelCopyWith<$Res>
   @useResult
   $Res call(
       {ShortReadUserModel shortUserModel,
-      AdditionalUserModel additionalUserModel,
       PrivateInfoUserModel privateInfoUserModel});
 
   @override
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
-  @override
-  $AdditionalUserModelCopyWith<$Res> get additionalUserModel;
   @override
   $PrivateInfoUserModelCopyWith<$Res> get privateInfoUserModel;
 }
@@ -136,7 +116,6 @@ class __$$_FullReadUserModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? shortUserModel = null,
-    Object? additionalUserModel = null,
     Object? privateInfoUserModel = null,
   }) {
     return _then(_$_FullReadUserModel(
@@ -144,10 +123,6 @@ class __$$_FullReadUserModelCopyWithImpl<$Res>
           ? _value.shortUserModel
           : shortUserModel // ignore: cast_nullable_to_non_nullable
               as ShortReadUserModel,
-      additionalUserModel: null == additionalUserModel
-          ? _value.additionalUserModel
-          : additionalUserModel // ignore: cast_nullable_to_non_nullable
-              as AdditionalUserModel,
       privateInfoUserModel: null == privateInfoUserModel
           ? _value.privateInfoUserModel
           : privateInfoUserModel // ignore: cast_nullable_to_non_nullable
@@ -160,21 +135,18 @@ class __$$_FullReadUserModelCopyWithImpl<$Res>
 
 class _$_FullReadUserModel extends _FullReadUserModel {
   const _$_FullReadUserModel(
-      {required this.shortUserModel,
-      required this.additionalUserModel,
-      required this.privateInfoUserModel})
+      {required this.shortUserModel, required this.privateInfoUserModel})
       : super._();
 
   @override
   final ShortReadUserModel shortUserModel;
-  @override
-  final AdditionalUserModel additionalUserModel;
+// required AdditionalUserModel additionalUserModel,
   @override
   final PrivateInfoUserModel privateInfoUserModel;
 
   @override
   String toString() {
-    return 'FullReadUserModel(shortUserModel: $shortUserModel, additionalUserModel: $additionalUserModel, privateInfoUserModel: $privateInfoUserModel)';
+    return 'FullReadUserModel(shortUserModel: $shortUserModel, privateInfoUserModel: $privateInfoUserModel)';
   }
 
   @override
@@ -184,15 +156,13 @@ class _$_FullReadUserModel extends _FullReadUserModel {
             other is _$_FullReadUserModel &&
             (identical(other.shortUserModel, shortUserModel) ||
                 other.shortUserModel == shortUserModel) &&
-            (identical(other.additionalUserModel, additionalUserModel) ||
-                other.additionalUserModel == additionalUserModel) &&
             (identical(other.privateInfoUserModel, privateInfoUserModel) ||
                 other.privateInfoUserModel == privateInfoUserModel));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, shortUserModel, additionalUserModel, privateInfoUserModel);
+  int get hashCode =>
+      Object.hash(runtimeType, shortUserModel, privateInfoUserModel);
 
   @JsonKey(ignore: true)
   @override
@@ -205,16 +175,13 @@ class _$_FullReadUserModel extends _FullReadUserModel {
 abstract class _FullReadUserModel extends FullReadUserModel {
   const factory _FullReadUserModel(
           {required final ShortReadUserModel shortUserModel,
-          required final AdditionalUserModel additionalUserModel,
           required final PrivateInfoUserModel privateInfoUserModel}) =
       _$_FullReadUserModel;
   const _FullReadUserModel._() : super._();
 
   @override
   ShortReadUserModel get shortUserModel;
-  @override
-  AdditionalUserModel get additionalUserModel;
-  @override
+  @override // required AdditionalUserModel additionalUserModel,
   PrivateInfoUserModel get privateInfoUserModel;
   @override
   @JsonKey(ignore: true)
@@ -224,9 +191,8 @@ abstract class _FullReadUserModel extends FullReadUserModel {
 
 /// @nodoc
 mixin _$OtherUserFullModel {
-  ShortReadUserModel get shortUserModel => throw _privateConstructorUsedError;
-  AdditionalUserModel get additionalUserModel =>
-      throw _privateConstructorUsedError;
+  ShortReadUserModel get shortUserModel =>
+      throw _privateConstructorUsedError; // required AdditionalUserModel additionalUserModel,
   PrivateInfoUserModel? get privateInfoUserModel =>
       throw _privateConstructorUsedError;
   UserConnectStatusEnum get connectStatusEnum =>
@@ -245,12 +211,10 @@ abstract class $OtherUserFullModelCopyWith<$Res> {
   @useResult
   $Res call(
       {ShortReadUserModel shortUserModel,
-      AdditionalUserModel additionalUserModel,
       PrivateInfoUserModel? privateInfoUserModel,
       UserConnectStatusEnum connectStatusEnum});
 
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
-  $AdditionalUserModelCopyWith<$Res> get additionalUserModel;
   $PrivateInfoUserModelCopyWith<$Res>? get privateInfoUserModel;
 }
 
@@ -268,7 +232,6 @@ class _$OtherUserFullModelCopyWithImpl<$Res, $Val extends OtherUserFullModel>
   @override
   $Res call({
     Object? shortUserModel = null,
-    Object? additionalUserModel = null,
     Object? privateInfoUserModel = freezed,
     Object? connectStatusEnum = null,
   }) {
@@ -277,10 +240,6 @@ class _$OtherUserFullModelCopyWithImpl<$Res, $Val extends OtherUserFullModel>
           ? _value.shortUserModel
           : shortUserModel // ignore: cast_nullable_to_non_nullable
               as ShortReadUserModel,
-      additionalUserModel: null == additionalUserModel
-          ? _value.additionalUserModel
-          : additionalUserModel // ignore: cast_nullable_to_non_nullable
-              as AdditionalUserModel,
       privateInfoUserModel: freezed == privateInfoUserModel
           ? _value.privateInfoUserModel
           : privateInfoUserModel // ignore: cast_nullable_to_non_nullable
@@ -297,15 +256,6 @@ class _$OtherUserFullModelCopyWithImpl<$Res, $Val extends OtherUserFullModel>
   $ShortReadUserModelCopyWith<$Res> get shortUserModel {
     return $ShortReadUserModelCopyWith<$Res>(_value.shortUserModel, (value) {
       return _then(_value.copyWith(shortUserModel: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AdditionalUserModelCopyWith<$Res> get additionalUserModel {
-    return $AdditionalUserModelCopyWith<$Res>(_value.additionalUserModel,
-        (value) {
-      return _then(_value.copyWith(additionalUserModel: value) as $Val);
     });
   }
 
@@ -333,14 +283,11 @@ abstract class _$$_OtherUserFullModelCopyWith<$Res>
   @useResult
   $Res call(
       {ShortReadUserModel shortUserModel,
-      AdditionalUserModel additionalUserModel,
       PrivateInfoUserModel? privateInfoUserModel,
       UserConnectStatusEnum connectStatusEnum});
 
   @override
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
-  @override
-  $AdditionalUserModelCopyWith<$Res> get additionalUserModel;
   @override
   $PrivateInfoUserModelCopyWith<$Res>? get privateInfoUserModel;
 }
@@ -357,7 +304,6 @@ class __$$_OtherUserFullModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? shortUserModel = null,
-    Object? additionalUserModel = null,
     Object? privateInfoUserModel = freezed,
     Object? connectStatusEnum = null,
   }) {
@@ -366,10 +312,6 @@ class __$$_OtherUserFullModelCopyWithImpl<$Res>
           ? _value.shortUserModel
           : shortUserModel // ignore: cast_nullable_to_non_nullable
               as ShortReadUserModel,
-      additionalUserModel: null == additionalUserModel
-          ? _value.additionalUserModel
-          : additionalUserModel // ignore: cast_nullable_to_non_nullable
-              as AdditionalUserModel,
       privateInfoUserModel: freezed == privateInfoUserModel
           ? _value.privateInfoUserModel
           : privateInfoUserModel // ignore: cast_nullable_to_non_nullable
@@ -387,15 +329,13 @@ class __$$_OtherUserFullModelCopyWithImpl<$Res>
 class _$_OtherUserFullModel extends _OtherUserFullModel {
   const _$_OtherUserFullModel(
       {required this.shortUserModel,
-      required this.additionalUserModel,
       required this.privateInfoUserModel,
       required this.connectStatusEnum})
       : super._();
 
   @override
   final ShortReadUserModel shortUserModel;
-  @override
-  final AdditionalUserModel additionalUserModel;
+// required AdditionalUserModel additionalUserModel,
   @override
   final PrivateInfoUserModel? privateInfoUserModel;
   @override
@@ -403,7 +343,7 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
 
   @override
   String toString() {
-    return 'OtherUserFullModel(shortUserModel: $shortUserModel, additionalUserModel: $additionalUserModel, privateInfoUserModel: $privateInfoUserModel, connectStatusEnum: $connectStatusEnum)';
+    return 'OtherUserFullModel(shortUserModel: $shortUserModel, privateInfoUserModel: $privateInfoUserModel, connectStatusEnum: $connectStatusEnum)';
   }
 
   @override
@@ -413,8 +353,6 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
             other is _$_OtherUserFullModel &&
             (identical(other.shortUserModel, shortUserModel) ||
                 other.shortUserModel == shortUserModel) &&
-            (identical(other.additionalUserModel, additionalUserModel) ||
-                other.additionalUserModel == additionalUserModel) &&
             (identical(other.privateInfoUserModel, privateInfoUserModel) ||
                 other.privateInfoUserModel == privateInfoUserModel) &&
             (identical(other.connectStatusEnum, connectStatusEnum) ||
@@ -422,8 +360,8 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, shortUserModel,
-      additionalUserModel, privateInfoUserModel, connectStatusEnum);
+  int get hashCode => Object.hash(
+      runtimeType, shortUserModel, privateInfoUserModel, connectStatusEnum);
 
   @JsonKey(ignore: true)
   @override
@@ -436,7 +374,6 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
 abstract class _OtherUserFullModel extends OtherUserFullModel {
   const factory _OtherUserFullModel(
           {required final ShortReadUserModel shortUserModel,
-          required final AdditionalUserModel additionalUserModel,
           required final PrivateInfoUserModel? privateInfoUserModel,
           required final UserConnectStatusEnum connectStatusEnum}) =
       _$_OtherUserFullModel;
@@ -444,9 +381,7 @@ abstract class _OtherUserFullModel extends OtherUserFullModel {
 
   @override
   ShortReadUserModel get shortUserModel;
-  @override
-  AdditionalUserModel get additionalUserModel;
-  @override
+  @override // required AdditionalUserModel additionalUserModel,
   PrivateInfoUserModel? get privateInfoUserModel;
   @override
   UserConnectStatusEnum get connectStatusEnum;
@@ -617,166 +552,6 @@ abstract class _PrivateInfoUserModel extends PrivateInfoUserModel {
       throw _privateConstructorUsedError;
 }
 
-AdditionalUserModel _$AdditionalUserModelFromJson(Map<String, dynamic> json) {
-  return _AdditionalUserModel.fromJson(json);
-}
-
-/// @nodoc
-mixin _$AdditionalUserModel {
-// required String id,
-  String? get description => throw _privateConstructorUsedError;
-  String? get lookingFor => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $AdditionalUserModelCopyWith<AdditionalUserModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AdditionalUserModelCopyWith<$Res> {
-  factory $AdditionalUserModelCopyWith(
-          AdditionalUserModel value, $Res Function(AdditionalUserModel) then) =
-      _$AdditionalUserModelCopyWithImpl<$Res, AdditionalUserModel>;
-  @useResult
-  $Res call({String? description, String? lookingFor});
-}
-
-/// @nodoc
-class _$AdditionalUserModelCopyWithImpl<$Res, $Val extends AdditionalUserModel>
-    implements $AdditionalUserModelCopyWith<$Res> {
-  _$AdditionalUserModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? description = freezed,
-    Object? lookingFor = freezed,
-  }) {
-    return _then(_value.copyWith(
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      lookingFor: freezed == lookingFor
-          ? _value.lookingFor
-          : lookingFor // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_AdditionalUserModelCopyWith<$Res>
-    implements $AdditionalUserModelCopyWith<$Res> {
-  factory _$$_AdditionalUserModelCopyWith(_$_AdditionalUserModel value,
-          $Res Function(_$_AdditionalUserModel) then) =
-      __$$_AdditionalUserModelCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String? description, String? lookingFor});
-}
-
-/// @nodoc
-class __$$_AdditionalUserModelCopyWithImpl<$Res>
-    extends _$AdditionalUserModelCopyWithImpl<$Res, _$_AdditionalUserModel>
-    implements _$$_AdditionalUserModelCopyWith<$Res> {
-  __$$_AdditionalUserModelCopyWithImpl(_$_AdditionalUserModel _value,
-      $Res Function(_$_AdditionalUserModel) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? description = freezed,
-    Object? lookingFor = freezed,
-  }) {
-    return _then(_$_AdditionalUserModel(
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-      lookingFor: freezed == lookingFor
-          ? _value.lookingFor
-          : lookingFor // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_AdditionalUserModel extends _AdditionalUserModel {
-  const _$_AdditionalUserModel({this.description, this.lookingFor}) : super._();
-
-  factory _$_AdditionalUserModel.fromJson(Map<String, dynamic> json) =>
-      _$$_AdditionalUserModelFromJson(json);
-
-// required String id,
-  @override
-  final String? description;
-  @override
-  final String? lookingFor;
-
-  @override
-  String toString() {
-    return 'AdditionalUserModel(description: $description, lookingFor: $lookingFor)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_AdditionalUserModel &&
-            (identical(other.description, description) ||
-                other.description == description) &&
-            (identical(other.lookingFor, lookingFor) ||
-                other.lookingFor == lookingFor));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, description, lookingFor);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_AdditionalUserModelCopyWith<_$_AdditionalUserModel> get copyWith =>
-      __$$_AdditionalUserModelCopyWithImpl<_$_AdditionalUserModel>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_AdditionalUserModelToJson(
-      this,
-    );
-  }
-}
-
-abstract class _AdditionalUserModel extends AdditionalUserModel {
-  const factory _AdditionalUserModel(
-      {final String? description,
-      final String? lookingFor}) = _$_AdditionalUserModel;
-  const _AdditionalUserModel._() : super._();
-
-  factory _AdditionalUserModel.fromJson(Map<String, dynamic> json) =
-      _$_AdditionalUserModel.fromJson;
-
-  @override // required String id,
-  String? get description;
-  @override
-  String? get lookingFor;
-  @override
-  @JsonKey(ignore: true)
-  _$$_AdditionalUserModelCopyWith<_$_AdditionalUserModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
 /// @nodoc
 mixin _$ShortCreateUserModel {
   String get id => throw _privateConstructorUsedError;
@@ -785,6 +560,8 @@ mixin _$ShortCreateUserModel {
   DateTime get birthDate => throw _privateConstructorUsedError;
   DateTime get createdDateTime => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
+  String get about => throw _privateConstructorUsedError;
+  String get lookingFor => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -804,7 +581,9 @@ abstract class $ShortCreateUserModelCopyWith<$Res> {
       List<String> photos,
       DateTime birthDate,
       DateTime createdDateTime,
-      List<String> tags});
+      List<String> tags,
+      String about,
+      String lookingFor});
 }
 
 /// @nodoc
@@ -827,6 +606,8 @@ class _$ShortCreateUserModelCopyWithImpl<$Res,
     Object? birthDate = null,
     Object? createdDateTime = null,
     Object? tags = null,
+    Object? about = null,
+    Object? lookingFor = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -853,6 +634,14 @@ class _$ShortCreateUserModelCopyWithImpl<$Res,
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      about: null == about
+          ? _value.about
+          : about // ignore: cast_nullable_to_non_nullable
+              as String,
+      lookingFor: null == lookingFor
+          ? _value.lookingFor
+          : lookingFor // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -871,7 +660,9 @@ abstract class _$$_ShortCreateUserModelCopyWith<$Res>
       List<String> photos,
       DateTime birthDate,
       DateTime createdDateTime,
-      List<String> tags});
+      List<String> tags,
+      String about,
+      String lookingFor});
 }
 
 /// @nodoc
@@ -891,6 +682,8 @@ class __$$_ShortCreateUserModelCopyWithImpl<$Res>
     Object? birthDate = null,
     Object? createdDateTime = null,
     Object? tags = null,
+    Object? about = null,
+    Object? lookingFor = null,
   }) {
     return _then(_$_ShortCreateUserModel(
       id: null == id
@@ -917,6 +710,14 @@ class __$$_ShortCreateUserModelCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      about: null == about
+          ? _value.about
+          : about // ignore: cast_nullable_to_non_nullable
+              as String,
+      lookingFor: null == lookingFor
+          ? _value.lookingFor
+          : lookingFor // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -930,7 +731,9 @@ class _$_ShortCreateUserModel extends _ShortCreateUserModel {
       required final List<String> photos,
       required this.birthDate,
       required this.createdDateTime,
-      required final List<String> tags})
+      required final List<String> tags,
+      required this.about,
+      required this.lookingFor})
       : _photos = photos,
         _tags = tags,
         super._();
@@ -960,8 +763,13 @@ class _$_ShortCreateUserModel extends _ShortCreateUserModel {
   }
 
   @override
+  final String about;
+  @override
+  final String lookingFor;
+
+  @override
   String toString() {
-    return 'ShortCreateUserModel(id: $id, username: $username, photos: $photos, birthDate: $birthDate, createdDateTime: $createdDateTime, tags: $tags)';
+    return 'ShortCreateUserModel(id: $id, username: $username, photos: $photos, birthDate: $birthDate, createdDateTime: $createdDateTime, tags: $tags, about: $about, lookingFor: $lookingFor)';
   }
 
   @override
@@ -977,7 +785,10 @@ class _$_ShortCreateUserModel extends _ShortCreateUserModel {
                 other.birthDate == birthDate) &&
             (identical(other.createdDateTime, createdDateTime) ||
                 other.createdDateTime == createdDateTime) &&
-            const DeepCollectionEquality().equals(other._tags, _tags));
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.about, about) || other.about == about) &&
+            (identical(other.lookingFor, lookingFor) ||
+                other.lookingFor == lookingFor));
   }
 
   @JsonKey(ignore: true)
@@ -989,7 +800,9 @@ class _$_ShortCreateUserModel extends _ShortCreateUserModel {
       const DeepCollectionEquality().hash(_photos),
       birthDate,
       createdDateTime,
-      const DeepCollectionEquality().hash(_tags));
+      const DeepCollectionEquality().hash(_tags),
+      about,
+      lookingFor);
 
   @JsonKey(ignore: true)
   @override
@@ -1013,7 +826,9 @@ abstract class _ShortCreateUserModel extends ShortCreateUserModel {
       required final List<String> photos,
       required final DateTime birthDate,
       required final DateTime createdDateTime,
-      required final List<String> tags}) = _$_ShortCreateUserModel;
+      required final List<String> tags,
+      required final String about,
+      required final String lookingFor}) = _$_ShortCreateUserModel;
   const _ShortCreateUserModel._() : super._();
 
   @override
@@ -1028,6 +843,10 @@ abstract class _ShortCreateUserModel extends ShortCreateUserModel {
   DateTime get createdDateTime;
   @override
   List<String> get tags;
+  @override
+  String get about;
+  @override
+  String get lookingFor;
   @override
   @JsonKey(ignore: true)
   _$$_ShortCreateUserModelCopyWith<_$_ShortCreateUserModel> get copyWith =>
@@ -1044,6 +863,8 @@ mixin _$ShortUpdateUserModel {
   List<String> get photos => throw _privateConstructorUsedError;
   DateTime get birthDate => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
+  String get about => throw _privateConstructorUsedError;
+  String get lookingFor => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1061,7 +882,9 @@ abstract class $ShortUpdateUserModelCopyWith<$Res> {
       {String username,
       List<String> photos,
       DateTime birthDate,
-      List<String> tags});
+      List<String> tags,
+      String about,
+      String lookingFor});
 }
 
 /// @nodoc
@@ -1082,6 +905,8 @@ class _$ShortUpdateUserModelCopyWithImpl<$Res,
     Object? photos = null,
     Object? birthDate = null,
     Object? tags = null,
+    Object? about = null,
+    Object? lookingFor = null,
   }) {
     return _then(_value.copyWith(
       username: null == username
@@ -1100,6 +925,14 @@ class _$ShortUpdateUserModelCopyWithImpl<$Res,
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      about: null == about
+          ? _value.about
+          : about // ignore: cast_nullable_to_non_nullable
+              as String,
+      lookingFor: null == lookingFor
+          ? _value.lookingFor
+          : lookingFor // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -1116,7 +949,9 @@ abstract class _$$_ShortUpdateUserModelCopyWith<$Res>
       {String username,
       List<String> photos,
       DateTime birthDate,
-      List<String> tags});
+      List<String> tags,
+      String about,
+      String lookingFor});
 }
 
 /// @nodoc
@@ -1134,6 +969,8 @@ class __$$_ShortUpdateUserModelCopyWithImpl<$Res>
     Object? photos = null,
     Object? birthDate = null,
     Object? tags = null,
+    Object? about = null,
+    Object? lookingFor = null,
   }) {
     return _then(_$_ShortUpdateUserModel(
       username: null == username
@@ -1152,6 +989,14 @@ class __$$_ShortUpdateUserModelCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      about: null == about
+          ? _value.about
+          : about // ignore: cast_nullable_to_non_nullable
+              as String,
+      lookingFor: null == lookingFor
+          ? _value.lookingFor
+          : lookingFor // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -1163,7 +1008,9 @@ class _$_ShortUpdateUserModel extends _ShortUpdateUserModel {
       {required this.username,
       required final List<String> photos,
       required this.birthDate,
-      required final List<String> tags})
+      required final List<String> tags,
+      required this.about,
+      required this.lookingFor})
       : _photos = photos,
         _tags = tags,
         super._();
@@ -1192,8 +1039,13 @@ class _$_ShortUpdateUserModel extends _ShortUpdateUserModel {
   }
 
   @override
+  final String about;
+  @override
+  final String lookingFor;
+
+  @override
   String toString() {
-    return 'ShortUpdateUserModel(username: $username, photos: $photos, birthDate: $birthDate, tags: $tags)';
+    return 'ShortUpdateUserModel(username: $username, photos: $photos, birthDate: $birthDate, tags: $tags, about: $about, lookingFor: $lookingFor)';
   }
 
   @override
@@ -1206,7 +1058,10 @@ class _$_ShortUpdateUserModel extends _ShortUpdateUserModel {
             const DeepCollectionEquality().equals(other._photos, _photos) &&
             (identical(other.birthDate, birthDate) ||
                 other.birthDate == birthDate) &&
-            const DeepCollectionEquality().equals(other._tags, _tags));
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.about, about) || other.about == about) &&
+            (identical(other.lookingFor, lookingFor) ||
+                other.lookingFor == lookingFor));
   }
 
   @JsonKey(ignore: true)
@@ -1216,7 +1071,9 @@ class _$_ShortUpdateUserModel extends _ShortUpdateUserModel {
       username,
       const DeepCollectionEquality().hash(_photos),
       birthDate,
-      const DeepCollectionEquality().hash(_tags));
+      const DeepCollectionEquality().hash(_tags),
+      about,
+      lookingFor);
 
   @JsonKey(ignore: true)
   @override
@@ -1238,7 +1095,9 @@ abstract class _ShortUpdateUserModel extends ShortUpdateUserModel {
       {required final String username,
       required final List<String> photos,
       required final DateTime birthDate,
-      required final List<String> tags}) = _$_ShortUpdateUserModel;
+      required final List<String> tags,
+      required final String about,
+      required final String lookingFor}) = _$_ShortUpdateUserModel;
   const _ShortUpdateUserModel._() : super._();
 
   factory _ShortUpdateUserModel.fromJson(Map<String, dynamic> json) =
@@ -1252,6 +1111,10 @@ abstract class _ShortUpdateUserModel extends ShortUpdateUserModel {
   DateTime get birthDate;
   @override
   List<String> get tags;
+  @override
+  String get about;
+  @override
+  String get lookingFor;
   @override
   @JsonKey(ignore: true)
   _$$_ShortUpdateUserModelCopyWith<_$_ShortUpdateUserModel> get copyWith =>
@@ -1268,7 +1131,9 @@ mixin _$ShortReadUserModel {
   String get username => throw _privateConstructorUsedError;
   List<String> get photos => throw _privateConstructorUsedError;
   DateTime get birthDate => throw _privateConstructorUsedError;
-  List<String> get tags =>
+  List<String> get tags => throw _privateConstructorUsedError;
+  String get about => throw _privateConstructorUsedError;
+  String get lookingFor =>
       throw _privateConstructorUsedError; //*INFO: this gets filled later
   List<String> get commonTags => throw _privateConstructorUsedError;
 
@@ -1289,6 +1154,8 @@ abstract class $ShortReadUserModelCopyWith<$Res> {
       List<String> photos,
       DateTime birthDate,
       List<String> tags,
+      String about,
+      String lookingFor,
       List<String> commonTags});
 }
 
@@ -1310,6 +1177,8 @@ class _$ShortReadUserModelCopyWithImpl<$Res, $Val extends ShortReadUserModel>
     Object? photos = null,
     Object? birthDate = null,
     Object? tags = null,
+    Object? about = null,
+    Object? lookingFor = null,
     Object? commonTags = null,
   }) {
     return _then(_value.copyWith(
@@ -1333,6 +1202,14 @@ class _$ShortReadUserModelCopyWithImpl<$Res, $Val extends ShortReadUserModel>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      about: null == about
+          ? _value.about
+          : about // ignore: cast_nullable_to_non_nullable
+              as String,
+      lookingFor: null == lookingFor
+          ? _value.lookingFor
+          : lookingFor // ignore: cast_nullable_to_non_nullable
+              as String,
       commonTags: null == commonTags
           ? _value.commonTags
           : commonTags // ignore: cast_nullable_to_non_nullable
@@ -1355,6 +1232,8 @@ abstract class _$$_ShortReadUserModelCopyWith<$Res>
       List<String> photos,
       DateTime birthDate,
       List<String> tags,
+      String about,
+      String lookingFor,
       List<String> commonTags});
 }
 
@@ -1374,6 +1253,8 @@ class __$$_ShortReadUserModelCopyWithImpl<$Res>
     Object? photos = null,
     Object? birthDate = null,
     Object? tags = null,
+    Object? about = null,
+    Object? lookingFor = null,
     Object? commonTags = null,
   }) {
     return _then(_$_ShortReadUserModel(
@@ -1397,6 +1278,14 @@ class __$$_ShortReadUserModelCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      about: null == about
+          ? _value.about
+          : about // ignore: cast_nullable_to_non_nullable
+              as String,
+      lookingFor: null == lookingFor
+          ? _value.lookingFor
+          : lookingFor // ignore: cast_nullable_to_non_nullable
+              as String,
       commonTags: null == commonTags
           ? _value._commonTags
           : commonTags // ignore: cast_nullable_to_non_nullable
@@ -1414,6 +1303,8 @@ class _$_ShortReadUserModel extends _ShortReadUserModel {
       required final List<String> photos,
       required this.birthDate,
       required final List<String> tags,
+      required this.about,
+      required this.lookingFor,
       final List<String> commonTags = const []})
       : _photos = photos,
         _tags = tags,
@@ -1445,6 +1336,10 @@ class _$_ShortReadUserModel extends _ShortReadUserModel {
     return EqualUnmodifiableListView(_tags);
   }
 
+  @override
+  final String about;
+  @override
+  final String lookingFor;
 //*INFO: this gets filled later
   final List<String> _commonTags;
 //*INFO: this gets filled later
@@ -1458,7 +1353,7 @@ class _$_ShortReadUserModel extends _ShortReadUserModel {
 
   @override
   String toString() {
-    return 'ShortReadUserModel(id: $id, username: $username, photos: $photos, birthDate: $birthDate, tags: $tags, commonTags: $commonTags)';
+    return 'ShortReadUserModel(id: $id, username: $username, photos: $photos, birthDate: $birthDate, tags: $tags, about: $about, lookingFor: $lookingFor, commonTags: $commonTags)';
   }
 
   @override
@@ -1473,6 +1368,9 @@ class _$_ShortReadUserModel extends _ShortReadUserModel {
             (identical(other.birthDate, birthDate) ||
                 other.birthDate == birthDate) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.about, about) || other.about == about) &&
+            (identical(other.lookingFor, lookingFor) ||
+                other.lookingFor == lookingFor) &&
             const DeepCollectionEquality()
                 .equals(other._commonTags, _commonTags));
   }
@@ -1486,6 +1384,8 @@ class _$_ShortReadUserModel extends _ShortReadUserModel {
       const DeepCollectionEquality().hash(_photos),
       birthDate,
       const DeepCollectionEquality().hash(_tags),
+      about,
+      lookingFor,
       const DeepCollectionEquality().hash(_commonTags));
 
   @JsonKey(ignore: true)
@@ -1503,6 +1403,8 @@ abstract class _ShortReadUserModel extends ShortReadUserModel {
       required final List<String> photos,
       required final DateTime birthDate,
       required final List<String> tags,
+      required final String about,
+      required final String lookingFor,
       final List<String> commonTags}) = _$_ShortReadUserModel;
   const _ShortReadUserModel._() : super._();
 
@@ -1519,6 +1421,10 @@ abstract class _ShortReadUserModel extends ShortReadUserModel {
   DateTime get birthDate;
   @override
   List<String> get tags;
+  @override
+  String get about;
+  @override
+  String get lookingFor;
   @override //*INFO: this gets filled later
   List<String> get commonTags;
   @override

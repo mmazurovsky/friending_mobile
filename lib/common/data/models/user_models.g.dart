@@ -20,20 +20,6 @@ Map<String, dynamic> _$$_PrivateInfoUserModelToJson(
       'telegramUsername': instance.telegramUsername,
     };
 
-_$_AdditionalUserModel _$$_AdditionalUserModelFromJson(
-        Map<String, dynamic> json) =>
-    _$_AdditionalUserModel(
-      description: json['description'] as String?,
-      lookingFor: json['lookingFor'] as String?,
-    );
-
-Map<String, dynamic> _$$_AdditionalUserModelToJson(
-        _$_AdditionalUserModel instance) =>
-    <String, dynamic>{
-      'description': instance.description,
-      'lookingFor': instance.lookingFor,
-    };
-
 Map<String, dynamic> _$$_ShortCreateUserModelToJson(
         _$_ShortCreateUserModel instance) =>
     <String, dynamic>{
@@ -44,6 +30,8 @@ Map<String, dynamic> _$$_ShortCreateUserModelToJson(
       'birthDate': instance.birthDate.toIso8601String(),
       'createdDateTime': instance.createdDateTime.toIso8601String(),
       'tags': instance.tags,
+      'about': instance.about,
+      'lookingFor': instance.lookingFor,
     };
 
 _$_ShortUpdateUserModel _$$_ShortUpdateUserModelFromJson(
@@ -54,6 +42,8 @@ _$_ShortUpdateUserModel _$$_ShortUpdateUserModelFromJson(
           (json['photos'] as List<dynamic>).map((e) => e as String).toList(),
       birthDate: DateTime.parse(json['birthDate'] as String),
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      about: json['about'] as String,
+      lookingFor: json['lookingFor'] as String,
     );
 
 Map<String, dynamic> _$$_ShortUpdateUserModelToJson(
@@ -63,6 +53,8 @@ Map<String, dynamic> _$$_ShortUpdateUserModelToJson(
       'photos': instance.photos,
       'birthDate': instance.birthDate.toIso8601String(),
       'tags': instance.tags,
+      'about': instance.about,
+      'lookingFor': instance.lookingFor,
     };
 
 _$_ShortReadUserModel _$$_ShortReadUserModelFromJson(
@@ -74,6 +66,8 @@ _$_ShortReadUserModel _$$_ShortReadUserModelFromJson(
           (json['photos'] as List<dynamic>).map((e) => e as String).toList(),
       birthDate: DateTime.parse(json['birthDate'] as String),
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      about: json['about'] as String,
+      lookingFor: json['lookingFor'] as String,
       commonTags: (json['commonTags'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
