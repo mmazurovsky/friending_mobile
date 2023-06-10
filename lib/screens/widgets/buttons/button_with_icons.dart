@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
 
 import '../../../common/bag/stateful/spaces.dart';
 import '../../../common/bag/stateful/theme.dart';
 import 'button_content.dart';
+import 'trailing_arrow_icon.dart';
 
 class ButtonWithIcons extends StatelessWidget {
   final Widget? leadingIcon;
@@ -34,12 +34,7 @@ class ButtonWithIcons extends StatelessWidget {
           leading: leadingIcon,
           distanceBetweenLeadingAndText: 13,
           text: buttonText,
-          trailing: trailingIcon ??
-              Icon(
-                Ionicons.chevron_forward_outline,
-                size: 26,
-                color: context.theme.primaryColor,
-              ),
+          trailing: trailingIcon ?? const TrailingArrowIcon(),
           textStyle: context.theme.textTheme.bodyLarge!,
         ),
       ),

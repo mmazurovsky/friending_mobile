@@ -73,6 +73,7 @@ class ShortCreateUserModel with _$ShortCreateUserModel {
   //TODO!: check this
   int get soulsCount => 0;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   ShortUpdateUserModel get toUpdateShortModel {
     return ShortUpdateUserModel(
       username: username,

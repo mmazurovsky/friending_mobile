@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_starter/screens/widgets/texts/section_subtitle.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
@@ -84,15 +85,6 @@ class _ProfileContent extends StatefulWidget {
 }
 
 class _ProfileContentState extends State<_ProfileContent> {
-  void _functionToCloseModalBottomSheetAndDoSomething(
-      void Function(BuildContext) function) {
-    Navigator.of(context).pop();
-    Future.delayed(
-      const Duration(milliseconds: 300),
-      () => function(context),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return context.watch<ProfileContentManager>().isLoading
@@ -109,8 +101,7 @@ class _ProfileContentState extends State<_ProfileContent> {
                     child: PlatformElevatedButton(
                       onPressed: () => showModalBottomSheet(
                         context: context,
-                        builder: (context) => SettingsSelector(
-                            _functionToCloseModalBottomSheetAndDoSomething),
+                        builder: (context) => const SettingsSelector(),
                       ),
                       child: Text(
                         'Open settings',
@@ -159,7 +150,10 @@ class _ProfileContentState extends State<_ProfileContent> {
                   ),
                 ),
                 const SectionDividerWithSpacers(),
-                const SectionTitle('Social links (private)'),
+                const SectionTitle('Social links'),
+                const SizedBox(height: 5),
+                const SectionSubtitle(
+                    'This section can only be seen by users you validated'),
                 const SizedBox(height: 10),
                 SocialLinksList(
                   instagramUsername: context
@@ -185,7 +179,7 @@ class _ProfileContentState extends State<_ProfileContent> {
 class _SettingsButtonData {
   final String text;
   final Widget leadingIcon;
-  final void Function(BuildContext) onTap;
+  final void Function() onTap;
 
   _SettingsButtonData({
     required this.text,
@@ -195,31 +189,26 @@ class _SettingsButtonData {
 }
 
 class SettingsSelector extends StatelessWidget {
-  final void Function(void Function(BuildContext) argFunction)
-      _functionToCloseModalBottomSheetAndDoSomething;
-  const SettingsSelector(this._functionToCloseModalBottomSheetAndDoSomething,
-      {Key? key})
-      : super(key: key);
+  const SettingsSelector({Key? key}) : super(key: key);
 
   List<_SettingsButtonData> _getSettingsList(BuildContext context) {
     final colorOfIcons = context.theme.primaryColor;
     return [
       _SettingsButtonData(
-        text: 'Modify profile',
-        leadingIcon: Icon(
-          Ionicons.clipboard_outline,
-          color: colorOfIcons,
-          size: 18,
-        ),
-        onTap: (_) => _functionToCloseModalBottomSheetAndDoSomething(
-            (BuildContext ctx) =>
-                //TODO: update profile on profile editing page pop
-                ctx.router.push(const ProfileEditingRoute())
-            // .then(
-            //       (value) => ctx.read<ProfileContentManager>().loadProfile(),
-            //     ),
-            ),
-      ),
+          text: 'Modify profile',
+          leadingIcon: Icon(
+            Ionicons.clipboard_outline,
+            color: colorOfIcons,
+            size: 18,
+          ),
+          onTap: () =>
+              //TODO: update profile on profile editing page pop
+              context.router.push(const ProfileEditingRoute())
+          // .then(
+          //       (value) => ctx.read<ProfileContentManager>().loadProfile(),
+          //     ),
+
+          ),
       _SettingsButtonData(
         text: 'Write to support',
         leadingIcon: Icon(
@@ -227,9 +216,7 @@ class SettingsSelector extends StatelessWidget {
           color: colorOfIcons,
           size: 18,
         ),
-        onTap: (_) => _functionToCloseModalBottomSheetAndDoSomething(
-          (BuildContext _) => OpenLinkService.openTelegram('jkjkjkjkjjkjkk'),
-        ),
+        onTap: () => OpenLinkService.openTelegram('jkjkjkjkjjkjkk'),
       ),
       _SettingsButtonData(
         text: 'Sign out',
@@ -238,9 +225,7 @@ class SettingsSelector extends StatelessWidget {
           color: colorOfIcons,
           size: 18,
         ),
-        onTap: (_) => _functionToCloseModalBottomSheetAndDoSomething(
-          (BuildContext ctx) => ctx.read<AuthRepo>().signOut(),
-        ),
+        onTap: () => context.read<AuthRepo>().signOut(),
       ),
       _SettingsButtonData(
         text: 'Delete profile',
@@ -249,31 +234,25 @@ class SettingsSelector extends StatelessWidget {
           color: colorOfIcons,
           size: 18,
         ),
-        onTap: (_) => _functionToCloseModalBottomSheetAndDoSomething(
-          (BuildContext ctx) => showDialog(
-            context: ctx,
-            builder: (_) => AlertDialog(
-              title: const Text('Are you sure?'),
-              content: const Text('You are going to delete your profile'),
-              actions: [
-                TextButton(
-                  child: Text(Strings.ui.cancel),
-                  onPressed: () {
-                    getIt<AppRouter>()
-                        .navigatorKey
-                        .currentContext!
-                        .router
-                        .pop();
-                  },
-                ),
-                TextButton(
-                  child: Text(Strings.ui.proceed),
-                  onPressed: () {
-                    context.read<AuthRepo>().deleteProfile();
-                  },
-                ),
-              ],
-            ),
+        onTap: () => showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text('Are you sure?'),
+            content: const Text('You are going to delete your profile'),
+            actions: [
+              TextButton(
+                child: Text(Strings.ui.cancel),
+                onPressed: () {
+                  getIt<AppRouter>().navigatorKey.currentContext!.router.pop();
+                },
+              ),
+              TextButton(
+                child: Text(Strings.ui.proceed),
+                onPressed: () {
+                  context.read<AuthRepo>().deleteProfile();
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -307,7 +286,7 @@ class SettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => data.onTap(context),
+      onTap: data.onTap,
       child: Padding(
         padding: CEdgeInsets.horizontalStandartVerticalUnit1,
         child: ButtonContent(

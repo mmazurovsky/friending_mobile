@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:dartz/dartz.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:injectable/injectable.dart';
@@ -156,54 +157,86 @@ class UserListDSImpl implements UserListDS {
       currentUserTags.addAll(r.value2);
     });
 
-    final future = _firestore
-        .collection(shortUserCollection)
-        .where(
-          'id',
-          whereIn: userIds,
-        )
-        .where(
-          'id',
-          isNotEqualTo: currentUserId,
-        )
-        .get();
+    userIds.remove(currentUserId);
 
-    final usersRaw = await _requestCheckWrapper(future);
+    final userIdSlices = userIds.slices(10);
 
-    final users = usersRaw.map(
-      (r) => r.docs
-          .map(
-            (e) => ShortReadUserModel.fromJson(
-              e.data(),
-            ),
+    final List<ShortReadUserModel> allUsersInSlices = [];
+    final List<RequestFailure> failures = [];
+
+    for (var userIdSlice in userIdSlices) {
+      final future = _firestore
+          .collection(shortUserCollection)
+          .where(
+            'id',
+            //INFO: wont work for more than 10 users
+            // https://stackoverflow.com/questions/61354866/is-there-a-workaround-for-the-firebase-query-in-limit-to-10
+            whereIn: userIdSlice,
           )
-          //*INFO: not too clean but ok
-          .map((e) => e.copyWith(
-              commonTags:
-                  currentUserTags.intersection(e.tags.toSet()).toList()))
-          .toList(),
-    );
+          .get();
 
-    return users;
+      final usersRaw = await _requestCheckWrapper(future);
+
+      usersRaw.fold(
+        (l) => failures.add(l),
+        (r) {
+          final users = r.docs
+              .map(
+                (e) => ShortReadUserModel.fromJson(
+                  e.data(),
+                ),
+              )
+              //*INFO: not too clean but ok
+              .map((e) => e.copyWith(
+                  commonTags:
+                      currentUserTags.intersection(e.tags.toSet()).toList()))
+              .toList();
+          allUsersInSlices.addAll(users);
+        },
+      );
+    }
+
+    if (userIds.isNotEmpty && allUsersInSlices.isEmpty && failures.isNotEmpty) {
+      return left(failures.first);
+    } else {
+      return right(allUsersInSlices);
+    }
   }
 
   @override
   Future<Map<String, int>> getUserIdsWithTheseTags(
       {required List<String> tags}) async {
+    final tagSlices = tags.slices(10);
+
+    final allUserIdsFromSlices = <String>[];
+
+    for (var tagSlice in tagSlices) {
+      final future = _firestore
+          .collection(tagsCollection)
+          .where(
+            'tagName',
+            //TODO: wont work for more than 10 users
+            // https://stackoverflow.com/questions/61354866/is-there-a-workaround-for-the-firebase-query-in-limit-to-10
+            whereIn: tagSlice,
+          )
+          .get();
+      final a = await _requestCheckWrapper(future);
+      final b = a.map((r) => r.docs);
+      final tagMapList =
+          b.getOrElse(() => <QueryDocumentSnapshot<Map<String, dynamic>>>[]);
+      final userIds = tagMapList.fold<List<String>>([], (prev, e) {
+        prev.addAll(
+          (e.get('usersWithThisTag') as List<dynamic>).cast<String>(),
+        );
+        return prev;
+      });
+
+      allUserIdsFromSlices.addAll(userIds);
+    }
+
     final userIdToQuantityOfTagsInCommon = <String, int>{};
-    final future = _firestore
-        .collection(tagsCollection)
-        .where('tagName', whereIn: tags)
-        .get();
-    final a = await _requestCheckWrapper(future);
-    final b = a.map((r) => r.docs);
-    final c =
-        b.getOrElse(() => <QueryDocumentSnapshot<Map<String, dynamic>>>[]);
-    final userIds = c.fold<List<String>>([], (prev, e) {
-      prev.addAll((e.get('usersWithThisTag') as List<dynamic>).cast<String>());
-      return prev;
-    }).toSet();
-    for (var userId in userIds) {
+
+    for (var userId in allUserIdsFromSlices) {
       if (userIdToQuantityOfTagsInCommon.containsKey(userId)) {
         userIdToQuantityOfTagsInCommon[userId] =
             userIdToQuantityOfTagsInCommon[userId]! + 1;

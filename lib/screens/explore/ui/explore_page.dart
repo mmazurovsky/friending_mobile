@@ -15,8 +15,9 @@ import '../../widgets/custom_edge_insets.dart';
 import '../../widgets/loading.dart';
 import '../../widgets/snack_bar.dart';
 import '../../widgets/spacers/screen_ending.dart';
+import '../../widgets/spacers/section_divider_with_spacers.dart';
 import '../state/explore_state_manager.dart';
-import 'widgets/user_tile.dart';
+import 'widgets/user_card.dart';
 
 class ExplorePage extends StatelessWidget {
   const ExplorePage({super.key});
@@ -81,8 +82,19 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                 ),
                 const UsersNearbySection(),
                 SliverToBoxAdapter(
+                  child: Column(
+                    children: const [
+                      SizedBox(height: 9),
+                      SectionDividerWithSpacers(),
+                    ],
+                  ),
+                ),
+                //TODO: rewrite to one widget
+                SliverToBoxAdapter(
                   child: Container(
-                    padding: CEdgeInsets.horizontalStandart,
+                    padding: CEdgeInsets.horizontalStandart.copyWith(
+                      bottom: 20,
+                    ),
                     child: Text(
                       'Most relevant',
                       style: context.theme.textTheme.titleMedium,
@@ -93,7 +105,7 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                       // return widget for each user with common interests
-                      return UserTile(
+                      return UserCard(
                         user: context
                             .read<ExploreStateManager>()
                             .usersWithMostCommonTags[index],
@@ -142,7 +154,7 @@ class UsersNearbySection extends StatelessWidget {
       children: [
         SliverToBoxAdapter(
           child: Container(
-            padding: CEdgeInsets.horizontalStandart,
+            padding: CEdgeInsets.horizontalStandart.copyWith(bottom: 20),
             child: Text(
               'Users nearby',
               style: context.theme.textTheme.titleMedium,
@@ -155,7 +167,7 @@ class UsersNearbySection extends StatelessWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return UserTile(
+                return UserCard(
                   user: context.read<ExploreStateManager>().nearbyUsers[index],
                 );
               },
@@ -179,7 +191,7 @@ class NearbyUsersNotFoundPlacoholder extends StatelessWidget {
     final text = failure != null
         ? failure.forUser
         : usersNearbyCount == 0
-            ? 'There are no users near you 😢 \nWe are a very new app, give us time to attract more users 🫡'
+            ? 'There are no users near you 😢 \nThis is a very new app, we are on a mission to attract people 🫡'
             : 'Something went wrong, contact support';
     final button = failure != null
         ? TextButton(
@@ -197,10 +209,12 @@ class NearbyUsersNotFoundPlacoholder extends StatelessWidget {
         color: context.theme.colorScheme.surfaceVariant,
         borderRadius: BorderRadius.circular(5),
       ),
-      margin: CEdgeInsets.horizontalStandart.copyWith(
-        top: 15,
-        bottom: 15,
-      ),
+      margin: CEdgeInsets.horizontalStandart
+      // .copyWith(
+      //   top: 20,
+      //   bottom: 20,
+      // ),
+      ,
       padding: const EdgeInsets.all(15),
       child: button == null
           ? Text(text)

@@ -76,7 +76,7 @@ class UserListRepoImpl implements UserListRepo {
     // get tags of current user
     final tags = _profileRepo.getShortProfileLocal()?.tags;
     if (tags == null || tags.isEmpty) {
-      final freshUsers = await _userListDS.getFreshUsers(20);
+      final freshUsers = await _userListDS.getFreshUsers(50);
       return freshUsers;
       // return left(
       //   AuthFailure(
@@ -97,7 +97,7 @@ class UserListRepoImpl implements UserListRepo {
       final sortedUserIds = userIds.entries
           .toList()
           .sorted((a, b) => b.value.compareTo(a.value))
-          .take(10)
+          .take(50)
           .map((e) => e.key)
           .toSet();
 
