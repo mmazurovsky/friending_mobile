@@ -1,9 +1,10 @@
 import 'package:collection/collection.dart';
-import 'package:dartz/dartz.dart';
+
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
@@ -80,10 +81,8 @@ class ProfileImagesManager with ChangeNotifier {
 
   Future<void> _uploadPhotosToGetTheirUrlsAndUpdateManagers() async {
     final List<Tuple2<int, Future<String>>> orderOfImageManagerToFuture = [];
-    final folderName = _authRepo.currentUser.fold(
-      (l) => throw Exception('User is not authenticated'),
-      (r) => r.uid,
-    );
+    //TODO try catch
+    final folderName = _authRepo.currentUser.uid;
 
     _managers.forEachIndexed(
       (i, manager) {
@@ -105,10 +104,10 @@ class ProfileImagesManager with ChangeNotifier {
     for (var element in orderOfImageManagerToFuture) {
       late String photoUrl;
       try {
-        photoUrl = await element.value2;
+        photoUrl = await element.item2;
         orderOfImageManagerToUrl.add(
           Tuple2(
-            element.value1,
+            element.item1,
             photoUrl,
           ),
         );
@@ -117,11 +116,11 @@ class ProfileImagesManager with ChangeNotifier {
       }
     }
 
-    orderOfImageManagerToUrl.sort((a, b) => a.value1.compareTo(b.value1));
+    orderOfImageManagerToUrl.sort((a, b) => a.item1.compareTo(b.item1));
 
     orderOfImageManagerToUrl.forEach(
       (element) {
-        _managers[element.value1].updatePhotoUrl(element.value2);
+        _managers[element.item1].updatePhotoUrl(element.item2);
       },
     );
   }

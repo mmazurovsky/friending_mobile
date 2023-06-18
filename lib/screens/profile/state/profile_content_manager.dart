@@ -18,9 +18,12 @@ class ProfileContentManager with ChangeNotifier {
 
   void loadProfile() async {
     _isLoading = true;
-    final profileRaw =
-        await _profileRepo.fetchProfileFromRemoteAndSaveLocally();
-    profileRaw.fold((l) => null, (r) => _profile = r!);
+    try {
+      _profile = (await _profileRepo.fetchProfileFromRemoteAndSaveLocally())!;
+    } on Exception catch (e) {
+      //TODO
+      print(e);
+    }
     _isLoading = false;
     notifyListeners();
   }

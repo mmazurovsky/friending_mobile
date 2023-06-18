@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/bag/strings.dart';
@@ -10,12 +9,11 @@ import '../ds/user_list_ds.dart';
 import 'coordinates_repo.dart';
 
 abstract class UserListRepo {
-  Future<Either<Failure, List<ShortReadUserEntity>>> getUsersNearby({
+  Future<List<ShortReadUserEntity>> getUsersNearby({
     required int maxDistanceInKm,
   });
 
-  Future<Either<RequestFailure, List<ShortReadUserEntity>>>
-      getUsersWithMostCommonTags();
+  Future<List<ShortReadUserEntity>> getUsersWithMostCommonTags();
 }
 
 @LazySingleton(as: UserListRepo)
@@ -31,20 +29,18 @@ class UserListRepoImpl implements UserListRepo {
   );
 
   @override
-  Future<Either<Failure, List<ShortReadUserEntity>>> getUsersNearby({
+  Future<List<ShortReadUserEntity>> getUsersNearby({
     required int maxDistanceInKm,
   }) async {
     // get users last location from storage
     final latestPoint = _coordinatesRepo.getLatestPosition();
 
     if (latestPoint == null) {
-      return left(
-        CacheFailure(
-          m: Strings.failures.cacheFailure.copyWith(
-            forUser: 'Enable location services to see users nearby',
-          ),
-          e: Exception('Latest point is not available'),
+      throw CacheFailure(
+        m: Strings.failures.cacheFailure.copyWith(
+          forUser: 'Enable location services to see users nearby',
         ),
+        e: Exception('Latest point is not available'),
       );
     } else {
       // check if there are location permissions if not return failure
@@ -56,29 +52,19 @@ class UserListRepoImpl implements UserListRepo {
         startDateTime: startDateTime,
       );
 
-      final result = userIds.fold(
-        (l) async {
-          return left<RequestFailure, List<ShortReadUserEntity>>(l);
-        },
-        (r) async {
-          final users = await _userListDS.getUsersByIds(userIds: r);
-          return users;
-        },
-      );
-
-      return result;
+      final users = await _userListDS.getUsersByIds(userIds: userIds);
+      return users;
     }
   }
 
   @override
-  Future<Either<RequestFailure, List<ShortReadUserEntity>>>
-      getUsersWithMostCommonTags() async {
+  Future<List<ShortReadUserEntity>> getUsersWithMostCommonTags() async {
     // get tags of current user
     final tags = _profileRepo.getShortProfileLocal()?.tags;
     if (tags == null || tags.isEmpty) {
       final freshUsers = await _userListDS.getFreshUsers(50);
       return freshUsers;
-      // return left(
+      // throw
       //   AuthFailure(
       //     m: Strings.failures.authFaliure.copyWith(
       //       forUser: 'Can not get your interests',
@@ -91,7 +77,7 @@ class UserListRepoImpl implements UserListRepo {
     final userIds = await _userListDS.getUserIdsWithTheseTags(tags: tags);
 
     if (userIds.isEmpty) {
-      return right([]);
+      return [];
     } else {
       // sort userids by map value decending and take top 10 keys and put these keys in separate list
       final sortedUserIds = userIds.entries

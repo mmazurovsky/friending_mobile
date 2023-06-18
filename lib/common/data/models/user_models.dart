@@ -15,6 +15,7 @@ class FullReadUserModel with _$FullReadUserModel {
     required ShortReadUserModel shortUserModel,
     // required AdditionalUserModel additionalUserModel,
     required PrivateInfoUserModel privateInfoUserModel,
+    required VeryShortUserModel? pairedWith,
   }) = _FullReadUserModel;
 }
 
@@ -27,6 +28,7 @@ class OtherUserFullModel with _$OtherUserFullModel {
     // required AdditionalUserModel additionalUserModel,
     required PrivateInfoUserModel? privateInfoUserModel,
     required UserConnectStatusEnum connectStatusEnum,
+    required VeryShortUserModel? pairedWith,
   }) = _OtherUserFullModel;
 }
 

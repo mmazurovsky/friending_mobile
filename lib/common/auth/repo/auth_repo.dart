@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
-import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -15,22 +14,19 @@ import '../../utils/logger/custom_logger.dart';
 import '../../utils/logger/logger_name_provider.dart';
 
 abstract class AuthRepo {
-  Future<Either<RequestFailure, UserCredential>> signUpWithEmailAndPassword(
+  Future<UserCredential> signUpWithEmailAndPassword(
       {required String email, required String password});
-  Future<Either<RequestFailure, void>> signInWithEmailAndPassword(
+  Future<void> signInWithEmailAndPassword(
       {required String email, required String password});
-  Future<Either<RequestFailure, void>> startSigningWithEmailAndLink(
-      {required String email});
-  Future<Either<RequestFailure, void>> endSigningWithEmailAndLink(
-      {required Uri link});
-  Future<Either<RequestFailure, void>> signInWithGoogle();
-  Future<Either<RequestFailure, UserCredential>> signInAnonymously();
-  Future<Either<RequestFailure, void>> signInWithApple();
-  Future<Either<RequestFailure, void>> signOut();
-  Future<Either<RequestFailure, void>> updateProfile(
-      {required String displayName});
-  Future<Either<RequestFailure, void>> deleteProfile();
-  Either<RequestFailure, User> get currentUser;
+  Future<void> startSigningWithEmailAndLink({required String email});
+  Future<void> endSigningWithEmailAndLink({required Uri link});
+  Future<void> signInWithGoogle();
+  Future<UserCredential> signInAnonymously();
+  Future<void> signInWithApple();
+  Future<void> signOut();
+  Future<void> updateProfile({required String displayName});
+  Future<void> deleteProfile();
+  User get currentUser;
   Stream<User?> get userStream;
 }
 
@@ -51,7 +47,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
 
   @override
-  Either<RequestFailure, User> get currentUser {
+  User get currentUser {
     User? user;
     try {
       user = _firebaseAuth.currentUser;
@@ -64,7 +60,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         loggerName: loggerName,
         failure: failure,
       );
-      return Left(failure);
+      throw failure;
     }
     if (user == null) {
       final failure = RequestFailure.auth(
@@ -76,9 +72,9 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         failure: failure,
       );
 
-      return Left(failure);
+      throw failure;
     } else {
-      return Right(user);
+      return user;
     }
   }
 
@@ -88,14 +84,14 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
   FailureMessages get _failureMessages => Strings.failures.firebaseAuthFaliure;
 
   @override
-  Future<Either<RequestFailure, UserCredential>> signUpWithEmailAndPassword({
+  Future<UserCredential> signUpWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
     try {
       final userCredentials = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
-      return Right(userCredentials);
+      return userCredentials;
     } on Exception catch (e) {
       final failure = RequestFailure.auth(
         m: _failureMessages,
@@ -105,17 +101,17 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         loggerName: loggerName,
         failure: failure,
       );
-      return Left(failure);
+      throw failure;
     }
   }
 
   @override
-  Future<Either<RequestFailure, UserCredential>> signInWithEmailAndPassword(
+  Future<UserCredential> signInWithEmailAndPassword(
       {required String email, required String password}) async {
     try {
       final userCredentials = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      return Right(userCredentials);
+      return userCredentials;
     } on Exception catch (e) {
       final failure = RequestFailure.auth(
         m: _failureMessages,
@@ -125,13 +121,12 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         loggerName: loggerName,
         failure: failure,
       );
-      return Left(failure);
+      throw failure;
     }
   }
 
   @override
-  Future<Either<RequestFailure, void>> startSigningWithEmailAndLink(
-      {required String email}) async {
+  Future<void> startSigningWithEmailAndLink({required String email}) async {
     ActionCodeSettings actionCodeSettings = ActionCodeSettings(
       url: Strings.links.dynamicLinkUrlPrefix,
       androidPackageName: Strings.ids.androidPackageName,
@@ -154,20 +149,18 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         loggerName: loggerName,
         failure: failure,
       );
-      return Left(failure);
+      throw failure;
     }
-    return const Right(null);
   }
 
   @override
-  Future<Either<RequestFailure, UserCredential>> endSigningWithEmailAndLink(
-      {required Uri link}) async {
+  Future<UserCredential> endSigningWithEmailAndLink({required Uri link}) async {
     if (_isSignInWithEmailLink(link.toString())) {
       try {
         final userCredentials = await _firebaseAuth.signInWithEmailLink(
             email: _storedEmailForLinkVerification!,
             emailLink: link.toString());
-        return Right(userCredentials);
+        return userCredentials;
       } on Exception catch (e) {
         final failure = RequestFailure.auth(
           m: _failureMessages,
@@ -177,7 +170,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
           loggerName: loggerName,
           failure: failure,
         );
-        return Left(failure);
+        throw failure;
       }
     } else {
       final failure = RequestFailure.auth(
@@ -190,7 +183,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         failure: failure,
       );
 
-      return Left(failure);
+      throw failure;
     }
   }
 
@@ -199,7 +192,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
   }
 
   @override
-  Future<Either<RequestFailure, UserCredential>> signInWithGoogle() async {
+  Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     late final GoogleSignInAuthentication googleAuth;
@@ -214,7 +207,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         loggerName: loggerName,
         failure: failure,
       );
-      return Left(failure);
+      throw failure;
     }
 
     // Create a new credential
@@ -236,13 +229,13 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         loggerName: loggerName,
         failure: failure,
       );
-      return Left(failure);
+      throw failure;
     }
-    return Right(userCredentials);
+    return userCredentials;
   }
 
   @override
-  Future<Either<RequestFailure, UserCredential>> signInWithApple() async {
+  Future<UserCredential> signInWithApple() async {
     /// Generates a cryptographically secure random nonce, to be included in a
     /// credential request.
     String generateNonce([int length = 32]) {
@@ -287,7 +280,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         loggerName: loggerName,
         failure: failure,
       );
-      return Left(failure);
+      throw failure;
     }
 
     // Create an `OAuthCredential` from the credential returned by Apple.
@@ -313,13 +306,13 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         loggerName: loggerName,
         failure: failure,
       );
-      return Left(failure);
+      throw failure;
     }
-    return Right(userCredential);
+    return userCredential;
   }
 
   @override
-  Future<Either<RequestFailure, void>> signOut() async {
+  Future<void> signOut() async {
     try {
       await _firebaseAuth.signOut();
     } on Exception catch (e) {
@@ -331,83 +324,49 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         loggerName: loggerName,
         failure: failure,
       );
-      return Left(failure);
+      throw failure;
     }
-    return const Right(null);
   }
 
   @override
-  Future<Either<RequestFailure, void>> updateProfile(
-      {required String displayName}) async {
+  Future<void> updateProfile({required String displayName}) async {
     final user = currentUser;
 
-    user.map((r) {
-      if (r != null) {
-        try {
-          r.updateDisplayName(displayName);
-        } on Exception catch (e) {
-          final failure = RequestFailure.auth(
-            m: _failureMessages,
-            e: e,
-          );
-          _customLogger.logFailure(
-            loggerName: loggerName,
-            failure: failure,
-          );
-          return Left(failure);
-        }
-      } else {
-        final failure = RequestFailure.auth(
-          m: _failureMessages,
-          e: Exception('User is null'),
-        );
-        _customLogger.logFailure(
-          loggerName: loggerName,
-          failure: failure,
-        );
-        return Left(failure);
-      }
-    });
-
-    return const Right(null);
+    try {
+      user.updateDisplayName(displayName);
+    } on Exception catch (e) {
+      final failure = RequestFailure.auth(
+        m: _failureMessages,
+        e: e,
+      );
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+      throw failure;
+    }
   }
 
   @override
-  Future<Either<RequestFailure, void>> deleteProfile() async {
+  Future<void> deleteProfile() async {
     final user = currentUser;
-
-    user.map((r) {
-      if (r != null) {
-        try {
-          r.delete();
-        } on Exception catch (e) {
-          final failure = RequestFailure.auth(
-            m: _failureMessages,
-            e: e,
-          );
-          _customLogger.logFailure(
-            loggerName: loggerName,
-            failure: failure,
-          );
-          return Left(failure);
-        }
-      } else {
-        final failure = RequestFailure.auth(
-          m: _failureMessages,
-          e: Exception('User is null'),
-        );
-        _customLogger.logFailure(
-          loggerName: loggerName,
-          failure: failure,
-        );
-        return Left(failure);
-      }
-    });
-    return const Right(null);
+    try {
+      user.delete();
+    } on Exception catch (e) {
+      final failure = RequestFailure.auth(
+        m: _failureMessages,
+        e: e,
+      );
+      _customLogger.logFailure(
+        loggerName: loggerName,
+        failure: failure,
+      );
+      throw failure;
+    }
   }
 
   @override
-  Future<Either<RequestFailure, UserCredential>> signInAnonymously() async {
+  Future<UserCredential> signInAnonymously() async {
     late UserCredential anonUserCredential;
     try {
       anonUserCredential = await _firebaseAuth.signInAnonymously();
@@ -420,8 +379,8 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
         loggerName: loggerName,
         failure: failure,
       );
-      return Left(failure);
+      throw failure;
     }
-    return  Right(anonUserCredential);
+    return anonUserCredential;
   }
 }

@@ -47,9 +47,7 @@ class FirebaseImageServiceImpl implements ImageService {
 
     final result = await _requestCheckWrapper(uploadTask);
 
-    return result.fold((l) => throw l, (r) {
-      return r.ref.getDownloadURL();
-    });
+    return result.ref.getDownloadURL();
   }
 
   @override

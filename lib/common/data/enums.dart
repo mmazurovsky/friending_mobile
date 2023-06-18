@@ -8,6 +8,9 @@ enum UserConnectStatusEnum {
   requested,
   toBeApproved;
 
+  @override
+  String toString() => this.name;
+
   UserConnectStatus get content {
     switch (this) {
       case UserConnectStatusEnum.connected:

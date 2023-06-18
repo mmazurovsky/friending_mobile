@@ -10,7 +10,7 @@ abstract class UserConnectStatus {
 class UserConnectStatusConnected implements UserConnectStatus {
   const UserConnectStatusConnected();
   @override
-  String get buttonTitle => 'Disconnect';
+  String get buttonTitle => 'Unpair';
   @override
   Color get buttonColor => const Color(0xFFE0E0E0);
   @override
@@ -22,7 +22,7 @@ class UserConnectStatusConnected implements UserConnectStatus {
 class UserConnectStatusDisconnected implements UserConnectStatus {
   const UserConnectStatusDisconnected();
   @override
-  String get buttonTitle => 'Connect';
+  String get buttonTitle => 'Pair';
   @override
   Color get buttonColor => const Color(0xFFE0E0E0);
   @override
@@ -34,7 +34,7 @@ class UserConnectStatusDisconnected implements UserConnectStatus {
 class UserConnectStatusRequested implements UserConnectStatus {
   const UserConnectStatusRequested();
   @override
-  String get buttonTitle => 'Requested';
+  String get buttonTitle => 'Requested to pair';
   @override
   Color get buttonColor => const Color(0xFFE0E0E0);
   @override
@@ -46,7 +46,7 @@ class UserConnectStatusRequested implements UserConnectStatus {
 class UserConnectStatusToBeApproved implements UserConnectStatus {
   const UserConnectStatusToBeApproved();
   @override
-  String get buttonTitle => 'Accept connection';
+  String get buttonTitle => 'Pair';
   @override
   Color get buttonColor => const Color(0xFFE0E0E0);
   @override

@@ -1,30 +1,25 @@
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/user_models.dart';
 import '../ds/profile_local_ds.dart';
 import '../ds/profile_remote_ds.dart';
 
 abstract class ProfileRepo {
-  Future<Either<RequestFailure, void>> saveProfile({
+  Future<void> saveProfile({
     required ShortCreateUserModel shortModel,
     required PrivateInfoUserModel privateModel,
   });
-  Future<Either<RequestFailure, void>> updateProfile({
+  Future<void> updateProfile({
     required ShortUpdateUserModel shortModel,
     required PrivateInfoUserModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   });
 
-  Future<Either<RequestFailure, void>> updateProfilePhotos(
-      List<String> profilePhotoUrls);
+  Future<void> updateProfilePhotos(List<String> profilePhotoUrls);
   ShortUpdateUserModel? getShortProfileLocal();
-  Future<Either<RequestFailure, FullReadUserModel?>>
-      fetchProfileFromRemoteAndSaveLocally();
+  Future<FullReadUserModel?> fetchProfileFromRemoteAndSaveLocally();
   Future<void> deleteProfileLocal();
-  Future<Either<RequestFailure, List<String>>> getProfilePhotos();
   Future<bool> isUsernameFree(String username);
   Stream<ShortReadUserModel?> getProfileStream();
 }
@@ -47,7 +42,7 @@ class ProfileRepoImpl implements ProfileRepo {
 
   // create function to save profile
   @override
-  Future<Either<RequestFailure, void>> saveProfile({
+  Future<void> saveProfile({
     required ShortCreateUserModel shortModel,
     required PrivateInfoUserModel privateModel,
   }) {
@@ -60,7 +55,7 @@ class ProfileRepoImpl implements ProfileRepo {
 
   // create function to update profile in remote ds
   @override
-  Future<Either<RequestFailure, void>> updateProfile({
+  Future<void> updateProfile({
     required ShortUpdateUserModel shortModel,
     required PrivateInfoUserModel privateModel,
     required List<String> tagsToRemove,
@@ -81,41 +76,29 @@ class ProfileRepoImpl implements ProfileRepo {
   }
 
   @override
-  Future<Either<RequestFailure, FullReadUserModel?>>
-      fetchProfileFromRemoteAndSaveLocally() {
+  Future<FullReadUserModel?> fetchProfileFromRemoteAndSaveLocally() {
     return _profileRemoteDS.getFullProfile()
       ..then(
         (value) {
-          value.fold(
-            (l) {},
-            (r) {
-              final profileToSaveLocally =
-                  r?.shortUserModel.convertToUpdateModel;
-              if (profileToSaveLocally != null) {
-                _profileLocalDS.saveShortProfile(profileToSaveLocally);
-              }
-            },
-          );
+          final profileToSaveLocally =
+              value?.shortUserModel.convertToUpdateModel;
+          if (profileToSaveLocally != null) {
+            _profileLocalDS.saveShortProfile(profileToSaveLocally);
+          }
         },
       );
   }
 
   @override
-  Future<Either<RequestFailure, void>> updateProfilePhotos(
-      List<String> profilePhotoUrls) {
+  Future<void> updateProfilePhotos(List<String> profilePhotoUrls) {
     return _profileRemoteDS.saveProfilePhotos(profilePhotoUrls);
-  }
-
-  @override
-  Future<Either<RequestFailure, List<String>>> getProfilePhotos() {
-    return _profileRemoteDS.getProfilePhotos();
   }
 
   @override
   Future<bool> isUsernameFree(String username) {
     return _profileRemoteDS.isUsernameFree(username);
   }
-  
+
   @override
   Stream<ShortReadUserModel?> getProfileStream() {
     return _profileRemoteDS.getProfileStream();

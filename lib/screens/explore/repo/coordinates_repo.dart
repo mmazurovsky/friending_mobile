@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 
@@ -9,7 +8,7 @@ import '../ds/coordinates_local_ds.dart';
 import '../ds/coordinates_remote_ds.dart';
 
 abstract class CoordinatesRepo {
-  Future<Either<RequestFailure, void>> addCurrentPosition();
+  Future<void> addCurrentPosition();
   PointModel? getLatestPosition();
   Future<void> deleteLocalPosition();
 }
@@ -29,12 +28,12 @@ class CoordinatesRepoImpl implements CoordinatesRepo {
   DateTime? _lastPositionUpdate;
 
   @override
-  Future<Either<RequestFailure, void>> addCurrentPosition() async {
+  Future<void> addCurrentPosition() async {
     if (_lastPositionUpdate != null) {
       final now = DateTime.now();
       final diff = now.difference(_lastPositionUpdate!);
       if (diff.inMinutes < 5) {
-        return right(null);
+        return;
       }
     }
 
@@ -55,11 +54,9 @@ class CoordinatesRepoImpl implements CoordinatesRepo {
     } else {
       _lastPositionUpdate = null;
       await _coordinatesLocalDS.deletePosition();
-      return left(
-        RequestFailure.client(
-          m: Strings.failures.clientFailure,
-          e: Exception("Permission to access location denied"),
-        ),
+      throw RequestFailure.client(
+        m: Strings.failures.clientFailure,
+        e: Exception("Permission to access location denied"),
       );
     }
   }

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -7,7 +6,7 @@ import '../bag/strings.dart';
 import '../data/failures/failures.dart';
 
 abstract class RequestCheckWrapper {
-  Future<Either<RequestFailure, RAWRESPONSE>> call<RAWRESPONSE>(
+  Future<RAWRESPONSE> call<RAWRESPONSE>(
     Future<RAWRESPONSE> requestFuture,
   );
 }
@@ -21,7 +20,7 @@ class RequestCheckWrapperImpl implements RequestCheckWrapper {
       Strings.failures.undefinedFailure;
 
   @override
-  Future<Either<RequestFailure, RAWRESPONSE>> call<RAWRESPONSE>(
+  Future<RAWRESPONSE> call<RAWRESPONSE>(
     Future<RAWRESPONSE> requestFuture,
   ) async {
     late final RAWRESPONSE response;
@@ -69,9 +68,9 @@ class RequestCheckWrapperImpl implements RequestCheckWrapper {
     }
 
     if (failure != null) {
-      return Left(failure);
+      throw failure;
     } else {
-      return Right(response);
+      return response;
     }
   }
 }

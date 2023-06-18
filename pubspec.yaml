@@ -38,7 +38,6 @@ dependencies:
   # other
   stack_trace: ^1.10.0
   logging: ^1.1.1
-  dartz: ^0.10.1
   injectable: ^2.1.0
   dio: ^5.0.1
   auto_route: ^5.0.4
@@ -64,6 +63,7 @@ dependencies:
   url_launcher: ^6.1.11
   smooth_page_indicator: ^1.1.0
   sliver_tools: ^0.2.10
+  tuple: ^2.0.2
 
 dev_dependencies:
   flutter_test:

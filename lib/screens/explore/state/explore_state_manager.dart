@@ -47,14 +47,8 @@ class ExploreStateManager with ChangeNotifier {
     final usersWithCommonTagsFuture =
         _userListRepo.getUsersWithMostCommonTags();
 
-    final nearbyUsers = await nearbyUsersFuture;
-    final usersWithCommonTags = await usersWithCommonTagsFuture;
-
-    nearbyUsers.fold((l) => _failure = l, (r) => _nearbyUsers = r);
-    usersWithCommonTags.fold(
-      (l) => _failure = l,
-      (r) => _usersWithMostCommonTags = r,
-    );
+    _nearbyUsers = await nearbyUsersFuture;
+    _usersWithMostCommonTags = await usersWithCommonTagsFuture;
 
     _isLoading = false;
     notifyListeners();

@@ -1,25 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
-import 'package:dartz/dartz.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
-import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../profile/ds/profile_remote_ds.dart';
 
 abstract class UserListDS {
-  Future<Either<RequestFailure, Set<String>>> getUserIdsAroundPoint({
+  Future<Set<String>> getUserIdsAroundPoint({
     required double pointLat,
     required double pointLong,
     required int maxDistanceInKm,
     required DateTime startDateTime,
   });
 
-  Future<Either<RequestFailure, List<ShortReadUserModel>>> getUsersByIds({
+  Future<List<ShortReadUserModel>> getUsersByIds({
     required Set<String> userIds,
   });
 
@@ -27,8 +25,7 @@ abstract class UserListDS {
     required List<String> tags,
   });
 
-  Future<Either<RequestFailure, List<ShortReadUserModel>>> getFreshUsers(
-      int maxQuantity);
+  Future<List<ShortReadUserModel>> getFreshUsers(int maxQuantity);
 }
 
 @LazySingleton(as: UserListDS)
@@ -52,7 +49,7 @@ class UserListDSImpl implements UserListDS {
   String get tagsCollection => Strings.server.tagsCollection;
 
   @override
-  Future<Either<RequestFailure, Set<String>>> getUserIdsAroundPoint({
+  Future<Set<String>> getUserIdsAroundPoint({
     required double pointLat,
     required double pointLong,
     required int maxDistanceInKm,
@@ -86,83 +83,31 @@ class UserListDSImpl implements UserListDS {
           strictMode: false,
         );
 
-    final userCoordinates = await _requestCheckWrapper.call(stream.first);
+    final userCoordinates = await _requestCheckWrapper(stream.first);
 
-    final userIds = userCoordinates.map((r) {
-      // final userIds = r
-      //     .where((e) => _isInDistance(
-      //           maxDistanceInKm: maxDistanceInKm,
-      //           pointLat: pointLat,
-      //           pointLong: pointLong,
-      //           otherUserLat: e.get('lat'),
-      //           otherUserLong: e.get('long'),
-      //         ))
-      //     .map((e) => e.get('userId') as String)
-      //     .toSet();
-      // return userIds;
-
-      final userIds = r.map((e) => e.get('userId') as String).toSet();
-      return userIds;
-    });
+    final userIds =
+        userCoordinates.map((e) => e.get('userId') as String).toSet();
 
     return userIds;
   }
 
-  // bool _isInDistance({
-  //   required double pointLat,
-  //   required double pointLong,
-  //   required double otherUserLat,
-  //   required double otherUserLong,
-  //   required int maxDistanceInKm,
-  // }) {
-  //   final distanceBetweenUsers = _distanceBetweenTwoPointsInKm(
-  //     lat1: pointLat,
-  //     lon1: pointLong,
-  //     lat2: otherUserLat,
-  //     lon2: otherUserLong,
-  //   );
-  //   return distanceBetweenUsers <= maxDistanceInKm;
-  // }
-
-  // double _distanceBetweenTwoPointsInKm({
-  //   required double lat1,
-  //   required double lon1,
-  //   required double lat2,
-  //   required double lon2,
-  // }) {
-  //   const p = 0.017453292519943295; // Math.PI / 180
-  //   const c = cos;
-  //   final a = 0.5 -
-  //       c((lat2 - lat1) * p) / 2 +
-  //       c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-  //   // 2 * R; R = 6371 km
-  //   final result = 12742 * asin(sqrt(a));
-  //   return result;
-  // }
-
   @override
-  Future<Either<RequestFailure, List<ShortReadUserModel>>> getUsersByIds({
+  Future<List<ShortReadUserModel>> getUsersByIds({
     required Set<String> userIds,
   }) async {
     if (userIds.isEmpty) {
-      return right([]);
+      return [];
     }
     final currentUserAndTags = await _profileDS.getCurrentUserAndProfileTags();
 
-    String? currentUserId;
-    final Set<String> currentUserTags = {};
-
-    currentUserAndTags.map((r) {
-      currentUserId = r.value1.uid;
-      currentUserTags.addAll(r.value2);
-    });
+    String? currentUserId = currentUserAndTags.item1.uid;
+    final Set<String> currentUserTags = currentUserAndTags.item2.toSet();
 
     userIds.remove(currentUserId);
 
     final userIdSlices = userIds.slices(10);
 
     final List<ShortReadUserModel> allUsersInSlices = [];
-    final List<RequestFailure> failures = [];
 
     for (var userIdSlice in userIdSlices) {
       final future = _firestore
@@ -177,30 +122,21 @@ class UserListDSImpl implements UserListDS {
 
       final usersRaw = await _requestCheckWrapper(future);
 
-      usersRaw.fold(
-        (l) => failures.add(l),
-        (r) {
-          final users = r.docs
-              .map(
-                (e) => ShortReadUserModel.fromJson(
-                  e.data(),
-                ),
-              )
-              //*INFO: not too clean but ok
-              .map((e) => e.copyWith(
-                  commonTags:
-                      currentUserTags.intersection(e.tags.toSet()).toList()))
-              .toList();
-          allUsersInSlices.addAll(users);
-        },
-      );
+      final users = usersRaw.docs
+          .map(
+            (e) => ShortReadUserModel.fromJson(
+              e.data(),
+            ),
+          )
+          //*INFO: not too clean but ok
+          .map((e) => e.copyWith(
+                commonTags:
+                    currentUserTags.intersection(e.tags.toSet()).toList(),
+              ))
+          .toList();
+      allUsersInSlices.addAll(users);
     }
-
-    if (userIds.isNotEmpty && allUsersInSlices.isEmpty && failures.isNotEmpty) {
-      return left(failures.first);
-    } else {
-      return right(allUsersInSlices);
-    }
+    return allUsersInSlices;
   }
 
   @override
@@ -220,10 +156,8 @@ class UserListDSImpl implements UserListDS {
             whereIn: tagSlice,
           )
           .get();
-      final a = await _requestCheckWrapper(future);
-      final b = a.map((r) => r.docs);
-      final tagMapList =
-          b.getOrElse(() => <QueryDocumentSnapshot<Map<String, dynamic>>>[]);
+      final anotherFuture = await _requestCheckWrapper(future);
+      final tagMapList = anotherFuture.docs;
       final userIds = tagMapList.fold<List<String>>([], (prev, e) {
         prev.addAll(
           (e.get('usersWithThisTag') as List<dynamic>).cast<String>(),
@@ -249,8 +183,7 @@ class UserListDSImpl implements UserListDS {
   }
 
   @override
-  Future<Either<RequestFailure, List<ShortReadUserModel>>> getFreshUsers(
-      int maxQuantity) async {
+  Future<List<ShortReadUserModel>> getFreshUsers(int maxQuantity) async {
     final future = _firestore
         .collection(shortUserCollection)
         .orderBy('createdAt', descending: true)
@@ -263,8 +196,7 @@ class UserListDSImpl implements UserListDS {
 
     final result = await _requestCheckWrapper(future);
 
-    final users =
-        result.map((r) => r.docs.map((e) => e.data()).toSet().toList());
+    final users = result.docs.map((e) => e.data()).toSet().toList();
 
     return users;
   }

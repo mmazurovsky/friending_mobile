@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
@@ -37,13 +36,16 @@ class ProfileEditingManager with ChangeNotifier {
     final profileRaw =
         await _profileRepo.fetchProfileFromRemoteAndSaveLocally();
     FullReadUserModel? profile;
-    profileRaw.fold((l) {
-      _failure = l;
-      notifyListeners();
-      _failure = null;
-    }, (r) {
-      profile = r;
-    });
+    //TODO try catch
+    profile = profileRaw;
+    
+    // profileRaw.fold((l) {
+    //   _failure = l;
+    //   notifyListeners();
+    //   _failure = null;
+    // }, (r) {
+    //   profile = r;
+    // });
 
     if (profile == null) {
       _isItProfileCreation = true;
@@ -70,9 +72,9 @@ class ProfileEditingManager with ChangeNotifier {
     final tagsToAddOnServer = _textsManager.tagsToAddOnServer;
     final tagsToRemoveOnServer = _textsManager.tagsToRemoveOnServer;
 
-    final userId = _authRepo.currentUser.fold((l) {
-      // TODO!: do something
-    }, (r) => r.uid);
+    //TODO try catch
+    String? userId;
+    userId = _authRepo.currentUser.uid;
 
     if (userId != null) {
       final shortModel = ShortUpdateUserModel(
@@ -89,14 +91,16 @@ class ProfileEditingManager with ChangeNotifier {
         telegramUsername: telegramUsername,
       );
 
-      late final Either<RequestFailure, void> response;
+      late final void response;
 
       if (_isItProfileCreation) {
+        //TODO try catch
         response = await _profileRepo.saveProfile(
           shortModel: shortModel.toCreateShortModel(userId),
           privateModel: privateModel,
         );
       } else {
+        //TODO try catch and set _isOperationSuccessful
         response = await _profileRepo.updateProfile(
           shortModel: shortModel,
           privateModel: privateModel,
@@ -105,15 +109,17 @@ class ProfileEditingManager with ChangeNotifier {
         );
       }
 
-      response.fold((l) {
-        _failure = l;
-        notifyListeners();
-        _failure = null;
-      }, (r) {
-        _isOperationSuccessful = true;
-        notifyListeners();
-        _isOperationSuccessful = null;
-      });
+      notifyListeners();
+
+      // response.fold((l) {
+      //   _failure = l;
+      //   notifyListeners();
+      //   _failure = null;
+      // }, (r) {
+      //   _isOperationSuccessful = true;
+      //   notifyListeners();
+      //   _isOperationSuccessful = null;
+      // });
     }
   }
 }

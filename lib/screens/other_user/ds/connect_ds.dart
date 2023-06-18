@@ -1,22 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/enums.dart';
-import '../../../common/data/failures/failures.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
+import 'connection_models.dart';
 
 abstract class ConnectDS {
-  Future<Either<RequestFailure, void>> initialConnection(
-    String userId,
-    String message,
-  );
-  Future<Either<RequestFailure, void>> approveConnection(String userId);
-  Future<Either<RequestFailure, void>> disconnect(String userId);
+  Future<void> pair(String userId);
+  Future<void> unpairOrRemoveRequest(String userId);
 }
 
 @LazySingleton(as: ConnectDS)
@@ -41,30 +36,40 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
   String get connectionsCollection => Strings.server.connectionsCollection;
 
   @override
-  Future<Either<RequestFailure, void>> initialConnection(
+  Future<void> pair(
     String userId,
-    String message,
   ) async {
     final currentUserRaw = _authRepo.currentUser;
 
-    final result = await currentUserRaw.fold((l) async {
-      return left<RequestFailure, void>(l);
-    }, (r) async {
-      final dateTime = DateTime.now();
-      final currentUserId = r.uid;
+    late Future<void> future;
+
+    final currentUserId = currentUserRaw.uid;
+
+    final currentConnectionRaw = await _firestore
+        .collection(fullUserCollection)
+        .doc(currentUserId)
+        .collection(connectionsCollection)
+        .doc(userId)
+        .withConverter<ConnectionModel?>(
+          fromFirestore: (map, opt) =>
+              map.data() != null ? ConnectionModel.fromJson(map.data()!) : null,
+          toFirestore: (ConnectionModel? model, opt) => model?.toJson() ?? {},
+        )
+        .get();
+
+    final currentConnection = currentConnectionRaw.data();
+
+    if (currentConnection?.status == UserConnectStatusEnum.toBeApproved) {
       final batchOperation = _firestore.batch();
-      batchOperation.set(
+      final dateTime = DateTime.now();
+      batchOperation.update(
         _firestore
             .collection(fullUserCollection)
             .doc(userId)
             .collection(connectionsCollection)
             .doc(currentUserId),
-        {
-          'userId': currentUserId,
-          'connectionType': UserConnectStatusEnum.toBeApproved.toString(),
-          'dateTime': dateTime,
-          'message': message,
-        },
+        // TODO check if user is already connected with someone and disconnect them
+        {'status': UserConnectStatusEnum.connected.toString()},
       );
       batchOperation.set(
         _firestore
@@ -72,62 +77,78 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
             .doc(currentUserId)
             .collection(connectionsCollection)
             .doc(userId),
-        {
-          'userId': userId,
-          'connectionType': UserConnectStatusEnum.requested.toString(),
-          'dateTime': dateTime,
-        },
+        // TODO check if user is already connected with someone and disconnect them
+        ConnectionModel(
+          userId: userId,
+          status: UserConnectStatusEnum.connected,
+          createdDateTime: dateTime,
+        ).toJson(),
       );
+    } else {
+      final batchOperation = _firestore.batch();
+      final dateTime = DateTime.now();
+      batchOperation.set(
+        _firestore
+            .collection(fullUserCollection)
+            .doc(userId)
+            .collection(connectionsCollection)
+            .doc(currentUserId),
+        ConnectionModel(
+          userId: currentUserId,
+          status: UserConnectStatusEnum.toBeApproved,
+          createdDateTime: dateTime,
+        ).toJson(),
+      );
+      batchOperation.set(
+        _firestore
+            .collection(fullUserCollection)
+            .doc(currentUserId)
+            .collection(connectionsCollection)
+            .doc(userId),
+        ConnectionModel(
+          userId: currentUserId,
+          status: UserConnectStatusEnum.requested,
+          createdDateTime: dateTime,
+        ).toJson(),
+      );
+      future = batchOperation.commit();
+    }
 
-      // batchOperation.update(
-      //     _firestore.collection(shortUserCollection).doc(currentUserId), {
-      //   'soulsCount': FieldValue.increment(-1),
-      // });
-
-      // batchOperation
-      //     .update(_firestore.collection(shortUserCollection).doc(userId), {
-      //   'soulsCount': FieldValue.increment(1),
-      // });
-
-      final future = batchOperation.commit();
-      final result = await _requestCheckWrapper(future);
-      return result;
-    });
-
-    result.fold(
-      (l) {
-        _customLogger.logFailure(
-          loggerName: loggerName,
-          failure: l,
-        );
-      },
-      (r) => null,
-    );
+    final result = await _requestCheckWrapper(future);
     return result;
   }
 
   @override
-  Future<Either<RequestFailure, void>> approveConnection(String userId) async {
+  Future<void> unpairOrRemoveRequest(String userId) async {
     final currentUserRaw = _authRepo.currentUser;
 
-    final result = await currentUserRaw.fold((l) async {
-      return left<RequestFailure, void>(l);
-    }, (r) async {
-      final dateTime = DateTime.now();
-      final currentUserId = r.uid;
+    late Future<void> future;
+    final currentUserId = currentUserRaw.uid;
+    final currentConnectionRaw = await _firestore
+        .collection(fullUserCollection)
+        .doc(currentUserId)
+        .collection(connectionsCollection)
+        .doc(userId)
+        .withConverter<ConnectionModel?>(
+          fromFirestore: (map, opt) =>
+              map.data() != null ? ConnectionModel.fromJson(map.data()!) : null,
+          toFirestore: (ConnectionModel? model, opt) => model?.toJson() ?? {},
+        )
+        .get();
+
+    final currentConnection = currentConnectionRaw.data();
+
+    if (currentConnection?.status == UserConnectStatusEnum.connected) {
+      // Unpair
       final batchOperation = _firestore.batch();
+      final dateTime = DateTime.now();
       batchOperation.update(
         _firestore
             .collection(fullUserCollection)
             .doc(userId)
             .collection(connectionsCollection)
             .doc(currentUserId),
-        {
-          'userId': currentUserId,
-          'connectionType': UserConnectStatusEnum.connected.toString(),
-          'dateTime': dateTime,
-          'isInitiator': false,
-        },
+        {'stoppedDateTime': dateTime.toIso8601String()},
       );
       batchOperation.update(
         _firestore
@@ -135,44 +156,11 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
             .doc(currentUserId)
             .collection(connectionsCollection)
             .doc(userId),
-        {
-          'userId': userId,
-          'connectionType': UserConnectStatusEnum.connected.toString(),
-          'dateTime': dateTime,
-          'isInitiator': true,
-        },
+        {'stoppedDateTime': dateTime.toIso8601String()},
       );
-
-      // batchOperation.update(
-      //     _firestore.collection(shortUserCollection).doc(currentUserId), {
-      //   'soulsCount': FieldValue.increment(-1),
-      // });
-
-      final future = batchOperation.commit();
-      final result = await _requestCheckWrapper(future);
-
-      return result;
-    });
-
-    result.fold(
-      (l) => _customLogger.logFailure(
-        loggerName: loggerName,
-        failure: l,
-      ),
-      (r) => null,
-    );
-
-    return result;
-  }
-
-  @override
-  Future<Either<RequestFailure, void>> disconnect(String userId) async {
-    final currentUserRaw = _authRepo.currentUser;
-
-    final result = await currentUserRaw.fold((l) async {
-      return left<RequestFailure, void>(l);
-    }, (r) async {
-      final currentUserId = r.uid;
+      future = batchOperation.commit();
+    } else {
+      // Remove pair request
       final batchOperation = _firestore.batch();
       batchOperation.delete(
         _firestore
@@ -188,19 +176,10 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
             .collection(connectionsCollection)
             .doc(userId),
       );
-      final future = batchOperation.commit();
-      final result = await _requestCheckWrapper(future);
+      future = batchOperation.commit();
+    }
 
-      return result;
-    });
-
-    result.fold(
-      (l) => _customLogger.logFailure(
-        loggerName: loggerName,
-        failure: l,
-      ),
-      (r) => null,
-    );
+    final result = await _requestCheckWrapper(future);
 
     return result;
   }

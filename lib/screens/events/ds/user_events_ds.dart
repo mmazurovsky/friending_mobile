@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
-import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/event_models.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
@@ -30,52 +28,34 @@ class UserEventsDSImpl implements UserEventsDS, LoggerNameGetter {
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
   String get eventsCollection => Strings.server.userEventsCollection;
 
-  Future<Either<RequestFailure, Stream<UserEventModel>>> getEvents() async {
+  Future<Stream<UserEventModel>> getEvents() async {
     final currentUserRaw = _authRepo.currentUser;
 
-    final result = await currentUserRaw.fold(
-      (l) async {
-        return left<RequestFailure, Stream<UserEventModel>>(l);
-      },
-      (r) async {
-        final rawStream = _firebaseFirestore
-            .collection(eventsCollection)
-            .where('ownerUserId', isEqualTo: r.uid)
-            .orderBy('dateTime')
-            .withConverter(
-                fromFirestore: (snapshot, _) =>
-                    UserEventModel.fromJson(snapshot.data()!),
-                toFirestore: (UserEventModel model, _) => model.toJson())
-            .snapshots();
+    final rawStream = _firebaseFirestore
+        .collection(eventsCollection)
+        .where('ownerUserId', isEqualTo: currentUserRaw.uid)
+        .orderBy('dateTime')
+        .withConverter(
+            fromFirestore: (snapshot, _) =>
+                UserEventModel.fromJson(snapshot.data()!),
+            toFirestore: (UserEventModel model, _) => model.toJson())
+        .snapshots();
 
-        final streamController = StreamController<UserEventModel>();
+    final streamController = StreamController<UserEventModel>();
 
-        rawStream.map(
-          (event) {
-            final list = event.docs
-                .map(
-                  (e) => e.data(),
-                )
-                .toList();
-            for (final element in list) {
-              streamController.add(element);
-            }
-          },
-        );
-
-        return right<RequestFailure, Stream<UserEventModel>>(
-            streamController.stream);
+    rawStream.map(
+      (event) {
+        final list = event.docs
+            .map(
+              (e) => e.data(),
+            )
+            .toList();
+        for (final element in list) {
+          streamController.add(element);
+        }
       },
     );
 
-    result.fold(
-      (l) => _customLogger.logFailure(
-        loggerName: loggerName,
-        failure: l,
-      ),
-      (r) => null,
-    );
-
-    return result;
+    return streamController.stream;
   }
 }
