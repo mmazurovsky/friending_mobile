@@ -15,7 +15,7 @@ class FullReadUserModel with _$FullReadUserModel {
     required ShortReadUserModel shortUserModel,
     // required AdditionalUserModel additionalUserModel,
     required PrivateInfoUserModel privateInfoUserModel,
-    required ShortReadUserModel? pairedWith,
+    // required ShortReadUserModel? pairedWith,
   }) = _FullReadUserModel;
 }
 

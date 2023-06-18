@@ -186,7 +186,7 @@ class UserListDSImpl implements UserListDS {
   Future<List<ShortReadUserModel>> getFreshUsers(int maxQuantity) async {
     final future = _firestore
         .collection(shortUserCollection)
-        .orderBy('createdAt', descending: true)
+        .orderBy('createdDateTime', descending: true)
         .limit(maxQuantity)
         .withConverter(
             fromFirestore: (snapshot, _) =>

@@ -39,14 +39,12 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   final FirebaseFirestore _firebaseFirestore;
   final RequestCheckWrapper _requestCheckWrapper;
   final CustomLogger _customLogger;
-  final PairsDS _pairsDS;
 
   ProfileDSImpl(
     this._authRepo,
     this._firebaseFirestore,
     this._requestCheckWrapper,
     this._customLogger,
-    this._pairsDS,
   );
 
   @override
@@ -109,11 +107,9 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
     final futureShortModelRaw = _requestCheckWrapper(futureShortModel);
     final futurePrivateModelRaw = _requestCheckWrapper(futurePrivateModel);
-    final futurePair = _pairsDS.getUserPairs(currentUserRaw.uid);
 
     final shortModelRaw = await futureShortModelRaw;
     final privateModelRaw = await futurePrivateModelRaw;
-    final pairs = await futurePair;
 
     final ShortReadUserModel? shortUserModel = shortModelRaw.data();
     final PrivateInfoUserModel? privateInfoUserModel = privateModelRaw.data();
@@ -122,7 +118,6 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
       return FullReadUserModel(
         shortUserModel: shortUserModel,
         privateInfoUserModel: privateInfoUserModel,
-        pairedWith: pairs.first,
       );
     } else {
       return null;

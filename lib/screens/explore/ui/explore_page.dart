@@ -105,10 +105,22 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                       // return widget for each user with common interests
-                      return UserCard(
-                        user: context
-                            .read<ExploreStateManager>()
-                            .usersWithMostCommonTags[index],
+
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          UserCard(
+                            user: context
+                                .read<ExploreStateManager>()
+                                .usersWithMostCommonTags[index],
+                          ),
+                          if (index + 1 !=
+                              context
+                                  .read<ExploreStateManager>()
+                                  .usersWithMostCommonTags
+                                  .length)
+                            const SizedBox(height: 12),
+                        ],
                       );
                     },
                     childCount: context
