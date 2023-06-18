@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_mobile_starter/screens/other_user/ds/connect_ds.dart';
+import 'package:flutter_mobile_starter/screens/other_user/ds/pairs_ds.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tuple/tuple.dart';
 
@@ -37,12 +39,14 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   final FirebaseFirestore _firebaseFirestore;
   final RequestCheckWrapper _requestCheckWrapper;
   final CustomLogger _customLogger;
+  final PairsDS _pairsDS;
 
   ProfileDSImpl(
     this._authRepo,
     this._firebaseFirestore,
     this._requestCheckWrapper,
     this._customLogger,
+    this._pairsDS,
   );
 
   @override
@@ -105,9 +109,11 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
     final futureShortModelRaw = _requestCheckWrapper(futureShortModel);
     final futurePrivateModelRaw = _requestCheckWrapper(futurePrivateModel);
+    final futurePair = _pairsDS.getUserPairs(currentUserRaw.uid);
 
     final shortModelRaw = await futureShortModelRaw;
     final privateModelRaw = await futurePrivateModelRaw;
+    final pairs = await futurePair;
 
     final ShortReadUserModel? shortUserModel = shortModelRaw.data();
     final PrivateInfoUserModel? privateInfoUserModel = privateModelRaw.data();
@@ -116,6 +122,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
       return FullReadUserModel(
         shortUserModel: shortUserModel,
         privateInfoUserModel: privateInfoUserModel,
+        pairedWith: pairs.first,
       );
     } else {
       return null;

@@ -5,8 +5,10 @@ import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/enums.dart';
+import '../../../common/data/models/user_models.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
+import '../../explore/ds/user_list_ds.dart';
 import 'connection_models.dart';
 
 abstract class ConnectDS {
@@ -16,12 +18,14 @@ abstract class ConnectDS {
 
 @LazySingleton(as: ConnectDS)
 class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
+  final UserListDS _userListDS;
   final RequestCheckWrapper _requestCheckWrapper;
   final FirebaseFirestore _firestore;
   final AuthRepo _authRepo;
   final CustomLogger _customLogger;
 
   ConnectDSImpl(
+    this._userListDS,
     this._requestCheckWrapper,
     this._firestore,
     this._authRepo,

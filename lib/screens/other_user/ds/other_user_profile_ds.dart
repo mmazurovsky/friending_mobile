@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_mobile_starter/screens/other_user/ds/pairs_ds.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
@@ -10,6 +11,7 @@ import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
+import 'connect_ds.dart';
 import 'connection_models.dart';
 
 abstract class OtherUserProfileDS {
@@ -22,12 +24,14 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
   final FirebaseFirestore _firebaseFirestore;
   final AuthRepo _authRepo;
   final CustomLogger _customLogger;
+  final PairsDS _pairsDS;
 
   const OtherUserProfileDSImpl(
     this._requestCheckWrapper,
     this._firebaseFirestore,
     this._authRepo,
     this._customLogger,
+    this._pairsDS,
   );
 
   @override
@@ -53,6 +57,9 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
 
     final shortModelRaw = await futureShortModelRaw;
 
+    final pairs = await _pairsDS.getUserPairs(userId);
+    
+
     final ShortReadUserModel shortUserModel = shortModelRaw.data()!;
 
     late User currentUser;
@@ -62,6 +69,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
     } on AuthFailure catch (e) {
       return OtherUserFullModel(
         shortUserModel: shortUserModel,
+        pairedWith: pairs.first,
         privateInfoUserModel: null,
         connectStatusEnum: UserConnectStatusEnum.disconnected,
       );
@@ -98,6 +106,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
 
     return OtherUserFullModel(
       shortUserModel: shortUserModel,
+      pairedWith: pairs.first,
       privateInfoUserModel: privateInfoUserModel,
       connectStatusEnum: connectStatusEnum,
     );

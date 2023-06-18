@@ -20,7 +20,7 @@ mixin _$FullReadUserModel {
       throw _privateConstructorUsedError; // required AdditionalUserModel additionalUserModel,
   PrivateInfoUserModel get privateInfoUserModel =>
       throw _privateConstructorUsedError;
-  VeryShortUserModel? get pairedWith => throw _privateConstructorUsedError;
+  ShortReadUserModel? get pairedWith => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FullReadUserModelCopyWith<FullReadUserModel> get copyWith =>
@@ -36,11 +36,11 @@ abstract class $FullReadUserModelCopyWith<$Res> {
   $Res call(
       {ShortReadUserModel shortUserModel,
       PrivateInfoUserModel privateInfoUserModel,
-      VeryShortUserModel? pairedWith});
+      ShortReadUserModel? pairedWith});
 
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
   $PrivateInfoUserModelCopyWith<$Res> get privateInfoUserModel;
-  $VeryShortUserModelCopyWith<$Res>? get pairedWith;
+  $ShortReadUserModelCopyWith<$Res>? get pairedWith;
 }
 
 /// @nodoc
@@ -72,7 +72,7 @@ class _$FullReadUserModelCopyWithImpl<$Res, $Val extends FullReadUserModel>
       pairedWith: freezed == pairedWith
           ? _value.pairedWith
           : pairedWith // ignore: cast_nullable_to_non_nullable
-              as VeryShortUserModel?,
+              as ShortReadUserModel?,
     ) as $Val);
   }
 
@@ -95,12 +95,12 @@ class _$FullReadUserModelCopyWithImpl<$Res, $Val extends FullReadUserModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $VeryShortUserModelCopyWith<$Res>? get pairedWith {
+  $ShortReadUserModelCopyWith<$Res>? get pairedWith {
     if (_value.pairedWith == null) {
       return null;
     }
 
-    return $VeryShortUserModelCopyWith<$Res>(_value.pairedWith!, (value) {
+    return $ShortReadUserModelCopyWith<$Res>(_value.pairedWith!, (value) {
       return _then(_value.copyWith(pairedWith: value) as $Val);
     });
   }
@@ -117,14 +117,14 @@ abstract class _$$_FullReadUserModelCopyWith<$Res>
   $Res call(
       {ShortReadUserModel shortUserModel,
       PrivateInfoUserModel privateInfoUserModel,
-      VeryShortUserModel? pairedWith});
+      ShortReadUserModel? pairedWith});
 
   @override
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
   @override
   $PrivateInfoUserModelCopyWith<$Res> get privateInfoUserModel;
   @override
-  $VeryShortUserModelCopyWith<$Res>? get pairedWith;
+  $ShortReadUserModelCopyWith<$Res>? get pairedWith;
 }
 
 /// @nodoc
@@ -154,7 +154,7 @@ class __$$_FullReadUserModelCopyWithImpl<$Res>
       pairedWith: freezed == pairedWith
           ? _value.pairedWith
           : pairedWith // ignore: cast_nullable_to_non_nullable
-              as VeryShortUserModel?,
+              as ShortReadUserModel?,
     ));
   }
 }
@@ -174,7 +174,7 @@ class _$_FullReadUserModel extends _FullReadUserModel {
   @override
   final PrivateInfoUserModel privateInfoUserModel;
   @override
-  final VeryShortUserModel? pairedWith;
+  final ShortReadUserModel? pairedWith;
 
   @override
   String toString() {
@@ -210,7 +210,7 @@ abstract class _FullReadUserModel extends FullReadUserModel {
   const factory _FullReadUserModel(
       {required final ShortReadUserModel shortUserModel,
       required final PrivateInfoUserModel privateInfoUserModel,
-      required final VeryShortUserModel? pairedWith}) = _$_FullReadUserModel;
+      required final ShortReadUserModel? pairedWith}) = _$_FullReadUserModel;
   const _FullReadUserModel._() : super._();
 
   @override
@@ -218,7 +218,7 @@ abstract class _FullReadUserModel extends FullReadUserModel {
   @override // required AdditionalUserModel additionalUserModel,
   PrivateInfoUserModel get privateInfoUserModel;
   @override
-  VeryShortUserModel? get pairedWith;
+  ShortReadUserModel? get pairedWith;
   @override
   @JsonKey(ignore: true)
   _$$_FullReadUserModelCopyWith<_$_FullReadUserModel> get copyWith =>
@@ -233,7 +233,7 @@ mixin _$OtherUserFullModel {
       throw _privateConstructorUsedError;
   UserConnectStatusEnum get connectStatusEnum =>
       throw _privateConstructorUsedError;
-  VeryShortUserModel? get pairedWith => throw _privateConstructorUsedError;
+  ShortReadUserModel? get pairedWith => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OtherUserFullModelCopyWith<OtherUserFullModel> get copyWith =>
@@ -250,11 +250,11 @@ abstract class $OtherUserFullModelCopyWith<$Res> {
       {ShortReadUserModel shortUserModel,
       PrivateInfoUserModel? privateInfoUserModel,
       UserConnectStatusEnum connectStatusEnum,
-      VeryShortUserModel? pairedWith});
+      ShortReadUserModel? pairedWith});
 
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
   $PrivateInfoUserModelCopyWith<$Res>? get privateInfoUserModel;
-  $VeryShortUserModelCopyWith<$Res>? get pairedWith;
+  $ShortReadUserModelCopyWith<$Res>? get pairedWith;
 }
 
 /// @nodoc
@@ -291,7 +291,7 @@ class _$OtherUserFullModelCopyWithImpl<$Res, $Val extends OtherUserFullModel>
       pairedWith: freezed == pairedWith
           ? _value.pairedWith
           : pairedWith // ignore: cast_nullable_to_non_nullable
-              as VeryShortUserModel?,
+              as ShortReadUserModel?,
     ) as $Val);
   }
 
@@ -318,12 +318,12 @@ class _$OtherUserFullModelCopyWithImpl<$Res, $Val extends OtherUserFullModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $VeryShortUserModelCopyWith<$Res>? get pairedWith {
+  $ShortReadUserModelCopyWith<$Res>? get pairedWith {
     if (_value.pairedWith == null) {
       return null;
     }
 
-    return $VeryShortUserModelCopyWith<$Res>(_value.pairedWith!, (value) {
+    return $ShortReadUserModelCopyWith<$Res>(_value.pairedWith!, (value) {
       return _then(_value.copyWith(pairedWith: value) as $Val);
     });
   }
@@ -341,14 +341,14 @@ abstract class _$$_OtherUserFullModelCopyWith<$Res>
       {ShortReadUserModel shortUserModel,
       PrivateInfoUserModel? privateInfoUserModel,
       UserConnectStatusEnum connectStatusEnum,
-      VeryShortUserModel? pairedWith});
+      ShortReadUserModel? pairedWith});
 
   @override
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
   @override
   $PrivateInfoUserModelCopyWith<$Res>? get privateInfoUserModel;
   @override
-  $VeryShortUserModelCopyWith<$Res>? get pairedWith;
+  $ShortReadUserModelCopyWith<$Res>? get pairedWith;
 }
 
 /// @nodoc
@@ -383,7 +383,7 @@ class __$$_OtherUserFullModelCopyWithImpl<$Res>
       pairedWith: freezed == pairedWith
           ? _value.pairedWith
           : pairedWith // ignore: cast_nullable_to_non_nullable
-              as VeryShortUserModel?,
+              as ShortReadUserModel?,
     ));
   }
 }
@@ -406,7 +406,7 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
   @override
   final UserConnectStatusEnum connectStatusEnum;
   @override
-  final VeryShortUserModel? pairedWith;
+  final ShortReadUserModel? pairedWith;
 
   @override
   String toString() {
@@ -445,7 +445,7 @@ abstract class _OtherUserFullModel extends OtherUserFullModel {
       {required final ShortReadUserModel shortUserModel,
       required final PrivateInfoUserModel? privateInfoUserModel,
       required final UserConnectStatusEnum connectStatusEnum,
-      required final VeryShortUserModel? pairedWith}) = _$_OtherUserFullModel;
+      required final ShortReadUserModel? pairedWith}) = _$_OtherUserFullModel;
   const _OtherUserFullModel._() : super._();
 
   @override
@@ -455,7 +455,7 @@ abstract class _OtherUserFullModel extends OtherUserFullModel {
   @override
   UserConnectStatusEnum get connectStatusEnum;
   @override
-  VeryShortUserModel? get pairedWith;
+  ShortReadUserModel? get pairedWith;
   @override
   @JsonKey(ignore: true)
   _$$_OtherUserFullModelCopyWith<_$_OtherUserFullModel> get copyWith =>
