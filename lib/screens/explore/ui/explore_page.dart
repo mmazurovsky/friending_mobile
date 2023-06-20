@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../common/bag/stateful/spaces.dart';
@@ -66,89 +67,94 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
       },
     );
     return SafeArea(
-      child: CustomScrollView(
-        controller: _scrollController,
-        slivers: context.watch<ExploreStateManager>().isLoading
-            ? [
-                const SliverToBoxAdapter(
-                  child: LoadingContainer(),
-                ),
-              ]
-            : [
-                const SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: Spaces.unit2,
+      child: SmartRefresher(
+        enablePullDown: true,
+        controller: context.read<ExploreStateManager>().refreshController,
+        onRefresh: context.read<ExploreStateManager>().refreshUsers,
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: context.watch<ExploreStateManager>().isLoading
+              ? [
+                  const SliverToBoxAdapter(
+                    child: LoadingContainer(),
                   ),
-                ),
-                const UsersNearbySection(),
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: const [
-                      SizedBox(height: 9),
-                      SectionDividerWithSpacers(),
-                    ],
-                  ),
-                ),
-                //TODO: rewrite to one widget
-                SliverToBoxAdapter(
-                  child: Container(
-                    padding: CEdgeInsets.horizontalStandart.copyWith(
-                      bottom: 20,
-                    ),
-                    child: Text(
-                      'Most relevant',
-                      style: context.theme.textTheme.titleMedium,
+                ]
+              : [
+                  const SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: Spaces.unit2,
                     ),
                   ),
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      // return widget for each user with common interests
+                  const UsersNearbySection(),
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: const [
+                        SizedBox(height: 9),
+                        SectionDividerWithSpacers(),
+                      ],
+                    ),
+                  ),
+                  //TODO: rewrite to one widget
+                  SliverToBoxAdapter(
+                    child: Container(
+                      padding: CEdgeInsets.horizontalStandart.copyWith(
+                        bottom: 20,
+                      ),
+                      child: Text(
+                        'Most relevant',
+                        style: context.theme.textTheme.titleMedium,
+                      ),
+                    ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        // return widget for each user with common interests
 
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          UserCard(
-                            user: context
-                                .read<ExploreStateManager>()
-                                .usersWithMostCommonTags[index],
-                          ),
-                          if (index + 1 !=
-                              context
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            UserCard(
+                              user: context
                                   .read<ExploreStateManager>()
-                                  .usersWithMostCommonTags
-                                  .length)
-                            const SizedBox(height: 12),
-                        ],
-                      );
-                    },
-                    childCount: context
-                        .read<ExploreStateManager>()
-                        .usersWithMostCommonTags
-                        .length, // replace with actual number of users with common interests
+                                  .usersWithMostCommonTags[index],
+                            ),
+                            if (index + 1 !=
+                                context
+                                    .read<ExploreStateManager>()
+                                    .usersWithMostCommonTags
+                                    .length)
+                              const SizedBox(height: 12),
+                          ],
+                        );
+                      },
+                      childCount: context
+                          .read<ExploreStateManager>()
+                          .usersWithMostCommonTags
+                          .length, // replace with actual number of users with common interests
+                    ),
                   ),
-                ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: 100),
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: CEdgeInsets.horizontalStandart,
-                    child: PlatformElevatedButton(
-                      onPressed: () => context.router.push(
-                        const ProfileEditingRoute(),
-                      ),
-                      child: const Text(
-                        'Sign in',
+                  const SliverToBoxAdapter(
+                    child: SizedBox(height: 100),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: CEdgeInsets.horizontalStandart,
+                      child: PlatformElevatedButton(
+                        onPressed: () => context.router.push(
+                          const ProfileEditingRoute(),
+                        ),
+                        child: const Text(
+                          'Sign in',
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SliverToBoxAdapter(
-                  child: ScreenEnding(),
-                ),
-              ],
+                  const SliverToBoxAdapter(
+                    child: ScreenEnding(),
+                  ),
+                ],
+        ),
       ),
     );
   }
@@ -269,8 +275,10 @@ class PlaceholderWithTextAndButton extends StatelessWidget {
       margin: CEdgeInsets.horizontalStandart,
       padding: const EdgeInsets.all(15),
       child: button == null
-          ? Text(text,                   style: context.theme.textTheme.bodyMedium,
-)
+          ? Text(
+              text,
+              style: context.theme.textTheme.bodyMedium,
+            )
           : Column(
               children: [
                 Text(

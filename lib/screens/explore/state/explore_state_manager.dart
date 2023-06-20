@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../common/data/entities/user_entities.dart';
 import '../../../common/data/failures/failures.dart';
@@ -13,6 +14,9 @@ class ExploreStateManager with ChangeNotifier {
   final UserListRepo _userListRepo;
   final CoordinatesRepo _coordinatesRepo;
   final GeoPermissionsManager _geoPermissionsManager;
+  final RefreshController _refreshController = RefreshController();
+
+  RefreshController get refreshController => _refreshController;
 
   ExploreStateManager(
     this._userListRepo,
@@ -41,9 +45,21 @@ class ExploreStateManager with ChangeNotifier {
     notifyListeners();
   }
 
+  void refreshUsers() async {
+    await _fetchAndAssignUsers();
+    _refreshController.refreshCompleted();
+    notifyListeners();
+  }
+
   void fetchUsers() async {
     _isLoading = true;
+    await _fetchAndAssignUsers();
+    _isLoading = false;
+    notifyListeners();
+    _failure = null;
+  }
 
+  Future<void> _fetchAndAssignUsers() async {
     final usersWithCommonTagsFuture =
         _userListRepo.getUsersWithMostCommonTags();
 
@@ -58,9 +74,5 @@ class ExploreStateManager with ChangeNotifier {
     }
 
     _usersWithMostCommonTags = await usersWithCommonTagsFuture;
-
-    _isLoading = false;
-    notifyListeners();
-    _failure = null;
   }
 }
