@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/data/entities/user_entities.dart';
 import '../../../common/data/failures/failures.dart';
 import '../repo/coordinates_repo.dart';
 import '../repo/user_list_repo.dart';
+import 'geo_permissions_manager.dart';
 
 @lazySingleton
 class ExploreStateManager with ChangeNotifier {
   final UserListRepo _userListRepo;
   final CoordinatesRepo _coordinatesRepo;
+  final GeoPermissionsManager _geoPermissionsManager;
 
   ExploreStateManager(
     this._userListRepo,
     this._coordinatesRepo,
+    this._geoPermissionsManager,
   );
 
   Failure? _failure;
@@ -40,14 +44,19 @@ class ExploreStateManager with ChangeNotifier {
   void fetchUsers() async {
     _isLoading = true;
 
-    final nearbyUsersFuture = _userListRepo.getUsersNearby(
-      maxDistanceInKm: _maxDistanceInKm,
-    );
-
     final usersWithCommonTagsFuture =
         _userListRepo.getUsersWithMostCommonTags();
 
-    _nearbyUsers = await nearbyUsersFuture;
+    final userGeoPermission = _geoPermissionsManager.locationPermission;
+    if (userGeoPermission != LocationPermission.denied &&
+        userGeoPermission != LocationPermission.deniedForever) {
+      final nearbyUsersFuture = _userListRepo.getUsersNearby(
+        maxDistanceInKm: _maxDistanceInKm,
+      );
+
+      _nearbyUsers = await nearbyUsersFuture;
+    }
+
     _usersWithMostCommonTags = await usersWithCommonTagsFuture;
 
     _isLoading = false;

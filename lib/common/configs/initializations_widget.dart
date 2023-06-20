@@ -19,11 +19,6 @@ class _InitializationsWidgetState extends State<InitializationsWidget> {
   @override
   void initState() {
     getIt<AuthChangesListener>()();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-        LocationPermissionChecker.check();
-      },
-    );
 
     super.initState();
   }

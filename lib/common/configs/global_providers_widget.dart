@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 
+import '../../screens/explore/state/geo_permissions_manager.dart';
 import '../bag/stateful/spaces.dart';
 import '../bag/stateful/styles.dart';
 import '../bag/stateful/theme.dart';
@@ -35,6 +36,9 @@ class GlobalProviders extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => styles,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => getIt<GeoPermissionsManager>(),
         ),
         Provider(
           create: (context) => scaffoldMessengerKey,

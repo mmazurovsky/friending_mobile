@@ -10,13 +10,13 @@ import '../../../common/bag/stateful/theme.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/navigation/auto_router/app_router.dart';
 import '../../../common/navigation/navigation_tab.dart';
-import '../../../common/service/open_link_service.dart';
 import '../../widgets/custom_edge_insets.dart';
 import '../../widgets/loading.dart';
 import '../../widgets/snack_bar.dart';
 import '../../widgets/spacers/screen_ending.dart';
 import '../../widgets/spacers/section_divider_with_spacers.dart';
 import '../state/explore_state_manager.dart';
+import '../state/geo_permissions_manager.dart';
 import 'widgets/user_card.dart';
 
 class ExplorePage extends StatelessWidget {
@@ -159,6 +159,8 @@ class UsersNearbySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final permissions =
+        context.watch<GeoPermissionsManager>().locationPermission;
     final numberOfUsers =
         context.watch<ExploreStateManager>().nearbyUsers.length;
     final failure = context.watch<ExploreStateManager>().failure;
@@ -173,8 +175,11 @@ class UsersNearbySection extends StatelessWidget {
             ),
           ),
         ),
-        if (numberOfUsers == 0 || failure != null)
-          const NearbyUsersNotFoundPlacoholder()
+        if (permissions == LocationPermission.denied ||
+            permissions == LocationPermission.deniedForever)
+          LocationPermissionsNotGranted(locationPermission: permissions)
+        else if (numberOfUsers == 0)
+          const NearbyUsersNotFoundPlaceholder()
         else
           SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -192,49 +197,85 @@ class UsersNearbySection extends StatelessWidget {
   }
 }
 
-class NearbyUsersNotFoundPlacoholder extends StatelessWidget {
-  const NearbyUsersNotFoundPlacoholder({super.key});
+class NearbyUsersNotFoundPlaceholder extends StatelessWidget {
+  const NearbyUsersNotFoundPlaceholder({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final failure = context.watch<ExploreStateManager>().failure;
-    final usersNearbyCount =
-        context.watch<ExploreStateManager>().nearbyUsers.length;
-    final text = failure != null
-        ? failure.forUser
-        : usersNearbyCount == 0
-            ? 'There are no users near you 😢 \nThis is a very new app, we are on a mission to attract people 🫡'
-            : 'Something went wrong, contact support';
-    final button = failure != null
+    const text =
+        'There are no users near you 😢 \nThis is a very new app, we are on a mission to attract people 🫡';
+    return const PlaceholderWithTextAndButton(
+      text: text,
+    );
+  }
+}
+
+class LocationPermissionsNotGranted extends StatelessWidget {
+  final LocationPermission locationPermission;
+  const LocationPermissionsNotGranted({
+    super.key,
+    required this.locationPermission,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final text = locationPermission == LocationPermission.deniedForever
+        ? "Location permissions are not granted and we can't show you other users nearby 😢\nPlease, go to settings and grant permissions to see great people around 🥰"
+        : "Location permissions are not granted and we can't show you other users nearby 😢\nPlease, give us permissions to see great people around 🤗";
+    final button = locationPermission == LocationPermission.deniedForever
         ? TextButton(
-            onPressed: () => Geolocator.openAppSettings(),
-            child: const Text('Open app settings'),
+            onPressed: () async {
+              await Geolocator.openAppSettings();
+              await context
+                  .read<GeoPermissionsManager>()
+                  .checkLocationPermissionAndStore();
+              context.read<ExploreStateManager>().fetchUsers();
+            },
+            child: const Text('Open settings'),
           )
-        : usersNearbyCount == 0
-            ? null
-            : TextButton(
-                onPressed: () => OpenLinkService.openTelegram('jkjkjkjkjjkjkk'),
-                child: const Text('Contact support'),
-              );
+        : TextButton(
+            onPressed: () async {
+              final response = await Geolocator.requestPermission();
+              await context
+                  .read<GeoPermissionsManager>()
+                  .checkLocationPermissionAndStore();
+              context.read<ExploreStateManager>().fetchUsers();
+            },
+            child: const Text('Give permissions'),
+          );
+    return PlaceholderWithTextAndButton(
+      text: text,
+      button: button,
+    );
+  }
+}
+
+class PlaceholderWithTextAndButton extends StatelessWidget {
+  final Widget? button;
+  final String text;
+  const PlaceholderWithTextAndButton({
+    super.key,
+    required this.text,
+    this.button,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: context.theme.colorScheme.surfaceVariant,
         borderRadius: BorderRadius.circular(5),
       ),
-      margin: CEdgeInsets.horizontalStandart
-      // .copyWith(
-      //   top: 20,
-      //   bottom: 20,
-      // ),
-      ,
+      margin: CEdgeInsets.horizontalStandart,
       padding: const EdgeInsets.all(15),
       child: button == null
-          ? Text(text)
+          ? Text(text,                   style: context.theme.textTheme.bodyMedium,
+)
           : Column(
               children: [
                 Text(
                   text,
-                  style: context.theme.textTheme.bodyLarge,
+                  style: context.theme.textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 10),
                 Align(
