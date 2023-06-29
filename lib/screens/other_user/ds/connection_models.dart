@@ -13,7 +13,7 @@ class ConnectionModel with _$ConnectionModel {
     required String userId,
     required UserConnectStatusEnum status,
     required DateTime createdDateTime,
-    DateTime? stoppedDateTime,
+    DateTime? endedDateTime,
   }) = _ConnectionModel;
 
   factory ConnectionModel.fromJson(Map<String, dynamic> json) =>

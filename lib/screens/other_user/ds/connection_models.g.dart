@@ -11,9 +11,9 @@ _$_ConnectionModel _$$_ConnectionModelFromJson(Map<String, dynamic> json) =>
       userId: json['userId'] as String,
       status: $enumDecode(_$UserConnectStatusEnumEnumMap, json['status']),
       createdDateTime: DateTime.parse(json['createdDateTime'] as String),
-      stoppedDateTime: json['stoppedDateTime'] == null
+      endedDateTime: json['endedDateTime'] == null
           ? null
-          : DateTime.parse(json['stoppedDateTime'] as String),
+          : DateTime.parse(json['endedDateTime'] as String),
     );
 
 Map<String, dynamic> _$$_ConnectionModelToJson(_$_ConnectionModel instance) =>
@@ -21,7 +21,7 @@ Map<String, dynamic> _$$_ConnectionModelToJson(_$_ConnectionModel instance) =>
       'userId': instance.userId,
       'status': _$UserConnectStatusEnumEnumMap[instance.status]!,
       'createdDateTime': instance.createdDateTime.toIso8601String(),
-      'stoppedDateTime': instance.stoppedDateTime?.toIso8601String(),
+      'endedDateTime': instance.endedDateTime?.toIso8601String(),
     };
 
 const _$UserConnectStatusEnumEnumMap = {

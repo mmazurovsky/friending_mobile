@@ -152,7 +152,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
             .doc(userId)
             .collection(connectionsCollection)
             .doc(currentUserId),
-        {'stoppedDateTime': dateTime.toIso8601String()},
+        {'endedDateTime': dateTime.toIso8601String()},
       );
       batchOperation.update(
         _firestore
@@ -160,7 +160,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
             .doc(currentUserId)
             .collection(connectionsCollection)
             .doc(userId),
-        {'stoppedDateTime': dateTime.toIso8601String()},
+        {'endedDateTime': dateTime.toIso8601String()},
       );
       future = batchOperation.commit();
     } else {

@@ -23,7 +23,7 @@ mixin _$ConnectionModel {
   String get userId => throw _privateConstructorUsedError;
   UserConnectStatusEnum get status => throw _privateConstructorUsedError;
   DateTime get createdDateTime => throw _privateConstructorUsedError;
-  DateTime? get stoppedDateTime => throw _privateConstructorUsedError;
+  DateTime? get endedDateTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +41,7 @@ abstract class $ConnectionModelCopyWith<$Res> {
       {String userId,
       UserConnectStatusEnum status,
       DateTime createdDateTime,
-      DateTime? stoppedDateTime});
+      DateTime? endedDateTime});
 }
 
 /// @nodoc
@@ -60,7 +60,7 @@ class _$ConnectionModelCopyWithImpl<$Res, $Val extends ConnectionModel>
     Object? userId = null,
     Object? status = null,
     Object? createdDateTime = null,
-    Object? stoppedDateTime = freezed,
+    Object? endedDateTime = freezed,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
@@ -75,9 +75,9 @@ class _$ConnectionModelCopyWithImpl<$Res, $Val extends ConnectionModel>
           ? _value.createdDateTime
           : createdDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      stoppedDateTime: freezed == stoppedDateTime
-          ? _value.stoppedDateTime
-          : stoppedDateTime // ignore: cast_nullable_to_non_nullable
+      endedDateTime: freezed == endedDateTime
+          ? _value.endedDateTime
+          : endedDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ) as $Val);
   }
@@ -95,7 +95,7 @@ abstract class _$$_ConnectionModelCopyWith<$Res>
       {String userId,
       UserConnectStatusEnum status,
       DateTime createdDateTime,
-      DateTime? stoppedDateTime});
+      DateTime? endedDateTime});
 }
 
 /// @nodoc
@@ -112,7 +112,7 @@ class __$$_ConnectionModelCopyWithImpl<$Res>
     Object? userId = null,
     Object? status = null,
     Object? createdDateTime = null,
-    Object? stoppedDateTime = freezed,
+    Object? endedDateTime = freezed,
   }) {
     return _then(_$_ConnectionModel(
       userId: null == userId
@@ -127,9 +127,9 @@ class __$$_ConnectionModelCopyWithImpl<$Res>
           ? _value.createdDateTime
           : createdDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      stoppedDateTime: freezed == stoppedDateTime
-          ? _value.stoppedDateTime
-          : stoppedDateTime // ignore: cast_nullable_to_non_nullable
+      endedDateTime: freezed == endedDateTime
+          ? _value.endedDateTime
+          : endedDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
   }
@@ -142,7 +142,7 @@ class _$_ConnectionModel extends _ConnectionModel {
       {required this.userId,
       required this.status,
       required this.createdDateTime,
-      this.stoppedDateTime})
+      this.endedDateTime})
       : super._();
 
   factory _$_ConnectionModel.fromJson(Map<String, dynamic> json) =>
@@ -155,11 +155,11 @@ class _$_ConnectionModel extends _ConnectionModel {
   @override
   final DateTime createdDateTime;
   @override
-  final DateTime? stoppedDateTime;
+  final DateTime? endedDateTime;
 
   @override
   String toString() {
-    return 'ConnectionModel(userId: $userId, status: $status, createdDateTime: $createdDateTime, stoppedDateTime: $stoppedDateTime)';
+    return 'ConnectionModel(userId: $userId, status: $status, createdDateTime: $createdDateTime, endedDateTime: $endedDateTime)';
   }
 
   @override
@@ -171,14 +171,14 @@ class _$_ConnectionModel extends _ConnectionModel {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.createdDateTime, createdDateTime) ||
                 other.createdDateTime == createdDateTime) &&
-            (identical(other.stoppedDateTime, stoppedDateTime) ||
-                other.stoppedDateTime == stoppedDateTime));
+            (identical(other.endedDateTime, endedDateTime) ||
+                other.endedDateTime == endedDateTime));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, userId, status, createdDateTime, stoppedDateTime);
+  int get hashCode =>
+      Object.hash(runtimeType, userId, status, createdDateTime, endedDateTime);
 
   @JsonKey(ignore: true)
   @override
@@ -199,7 +199,7 @@ abstract class _ConnectionModel extends ConnectionModel {
       {required final String userId,
       required final UserConnectStatusEnum status,
       required final DateTime createdDateTime,
-      final DateTime? stoppedDateTime}) = _$_ConnectionModel;
+      final DateTime? endedDateTime}) = _$_ConnectionModel;
   const _ConnectionModel._() : super._();
 
   factory _ConnectionModel.fromJson(Map<String, dynamic> json) =
@@ -212,7 +212,7 @@ abstract class _ConnectionModel extends ConnectionModel {
   @override
   DateTime get createdDateTime;
   @override
-  DateTime? get stoppedDateTime;
+  DateTime? get endedDateTime;
   @override
   @JsonKey(ignore: true)
   _$$_ConnectionModelCopyWith<_$_ConnectionModel> get copyWith =>

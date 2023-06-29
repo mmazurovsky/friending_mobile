@@ -47,11 +47,11 @@ class PairsDSImpl implements PairsDS {
 
     //TODO: not sure, need check
     pairs.sort(
-      (a, b) => a.stoppedDateTime == null
+      (a, b) => a.endedDateTime == null
           ? 0
-          : b.stoppedDateTime == null
+          : b.endedDateTime == null
               ? 1
-              : a.stoppedDateTime!.compareTo(b.stoppedDateTime!),
+              : a.endedDateTime!.compareTo(b.endedDateTime!),
     );
 
     final userIds = pairs.map((e) => e.userId).toSet();
