@@ -2,9 +2,9 @@ import 'entities/user_connect_status.dart';
 import 'entities/user_event.dart';
 import 'models/user_models.dart';
 
-enum UserConnectStatusEnum {
-  connected,
-  disconnected,
+enum UserPairStatusEnum {
+  paired,
+  unpaired,
   requested,
   toBeApproved;
 
@@ -13,13 +13,13 @@ enum UserConnectStatusEnum {
 
   UserConnectStatus get content {
     switch (this) {
-      case UserConnectStatusEnum.connected:
+      case UserPairStatusEnum.paired:
         return const UserConnectStatusConnected();
-      case UserConnectStatusEnum.disconnected:
+      case UserPairStatusEnum.unpaired:
         return const UserConnectStatusDisconnected();
-      case UserConnectStatusEnum.requested:
+      case UserPairStatusEnum.requested:
         return const UserConnectStatusRequested();
-      case UserConnectStatusEnum.toBeApproved:
+      case UserPairStatusEnum.toBeApproved:
         return const UserConnectStatusToBeApproved();
     }
   }

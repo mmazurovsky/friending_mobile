@@ -58,7 +58,6 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
     final shortModelRaw = await futureShortModelRaw;
 
     final pairs = await _pairsDS.getUserPairs(userId);
-    
 
     final ShortReadUserModel shortUserModel = shortModelRaw.data()!;
 
@@ -71,7 +70,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
         shortUserModel: shortUserModel,
         pairedWith: pairs.first,
         privateInfoUserModel: null,
-        connectStatusEnum: UserConnectStatusEnum.disconnected,
+        connectStatusEnum: UserPairStatusEnum.unpaired,
       );
     }
 
@@ -91,16 +90,16 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
 
     final connectionRaw = await futureConnectionRaw;
 
-    late UserConnectStatusEnum connectStatusEnum;
+    late UserPairStatusEnum connectStatusEnum;
 
     if (connectionRaw.data() == null) {
-      connectStatusEnum = UserConnectStatusEnum.disconnected;
+      connectStatusEnum = UserPairStatusEnum.unpaired;
     } else {
       connectStatusEnum = connectionRaw.data()!.status;
     }
 
     PrivateInfoUserModel? privateInfoUserModel;
-    if (connectStatusEnum == UserConnectStatusEnum.connected) {
+    if (connectStatusEnum == UserPairStatusEnum.paired) {
       privateInfoUserModel = await _getPrivateInfo(userId);
     }
 

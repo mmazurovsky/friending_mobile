@@ -25,8 +25,8 @@ Map<String, dynamic> _$$_ConnectionModelToJson(_$_ConnectionModel instance) =>
     };
 
 const _$UserConnectStatusEnumEnumMap = {
-  UserConnectStatusEnum.connected: 'connected',
-  UserConnectStatusEnum.disconnected: 'disconnected',
-  UserConnectStatusEnum.requested: 'requested',
-  UserConnectStatusEnum.toBeApproved: 'toBeApproved',
+  UserPairStatusEnum.paired: 'connected',
+  UserPairStatusEnum.unpaired: 'disconnected',
+  UserPairStatusEnum.requested: 'requested',
+  UserPairStatusEnum.toBeApproved: 'toBeApproved',
 };

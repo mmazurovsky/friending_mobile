@@ -195,7 +195,7 @@ mixin _$OtherUserFullModel {
       throw _privateConstructorUsedError; // required AdditionalUserModel additionalUserModel,
   PrivateInfoUserModel? get privateInfoUserModel =>
       throw _privateConstructorUsedError;
-  UserConnectStatusEnum get connectStatusEnum =>
+  UserPairStatusEnum get connectStatusEnum =>
       throw _privateConstructorUsedError;
   ShortReadUserModel? get pairedWith => throw _privateConstructorUsedError;
 
@@ -213,7 +213,7 @@ abstract class $OtherUserFullModelCopyWith<$Res> {
   $Res call(
       {ShortReadUserModel shortUserModel,
       PrivateInfoUserModel? privateInfoUserModel,
-      UserConnectStatusEnum connectStatusEnum,
+      UserPairStatusEnum connectStatusEnum,
       ShortReadUserModel? pairedWith});
 
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
@@ -251,7 +251,7 @@ class _$OtherUserFullModelCopyWithImpl<$Res, $Val extends OtherUserFullModel>
       connectStatusEnum: null == connectStatusEnum
           ? _value.connectStatusEnum
           : connectStatusEnum // ignore: cast_nullable_to_non_nullable
-              as UserConnectStatusEnum,
+              as UserPairStatusEnum,
       pairedWith: freezed == pairedWith
           ? _value.pairedWith
           : pairedWith // ignore: cast_nullable_to_non_nullable
@@ -304,7 +304,7 @@ abstract class _$$_OtherUserFullModelCopyWith<$Res>
   $Res call(
       {ShortReadUserModel shortUserModel,
       PrivateInfoUserModel? privateInfoUserModel,
-      UserConnectStatusEnum connectStatusEnum,
+      UserPairStatusEnum connectStatusEnum,
       ShortReadUserModel? pairedWith});
 
   @override
@@ -343,7 +343,7 @@ class __$$_OtherUserFullModelCopyWithImpl<$Res>
       connectStatusEnum: null == connectStatusEnum
           ? _value.connectStatusEnum
           : connectStatusEnum // ignore: cast_nullable_to_non_nullable
-              as UserConnectStatusEnum,
+              as UserPairStatusEnum,
       pairedWith: freezed == pairedWith
           ? _value.pairedWith
           : pairedWith // ignore: cast_nullable_to_non_nullable
@@ -368,7 +368,7 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
   @override
   final PrivateInfoUserModel? privateInfoUserModel;
   @override
-  final UserConnectStatusEnum connectStatusEnum;
+  final UserPairStatusEnum connectStatusEnum;
   @override
   final ShortReadUserModel? pairedWith;
 
@@ -408,7 +408,7 @@ abstract class _OtherUserFullModel extends OtherUserFullModel {
   const factory _OtherUserFullModel(
       {required final ShortReadUserModel shortUserModel,
       required final PrivateInfoUserModel? privateInfoUserModel,
-      required final UserConnectStatusEnum connectStatusEnum,
+      required final UserPairStatusEnum connectStatusEnum,
       required final ShortReadUserModel? pairedWith}) = _$_OtherUserFullModel;
   const _OtherUserFullModel._() : super._();
 
@@ -417,7 +417,7 @@ abstract class _OtherUserFullModel extends OtherUserFullModel {
   @override // required AdditionalUserModel additionalUserModel,
   PrivateInfoUserModel? get privateInfoUserModel;
   @override
-  UserConnectStatusEnum get connectStatusEnum;
+  UserPairStatusEnum get connectStatusEnum;
   @override
   ShortReadUserModel? get pairedWith;
   @override

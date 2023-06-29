@@ -21,7 +21,7 @@ ConnectionModel _$ConnectionModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ConnectionModel {
   String get userId => throw _privateConstructorUsedError;
-  UserConnectStatusEnum get status => throw _privateConstructorUsedError;
+  UserPairStatusEnum get status => throw _privateConstructorUsedError;
   DateTime get createdDateTime => throw _privateConstructorUsedError;
   DateTime? get endedDateTime => throw _privateConstructorUsedError;
 
@@ -39,7 +39,7 @@ abstract class $ConnectionModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String userId,
-      UserConnectStatusEnum status,
+      UserPairStatusEnum status,
       DateTime createdDateTime,
       DateTime? endedDateTime});
 }
@@ -70,7 +70,7 @@ class _$ConnectionModelCopyWithImpl<$Res, $Val extends ConnectionModel>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as UserConnectStatusEnum,
+              as UserPairStatusEnum,
       createdDateTime: null == createdDateTime
           ? _value.createdDateTime
           : createdDateTime // ignore: cast_nullable_to_non_nullable
@@ -93,7 +93,7 @@ abstract class _$$_ConnectionModelCopyWith<$Res>
   @useResult
   $Res call(
       {String userId,
-      UserConnectStatusEnum status,
+      UserPairStatusEnum status,
       DateTime createdDateTime,
       DateTime? endedDateTime});
 }
@@ -122,7 +122,7 @@ class __$$_ConnectionModelCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as UserConnectStatusEnum,
+              as UserPairStatusEnum,
       createdDateTime: null == createdDateTime
           ? _value.createdDateTime
           : createdDateTime // ignore: cast_nullable_to_non_nullable
@@ -151,7 +151,7 @@ class _$_ConnectionModel extends _ConnectionModel {
   @override
   final String userId;
   @override
-  final UserConnectStatusEnum status;
+  final UserPairStatusEnum status;
   @override
   final DateTime createdDateTime;
   @override
@@ -197,7 +197,7 @@ class _$_ConnectionModel extends _ConnectionModel {
 abstract class _ConnectionModel extends ConnectionModel {
   const factory _ConnectionModel(
       {required final String userId,
-      required final UserConnectStatusEnum status,
+      required final UserPairStatusEnum status,
       required final DateTime createdDateTime,
       final DateTime? endedDateTime}) = _$_ConnectionModel;
   const _ConnectionModel._() : super._();
@@ -208,7 +208,7 @@ abstract class _ConnectionModel extends ConnectionModel {
   @override
   String get userId;
   @override
-  UserConnectStatusEnum get status;
+  UserPairStatusEnum get status;
   @override
   DateTime get createdDateTime;
   @override

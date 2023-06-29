@@ -1,7 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_starter/screens/widgets/texts/section_subtitle.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
@@ -12,8 +10,8 @@ import '../../../common/bag/strings.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/navigation/auto_router/app_router.dart';
-import '../../../common/navigation/navigation_tab.dart';
 import '../../../common/service/open_link_service.dart';
+import '../../profile/ui/widgets/tags_displayer.dart';
 import '../../widgets/buttons/button_content.dart';
 import '../../widgets/canvas/profile_canvas.dart';
 import '../../widgets/custom_edge_insets.dart';
@@ -22,51 +20,44 @@ import '../../widgets/modal_bottom_sheet/modal_bottom_sheet_content.dart';
 import '../../widgets/social_links_list.dart';
 import '../../widgets/spacers/section_divider_with_spacers.dart';
 import '../../widgets/texts/expandable_text_section.dart';
+import '../../widgets/texts/section_subtitle.dart';
 import '../../widgets/texts/section_title.dart';
-import '../state/profile_content_manager.dart';
-import 'widgets/tags_displayer.dart';
+import '../state/other_user_manager.dart';
 
-class ThisUserProfilePage extends StatefulWidget {
+class OtherUserProfilePage extends StatefulWidget {
   final ShortReadUserModel shortProfile;
-  const ThisUserProfilePage({
+  const OtherUserProfilePage({
     Key? key,
     required this.shortProfile,
   }) : super(key: key);
 
   @override
-  _ThisUserProfilePageState createState() => _ThisUserProfilePageState();
+  _OtherUserProfilePageState createState() => _OtherUserProfilePageState();
 }
 
-class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
+class _OtherUserProfilePageState extends State<OtherUserProfilePage> {
   late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = allTabsOrderedAccordingToIndex[2].scrollController;
-  }
-
-  @override
-  void didUpdateWidget(covariant ThisUserProfilePage oldWidget) {
-    if (oldWidget.shortProfile != widget.shortProfile) {
-      getIt<ProfileContentManager>().loadProfile();
-    }
-    super.didUpdateWidget(oldWidget);
+    _scrollController = ScrollController();
   }
 
   @override
   void dispose() {
-    // _scrollController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => getIt<ProfileContentManager>()..loadProfile(),
+      create: (context) => getIt<OtherUserManager>()
+        ..loadOtherUserProfile(widget.shortProfile.id),
       builder: (context, child) => EntityPageCanvas(
         data: widget.shortProfile,
-        loadableContent: const _ProfileContent(),
+        loadableContent: const _OtherProfileContent(),
         scrollController: _scrollController,
         isBackButtonOn: false,
       ),
@@ -74,53 +65,53 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
   }
 }
 
-class _ProfileContent extends StatefulWidget {
-  const _ProfileContent({
+class _OtherProfileContent extends StatefulWidget {
+  const _OtherProfileContent({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<_ProfileContent> createState() => _ProfileContentState();
+  State<_OtherProfileContent> createState() => _OtherProfileContentState();
 }
 
-class _ProfileContentState extends State<_ProfileContent> {
+class _OtherProfileContentState extends State<_OtherProfileContent> {
   @override
   Widget build(BuildContext context) {
-    return context.watch<ProfileContentManager>().isLoading
+    return context.watch<OtherUserManager>().isLoading
         ? const LoadingContainer()
         : SlideAnimationWrapper(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 15),
-                SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: CEdgeInsets.horizontalStandart,
-                    child: PlatformElevatedButton(
-                      onPressed: () => showModalBottomSheet(
-                        context: context,
-                        builder: (context) => const SettingsSelector(),
-                      ),
-                      child: Text(
-                        'Open settings',
-                        style: context.theme.textTheme.titleMedium?.copyWith(
-                          fontSize: 17,
-                          color: context.theme.colorScheme.onPrimary,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                //TODO: create button
+                // SizedBox(
+                //   width: double.infinity,
+                //   child: Padding(
+                //     padding: CEdgeInsets.horizontalStandart,
+                //     child: PlatformElevatedButton(
+                //       onPressed: () => showModalBottomSheet(
+                //         context: context,
+                //         builder: (context) => const SettingsSelector(),
+                //       ),
+                //       child: Text(
+                //         'Open settings',
+                //         style: context.theme.textTheme.titleMedium?.copyWith(
+                //           fontSize: 17,
+                //           color: context.theme.colorScheme.onPrimary,
+                //           fontWeight: FontWeight.w700,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 20),
                 const SectionTitle('Tags'),
                 const SizedBox(height: 10),
                 TagsDisplayer(
                   tagsToDisplay: context
-                      .read<ProfileContentManager>()
-                      .profile
-                      .shortUserModel
+                      .read<OtherUserManager>()
+                      .shortProfile
                       .tagsEntities,
                   displayIfTagsEmpty: Container(),
                 ),
@@ -129,11 +120,7 @@ class _ProfileContentState extends State<_ProfileContent> {
                 Padding(
                   padding: CEdgeInsets.horizontalStandart,
                   child: ExpandableTextSection(
-                    context
-                        .read<ProfileContentManager>()
-                        .profile
-                        .shortUserModel
-                        .about,
+                    context.read<OtherUserManager>().shortProfile.about,
                   ),
                 ),
                 const SectionDividerWithSpacers(),
@@ -141,11 +128,7 @@ class _ProfileContentState extends State<_ProfileContent> {
                 Padding(
                   padding: CEdgeInsets.horizontalStandart,
                   child: ExpandableTextSection(
-                    context
-                        .read<ProfileContentManager>()
-                        .profile
-                        .shortUserModel
-                        .lookingFor,
+                    context.read<OtherUserManager>().shortProfile.lookingFor,
                   ),
                 ),
                 const SectionDividerWithSpacers(),
@@ -154,15 +137,16 @@ class _ProfileContentState extends State<_ProfileContent> {
                 const SectionSubtitle(
                     'This section can only be seen by users you validated'),
                 const SizedBox(height: 10),
+                //TODO: only display if there is access
                 SocialLinksList(
                   instagramUsername: context
-                      .read<ProfileContentManager>()
-                      .profile
+                      .read<OtherUserManager>()
+                      .fullProfile
                       .privateInfoUserModel
                       .instagramUsername,
                   telegramUsername: context
-                      .read<ProfileContentManager>()
-                      .profile
+                      .read<OtherUserManager>()
+                      .fullProfile
                       .privateInfoUserModel
                       .telegramUsername,
                 ),

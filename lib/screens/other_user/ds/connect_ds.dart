@@ -5,14 +5,13 @@ import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/enums.dart';
-import '../../../common/data/models/user_models.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
 import '../../explore/ds/user_list_ds.dart';
 import 'connection_models.dart';
 
 abstract class ConnectDS {
-  Future<void> pair(String userId);
+  Future<UserPairStatusEnum> pair(String userId);
   Future<void> unpairOrRemoveRequest(String userId);
 }
 
@@ -40,7 +39,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
   String get connectionsCollection => Strings.server.connectionsCollection;
 
   @override
-  Future<void> pair(
+  Future<UserPairStatusEnum> pair(
     String userId,
   ) async {
     final currentUserRaw = _authRepo.currentUser;
@@ -63,7 +62,11 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
 
     final currentConnection = currentConnectionRaw.data();
 
-    if (currentConnection?.status == UserConnectStatusEnum.toBeApproved) {
+    late UserPairStatusEnum returnable;
+
+    if (currentConnection?.status == UserPairStatusEnum.toBeApproved) {
+      returnable = UserPairStatusEnum.paired;
+      //TODO: on server check for this update and issue event and notification
       final batchOperation = _firestore.batch();
       final dateTime = DateTime.now();
       batchOperation.update(
@@ -73,7 +76,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
             .collection(connectionsCollection)
             .doc(currentUserId),
         // TODO check if user is already connected with someone and disconnect them
-        {'status': UserConnectStatusEnum.connected.toString()},
+        {'status': UserPairStatusEnum.paired.toString()},
       );
       batchOperation.set(
         _firestore
@@ -84,11 +87,12 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
         // TODO check if user is already connected with someone and disconnect them
         ConnectionModel(
           userId: userId,
-          status: UserConnectStatusEnum.connected,
+          status: UserPairStatusEnum.paired,
           createdDateTime: dateTime,
         ).toJson(),
       );
     } else {
+      returnable = UserPairStatusEnum.requested;
       final batchOperation = _firestore.batch();
       final dateTime = DateTime.now();
       batchOperation.set(
@@ -99,7 +103,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
             .doc(currentUserId),
         ConnectionModel(
           userId: currentUserId,
-          status: UserConnectStatusEnum.toBeApproved,
+          status: UserPairStatusEnum.toBeApproved,
           createdDateTime: dateTime,
         ).toJson(),
       );
@@ -111,15 +115,15 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
             .doc(userId),
         ConnectionModel(
           userId: currentUserId,
-          status: UserConnectStatusEnum.requested,
+          status: UserPairStatusEnum.requested,
           createdDateTime: dateTime,
         ).toJson(),
       );
       future = batchOperation.commit();
     }
 
-    final result = await _requestCheckWrapper(future);
-    return result;
+    await _requestCheckWrapper(future);
+    return returnable;
   }
 
   @override
@@ -142,7 +146,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
 
     final currentConnection = currentConnectionRaw.data();
 
-    if (currentConnection?.status == UserConnectStatusEnum.connected) {
+    if (currentConnection?.status == UserPairStatusEnum.paired) {
       // Unpair
       final batchOperation = _firestore.batch();
       final dateTime = DateTime.now();

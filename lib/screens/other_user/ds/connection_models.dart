@@ -11,7 +11,7 @@ class ConnectionModel with _$ConnectionModel {
 
   const factory ConnectionModel({
     required String userId,
-    required UserConnectStatusEnum status,
+    required UserPairStatusEnum status,
     required DateTime createdDateTime,
     DateTime? endedDateTime,
   }) = _ConnectionModel;

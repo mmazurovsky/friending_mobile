@@ -38,7 +38,7 @@ class PairsDSImpl implements PairsDS {
         .withConverter(
             fromFirestore: (json, _) => ConnectionModel.fromJson(json.data()!),
             toFirestore: (model, _) => {})
-        .where('status', isEqualTo: UserConnectStatusEnum.connected.toString())
+        .where('status', isEqualTo: UserPairStatusEnum.paired.toString())
         .get();
 
     final pairsRaw = await _requestCheckWrapper(pairsFuture);
