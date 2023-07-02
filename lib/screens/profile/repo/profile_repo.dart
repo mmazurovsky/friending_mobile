@@ -7,11 +7,11 @@ import '../ds/profile_remote_ds.dart';
 abstract class ProfileRepo {
   Future<void> saveProfile({
     required ShortCreateUserModel shortModel,
-    required PrivateInfoUserModel privateModel,
+    required SecureUserInfoModel privateModel,
   });
   Future<void> updateProfile({
     required ShortUpdateUserModel shortModel,
-    required PrivateInfoUserModel privateModel,
+    required SecureUserInfoModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   });
@@ -44,7 +44,7 @@ class ProfileRepoImpl implements ProfileRepo {
   @override
   Future<void> saveProfile({
     required ShortCreateUserModel shortModel,
-    required PrivateInfoUserModel privateModel,
+    required SecureUserInfoModel privateModel,
   }) {
     _profileLocalDS.saveShortProfile(shortModel.toUpdateShortModel);
     return _profileRemoteDS.saveProfile(
@@ -57,7 +57,7 @@ class ProfileRepoImpl implements ProfileRepo {
   @override
   Future<void> updateProfile({
     required ShortUpdateUserModel shortModel,
-    required PrivateInfoUserModel privateModel,
+    required SecureUserInfoModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   }) {

@@ -15,8 +15,8 @@ class OtherUserManager with ChangeNotifier {
 
   ShortReadUserModel get shortProfile => _shortReadUserModel;
 
-  OtherUserFullModel? _otherUserFullModel;
-  OtherUserFullModel? get fullProfile => _otherUserFullModel;
+  late OtherUserFullModel _otherUserFullModel;
+  OtherUserFullModel get fullProfile => _otherUserFullModel;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;

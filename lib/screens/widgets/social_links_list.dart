@@ -1,60 +1,31 @@
 import 'package:flutter/material.dart';
 
-import '../../common/assets/assets.dart';
-import '../../common/service/open_link_service.dart';
+import '../../common/data/models/user_models.dart';
 import 'buttons/button_with_icons.dart';
 
 class SocialLinksList extends StatelessWidget {
-  final String? instagramUsername;
-  final String? soundcloudUsername;
-  final String? telegramUsername;
+  final List<SecureUserInfoFieldModel> fields;
   static const double _verticalPadding = 12;
 
   const SocialLinksList({
     Key? key,
-    this.instagramUsername,
-    this.soundcloudUsername,
-    this.telegramUsername,
+    required this.fields,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return instagramUsername != null ||
-            soundcloudUsername != null ||
-            telegramUsername != null
-        ? Column(
-            children: [
-              soundcloudUsername != null
-                  ? SocialLinksLine(
-                      text: 'Soundcloud',
-                      logoAsset: ImageAssets.soundcloudLogo,
-                      onTap: () => () => OpenLinkService.openSoundcloud(
-                            soundcloudUsername!,
-                          ),
+    return fields.isEmpty
+        ? Container()
+        : Column(
+            children: fields
+                .map((e) => SocialLinksLine(
+                      text: e.title,
                       verticalPadding: _verticalPadding,
-                    )
-                  : Container(),
-              instagramUsername != null
-                  ? SocialLinksLine(
-                      text: 'Instagram',
-                      logoAsset: ImageAssets.instagramLogo,
-                      onTap: () =>
-                          OpenLinkService.openInstagram(instagramUsername!),
-                      verticalPadding: _verticalPadding,
-                    )
-                  : Container(),
-              telegramUsername != null
-                  ? SocialLinksLine(
-                      text: 'Telegram',
-                      logoAsset: ImageAssets.telegramLogo,
-                      onTap: () =>
-                          OpenLinkService.openTelegram(telegramUsername!),
-                      verticalPadding: _verticalPadding,
-                    )
-                  : Container(),
-            ],
-          )
-        : Container();
+                      onTap: e.onTap,
+                      logoAsset: e.logoAsset,
+                    ))
+                .toList(),
+          );
   }
 }
 

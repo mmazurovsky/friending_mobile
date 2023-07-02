@@ -67,6 +67,7 @@ class ProfileEditingManager with ChangeNotifier {
 
     final instagramUsername = _textsManager.instagramUsernameController.text;
     final telegramUsername = _textsManager.telegramUsernameController.text;
+    final whatsappNumber = _textsManager.whatsappPhoneController.text;
 
     final newTagsList = _textsManager.tagsToDisplay;
     final tagsToAddOnServer = _textsManager.tagsToAddOnServer;
@@ -86,9 +87,19 @@ class ProfileEditingManager with ChangeNotifier {
         lookingFor: lookingFor,
       );
 
-      final privateModel = PrivateInfoUserModel(
-        instagramUsername: instagramUsername,
-        telegramUsername: telegramUsername,
+      final listOfSocialFields = <SecureUserInfoFieldModel>[];
+
+      if (instagramUsername.isNotEmpty) {
+        listOfSocialFields.add(SecureUserInfoFieldModel(title: 'Instagram', value: instagramUsername, order: 0, state: ),);
+      } else if (telegramUsername.isNotEmpty) {
+        listOfSocialFields.add(SecureUserInfoFieldModel(title: 'Telegram', value: telegramUsername, order: 1, state: ),);
+      } else if (whatsappNumber.isNotEmpty) {
+        listOfSocialFields.add(SecureUserInfoFieldModel(title: 'WhatsApp', value: whatsappNumber, order: 2, state: ),);
+      }
+
+
+
+      final privateModel = SecureUserInfoModel(listOfSocialFields
       );
 
       late final void response;

@@ -6,18 +6,42 @@ part of 'user_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PrivateInfoUserModel _$$_PrivateInfoUserModelFromJson(
+_$_SecureUserInfoFieldModel _$$_SecureUserInfoFieldModelFromJson(
         Map<String, dynamic> json) =>
-    _$_PrivateInfoUserModel(
-      instagramUsername: json['instagramUsername'] as String?,
-      telegramUsername: json['telegramUsername'] as String?,
+    _$_SecureUserInfoFieldModel(
+      title: json['title'] as String,
+      value: json['value'] as String,
+      state: $enumDecode(_$PrivateFieldEnumEnumMap, json['state']),
+      order: json['order'] as int,
     );
 
-Map<String, dynamic> _$$_PrivateInfoUserModelToJson(
-        _$_PrivateInfoUserModel instance) =>
+Map<String, dynamic> _$$_SecureUserInfoFieldModelToJson(
+        _$_SecureUserInfoFieldModel instance) =>
     <String, dynamic>{
-      'instagramUsername': instance.instagramUsername,
-      'telegramUsername': instance.telegramUsername,
+      'title': instance.title,
+      'value': instance.value,
+      'state': _$PrivateFieldEnumEnumMap[instance.state]!,
+      'order': instance.order,
+    };
+
+const _$PrivateFieldEnumEnumMap = {
+  SecureFieldStatusEnum.private: 'private',
+  SecureFieldStatusEnum.public: 'public',
+};
+
+_$_SecureUserInfoModel _$$_SecureUserInfoModelFromJson(
+        Map<String, dynamic> json) =>
+    _$_SecureUserInfoModel(
+      (json['fields'] as List<dynamic>)
+          .map((e) =>
+              SecureUserInfoFieldModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$_SecureUserInfoModelToJson(
+        _$_SecureUserInfoModel instance) =>
+    <String, dynamic>{
+      'fields': instance.fields.map((e) => e.toJson()).toList(),
     };
 
 Map<String, dynamic> _$$_ShortCreateUserModelToJson(

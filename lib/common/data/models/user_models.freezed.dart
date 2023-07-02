@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$FullReadUserModel {
   ShortReadUserModel get shortUserModel =>
       throw _privateConstructorUsedError; // required AdditionalUserModel additionalUserModel,
-  PrivateInfoUserModel get privateInfoUserModel =>
+  SecureUserInfoModel get secureUserInfoModel =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -34,10 +34,10 @@ abstract class $FullReadUserModelCopyWith<$Res> {
   @useResult
   $Res call(
       {ShortReadUserModel shortUserModel,
-      PrivateInfoUserModel privateInfoUserModel});
+      SecureUserInfoModel secureUserInfoModel});
 
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
-  $PrivateInfoUserModelCopyWith<$Res> get privateInfoUserModel;
+  $SecureUserInfoModelCopyWith<$Res> get secureUserInfoModel;
 }
 
 /// @nodoc
@@ -54,17 +54,17 @@ class _$FullReadUserModelCopyWithImpl<$Res, $Val extends FullReadUserModel>
   @override
   $Res call({
     Object? shortUserModel = null,
-    Object? privateInfoUserModel = null,
+    Object? secureUserInfoModel = null,
   }) {
     return _then(_value.copyWith(
       shortUserModel: null == shortUserModel
           ? _value.shortUserModel
           : shortUserModel // ignore: cast_nullable_to_non_nullable
               as ShortReadUserModel,
-      privateInfoUserModel: null == privateInfoUserModel
-          ? _value.privateInfoUserModel
-          : privateInfoUserModel // ignore: cast_nullable_to_non_nullable
-              as PrivateInfoUserModel,
+      secureUserInfoModel: null == secureUserInfoModel
+          ? _value.secureUserInfoModel
+          : secureUserInfoModel // ignore: cast_nullable_to_non_nullable
+              as SecureUserInfoModel,
     ) as $Val);
   }
 
@@ -78,10 +78,10 @@ class _$FullReadUserModelCopyWithImpl<$Res, $Val extends FullReadUserModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $PrivateInfoUserModelCopyWith<$Res> get privateInfoUserModel {
-    return $PrivateInfoUserModelCopyWith<$Res>(_value.privateInfoUserModel,
+  $SecureUserInfoModelCopyWith<$Res> get secureUserInfoModel {
+    return $SecureUserInfoModelCopyWith<$Res>(_value.secureUserInfoModel,
         (value) {
-      return _then(_value.copyWith(privateInfoUserModel: value) as $Val);
+      return _then(_value.copyWith(secureUserInfoModel: value) as $Val);
     });
   }
 }
@@ -96,12 +96,12 @@ abstract class _$$_FullReadUserModelCopyWith<$Res>
   @useResult
   $Res call(
       {ShortReadUserModel shortUserModel,
-      PrivateInfoUserModel privateInfoUserModel});
+      SecureUserInfoModel secureUserInfoModel});
 
   @override
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
   @override
-  $PrivateInfoUserModelCopyWith<$Res> get privateInfoUserModel;
+  $SecureUserInfoModelCopyWith<$Res> get secureUserInfoModel;
 }
 
 /// @nodoc
@@ -116,17 +116,17 @@ class __$$_FullReadUserModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? shortUserModel = null,
-    Object? privateInfoUserModel = null,
+    Object? secureUserInfoModel = null,
   }) {
     return _then(_$_FullReadUserModel(
       shortUserModel: null == shortUserModel
           ? _value.shortUserModel
           : shortUserModel // ignore: cast_nullable_to_non_nullable
               as ShortReadUserModel,
-      privateInfoUserModel: null == privateInfoUserModel
-          ? _value.privateInfoUserModel
-          : privateInfoUserModel // ignore: cast_nullable_to_non_nullable
-              as PrivateInfoUserModel,
+      secureUserInfoModel: null == secureUserInfoModel
+          ? _value.secureUserInfoModel
+          : secureUserInfoModel // ignore: cast_nullable_to_non_nullable
+              as SecureUserInfoModel,
     ));
   }
 }
@@ -135,18 +135,18 @@ class __$$_FullReadUserModelCopyWithImpl<$Res>
 
 class _$_FullReadUserModel extends _FullReadUserModel {
   const _$_FullReadUserModel(
-      {required this.shortUserModel, required this.privateInfoUserModel})
+      {required this.shortUserModel, required this.secureUserInfoModel})
       : super._();
 
   @override
   final ShortReadUserModel shortUserModel;
 // required AdditionalUserModel additionalUserModel,
   @override
-  final PrivateInfoUserModel privateInfoUserModel;
+  final SecureUserInfoModel secureUserInfoModel;
 
   @override
   String toString() {
-    return 'FullReadUserModel(shortUserModel: $shortUserModel, privateInfoUserModel: $privateInfoUserModel)';
+    return 'FullReadUserModel(shortUserModel: $shortUserModel, secureUserInfoModel: $secureUserInfoModel)';
   }
 
   @override
@@ -156,13 +156,13 @@ class _$_FullReadUserModel extends _FullReadUserModel {
             other is _$_FullReadUserModel &&
             (identical(other.shortUserModel, shortUserModel) ||
                 other.shortUserModel == shortUserModel) &&
-            (identical(other.privateInfoUserModel, privateInfoUserModel) ||
-                other.privateInfoUserModel == privateInfoUserModel));
+            (identical(other.secureUserInfoModel, secureUserInfoModel) ||
+                other.secureUserInfoModel == secureUserInfoModel));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, shortUserModel, privateInfoUserModel);
+      Object.hash(runtimeType, shortUserModel, secureUserInfoModel);
 
   @JsonKey(ignore: true)
   @override
@@ -175,14 +175,14 @@ class _$_FullReadUserModel extends _FullReadUserModel {
 abstract class _FullReadUserModel extends FullReadUserModel {
   const factory _FullReadUserModel(
           {required final ShortReadUserModel shortUserModel,
-          required final PrivateInfoUserModel privateInfoUserModel}) =
+          required final SecureUserInfoModel secureUserInfoModel}) =
       _$_FullReadUserModel;
   const _FullReadUserModel._() : super._();
 
   @override
   ShortReadUserModel get shortUserModel;
   @override // required AdditionalUserModel additionalUserModel,
-  PrivateInfoUserModel get privateInfoUserModel;
+  SecureUserInfoModel get secureUserInfoModel;
   @override
   @JsonKey(ignore: true)
   _$$_FullReadUserModelCopyWith<_$_FullReadUserModel> get copyWith =>
@@ -193,7 +193,7 @@ abstract class _FullReadUserModel extends FullReadUserModel {
 mixin _$OtherUserFullModel {
   ShortReadUserModel get shortUserModel =>
       throw _privateConstructorUsedError; // required AdditionalUserModel additionalUserModel,
-  PrivateInfoUserModel? get privateInfoUserModel =>
+  SecureUserInfoModel get secureUserInfoModel =>
       throw _privateConstructorUsedError;
   UserPairStatusEnum get connectStatusEnum =>
       throw _privateConstructorUsedError;
@@ -212,12 +212,12 @@ abstract class $OtherUserFullModelCopyWith<$Res> {
   @useResult
   $Res call(
       {ShortReadUserModel shortUserModel,
-      PrivateInfoUserModel? privateInfoUserModel,
+      SecureUserInfoModel secureUserInfoModel,
       UserPairStatusEnum connectStatusEnum,
       ShortReadUserModel? pairedWith});
 
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
-  $PrivateInfoUserModelCopyWith<$Res>? get privateInfoUserModel;
+  $SecureUserInfoModelCopyWith<$Res> get secureUserInfoModel;
   $ShortReadUserModelCopyWith<$Res>? get pairedWith;
 }
 
@@ -235,7 +235,7 @@ class _$OtherUserFullModelCopyWithImpl<$Res, $Val extends OtherUserFullModel>
   @override
   $Res call({
     Object? shortUserModel = null,
-    Object? privateInfoUserModel = freezed,
+    Object? secureUserInfoModel = null,
     Object? connectStatusEnum = null,
     Object? pairedWith = freezed,
   }) {
@@ -244,10 +244,10 @@ class _$OtherUserFullModelCopyWithImpl<$Res, $Val extends OtherUserFullModel>
           ? _value.shortUserModel
           : shortUserModel // ignore: cast_nullable_to_non_nullable
               as ShortReadUserModel,
-      privateInfoUserModel: freezed == privateInfoUserModel
-          ? _value.privateInfoUserModel
-          : privateInfoUserModel // ignore: cast_nullable_to_non_nullable
-              as PrivateInfoUserModel?,
+      secureUserInfoModel: null == secureUserInfoModel
+          ? _value.secureUserInfoModel
+          : secureUserInfoModel // ignore: cast_nullable_to_non_nullable
+              as SecureUserInfoModel,
       connectStatusEnum: null == connectStatusEnum
           ? _value.connectStatusEnum
           : connectStatusEnum // ignore: cast_nullable_to_non_nullable
@@ -269,14 +269,10 @@ class _$OtherUserFullModelCopyWithImpl<$Res, $Val extends OtherUserFullModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $PrivateInfoUserModelCopyWith<$Res>? get privateInfoUserModel {
-    if (_value.privateInfoUserModel == null) {
-      return null;
-    }
-
-    return $PrivateInfoUserModelCopyWith<$Res>(_value.privateInfoUserModel!,
+  $SecureUserInfoModelCopyWith<$Res> get secureUserInfoModel {
+    return $SecureUserInfoModelCopyWith<$Res>(_value.secureUserInfoModel,
         (value) {
-      return _then(_value.copyWith(privateInfoUserModel: value) as $Val);
+      return _then(_value.copyWith(secureUserInfoModel: value) as $Val);
     });
   }
 
@@ -303,14 +299,14 @@ abstract class _$$_OtherUserFullModelCopyWith<$Res>
   @useResult
   $Res call(
       {ShortReadUserModel shortUserModel,
-      PrivateInfoUserModel? privateInfoUserModel,
+      SecureUserInfoModel secureUserInfoModel,
       UserPairStatusEnum connectStatusEnum,
       ShortReadUserModel? pairedWith});
 
   @override
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
   @override
-  $PrivateInfoUserModelCopyWith<$Res>? get privateInfoUserModel;
+  $SecureUserInfoModelCopyWith<$Res> get secureUserInfoModel;
   @override
   $ShortReadUserModelCopyWith<$Res>? get pairedWith;
 }
@@ -327,7 +323,7 @@ class __$$_OtherUserFullModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? shortUserModel = null,
-    Object? privateInfoUserModel = freezed,
+    Object? secureUserInfoModel = null,
     Object? connectStatusEnum = null,
     Object? pairedWith = freezed,
   }) {
@@ -336,10 +332,10 @@ class __$$_OtherUserFullModelCopyWithImpl<$Res>
           ? _value.shortUserModel
           : shortUserModel // ignore: cast_nullable_to_non_nullable
               as ShortReadUserModel,
-      privateInfoUserModel: freezed == privateInfoUserModel
-          ? _value.privateInfoUserModel
-          : privateInfoUserModel // ignore: cast_nullable_to_non_nullable
-              as PrivateInfoUserModel?,
+      secureUserInfoModel: null == secureUserInfoModel
+          ? _value.secureUserInfoModel
+          : secureUserInfoModel // ignore: cast_nullable_to_non_nullable
+              as SecureUserInfoModel,
       connectStatusEnum: null == connectStatusEnum
           ? _value.connectStatusEnum
           : connectStatusEnum // ignore: cast_nullable_to_non_nullable
@@ -357,7 +353,7 @@ class __$$_OtherUserFullModelCopyWithImpl<$Res>
 class _$_OtherUserFullModel extends _OtherUserFullModel {
   const _$_OtherUserFullModel(
       {required this.shortUserModel,
-      required this.privateInfoUserModel,
+      required this.secureUserInfoModel,
       required this.connectStatusEnum,
       required this.pairedWith})
       : super._();
@@ -366,7 +362,7 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
   final ShortReadUserModel shortUserModel;
 // required AdditionalUserModel additionalUserModel,
   @override
-  final PrivateInfoUserModel? privateInfoUserModel;
+  final SecureUserInfoModel secureUserInfoModel;
   @override
   final UserPairStatusEnum connectStatusEnum;
   @override
@@ -374,7 +370,7 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
 
   @override
   String toString() {
-    return 'OtherUserFullModel(shortUserModel: $shortUserModel, privateInfoUserModel: $privateInfoUserModel, connectStatusEnum: $connectStatusEnum, pairedWith: $pairedWith)';
+    return 'OtherUserFullModel(shortUserModel: $shortUserModel, secureUserInfoModel: $secureUserInfoModel, connectStatusEnum: $connectStatusEnum, pairedWith: $pairedWith)';
   }
 
   @override
@@ -384,8 +380,8 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
             other is _$_OtherUserFullModel &&
             (identical(other.shortUserModel, shortUserModel) ||
                 other.shortUserModel == shortUserModel) &&
-            (identical(other.privateInfoUserModel, privateInfoUserModel) ||
-                other.privateInfoUserModel == privateInfoUserModel) &&
+            (identical(other.secureUserInfoModel, secureUserInfoModel) ||
+                other.secureUserInfoModel == secureUserInfoModel) &&
             (identical(other.connectStatusEnum, connectStatusEnum) ||
                 other.connectStatusEnum == connectStatusEnum) &&
             (identical(other.pairedWith, pairedWith) ||
@@ -394,7 +390,7 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
 
   @override
   int get hashCode => Object.hash(runtimeType, shortUserModel,
-      privateInfoUserModel, connectStatusEnum, pairedWith);
+      secureUserInfoModel, connectStatusEnum, pairedWith);
 
   @JsonKey(ignore: true)
   @override
@@ -407,7 +403,7 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
 abstract class _OtherUserFullModel extends OtherUserFullModel {
   const factory _OtherUserFullModel(
       {required final ShortReadUserModel shortUserModel,
-      required final PrivateInfoUserModel? privateInfoUserModel,
+      required final SecureUserInfoModel secureUserInfoModel,
       required final UserPairStatusEnum connectStatusEnum,
       required final ShortReadUserModel? pairedWith}) = _$_OtherUserFullModel;
   const _OtherUserFullModel._() : super._();
@@ -415,7 +411,7 @@ abstract class _OtherUserFullModel extends OtherUserFullModel {
   @override
   ShortReadUserModel get shortUserModel;
   @override // required AdditionalUserModel additionalUserModel,
-  PrivateInfoUserModel? get privateInfoUserModel;
+  SecureUserInfoModel get secureUserInfoModel;
   @override
   UserPairStatusEnum get connectStatusEnum;
   @override
@@ -426,35 +422,39 @@ abstract class _OtherUserFullModel extends OtherUserFullModel {
       throw _privateConstructorUsedError;
 }
 
-PrivateInfoUserModel _$PrivateInfoUserModelFromJson(Map<String, dynamic> json) {
-  return _PrivateInfoUserModel.fromJson(json);
+SecureUserInfoFieldModel _$SecureUserInfoFieldModelFromJson(
+    Map<String, dynamic> json) {
+  return _SecureUserInfoFieldModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$PrivateInfoUserModel {
-  String? get instagramUsername => throw _privateConstructorUsedError;
-  String? get telegramUsername => throw _privateConstructorUsedError;
+mixin _$SecureUserInfoFieldModel {
+  String get title => throw _privateConstructorUsedError;
+  String get value => throw _privateConstructorUsedError;
+  SecureFieldStatusEnum get state => throw _privateConstructorUsedError;
+  int get order => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PrivateInfoUserModelCopyWith<PrivateInfoUserModel> get copyWith =>
+  $SecureUserInfoFieldModelCopyWith<SecureUserInfoFieldModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PrivateInfoUserModelCopyWith<$Res> {
-  factory $PrivateInfoUserModelCopyWith(PrivateInfoUserModel value,
-          $Res Function(PrivateInfoUserModel) then) =
-      _$PrivateInfoUserModelCopyWithImpl<$Res, PrivateInfoUserModel>;
+abstract class $SecureUserInfoFieldModelCopyWith<$Res> {
+  factory $SecureUserInfoFieldModelCopyWith(SecureUserInfoFieldModel value,
+          $Res Function(SecureUserInfoFieldModel) then) =
+      _$SecureUserInfoFieldModelCopyWithImpl<$Res, SecureUserInfoFieldModel>;
   @useResult
-  $Res call({String? instagramUsername, String? telegramUsername});
+  $Res call(
+      {String title, String value, SecureFieldStatusEnum state, int order});
 }
 
 /// @nodoc
-class _$PrivateInfoUserModelCopyWithImpl<$Res,
-        $Val extends PrivateInfoUserModel>
-    implements $PrivateInfoUserModelCopyWith<$Res> {
-  _$PrivateInfoUserModelCopyWithImpl(this._value, this._then);
+class _$SecureUserInfoFieldModelCopyWithImpl<$Res,
+        $Val extends SecureUserInfoFieldModel>
+    implements $SecureUserInfoFieldModelCopyWith<$Res> {
+  _$SecureUserInfoFieldModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -464,126 +464,310 @@ class _$PrivateInfoUserModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? instagramUsername = freezed,
-    Object? telegramUsername = freezed,
+    Object? title = null,
+    Object? value = null,
+    Object? state = null,
+    Object? order = null,
   }) {
     return _then(_value.copyWith(
-      instagramUsername: freezed == instagramUsername
-          ? _value.instagramUsername
-          : instagramUsername // ignore: cast_nullable_to_non_nullable
-              as String?,
-      telegramUsername: freezed == telegramUsername
-          ? _value.telegramUsername
-          : telegramUsername // ignore: cast_nullable_to_non_nullable
-              as String?,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as SecureFieldStatusEnum,
+      order: null == order
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_PrivateInfoUserModelCopyWith<$Res>
-    implements $PrivateInfoUserModelCopyWith<$Res> {
-  factory _$$_PrivateInfoUserModelCopyWith(_$_PrivateInfoUserModel value,
-          $Res Function(_$_PrivateInfoUserModel) then) =
-      __$$_PrivateInfoUserModelCopyWithImpl<$Res>;
+abstract class _$$_SecureUserInfoFieldModelCopyWith<$Res>
+    implements $SecureUserInfoFieldModelCopyWith<$Res> {
+  factory _$$_SecureUserInfoFieldModelCopyWith(
+          _$_SecureUserInfoFieldModel value,
+          $Res Function(_$_SecureUserInfoFieldModel) then) =
+      __$$_SecureUserInfoFieldModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? instagramUsername, String? telegramUsername});
+  $Res call(
+      {String title, String value, SecureFieldStatusEnum state, int order});
 }
 
 /// @nodoc
-class __$$_PrivateInfoUserModelCopyWithImpl<$Res>
-    extends _$PrivateInfoUserModelCopyWithImpl<$Res, _$_PrivateInfoUserModel>
-    implements _$$_PrivateInfoUserModelCopyWith<$Res> {
-  __$$_PrivateInfoUserModelCopyWithImpl(_$_PrivateInfoUserModel _value,
-      $Res Function(_$_PrivateInfoUserModel) _then)
+class __$$_SecureUserInfoFieldModelCopyWithImpl<$Res>
+    extends _$SecureUserInfoFieldModelCopyWithImpl<$Res,
+        _$_SecureUserInfoFieldModel>
+    implements _$$_SecureUserInfoFieldModelCopyWith<$Res> {
+  __$$_SecureUserInfoFieldModelCopyWithImpl(_$_SecureUserInfoFieldModel _value,
+      $Res Function(_$_SecureUserInfoFieldModel) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? instagramUsername = freezed,
-    Object? telegramUsername = freezed,
+    Object? title = null,
+    Object? value = null,
+    Object? state = null,
+    Object? order = null,
   }) {
-    return _then(_$_PrivateInfoUserModel(
-      instagramUsername: freezed == instagramUsername
-          ? _value.instagramUsername
-          : instagramUsername // ignore: cast_nullable_to_non_nullable
-              as String?,
-      telegramUsername: freezed == telegramUsername
-          ? _value.telegramUsername
-          : telegramUsername // ignore: cast_nullable_to_non_nullable
-              as String?,
+    return _then(_$_SecureUserInfoFieldModel(
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+      state: null == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as SecureFieldStatusEnum,
+      order: null == order
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_PrivateInfoUserModel extends _PrivateInfoUserModel {
-  const _$_PrivateInfoUserModel({this.instagramUsername, this.telegramUsername})
+class _$_SecureUserInfoFieldModel extends _SecureUserInfoFieldModel {
+  const _$_SecureUserInfoFieldModel(
+      {required this.title,
+      required this.value,
+      required this.state,
+      required this.order})
       : super._();
 
-  factory _$_PrivateInfoUserModel.fromJson(Map<String, dynamic> json) =>
-      _$$_PrivateInfoUserModelFromJson(json);
+  factory _$_SecureUserInfoFieldModel.fromJson(Map<String, dynamic> json) =>
+      _$$_SecureUserInfoFieldModelFromJson(json);
 
   @override
-  final String? instagramUsername;
+  final String title;
   @override
-  final String? telegramUsername;
+  final String value;
+  @override
+  final SecureFieldStatusEnum state;
+  @override
+  final int order;
 
   @override
   String toString() {
-    return 'PrivateInfoUserModel(instagramUsername: $instagramUsername, telegramUsername: $telegramUsername)';
+    return 'SecureUserInfoFieldModel(title: $title, value: $value, state: $state, order: $order)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PrivateInfoUserModel &&
-            (identical(other.instagramUsername, instagramUsername) ||
-                other.instagramUsername == instagramUsername) &&
-            (identical(other.telegramUsername, telegramUsername) ||
-                other.telegramUsername == telegramUsername));
+            other is _$_SecureUserInfoFieldModel &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.value, value) || other.value == value) &&
+            (identical(other.state, state) || other.state == state) &&
+            (identical(other.order, order) || other.order == order));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, instagramUsername, telegramUsername);
+  int get hashCode => Object.hash(runtimeType, title, value, state, order);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PrivateInfoUserModelCopyWith<_$_PrivateInfoUserModel> get copyWith =>
-      __$$_PrivateInfoUserModelCopyWithImpl<_$_PrivateInfoUserModel>(
-          this, _$identity);
+  _$$_SecureUserInfoFieldModelCopyWith<_$_SecureUserInfoFieldModel>
+      get copyWith => __$$_SecureUserInfoFieldModelCopyWithImpl<
+          _$_SecureUserInfoFieldModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PrivateInfoUserModelToJson(
+    return _$$_SecureUserInfoFieldModelToJson(
       this,
     );
   }
 }
 
-abstract class _PrivateInfoUserModel extends PrivateInfoUserModel {
-  const factory _PrivateInfoUserModel(
-      {final String? instagramUsername,
-      final String? telegramUsername}) = _$_PrivateInfoUserModel;
-  const _PrivateInfoUserModel._() : super._();
+abstract class _SecureUserInfoFieldModel extends SecureUserInfoFieldModel {
+  const factory _SecureUserInfoFieldModel(
+      {required final String title,
+      required final String value,
+      required final SecureFieldStatusEnum state,
+      required final int order}) = _$_SecureUserInfoFieldModel;
+  const _SecureUserInfoFieldModel._() : super._();
 
-  factory _PrivateInfoUserModel.fromJson(Map<String, dynamic> json) =
-      _$_PrivateInfoUserModel.fromJson;
+  factory _SecureUserInfoFieldModel.fromJson(Map<String, dynamic> json) =
+      _$_SecureUserInfoFieldModel.fromJson;
 
   @override
-  String? get instagramUsername;
+  String get title;
   @override
-  String? get telegramUsername;
+  String get value;
+  @override
+  SecureFieldStatusEnum get state;
+  @override
+  int get order;
   @override
   @JsonKey(ignore: true)
-  _$$_PrivateInfoUserModelCopyWith<_$_PrivateInfoUserModel> get copyWith =>
+  _$$_SecureUserInfoFieldModelCopyWith<_$_SecureUserInfoFieldModel>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+SecureUserInfoModel _$SecureUserInfoModelFromJson(Map<String, dynamic> json) {
+  return _SecureUserInfoModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SecureUserInfoModel {
+  List<SecureUserInfoFieldModel> get fields =>
+      throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SecureUserInfoModelCopyWith<SecureUserInfoModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SecureUserInfoModelCopyWith<$Res> {
+  factory $SecureUserInfoModelCopyWith(
+          SecureUserInfoModel value, $Res Function(SecureUserInfoModel) then) =
+      _$SecureUserInfoModelCopyWithImpl<$Res, SecureUserInfoModel>;
+  @useResult
+  $Res call({List<SecureUserInfoFieldModel> fields});
+}
+
+/// @nodoc
+class _$SecureUserInfoModelCopyWithImpl<$Res, $Val extends SecureUserInfoModel>
+    implements $SecureUserInfoModelCopyWith<$Res> {
+  _$SecureUserInfoModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fields = null,
+  }) {
+    return _then(_value.copyWith(
+      fields: null == fields
+          ? _value.fields
+          : fields // ignore: cast_nullable_to_non_nullable
+              as List<SecureUserInfoFieldModel>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_SecureUserInfoModelCopyWith<$Res>
+    implements $SecureUserInfoModelCopyWith<$Res> {
+  factory _$$_SecureUserInfoModelCopyWith(_$_SecureUserInfoModel value,
+          $Res Function(_$_SecureUserInfoModel) then) =
+      __$$_SecureUserInfoModelCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<SecureUserInfoFieldModel> fields});
+}
+
+/// @nodoc
+class __$$_SecureUserInfoModelCopyWithImpl<$Res>
+    extends _$SecureUserInfoModelCopyWithImpl<$Res, _$_SecureUserInfoModel>
+    implements _$$_SecureUserInfoModelCopyWith<$Res> {
+  __$$_SecureUserInfoModelCopyWithImpl(_$_SecureUserInfoModel _value,
+      $Res Function(_$_SecureUserInfoModel) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fields = null,
+  }) {
+    return _then(_$_SecureUserInfoModel(
+      null == fields
+          ? _value._fields
+          : fields // ignore: cast_nullable_to_non_nullable
+              as List<SecureUserInfoFieldModel>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_SecureUserInfoModel extends _SecureUserInfoModel {
+  const _$_SecureUserInfoModel(final List<SecureUserInfoFieldModel> fields)
+      : _fields = fields,
+        super._();
+
+  factory _$_SecureUserInfoModel.fromJson(Map<String, dynamic> json) =>
+      _$$_SecureUserInfoModelFromJson(json);
+
+  final List<SecureUserInfoFieldModel> _fields;
+  @override
+  List<SecureUserInfoFieldModel> get fields {
+    if (_fields is EqualUnmodifiableListView) return _fields;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fields);
+  }
+
+  @override
+  String toString() {
+    return 'SecureUserInfoModel(fields: $fields)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_SecureUserInfoModel &&
+            const DeepCollectionEquality().equals(other._fields, _fields));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_fields));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_SecureUserInfoModelCopyWith<_$_SecureUserInfoModel> get copyWith =>
+      __$$_SecureUserInfoModelCopyWithImpl<_$_SecureUserInfoModel>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_SecureUserInfoModelToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SecureUserInfoModel extends SecureUserInfoModel {
+  const factory _SecureUserInfoModel(
+      final List<SecureUserInfoFieldModel> fields) = _$_SecureUserInfoModel;
+  const _SecureUserInfoModel._() : super._();
+
+  factory _SecureUserInfoModel.fromJson(Map<String, dynamic> json) =
+      _$_SecureUserInfoModel.fromJson;
+
+  @override
+  List<SecureUserInfoFieldModel> get fields;
+  @override
+  @JsonKey(ignore: true)
+  _$$_SecureUserInfoModelCopyWith<_$_SecureUserInfoModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

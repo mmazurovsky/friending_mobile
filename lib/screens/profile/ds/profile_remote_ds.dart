@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_mobile_starter/screens/other_user/ds/connect_ds.dart';
-import 'package:flutter_mobile_starter/screens/other_user/ds/pairs_ds.dart';
+import '../../other_user/ds/connect_ds.dart';
+import '../../other_user/ds/pairs_ds.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tuple/tuple.dart';
 
@@ -19,13 +19,13 @@ abstract class ProfileRemoteDS {
   Future<Tuple2<User, List<String>>> getCurrentUserAndProfileTags();
   Future<void> updateProfile({
     required ShortUpdateUserModel shortModel,
-    required PrivateInfoUserModel privateModel,
+    required SecureUserInfoModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   });
   Future<void> saveProfile({
     required ShortCreateUserModel shortModel,
-    required PrivateInfoUserModel privateModel,
+    required SecureUserInfoModel privateModel,
   });
   Future<void> saveProfilePhotos(List<String> profilePhotoUrls);
 
@@ -99,7 +99,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
         .doc(currentUserRaw.uid)
         .withConverter(
           fromFirestore: (json, opt) => json.data() != null
-              ? PrivateInfoUserModel.fromJson(json.data()!)
+              ? SecureUserInfoModel.fromJson(json.data()!)
               : null,
           toFirestore: (model, opt) => {},
         )
@@ -112,12 +112,12 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
     final privateModelRaw = await futurePrivateModelRaw;
 
     final ShortReadUserModel? shortUserModel = shortModelRaw.data();
-    final PrivateInfoUserModel? privateInfoUserModel = privateModelRaw.data();
+    final SecureUserInfoModel? privateInfoUserModel = privateModelRaw.data();
 
     if (shortUserModel != null && privateInfoUserModel != null) {
       return FullReadUserModel(
         shortUserModel: shortUserModel,
-        privateInfoUserModel: privateInfoUserModel,
+        secureUserInfoModel: privateInfoUserModel,
       );
     } else {
       return null;
@@ -127,7 +127,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   @override
   Future<void> updateProfile({
     required ShortUpdateUserModel shortModel,
-    required PrivateInfoUserModel privateModel,
+    required SecureUserInfoModel privateModel,
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   }) async {
@@ -179,7 +179,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   @override
   Future<void> saveProfile({
     required ShortCreateUserModel shortModel,
-    required PrivateInfoUserModel privateModel,
+    required SecureUserInfoModel privateModel,
   }) async {
     // assert(user.shortUserModel.soulsCount != null);
     final currentUserRaw = _authRepo.currentUser;

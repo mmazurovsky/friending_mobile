@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_mobile_starter/screens/other_user/ds/pairs_ds.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
@@ -11,8 +10,8 @@ import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
-import 'connect_ds.dart';
 import 'connection_models.dart';
+import 'pairs_ds.dart';
 
 abstract class OtherUserProfileDS {
   Future<OtherUserFullModel> getOtherUserFullProfile(String userId);
@@ -63,13 +62,19 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
 
     late User currentUser;
 
+    final secureUserInfoRaw = await _getSecureFields(userId);
+
+    final publicFields = secureUserInfoRaw.fields
+        .where((e) => e.state == SecureFieldStatusEnum.public)
+        .toList();
+
     try {
       currentUser = _authRepo.currentUser;
     } on AuthFailure catch (e) {
       return OtherUserFullModel(
         shortUserModel: shortUserModel,
         pairedWith: pairs.first,
-        privateInfoUserModel: null,
+        secureUserInfoModel: SecureUserInfoModel(publicFields),
         connectStatusEnum: UserPairStatusEnum.unpaired,
       );
     }
@@ -98,20 +103,23 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
       connectStatusEnum = connectionRaw.data()!.status;
     }
 
-    PrivateInfoUserModel? privateInfoUserModel;
+    late SecureUserInfoModel secureUserInfo;
     if (connectStatusEnum == UserPairStatusEnum.paired) {
-      privateInfoUserModel = await _getPrivateInfo(userId);
+      secureUserInfo = secureUserInfoRaw;
+    } else {
+      secureUserInfo = SecureUserInfoModel(publicFields);
     }
 
     return OtherUserFullModel(
       shortUserModel: shortUserModel,
       pairedWith: pairs.first,
-      privateInfoUserModel: privateInfoUserModel,
+      secureUserInfoModel: secureUserInfo,
       connectStatusEnum: connectStatusEnum,
     );
   }
 
-  Future<PrivateInfoUserModel> _getPrivateInfo(String userId) async {
+  //TODO in future: get only public fields if users not paired
+  Future<SecureUserInfoModel> _getSecureFields(String userId) async {
     final futurePrivateModel = _firebaseFirestore
         .collection(fullUserCollection)
         .doc(userId)
@@ -123,7 +131,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
 
     final privateModelRaw = await futurePrivateModelRaw;
 
-    return PrivateInfoUserModel.fromJson(
+    return SecureUserInfoModel.fromJson(
       privateModelRaw.data()!,
     );
   }

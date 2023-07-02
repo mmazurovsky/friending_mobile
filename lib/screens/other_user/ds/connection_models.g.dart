@@ -9,7 +9,7 @@ part of 'connection_models.dart';
 _$_ConnectionModel _$$_ConnectionModelFromJson(Map<String, dynamic> json) =>
     _$_ConnectionModel(
       userId: json['userId'] as String,
-      status: $enumDecode(_$UserConnectStatusEnumEnumMap, json['status']),
+      status: $enumDecode(_$UserPairStatusEnumEnumMap, json['status']),
       createdDateTime: DateTime.parse(json['createdDateTime'] as String),
       endedDateTime: json['endedDateTime'] == null
           ? null
@@ -19,14 +19,14 @@ _$_ConnectionModel _$$_ConnectionModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_ConnectionModelToJson(_$_ConnectionModel instance) =>
     <String, dynamic>{
       'userId': instance.userId,
-      'status': _$UserConnectStatusEnumEnumMap[instance.status]!,
+      'status': _$UserPairStatusEnumEnumMap[instance.status]!,
       'createdDateTime': instance.createdDateTime.toIso8601String(),
       'endedDateTime': instance.endedDateTime?.toIso8601String(),
     };
 
-const _$UserConnectStatusEnumEnumMap = {
-  UserPairStatusEnum.paired: 'connected',
-  UserPairStatusEnum.unpaired: 'disconnected',
+const _$UserPairStatusEnumEnumMap = {
+  UserPairStatusEnum.paired: 'paired',
+  UserPairStatusEnum.unpaired: 'unpaired',
   UserPairStatusEnum.requested: 'requested',
   UserPairStatusEnum.toBeApproved: 'toBeApproved',
 };

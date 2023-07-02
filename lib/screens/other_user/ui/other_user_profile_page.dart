@@ -139,16 +139,11 @@ class _OtherProfileContentState extends State<_OtherProfileContent> {
                 const SizedBox(height: 10),
                 //TODO: only display if there is access
                 SocialLinksList(
-                  instagramUsername: context
+                  fields: context
                       .read<OtherUserManager>()
                       .fullProfile
-                      .privateInfoUserModel
-                      .instagramUsername,
-                  telegramUsername: context
-                      .read<OtherUserManager>()
-                      .fullProfile
-                      .privateInfoUserModel
-                      .telegramUsername,
+                      .secureUserInfoModel
+                      .fields,
                 ),
                 Container(
                   height: 600,

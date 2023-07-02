@@ -1,5 +1,8 @@
+import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../assets/assets.dart';
+import '../../service/open_link_service.dart';
 import '../entities/tag_entity.dart';
 import '../entities/user_entities.dart';
 import '../enums.dart';
@@ -14,7 +17,7 @@ class FullReadUserModel with _$FullReadUserModel {
   const factory FullReadUserModel({
     required ShortReadUserModel shortUserModel,
     // required AdditionalUserModel additionalUserModel,
-    required PrivateInfoUserModel privateInfoUserModel,
+    required SecureUserInfoModel secureUserInfoModel,
     // required ShortReadUserModel? pairedWith,
   }) = _FullReadUserModel;
 }
@@ -26,38 +29,67 @@ class OtherUserFullModel with _$OtherUserFullModel {
   const factory OtherUserFullModel({
     required ShortReadUserModel shortUserModel,
     // required AdditionalUserModel additionalUserModel,
-    required PrivateInfoUserModel? privateInfoUserModel,
+    required SecureUserInfoModel secureUserInfoModel,
     required UserPairStatusEnum connectStatusEnum,
     required ShortReadUserModel? pairedWith,
   }) = _OtherUserFullModel;
 }
 
-@freezed
-class PrivateInfoUserModel with _$PrivateInfoUserModel {
-  const PrivateInfoUserModel._();
-
-  const factory PrivateInfoUserModel({
-    String? instagramUsername,
-    String? telegramUsername,
-  }) = _PrivateInfoUserModel;
-
-  factory PrivateInfoUserModel.fromJson(Map<String, dynamic> json) =>
-      _$PrivateInfoUserModelFromJson(json);
+enum SecureFieldStatusEnum {
+  private,
+  public,
 }
 
-// @freezed
-// class AdditionalUserModel with _$AdditionalUserModel {
-//   const AdditionalUserModel._();
+@freezed
+class SecureUserInfoFieldModel with _$SecureUserInfoFieldModel {
+  const SecureUserInfoFieldModel._();
 
-//   const factory AdditionalUserModel({
-//     // required String id,
-//     String? description,
-//     String? lookingFor,
-//   }) = _AdditionalUserModel;
+  const factory SecureUserInfoFieldModel({
+    required String title,
+    required String value,
+    required SecureFieldStatusEnum state,
+    required int order,
+  }) = _SecureUserInfoFieldModel;
 
-//   factory AdditionalUserModel.fromJson(Map<String, dynamic> json) =>
-//       _$AdditionalUserModelFromJson(json);
-// }
+  factory SecureUserInfoFieldModel.fromJson(Map<String, dynamic> json) =>
+      _$SecureUserInfoFieldModelFromJson(json);
+
+  VoidCallback get onTap => () {
+        if (title == 'Instagram') {
+          OpenLinkService.openInstagram(value);
+        } else if (title == 'Telegram') {
+          OpenLinkService.openTelegram(value);
+        } else if (title == 'WhatsApp') {
+          OpenLinkService.openWhatsapp(value);
+        }
+      };
+
+  String get logoAsset {
+    if (title == 'Instagram') {
+      return ImageAssets.instagramLogo;
+    } else if (title == 'Telegram') {
+      return ImageAssets.telegramLogo;
+    } else if (title == 'WhatsApp') {
+      return ImageAssets.whatsappLogo;
+    } else {
+      throw Exception("Can't find logo for unknown social network");
+    }
+  }
+}
+
+@freezed
+class SecureUserInfoModel with _$SecureUserInfoModel {
+  const SecureUserInfoModel._();
+
+  factory SecureUserInfoModel.empty() => const SecureUserInfoModel([]);
+
+  const factory SecureUserInfoModel(
+    List<SecureUserInfoFieldModel> fields,
+  ) = _SecureUserInfoModel;
+
+  factory SecureUserInfoModel.fromJson(Map<String, dynamic> json) =>
+      _$SecureUserInfoModelFromJson(json);
+}
 
 @Freezed(toJson: true)
 class ShortCreateUserModel with _$ShortCreateUserModel {

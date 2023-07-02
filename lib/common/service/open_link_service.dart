@@ -41,6 +41,12 @@ class OpenLinkService {
       );
     }
   }
+
+  static void openWhatsapp(String number) async {
+    openUrl(
+      SocialLinksHelper.getWhatsappLinkForNumber(number),
+    );
+  }
 }
 
 class SocialLinksHelper {
@@ -58,5 +64,9 @@ class SocialLinksHelper {
 
   static String getSoundcloudLinkForNickname(String nickname) {
     return 'https://soundcloud.com/$nickname';
+  }
+
+  static String getWhatsappLinkForNumber(String number) {
+    return 'https://wa.me/$number';
   }
 }

@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
@@ -47,6 +48,11 @@ class ProfileTextsAndTagsManager with ChangeNotifier {
   final _telegramUsernameFocusNode = FocusNode();
   FocusNode get telegramUsernameFocusNode => _telegramUsernameFocusNode;
 
+  final _whatsappPhoneController = TextEditingController();
+  TextEditingController get whatsappPhoneController => _whatsappPhoneController;
+  final _whatsappPhoneFocusNode = FocusNode();
+  FocusNode get whatsappPhoneFocusNode => _whatsappPhoneFocusNode;
+
   final _addTagsController = TextEditingController();
   TextEditingController get addTagsController => _addTagsController;
   final _addTagsFocusNode = FocusNode();
@@ -84,6 +90,8 @@ class ProfileTextsAndTagsManager with ChangeNotifier {
     _instagramUsernameFocusNode.dispose();
     _telegreamUsernameController.dispose();
     _telegramUsernameFocusNode.dispose();
+    _whatsappPhoneController.dispose();
+    _whatsappPhoneFocusNode.dispose();
     _addTagsController.dispose();
     _addTagsFocusNode.dispose();
     super.dispose();
@@ -100,13 +108,21 @@ class ProfileTextsAndTagsManager with ChangeNotifier {
       _usernameController.text = profile.shortUserModel.username;
       _birthDate = profile.shortUserModel.birthDate;
       _birthDateController.text = _birthDate?.toDateString() ?? '';
-      _descriptionController.text =
-          profile.shortUserModel.about ?? '';
+      _descriptionController.text = profile.shortUserModel.about ?? '';
       _lookingForController.text = profile.shortUserModel.lookingFor ?? '';
-      _instagramUsernameController.text =
-          profile.privateInfoUserModel.instagramUsername ?? '';
-      _telegreamUsernameController.text =
-          profile.privateInfoUserModel.telegramUsername ?? '';
+      _instagramUsernameController.text = profile.secureUserInfoModel.fields
+              .firstWhereOrNull((element) => element.title == 'Instagram')
+              ?.value ??
+          '';
+      _telegreamUsernameController.text = profile.secureUserInfoModel.fields
+              .firstWhereOrNull((element) => element.title == 'Telegram')
+              ?.value ??
+          '';
+
+      _whatsappPhoneController.text = profile.secureUserInfoModel.fields
+              .firstWhereOrNull((element) => element.title == 'WhatsApp')
+              ?.value ??
+          '';
       _initialTags.addAll(profile.shortUserModel.tags);
       _tagsToDisplay.addAll(_initialTags);
     }
@@ -121,6 +137,7 @@ class ProfileTextsAndTagsManager with ChangeNotifier {
     _instagramUsernameFocusNode.unfocus();
     _telegramUsernameFocusNode.unfocus();
     _addTagsFocusNode.unfocus();
+    _whatsappPhoneFocusNode.unfocus();
   }
 
   Future<bool> checkUsernameIsFree(String username) async {

@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_starter/screens/widgets/texts/section_subtitle.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +21,7 @@ import '../../widgets/modal_bottom_sheet/modal_bottom_sheet_content.dart';
 import '../../widgets/social_links_list.dart';
 import '../../widgets/spacers/section_divider_with_spacers.dart';
 import '../../widgets/texts/expandable_text_section.dart';
+import '../../widgets/texts/section_subtitle.dart';
 import '../../widgets/texts/section_title.dart';
 import '../state/profile_content_manager.dart';
 import 'widgets/tags_displayer.dart';
@@ -155,16 +155,11 @@ class _ProfileContentState extends State<_ProfileContent> {
                     'This section can only be seen by users you validated'),
                 const SizedBox(height: 10),
                 SocialLinksList(
-                  instagramUsername: context
+                  fields: context
                       .read<ProfileContentManager>()
                       .profile
-                      .privateInfoUserModel
-                      .instagramUsername,
-                  telegramUsername: context
-                      .read<ProfileContentManager>()
-                      .profile
-                      .privateInfoUserModel
-                      .telegramUsername,
+                      .secureUserInfoModel
+                      .fields,
                 ),
                 Container(
                   height: 600,

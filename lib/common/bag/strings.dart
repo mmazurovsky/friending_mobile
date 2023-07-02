@@ -15,7 +15,7 @@ class _ServerStrings {
   final positionsCollection = 'userPositions';
   final tagsCollection = 'userTags';
   final connectionsCollection = 'connections';
-  final privateInfoCollection = 'privateInfo';
+  final privateInfoCollection = 'secureInfo';
   final positionField = 'position';
   final userEventsCollection = 'userEvents';
 }
