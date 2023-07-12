@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../other_user/ds/connect_ds.dart';
-import '../../other_user/ds/pairs_ds.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tuple/tuple.dart';
 
@@ -56,7 +54,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
   @override
   Future<Tuple2<User, List<String>>> getCurrentUserAndProfileTags() async {
-    final currentUserRaw = _authRepo.currentUser;
+    final currentUserRaw = _authRepo.currentUser!;
 
     final future = _firebaseFirestore
         .collection(shortUserCollection)
@@ -79,7 +77,11 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
   @override
   Future<FullReadUserModel?> getFullProfile() async {
-    final currentUserRaw = _authRepo.currentUser;
+    final currentUserRaw = _authRepo.currentUser!;
+
+    if (currentUserRaw.isAnonymous) {
+      return null;
+    }
 
     final futureShortModel = _firebaseFirestore
         .collection(shortUserCollection)
@@ -131,7 +133,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
     required List<String> tagsToRemove,
     required List<String> tagsToAdd,
   }) async {
-    final currentUserRaw = _authRepo.currentUser;
+    final currentUserRaw = _authRepo.currentUser!;
 
     final batch = _firebaseFirestore.batch();
 
@@ -182,7 +184,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
     required SecureUserInfoModel privateModel,
   }) async {
     // assert(user.shortUserModel.soulsCount != null);
-    final currentUserRaw = _authRepo.currentUser;
+    final currentUserRaw = _authRepo.currentUser!;
 
     final batch = _firebaseFirestore.batch();
     batch.set(
@@ -221,7 +223,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
   @override
   Future<void> saveProfilePhotos(List<String> profilePhotoUrls) async {
-    final currentUserRaw = _authRepo.currentUser;
+    final currentUserRaw = _authRepo.currentUser!;
 
     final future = _firebaseFirestore
         .collection(shortUserCollection)
@@ -295,6 +297,10 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   Stream<ShortReadUserModel?> getProfileStream() {
     final currentUserRaw = _authRepo.currentUser;
 
+    if (currentUserRaw == null || currentUserRaw.isAnonymous) {
+      return Stream.value(null);
+    }
+
     final stream = _firebaseFirestore
         .collection(shortUserCollection)
         .doc(currentUserRaw.uid)
@@ -303,7 +309,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
       (snapshot) {
         final data = snapshot.data();
         if (data == null) {
-          return null;
+          return ShortReadUserModel.empty(currentUserRaw.uid);
         } else {
           return ShortReadUserModel.fromJson(data);
         }

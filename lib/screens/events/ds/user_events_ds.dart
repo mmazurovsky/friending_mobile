@@ -29,7 +29,7 @@ class UserEventsDSImpl implements UserEventsDS, LoggerNameGetter {
   String get eventsCollection => Strings.server.userEventsCollection;
 
   Future<Stream<UserEventModel>> getEvents() async {
-    final currentUserRaw = _authRepo.currentUser;
+    final currentUserRaw = _authRepo.currentUser!;
 
     final rawStream = _firebaseFirestore
         .collection(eventsCollection)

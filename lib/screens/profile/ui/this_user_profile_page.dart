@@ -151,8 +151,6 @@ class _ProfileContentState extends State<_ProfileContent> {
                 const SectionDividerWithSpacers(),
                 const SectionTitle('Social links'),
                 const SizedBox(height: 5),
-                const SectionSubtitle(
-                    'This section can only be seen by users you validated'),
                 const SizedBox(height: 10),
                 SocialLinksList(
                   fields: context

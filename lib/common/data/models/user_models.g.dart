@@ -11,7 +11,7 @@ _$_SecureUserInfoFieldModel _$$_SecureUserInfoFieldModelFromJson(
     _$_SecureUserInfoFieldModel(
       title: json['title'] as String,
       value: json['value'] as String,
-      state: $enumDecode(_$PrivateFieldEnumEnumMap, json['state']),
+      state: $enumDecode(_$SecureFieldStatusEnumEnumMap, json['state']),
       order: json['order'] as int,
     );
 
@@ -20,11 +20,11 @@ Map<String, dynamic> _$$_SecureUserInfoFieldModelToJson(
     <String, dynamic>{
       'title': instance.title,
       'value': instance.value,
-      'state': _$PrivateFieldEnumEnumMap[instance.state]!,
+      'state': _$SecureFieldStatusEnumEnumMap[instance.state]!,
       'order': instance.order,
     };
 
-const _$PrivateFieldEnumEnumMap = {
+const _$SecureFieldStatusEnumEnumMap = {
   SecureFieldStatusEnum.private: 'private',
   SecureFieldStatusEnum.public: 'public',
 };

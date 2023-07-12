@@ -137,19 +137,7 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 100),
                   ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: CEdgeInsets.horizontalStandart,
-                      child: PlatformElevatedButton(
-                        onPressed: () => context.router.push(
-                          const ProfileEditingRoute(),
-                        ),
-                        child: const Text(
-                          'Sign in',
-                        ),
-                      ),
-                    ),
-                  ),
+                 
                   const SliverToBoxAdapter(
                     child: ScreenEnding(),
                   ),

@@ -6,7 +6,6 @@ import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/enums.dart';
-import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
@@ -60,7 +59,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
 
     final ShortReadUserModel shortUserModel = shortModelRaw.data()!;
 
-    late User currentUser;
+    late User? currentUser;
 
     final secureUserInfoRaw = await _getSecureFields(userId);
 
@@ -68,9 +67,9 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
         .where((e) => e.state == SecureFieldStatusEnum.public)
         .toList();
 
-    try {
-      currentUser = _authRepo.currentUser;
-    } on AuthFailure catch (e) {
+    currentUser = _authRepo.currentUser;
+
+    if (currentUser == null) {
       return OtherUserFullModel(
         shortUserModel: shortUserModel,
         pairedWith: pairs.first,

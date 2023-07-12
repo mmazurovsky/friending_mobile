@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/stateful/spaces.dart';
 import '../../../common/bag/stateful/theme.dart';
+import '../../../common/data/models/user_models.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/utils/extensions.dart';
 import '../../widgets/custom_edge_insets.dart';
@@ -293,6 +294,18 @@ class TextInfoEditingSection extends StatelessWidget {
               .instagramUsernameFocusNode,
           fillColor: Colors.transparent,
         ),
+        SwitchWithTitle(
+          title: 'Make instagram private:',
+          value: context
+                  .watch<ProfileTextsAndTagsManager>()
+                  .instagramSecureStatus ==
+              SecureFieldStatusEnum.private,
+          onChanged: (value) {
+            context
+                .read<ProfileTextsAndTagsManager>()
+                .changeInstagramIsPrivate(value);
+          },
+        ),
         CTextField(
           title: 'Telegram username',
           textInputType: TextInputType.text,
@@ -305,6 +318,41 @@ class TextInfoEditingSection extends StatelessWidget {
               .telegramUsernameFocusNode,
           fillColor: Colors.transparent,
         ),
+        SwitchWithTitle(
+          title: 'Make telegram private:',
+          value: context
+                  .watch<ProfileTextsAndTagsManager>()
+                  .telegramSecureStatus ==
+              SecureFieldStatusEnum.private,
+          onChanged: (value) {
+            context
+                .read<ProfileTextsAndTagsManager>()
+                .changeTelegramIsPrivate(value);
+          },
+        ),
+        CTextField(
+          title: 'Whatsapp phone',
+          textInputType: TextInputType.phone,
+          isSecret: false,
+          textEditingController: context
+              .read<ProfileTextsAndTagsManager>()
+              .whatsappPhoneController,
+          focusNode:
+              context.read<ProfileTextsAndTagsManager>().whatsappPhoneFocusNode,
+          fillColor: Colors.transparent,
+        ),
+        SwitchWithTitle(
+          title: 'Make phone private:',
+          value: context
+                  .watch<ProfileTextsAndTagsManager>()
+                  .whatsappSecureStatus ==
+              SecureFieldStatusEnum.private,
+          onChanged: (value) {
+            context
+                .read<ProfileTextsAndTagsManager>()
+                .changeWhatsappIsPrivate(value);
+          },
+        ),
       ]
           .mapWidgetsSeparated(
             separator: const SizedBox(
@@ -312,6 +360,43 @@ class TextInfoEditingSection extends StatelessWidget {
             ),
           )
           .toList(),
+    );
+  }
+}
+
+class SwitchWithTitle extends StatelessWidget {
+  final String title;
+  final bool value;
+  final Function(bool) onChanged;
+  const SwitchWithTitle({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: CEdgeInsets.horizontalStandart,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              color: context.theme.colorScheme.secondary,
+            ),
+          ),
+          PlatformSwitch(
+            value: value,
+            onChanged: onChanged,
+            activeColor: context.theme.colorScheme.primary,
+          ),
+        ],
+      ),
     );
   }
 }

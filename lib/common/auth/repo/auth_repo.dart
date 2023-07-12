@@ -26,7 +26,7 @@ abstract class AuthRepo {
   Future<void> signOut();
   Future<void> updateProfile({required String displayName});
   Future<void> deleteProfile();
-  User get currentUser;
+  User? get currentUser;
   Stream<User?> get userStream;
 }
 
@@ -47,7 +47,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
 
   @override
-  User get currentUser {
+  User? get currentUser {
     User? user;
     try {
       user = _firebaseAuth.currentUser;
@@ -62,20 +62,20 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
       );
       throw failure;
     }
-    if (user == null) {
-      final failure = RequestFailure.auth(
-        m: _failureMessages,
-        e: Exception('User is null'),
-      );
-      _customLogger.logFailure(
-        loggerName: loggerName,
-        failure: failure,
-      );
+    // if (user == null) {
+    //   final failure = RequestFailure.auth(
+    //     m: _failureMessages,
+    //     e: Exception('User is null'),
+    //   );
+    //   _customLogger.logFailure(
+    //     loggerName: loggerName,
+    //     failure: failure,
+    //   );
 
-      throw failure;
-    } else {
-      return user;
-    }
+    //   throw failure;
+    // } else {
+    return user;
+    // }
   }
 
   @override
@@ -333,7 +333,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
     final user = currentUser;
 
     try {
-      user.updateDisplayName(displayName);
+      user?.updateDisplayName(displayName);
     } on Exception catch (e) {
       final failure = RequestFailure.auth(
         m: _failureMessages,
@@ -351,7 +351,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
   Future<void> deleteProfile() async {
     final user = currentUser;
     try {
-      user.delete();
+      user?.delete();
     } on Exception catch (e) {
       final failure = RequestFailure.auth(
         m: _failureMessages,

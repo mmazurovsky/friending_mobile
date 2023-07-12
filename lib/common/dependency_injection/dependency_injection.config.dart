@@ -194,8 +194,10 @@ _i1.GetIt init(
         gh<_i28.AuthRepo>(),
         gh<_i8.CustomLogger>(),
       ));
-  gh.lazySingleton<_i42.ProfileContentManager>(
-      () => _i42.ProfileContentManager(gh<_i33.ProfileRepo>()));
+  gh.lazySingleton<_i42.ProfileContentManager>(() => _i42.ProfileContentManager(
+        gh<_i33.ProfileRepo>(),
+        gh<_i28.AuthRepo>(),
+      ));
   gh.lazySingleton<_i43.OtherUserProfileDS>(() => _i43.OtherUserProfileDSImpl(
         gh<_i24.RequestCheckWrapper>(),
         gh<_i12.FirebaseFirestore>(),

@@ -38,7 +38,7 @@ class ProfileEditingManager with ChangeNotifier {
     FullReadUserModel? profile;
     //TODO try catch
     profile = profileRaw;
-    
+
     // profileRaw.fold((l) {
     //   _failure = l;
     //   notifyListeners();
@@ -66,8 +66,11 @@ class ProfileEditingManager with ChangeNotifier {
     final lookingFor = _textsManager.lookingForController.text;
 
     final instagramUsername = _textsManager.instagramUsernameController.text;
+    final instagramIsPrivate = _textsManager.instagramSecureStatus;
     final telegramUsername = _textsManager.telegramUsernameController.text;
+    final telegramIsPrivate = _textsManager.telegramSecureStatus;
     final whatsappNumber = _textsManager.whatsappPhoneController.text;
+    final whatsappIsPrivate = _textsManager.whatsappSecureStatus;
 
     final newTagsList = _textsManager.tagsToDisplay;
     final tagsToAddOnServer = _textsManager.tagsToAddOnServer;
@@ -75,7 +78,7 @@ class ProfileEditingManager with ChangeNotifier {
 
     //TODO try catch
     String? userId;
-    userId = _authRepo.currentUser.uid;
+    userId = _authRepo.currentUser?.uid;
 
     if (userId != null) {
       final shortModel = ShortUpdateUserModel(
@@ -90,17 +93,35 @@ class ProfileEditingManager with ChangeNotifier {
       final listOfSocialFields = <SecureUserInfoFieldModel>[];
 
       if (instagramUsername.isNotEmpty) {
-        listOfSocialFields.add(SecureUserInfoFieldModel(title: 'Instagram', value: instagramUsername, order: 0, state: ),);
+        listOfSocialFields.add(
+          SecureUserInfoFieldModel(
+            title: 'Instagram',
+            value: instagramUsername,
+            order: 0,
+            state: instagramIsPrivate,
+          ),
+        );
       } else if (telegramUsername.isNotEmpty) {
-        listOfSocialFields.add(SecureUserInfoFieldModel(title: 'Telegram', value: telegramUsername, order: 1, state: ),);
+        listOfSocialFields.add(
+          SecureUserInfoFieldModel(
+            title: 'Telegram',
+            value: telegramUsername,
+            order: 1,
+            state: telegramIsPrivate,
+          ),
+        );
       } else if (whatsappNumber.isNotEmpty) {
-        listOfSocialFields.add(SecureUserInfoFieldModel(title: 'WhatsApp', value: whatsappNumber, order: 2, state: ),);
+        listOfSocialFields.add(
+          SecureUserInfoFieldModel(
+            title: 'WhatsApp',
+            value: whatsappNumber,
+            order: 2,
+            state: whatsappIsPrivate,
+          ),
+        );
       }
 
-
-
-      final privateModel = SecureUserInfoModel(listOfSocialFields
-      );
+      final privateModel = SecureUserInfoModel(listOfSocialFields);
 
       late final void response;
 

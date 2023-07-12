@@ -42,7 +42,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
   Future<UserPairStatusEnum> pair(
     String userId,
   ) async {
-    final currentUserRaw = _authRepo.currentUser;
+    final currentUserRaw = _authRepo.currentUser!;
 
     late Future<void> future;
 
@@ -128,7 +128,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
 
   @override
   Future<void> unpairOrRemoveRequest(String userId) async {
-    final currentUserRaw = _authRepo.currentUser;
+    final currentUserRaw = _authRepo.currentUser!;
 
     late Future<void> future;
     final currentUserId = currentUserRaw.uid;

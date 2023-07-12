@@ -61,6 +61,8 @@ class SecureUserInfoFieldModel with _$SecureUserInfoFieldModel {
           OpenLinkService.openTelegram(value);
         } else if (title == 'WhatsApp') {
           OpenLinkService.openWhatsapp(value);
+        } else {
+          throw Exception("Can't open link for unknown social network");
         }
       };
 
@@ -157,6 +159,16 @@ class ShortReadUserModel
     with _$ShortReadUserModel
     implements ShortReadUserEntity {
   const ShortReadUserModel._();
+
+  factory ShortReadUserModel.empty(String id) => ShortReadUserModel(
+        id: id,
+        username: 'empty',
+        photos: [],
+        birthDate: DateTime.now(),
+        tags: [],
+        about: '',
+        lookingFor: '',
+      );
 
   const factory ShortReadUserModel({
     required String id,

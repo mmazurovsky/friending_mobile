@@ -82,7 +82,7 @@ class ProfileImagesManager with ChangeNotifier {
   Future<void> _uploadPhotosToGetTheirUrlsAndUpdateManagers() async {
     final List<Tuple2<int, Future<String>>> orderOfImageManagerToFuture = [];
     //TODO try catch
-    final folderName = _authRepo.currentUser.uid;
+    final folderName = _authRepo.currentUser!.uid;
 
     _managers.forEachIndexed(
       (i, manager) {

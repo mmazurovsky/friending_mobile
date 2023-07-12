@@ -1,15 +1,19 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/data/models/user_models.dart';
 import '../repo/profile_repo.dart';
 
 @lazySingleton
 class ProfileContentManager with ChangeNotifier {
   final ProfileRepo _profileRepo;
+  final AuthRepo _authRepo;
 
-  ProfileContentManager(this._profileRepo);
+  ProfileContentManager(
+    this._profileRepo,
+    this._authRepo,
+  );
 
   late FullReadUserModel _profile;
   FullReadUserModel get profile => _profile;
@@ -19,13 +23,20 @@ class ProfileContentManager with ChangeNotifier {
 
   void loadProfile() async {
     _isLoading = true;
+    FullReadUserModel? fetchedProfile;
     try {
-      _profile = (await _profileRepo.fetchProfileFromRemoteAndSaveLocally())!;
+      fetchedProfile =
+          await _profileRepo.fetchProfileFromRemoteAndSaveLocally();
     } on Exception catch (e) {
       //TODO
       print(e);
     }
-    _isLoading = false;
+    if (fetchedProfile != null) {
+      _profile = fetchedProfile;
+       _isLoading = false;
+    } else {
+      await _authRepo.signOut();
+    }
     notifyListeners();
   }
 }

@@ -35,7 +35,7 @@ class CoordinatesDSImpl implements CoordinatesRemoteDS, LoggerNameGetter {
   Future<void> addPosition(
     PointModel point,
   ) async {
-    final currentUserRaw = _authRepo.currentUser;
+    final currentUserRaw = _authRepo.currentUser!;
 
     final newPoint = _geoFlutterFire.point(
       latitude: point.lat,
