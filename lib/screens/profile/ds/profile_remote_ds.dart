@@ -28,7 +28,7 @@ abstract class ProfileRemoteDS {
   Future<void> saveProfilePhotos(List<String> profilePhotoUrls);
 
   Future<bool> isUsernameFree(String username);
-  Stream<ShortReadUserModel?> getProfileStream();
+  Stream<ShortReadUserModel?> getProfileStreamForAuthenticatedUser();
 }
 
 @LazySingleton(as: ProfileRemoteDS)
@@ -294,12 +294,8 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   }
 
   @override
-  Stream<ShortReadUserModel?> getProfileStream() {
-    final currentUserRaw = _authRepo.currentUser;
-
-    if (currentUserRaw == null || currentUserRaw.isAnonymous) {
-      return Stream.value(null);
-    }
+  Stream<ShortReadUserModel?> getProfileStreamForAuthenticatedUser() {
+    final currentUserRaw = _authRepo.currentUser!;
 
     final stream = _firebaseFirestore
         .collection(shortUserCollection)
@@ -309,7 +305,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
       (snapshot) {
         final data = snapshot.data();
         if (data == null) {
-          return ShortReadUserModel.empty(currentUserRaw.uid);
+          return ShortReadUserModel.emptyUser(currentUserRaw.uid);
         } else {
           return ShortReadUserModel.fromJson(data);
         }

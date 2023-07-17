@@ -8,7 +8,11 @@ import '../../../common/navigation/auto_router/app_router.dart';
 import '../../widgets/app_bar/app_bar.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({super.key});
+  final bool withBackButton;
+  const SignInPage({
+    super.key,
+    this.withBackButton = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +30,9 @@ class SignInPage extends StatelessWidget {
           },
         ),
       ],
-      headerBuilder: (context, constraints, shrinkOffset) =>
-          const CustomAppBarWithBackButton(),
+      headerBuilder: (context, constraints, shrinkOffset) => withBackButton
+          ? const CustomAppBarWithBackButton()
+          : const SizedBox(),
     );
   }
 }

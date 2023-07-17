@@ -84,7 +84,8 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
   }
 }
 
-@injectable
+// TODO: TabsRouter gets provided in widget tree and gets registered in DI after that
+@lazySingleton
 class TabsStateManager with ChangeNotifier {
   final TabsRouter _tabsRouter;
   int _currentTabIndex = 0;

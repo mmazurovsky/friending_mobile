@@ -21,7 +21,6 @@ import '../../widgets/modal_bottom_sheet/modal_bottom_sheet_content.dart';
 import '../../widgets/social_links_list.dart';
 import '../../widgets/spacers/section_divider_with_spacers.dart';
 import '../../widgets/texts/expandable_text_section.dart';
-import '../../widgets/texts/section_subtitle.dart';
 import '../../widgets/texts/section_title.dart';
 import '../state/profile_content_manager.dart';
 import 'widgets/tags_displayer.dart';
@@ -100,7 +99,11 @@ class _ProfileContentState extends State<_ProfileContent> {
                     child: PlatformElevatedButton(
                       onPressed: () => showModalBottomSheet(
                         context: context,
-                        builder: (context) => const SettingsSelector(),
+                        
+                        builder: (context2) => ChangeNotifierProvider.value(
+                          value: context.read<ProfileContentManager>(),
+                          builder: (context3, _) => SettingsSelector(),
+                        ),
                       ),
                       child: Text(
                         'Open settings',
@@ -217,7 +220,7 @@ class SettingsSelector extends StatelessWidget {
           color: colorOfIcons,
           size: 18,
         ),
-        onTap: () => context.read<AuthRepo>().signOut(),
+        onTap: context.read<ProfileContentManager>().signOut,
       ),
       _SettingsButtonData(
         text: 'Delete profile',

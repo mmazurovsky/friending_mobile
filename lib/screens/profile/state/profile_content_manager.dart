@@ -33,10 +33,14 @@ class ProfileContentManager with ChangeNotifier {
     }
     if (fetchedProfile != null) {
       _profile = fetchedProfile;
-       _isLoading = false;
+      _isLoading = false;
     } else {
       await _authRepo.signOut();
     }
     notifyListeners();
+  }
+
+  void signOut() async {
+    await _authRepo.signOut();
   }
 }

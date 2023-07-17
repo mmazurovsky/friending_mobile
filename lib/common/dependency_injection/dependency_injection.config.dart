@@ -47,7 +47,7 @@ import 'package:flutter_mobile_starter/screens/explore/state/geo_permissions_man
 import 'package:flutter_mobile_starter/screens/other_user/ds/connect_ds.dart'
     as _i39;
 import 'package:flutter_mobile_starter/screens/other_user/ds/other_user_profile_ds.dart'
-    as _i43;
+    as _i44;
 import 'package:flutter_mobile_starter/screens/other_user/ds/pairs_ds.dart'
     as _i41;
 import 'package:flutter_mobile_starter/screens/other_user/state/connect_manager.dart'
@@ -66,6 +66,8 @@ import 'package:flutter_mobile_starter/screens/profile/state/profile_content_man
     as _i42;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_images_manager.dart'
     as _i22;
+import 'package:flutter_mobile_starter/screens/profile/state/profile_page_routing_manager.dart'
+    as _i43;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_texts_manager.dart'
     as _i34;
 import 'package:geoflutterfire2/geoflutterfire2.dart' as _i14;
@@ -77,7 +79,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i18;
 import 'package:uuid/uuid.dart' as _i27;
 
-import 'modules.dart' as _i44;
+import 'modules.dart' as _i45;
 
 // ignore_for_file: unnecessary_lambdas
 // ignore_for_file: lines_longer_than_80_chars
@@ -117,7 +119,7 @@ _i1.GetIt init(
   gh.lazySingleton<_i23.ProfileLocalDS>(() => _i23.ProfileLocalDSImpl());
   gh.lazySingleton<_i24.RequestCheckWrapper>(
       () => _i24.RequestCheckWrapperImpl());
-  gh.factory<_i25.TabsStateManager>(
+  gh.lazySingleton<_i25.TabsStateManager>(
       () => _i25.TabsStateManager(gh<_i26.TabsRouter>()));
   gh.lazySingleton<_i27.Uuid>(() => modules.uuid);
   gh.lazySingleton<_i28.AuthRepo>(() => _i28.FirebaseAuthRepoImpl(
@@ -170,11 +172,11 @@ _i1.GetIt init(
         gh<_i30.CoordinatesRepo>(),
         gh<_i33.ProfileRepo>(),
       ));
-  gh.lazySingleton<_i38.AuthChangesListener>(() => _i38.AuthChangesListenerImpl(
-        gh<_i28.AuthRepo>(),
-        gh<_i33.ProfileRepo>(),
-        gh<_i30.CoordinatesRepo>(),
-      ));
+  gh.singleton<_i38.AuthChangesListenerImpl>(_i38.AuthChangesListenerImpl(
+    gh<_i28.AuthRepo>(),
+    gh<_i33.ProfileRepo>(),
+    gh<_i30.CoordinatesRepo>(),
+  ));
   gh.lazySingleton<_i39.ConnectDS>(() => _i39.ConnectDSImpl(
         gh<_i36.UserListDS>(),
         gh<_i24.RequestCheckWrapper>(),
@@ -198,7 +200,12 @@ _i1.GetIt init(
         gh<_i33.ProfileRepo>(),
         gh<_i28.AuthRepo>(),
       ));
-  gh.lazySingleton<_i43.OtherUserProfileDS>(() => _i43.OtherUserProfileDSImpl(
+  gh.singleton<_i43.ProfilePageRoutingManager>(_i43.ProfilePageRoutingManager(
+    gh<_i28.AuthRepo>(),
+    gh<_i33.ProfileRepo>(),
+    gh<_i38.AuthChangesListenerImpl>(),
+  ));
+  gh.lazySingleton<_i44.OtherUserProfileDS>(() => _i44.OtherUserProfileDSImpl(
         gh<_i24.RequestCheckWrapper>(),
         gh<_i12.FirebaseFirestore>(),
         gh<_i28.AuthRepo>(),
@@ -208,4 +215,4 @@ _i1.GetIt init(
   return getIt;
 }
 
-class _$Modules extends _i44.Modules {}
+class _$Modules extends _i45.Modules {}

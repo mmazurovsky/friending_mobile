@@ -18,7 +18,7 @@ class InitializationsWidget extends StatefulWidget {
 class _InitializationsWidgetState extends State<InitializationsWidget> {
   @override
   void initState() {
-    getIt<AuthChangesListener>()();
+    // getIt<AuthChangesListenerImpl>()();
 
     super.initState();
   }

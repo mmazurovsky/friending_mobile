@@ -160,7 +160,7 @@ class ShortReadUserModel
     implements ShortReadUserEntity {
   const ShortReadUserModel._();
 
-  factory ShortReadUserModel.empty(String id) => ShortReadUserModel(
+  factory ShortReadUserModel.emptyUser(String id) => ShortReadUserModel(
         id: id,
         username: 'empty',
         photos: [],

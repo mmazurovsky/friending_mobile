@@ -21,7 +21,7 @@ abstract class ProfileRepo {
   Future<FullReadUserModel?> fetchProfileFromRemoteAndSaveLocally();
   Future<void> deleteProfileLocal();
   Future<bool> isUsernameFree(String username);
-  Stream<ShortReadUserModel?> getProfileStream();
+  Stream<ShortReadUserModel?> getProfileStreamForAuthenticatedUser();
 }
 
 @LazySingleton(as: ProfileRepo)
@@ -100,7 +100,7 @@ class ProfileRepoImpl implements ProfileRepo {
   }
 
   @override
-  Stream<ShortReadUserModel?> getProfileStream() {
-    return _profileRemoteDS.getProfileStream();
+  Stream<ShortReadUserModel?> getProfileStreamForAuthenticatedUser() {
+    return _profileRemoteDS.getProfileStreamForAuthenticatedUser();
   }
 }

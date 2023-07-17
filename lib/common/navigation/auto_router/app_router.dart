@@ -29,20 +29,22 @@ part 'app_router.gr.dart';
         ),
         AutoRoute(
           page: ProfilePage,
+          children: [
+            AutoRoute(
+              page: ProfileEditingPage,
+            ),
+            AutoRoute(
+              page: SignInPage,
+            ),
+            AutoRoute(
+              page: ThisUserProfilePage,
+            ),
+          ],
         ),
       ],
     ),
     AutoRoute(
-      page: ProfileEditingPage,
-    ),
-    AutoRoute(
-      page: SignInPage,
-    ),
-    AutoRoute(
       page: ForgotPasswordPage,
-    ),
-    AutoRoute(
-      page: ThisUserProfilePage,
     ),
   ],
 )

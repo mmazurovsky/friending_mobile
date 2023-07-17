@@ -23,32 +23,10 @@ class _$AppRouter extends RootStackRouter {
         child: const FrontPage(),
       );
     },
-    ProfileEditingRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const ProfileEditingPage(),
-      );
-    },
-    SignInRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const SignInPage(),
-      );
-    },
     ForgotPasswordRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const ForgotPasswordPage(),
-      );
-    },
-    ThisUserProfileRoute.name: (routeData) {
-      final args = routeData.argsAs<ThisUserProfileRouteArgs>();
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: ThisUserProfilePage(
-          key: args.key,
-          shortProfile: args.shortProfile,
-        ),
       );
     },
     ExploreRoute.name: (routeData) {
@@ -67,6 +45,33 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const ProfilePage(),
+      );
+    },
+    ProfileEditingRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const ProfileEditingPage(),
+      );
+    },
+    SignInRoute.name: (routeData) {
+      final args = routeData.argsAs<SignInRouteArgs>(
+          orElse: () => const SignInRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: SignInPage(
+          key: args.key,
+          withBackButton: args.withBackButton,
+        ),
+      );
+    },
+    ThisUserProfileRoute.name: (routeData) {
+      final args = routeData.argsAs<ThisUserProfileRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ThisUserProfilePage(
+          key: args.key,
+          shortProfile: args.shortProfile,
+        ),
       );
     },
   };
@@ -91,24 +96,29 @@ class _$AppRouter extends RootStackRouter {
               ProfileRoute.name,
               path: 'profile-page',
               parent: FrontRoute.name,
+              children: [
+                RouteConfig(
+                  ProfileEditingRoute.name,
+                  path: 'profile-editing-page',
+                  parent: ProfileRoute.name,
+                ),
+                RouteConfig(
+                  SignInRoute.name,
+                  path: 'sign-in-page',
+                  parent: ProfileRoute.name,
+                ),
+                RouteConfig(
+                  ThisUserProfileRoute.name,
+                  path: 'this-user-profile-page',
+                  parent: ProfileRoute.name,
+                ),
+              ],
             ),
           ],
         ),
         RouteConfig(
-          ProfileEditingRoute.name,
-          path: '/profile-editing-page',
-        ),
-        RouteConfig(
-          SignInRoute.name,
-          path: '/sign-in-page',
-        ),
-        RouteConfig(
           ForgotPasswordRoute.name,
           path: '/forgot-password-page',
-        ),
-        RouteConfig(
-          ThisUserProfileRoute.name,
-          path: '/this-user-profile-page',
         ),
       ];
 }
@@ -127,30 +137,6 @@ class FrontRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [ProfileEditingPage]
-class ProfileEditingRoute extends PageRouteInfo<void> {
-  const ProfileEditingRoute()
-      : super(
-          ProfileEditingRoute.name,
-          path: '/profile-editing-page',
-        );
-
-  static const String name = 'ProfileEditingRoute';
-}
-
-/// generated route for
-/// [SignInPage]
-class SignInRoute extends PageRouteInfo<void> {
-  const SignInRoute()
-      : super(
-          SignInRoute.name,
-          path: '/sign-in-page',
-        );
-
-  static const String name = 'SignInRoute';
-}
-
-/// generated route for
 /// [ForgotPasswordPage]
 class ForgotPasswordRoute extends PageRouteInfo<void> {
   const ForgotPasswordRoute()
@@ -160,40 +146,6 @@ class ForgotPasswordRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ForgotPasswordRoute';
-}
-
-/// generated route for
-/// [ThisUserProfilePage]
-class ThisUserProfileRoute extends PageRouteInfo<ThisUserProfileRouteArgs> {
-  ThisUserProfileRoute({
-    Key? key,
-    required ShortReadUserModel shortProfile,
-  }) : super(
-          ThisUserProfileRoute.name,
-          path: '/this-user-profile-page',
-          args: ThisUserProfileRouteArgs(
-            key: key,
-            shortProfile: shortProfile,
-          ),
-        );
-
-  static const String name = 'ThisUserProfileRoute';
-}
-
-class ThisUserProfileRouteArgs {
-  const ThisUserProfileRouteArgs({
-    this.key,
-    required this.shortProfile,
-  });
-
-  final Key? key;
-
-  final ShortReadUserModel shortProfile;
-
-  @override
-  String toString() {
-    return 'ThisUserProfileRouteArgs{key: $key, shortProfile: $shortProfile}';
-  }
 }
 
 /// generated route for
@@ -223,11 +175,92 @@ class EventsRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [ProfilePage]
 class ProfileRoute extends PageRouteInfo<void> {
-  const ProfileRoute()
+  const ProfileRoute({List<PageRouteInfo>? children})
       : super(
           ProfileRoute.name,
           path: 'profile-page',
+          initialChildren: children,
         );
 
   static const String name = 'ProfileRoute';
+}
+
+/// generated route for
+/// [ProfileEditingPage]
+class ProfileEditingRoute extends PageRouteInfo<void> {
+  const ProfileEditingRoute()
+      : super(
+          ProfileEditingRoute.name,
+          path: 'profile-editing-page',
+        );
+
+  static const String name = 'ProfileEditingRoute';
+}
+
+/// generated route for
+/// [SignInPage]
+class SignInRoute extends PageRouteInfo<SignInRouteArgs> {
+  SignInRoute({
+    Key? key,
+    bool withBackButton = false,
+  }) : super(
+          SignInRoute.name,
+          path: 'sign-in-page',
+          args: SignInRouteArgs(
+            key: key,
+            withBackButton: withBackButton,
+          ),
+        );
+
+  static const String name = 'SignInRoute';
+}
+
+class SignInRouteArgs {
+  const SignInRouteArgs({
+    this.key,
+    this.withBackButton = false,
+  });
+
+  final Key? key;
+
+  final bool withBackButton;
+
+  @override
+  String toString() {
+    return 'SignInRouteArgs{key: $key, withBackButton: $withBackButton}';
+  }
+}
+
+/// generated route for
+/// [ThisUserProfilePage]
+class ThisUserProfileRoute extends PageRouteInfo<ThisUserProfileRouteArgs> {
+  ThisUserProfileRoute({
+    Key? key,
+    required ShortReadUserModel shortProfile,
+  }) : super(
+          ThisUserProfileRoute.name,
+          path: 'this-user-profile-page',
+          args: ThisUserProfileRouteArgs(
+            key: key,
+            shortProfile: shortProfile,
+          ),
+        );
+
+  static const String name = 'ThisUserProfileRoute';
+}
+
+class ThisUserProfileRouteArgs {
+  const ThisUserProfileRouteArgs({
+    this.key,
+    required this.shortProfile,
+  });
+
+  final Key? key;
+
+  final ShortReadUserModel shortProfile;
+
+  @override
+  String toString() {
+    return 'ThisUserProfileRouteArgs{key: $key, shortProfile: $shortProfile}';
+  }
 }
