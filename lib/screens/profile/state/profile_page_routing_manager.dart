@@ -1,45 +1,39 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 
-import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/configs/auth_changes_listener.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../auth/ui/sign_in_page.dart';
-import '../repo/profile_repo.dart';
 import '../ui/profile_editing_page.dart';
 import '../ui/this_user_profile_page.dart';
 
 @singleton
 class ProfilePageRoutingManager with ChangeNotifier {
-  final AuthRepo _authRepo;
-  final ProfileRepo _profileRepo;
-  final AuthChangesListenerImpl _authChangesListenerImpl;
-  PageToShowForProfileTab _pageToShowForProfileTab =
-      PageToShowForProfileTab.signIn;
-  PageToShowForProfileTab get pageToShowForProfileTab =>
-      _pageToShowForProfileTab;
+  final ProfileStreamService _profileStreamService;
+  PageToShowForProfileTab _pageToShowForProfileTab = PageToShowForProfileTab.signIn;
+  PageToShowForProfileTab get pageToShowForProfileTab => _pageToShowForProfileTab;
   ShortReadUserModel? _profile;
 
   ProfilePageRoutingManager(
-    this._authRepo,
-    this._profileRepo,
-    this._authChangesListenerImpl,
+    this._profileStreamService,
   ) {
     _init();
   }
 
+  StreamSubscription<ShortReadUserModel?>? _profileStreamSubscription;
+
   void _init() {
-    _authChangesListenerImpl.profileStreamDependentOnAuth.doOnData((profile) {
+    _profileStreamSubscription = _profileStreamService.profileStreamDependentOnAuth.listen((profile) {
       if (profile == null) {
         if (_pageToShowForProfileTab != PageToShowForProfileTab.signIn) {
           _profile = null;
           _pageToShowForProfileTab = PageToShowForProfileTab.signIn;
           notifyListeners();
         }
-      } else if (profile.username == 'empty') {
-        if (_pageToShowForProfileTab !=
-            PageToShowForProfileTab.profileEditing) {
+      } else if (profile.isEmptyProfile) {
+        if (_pageToShowForProfileTab != PageToShowForProfileTab.profileEditing) {
           _profile = null;
           _pageToShowForProfileTab = PageToShowForProfileTab.profileEditing;
           notifyListeners();
@@ -52,6 +46,12 @@ class ProfilePageRoutingManager with ChangeNotifier {
         }
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _profileStreamSubscription?.cancel();
+    super.dispose();
   }
 
   Widget get pageToShow {

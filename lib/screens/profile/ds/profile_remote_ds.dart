@@ -87,9 +87,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
         .collection(shortUserCollection)
         .doc(currentUserRaw.uid)
         .withConverter(
-          fromFirestore: (json, opt) => json.data() != null
-              ? ShortReadUserModel.fromJson(json.data()!)
-              : null,
+          fromFirestore: (json, opt) => json.data() != null ? ShortReadUserModel.fromJson(json.data()!) : null,
           toFirestore: (model, opt) => {},
         )
         .get();
@@ -100,9 +98,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
         .collection(privateInfoUserCollection)
         .doc(currentUserRaw.uid)
         .withConverter(
-          fromFirestore: (json, opt) => json.data() != null
-              ? SecureUserInfoModel.fromJson(json.data()!)
-              : null,
+          fromFirestore: (json, opt) => json.data() != null ? SecureUserInfoModel.fromJson(json.data()!) : null,
           toFirestore: (model, opt) => {},
         )
         .get();
@@ -138,18 +134,12 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
     final batch = _firebaseFirestore.batch();
 
     batch.update(
-      _firebaseFirestore
-          .collection(shortUserCollection)
-          .doc(currentUserRaw.uid),
+      _firebaseFirestore.collection(shortUserCollection).doc(currentUserRaw.uid),
       shortModel.toJson(),
     );
 
     batch.update(
-      _firebaseFirestore
-          .collection(fullUserCollection)
-          .doc(currentUserRaw.uid)
-          .collection(privateInfoUserCollection)
-          .doc(currentUserRaw.uid),
+      _firebaseFirestore.collection(fullUserCollection).doc(currentUserRaw.uid).collection(privateInfoUserCollection).doc(currentUserRaw.uid),
       privateModel.toJson(),
     );
 
@@ -188,17 +178,11 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
     final batch = _firebaseFirestore.batch();
     batch.set(
-      _firebaseFirestore
-          .collection(shortUserCollection)
-          .doc(currentUserRaw.uid),
+      _firebaseFirestore.collection(shortUserCollection).doc(currentUserRaw.uid),
       shortModel.toJson(),
     );
     batch.set(
-      _firebaseFirestore
-          .collection(fullUserCollection)
-          .doc(currentUserRaw.uid)
-          .collection(privateInfoUserCollection)
-          .doc(currentUserRaw.uid),
+      _firebaseFirestore.collection(fullUserCollection).doc(currentUserRaw.uid).collection(privateInfoUserCollection).doc(currentUserRaw.uid),
       privateModel.toJson(),
     );
 
@@ -225,10 +209,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   Future<void> saveProfilePhotos(List<String> profilePhotoUrls) async {
     final currentUserRaw = _authRepo.currentUser!;
 
-    final future = _firebaseFirestore
-        .collection(shortUserCollection)
-        .doc(currentUserRaw.uid)
-        .set(
+    final future = _firebaseFirestore.collection(shortUserCollection).doc(currentUserRaw.uid).set(
       {
         'photos': profilePhotoUrls,
       },
@@ -283,10 +264,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
   @override
   Future<bool> isUsernameFree(String username) async {
-    final future = _firebaseFirestore
-        .collection(shortUserCollection)
-        .where('username', isEqualTo: username)
-        .get();
+    final future = _firebaseFirestore.collection(shortUserCollection).where('username', isEqualTo: username).get();
 
     final response = await _requestCheckWrapper(future);
 
@@ -295,13 +273,13 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
   @override
   Stream<ShortReadUserModel?> getProfileStreamForAuthenticatedUser() {
-    final currentUserRaw = _authRepo.currentUser!;
+    final currentUserRaw = _authRepo.currentUser;
 
-    final stream = _firebaseFirestore
-        .collection(shortUserCollection)
-        .doc(currentUserRaw.uid)
-        .snapshots()
-        .map(
+    if (currentUserRaw == null) {
+      throw Exception('User is not authenticated and try to get profile stream');
+    }
+
+    final stream = _firebaseFirestore.collection(shortUserCollection).doc(currentUserRaw.uid).snapshots().map(
       (snapshot) {
         final data = snapshot.data();
         if (data == null) {

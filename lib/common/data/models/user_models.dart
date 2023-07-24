@@ -51,8 +51,7 @@ class SecureUserInfoFieldModel with _$SecureUserInfoFieldModel {
     required int order,
   }) = _SecureUserInfoFieldModel;
 
-  factory SecureUserInfoFieldModel.fromJson(Map<String, dynamic> json) =>
-      _$SecureUserInfoFieldModelFromJson(json);
+  factory SecureUserInfoFieldModel.fromJson(Map<String, dynamic> json) => _$SecureUserInfoFieldModelFromJson(json);
 
   VoidCallback get onTap => () {
         if (title == 'Instagram') {
@@ -89,8 +88,7 @@ class SecureUserInfoModel with _$SecureUserInfoModel {
     List<SecureUserInfoFieldModel> fields,
   ) = _SecureUserInfoModel;
 
-  factory SecureUserInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$SecureUserInfoModelFromJson(json);
+  factory SecureUserInfoModel.fromJson(Map<String, dynamic> json) => _$SecureUserInfoModelFromJson(json);
 }
 
 @Freezed(toJson: true)
@@ -137,8 +135,7 @@ class ShortUpdateUserModel with _$ShortUpdateUserModel {
     required String lookingFor,
   }) = _ShortUpdateUserModel;
 
-  factory ShortUpdateUserModel.fromJson(Map<String, dynamic> json) =>
-      _$ShortUpdateUserModelFromJson(json);
+  factory ShortUpdateUserModel.fromJson(Map<String, dynamic> json) => _$ShortUpdateUserModelFromJson(json);
 
   ShortCreateUserModel toCreateShortModel(String id) {
     return ShortCreateUserModel(
@@ -155,9 +152,7 @@ class ShortUpdateUserModel with _$ShortUpdateUserModel {
 }
 
 @Freezed(toJson: false)
-class ShortReadUserModel
-    with _$ShortReadUserModel
-    implements ShortReadUserEntity {
+class ShortReadUserModel with _$ShortReadUserModel implements ShortReadUserEntity {
   const ShortReadUserModel._();
 
   factory ShortReadUserModel.emptyUser(String id) => ShortReadUserModel(
@@ -169,6 +164,10 @@ class ShortReadUserModel
         about: '',
         lookingFor: '',
       );
+
+  bool get isEmptyProfile {
+    return (username == 'empty') && photos.isEmpty && tags.isEmpty && about.isEmpty && lookingFor.isEmpty;
+  }
 
   const factory ShortReadUserModel({
     required String id,
@@ -182,8 +181,7 @@ class ShortReadUserModel
     @Default([]) List<String> commonTags,
   }) = _ShortReadUserModel;
 
-  factory ShortReadUserModel.fromJson(Map<String, dynamic> json) =>
-      _$ShortReadUserModelFromJson(json);
+  factory ShortReadUserModel.fromJson(Map<String, dynamic> json) => _$ShortReadUserModelFromJson(json);
 
   List<TagEntity> get tagsEntities {
     final commonTagsEntities = commonTags
@@ -221,11 +219,8 @@ class ShortReadUserModel
   int get age {
     final now = DateTime.now();
     final ageWillBeAtEndOfCurrentYear = now.year - birthDate.year;
-    final isBeforeBirthday = now.month < birthDate.month ||
-        (now.month == birthDate.month && now.day < birthDate.day);
-    return isBeforeBirthday
-        ? ageWillBeAtEndOfCurrentYear - 1
-        : ageWillBeAtEndOfCurrentYear;
+    final isBeforeBirthday = now.month < birthDate.month || (now.month == birthDate.month && now.day < birthDate.day);
+    return isBeforeBirthday ? ageWillBeAtEndOfCurrentYear - 1 : ageWillBeAtEndOfCurrentYear;
   }
 }
 
@@ -239,6 +234,5 @@ class VeryShortUserModel with _$VeryShortUserModel {
     required String photo,
   }) = _VeryShortUserModel;
 
-  factory VeryShortUserModel.fromJson(Map<String, dynamic> json) =>
-      _$VeryShortUserModelFromJson(json);
+  factory VeryShortUserModel.fromJson(Map<String, dynamic> json) => _$VeryShortUserModelFromJson(json);
 }
