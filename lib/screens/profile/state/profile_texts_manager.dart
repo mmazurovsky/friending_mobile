@@ -37,16 +37,14 @@ class ProfileTextsAndTagsManager with ChangeNotifier {
   FocusNode get lookingForFocusNode => _lookingForFocusNode;
 
   final _instagramUsernameController = TextEditingController();
-  TextEditingController get instagramUsernameController =>
-      _instagramUsernameController;
+  TextEditingController get instagramUsernameController => _instagramUsernameController;
   final _instagramUsernameFocusNode = FocusNode();
   FocusNode get instagramUsernameFocusNode => _instagramUsernameFocusNode;
-  SecureFieldStatusEnum _instagramSecureStatus = SecureFieldStatusEnum.private;
+  SecureFieldStatusEnum _instagramSecureStatus = SecureFieldStatusEnum.public;
   SecureFieldStatusEnum get instagramSecureStatus => _instagramSecureStatus;
 
   final _telegramUsernameController = TextEditingController();
-  TextEditingController get telegramUsernameController =>
-      _telegramUsernameController;
+  TextEditingController get telegramUsernameController => _telegramUsernameController;
   final _telegramUsernameFocusNode = FocusNode();
   FocusNode get telegramUsernameFocusNode => _telegramUsernameFocusNode;
   SecureFieldStatusEnum _telegramSecureStatus = SecureFieldStatusEnum.private;
@@ -66,8 +64,7 @@ class ProfileTextsAndTagsManager with ChangeNotifier {
 
   final Set<String> _initialTags = {};
   final Set<String> _tagsToDisplay = {};
-  List<TagEntity> get tagsToDisplay =>
-      _tagsToDisplay.map((e) => TagEntity(e)).toList();
+  List<TagEntity> get tagsToDisplay => _tagsToDisplay.map((e) => TagEntity(e)).toList();
 
   Failure? _failure;
   Failure? get failure => _failure;
@@ -108,30 +105,21 @@ class ProfileTextsAndTagsManager with ChangeNotifier {
     if (!_isDisposed) super.notifyListeners();
   }
 
-  void changeInstagramIsPrivate(bool value) {
-    final newValue =
-        value ? SecureFieldStatusEnum.private : SecureFieldStatusEnum.public;
-    if (_instagramSecureStatus != newValue) {
-      _instagramSecureStatus = newValue;
-    }
+  void changeInstagramIsPrivate() {
+    final newValue = _instagramSecureStatus == SecureFieldStatusEnum.private ? SecureFieldStatusEnum.public : SecureFieldStatusEnum.private;
+    _instagramSecureStatus = newValue;
     notifyListeners();
   }
 
-  void changeTelegramIsPrivate(bool value) {
-    final newValue =
-        value ? SecureFieldStatusEnum.private : SecureFieldStatusEnum.public;
-    if (_telegramSecureStatus != newValue) {
-      _telegramSecureStatus = newValue;
-    }
+  void changeTelegramIsPrivate() {
+    final newValue = _telegramSecureStatus == SecureFieldStatusEnum.private ? SecureFieldStatusEnum.public : SecureFieldStatusEnum.private;
+    _telegramSecureStatus = newValue;
     notifyListeners();
   }
 
-  void changeWhatsappIsPrivate(bool value) {
-    final newValue =
-        value ? SecureFieldStatusEnum.private : SecureFieldStatusEnum.public;
-    if (_whatsappSecureStatus != newValue) {
-      _whatsappSecureStatus = newValue;
-    }
+  void changeWhatsappIsPrivate() {
+    final newValue = _whatsappSecureStatus == SecureFieldStatusEnum.private ? SecureFieldStatusEnum.public : SecureFieldStatusEnum.private;
+    _whatsappSecureStatus = newValue;
     notifyListeners();
   }
 
@@ -143,30 +131,15 @@ class ProfileTextsAndTagsManager with ChangeNotifier {
       _birthDateController.text = _birthDate?.toDateString() ?? '';
       _descriptionController.text = profile.shortUserModel.about ?? '';
       _lookingForController.text = profile.shortUserModel.lookingFor ?? '';
-      _instagramSecureStatus = profile.secureUserInfoModel.fields
-              .firstWhereOrNull((element) => element.title == 'Instagram')
-              ?.state ??
-          SecureFieldStatusEnum.private;
-      _instagramUsernameController.text = profile.secureUserInfoModel.fields
-              .firstWhereOrNull((element) => element.title == 'Instagram')
-              ?.value ??
-          '';
-      _telegramSecureStatus = profile.secureUserInfoModel.fields
-              .firstWhereOrNull((element) => element.title == 'Telegram')
-              ?.state ??
-          SecureFieldStatusEnum.private;
-      _telegramUsernameController.text = profile.secureUserInfoModel.fields
-              .firstWhereOrNull((element) => element.title == 'Telegram')
-              ?.value ??
-          '';
-      _whatsappSecureStatus = profile.secureUserInfoModel.fields
-              .firstWhereOrNull((element) => element.title == 'WhatsApp')
-              ?.state ??
-          SecureFieldStatusEnum.private;
-      _whatsappPhoneController.text = profile.secureUserInfoModel.fields
-              .firstWhereOrNull((element) => element.title == 'WhatsApp')
-              ?.value ??
-          '';
+      _instagramSecureStatus =
+          profile.secureUserInfoModel.fields.firstWhereOrNull((element) => element.title == 'Instagram')?.state ?? SecureFieldStatusEnum.private;
+      _instagramUsernameController.text = profile.secureUserInfoModel.fields.firstWhereOrNull((element) => element.title == 'Instagram')?.value ?? '';
+      _telegramSecureStatus =
+          profile.secureUserInfoModel.fields.firstWhereOrNull((element) => element.title == 'Telegram')?.state ?? SecureFieldStatusEnum.private;
+      _telegramUsernameController.text = profile.secureUserInfoModel.fields.firstWhereOrNull((element) => element.title == 'Telegram')?.value ?? '';
+      _whatsappSecureStatus =
+          profile.secureUserInfoModel.fields.firstWhereOrNull((element) => element.title == 'WhatsApp')?.state ?? SecureFieldStatusEnum.private;
+      _whatsappPhoneController.text = profile.secureUserInfoModel.fields.firstWhereOrNull((element) => element.title == 'WhatsApp')?.value ?? '';
       _initialTags.addAll(profile.shortUserModel.tags);
       _tagsToDisplay.addAll(_initialTags);
     }

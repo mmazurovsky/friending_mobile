@@ -47,7 +47,7 @@ import 'package:flutter_mobile_starter/screens/explore/state/geo_permissions_man
 import 'package:flutter_mobile_starter/screens/other_user/ds/connect_ds.dart'
     as _i39;
 import 'package:flutter_mobile_starter/screens/other_user/ds/other_user_profile_ds.dart'
-    as _i44;
+    as _i45;
 import 'package:flutter_mobile_starter/screens/other_user/ds/pairs_ds.dart'
     as _i41;
 import 'package:flutter_mobile_starter/screens/other_user/state/connect_manager.dart'
@@ -64,10 +64,12 @@ import 'package:flutter_mobile_starter/screens/profile/repo/profile_repo.dart'
     as _i33;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_content_manager.dart'
     as _i42;
+import 'package:flutter_mobile_starter/screens/profile/state/profile_editing_manager.dart'
+    as _i43;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_images_manager.dart'
     as _i22;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_page_routing_manager.dart'
-    as _i43;
+    as _i44;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_texts_manager.dart'
     as _i35;
 import 'package:geoflutterfire2/geoflutterfire2.dart' as _i14;
@@ -79,7 +81,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i18;
 import 'package:uuid/uuid.dart' as _i27;
 
-import 'modules.dart' as _i45;
+import 'modules.dart' as _i46;
 
 // ignore_for_file: unnecessary_lambdas
 // ignore_for_file: lines_longer_than_80_chars
@@ -201,13 +203,19 @@ _i1.GetIt init(
         gh<_i28.AuthRepo>(),
         gh<_i8.CustomLogger>(),
       ));
-  gh.lazySingleton<_i42.ProfileContentManager>(() => _i42.ProfileContentManager(
+  gh.factory<_i42.ProfileContentManager>(() => _i42.ProfileContentManager(
         gh<_i33.ProfileRepo>(),
         gh<_i28.AuthRepo>(),
       ));
-  gh.singleton<_i43.ProfilePageRoutingManager>(
-      _i43.ProfilePageRoutingManager(gh<_i34.ProfileStreamService>()));
-  gh.lazySingleton<_i44.OtherUserProfileDS>(() => _i44.OtherUserProfileDSImpl(
+  gh.factory<_i43.ProfileEditingManager>(() => _i43.ProfileEditingManager(
+        gh<_i22.ProfileImagesManager>(),
+        gh<_i35.ProfileTextsAndTagsManager>(),
+        gh<_i33.ProfileRepo>(),
+        gh<_i28.AuthRepo>(),
+      ));
+  gh.singleton<_i44.ProfilePageRoutingManager>(
+      _i44.ProfilePageRoutingManager(gh<_i34.ProfileStreamService>()));
+  gh.lazySingleton<_i45.OtherUserProfileDS>(() => _i45.OtherUserProfileDSImpl(
         gh<_i24.RequestCheckWrapper>(),
         gh<_i12.FirebaseFirestore>(),
         gh<_i28.AuthRepo>(),
@@ -217,4 +225,4 @@ _i1.GetIt init(
   return getIt;
 }
 
-class _$Modules extends _i45.Modules {}
+class _$Modules extends _i46.Modules {}

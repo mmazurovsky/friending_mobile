@@ -14,14 +14,12 @@ import '../../utils/logger/custom_logger.dart';
 import '../../utils/logger/logger_name_provider.dart';
 
 abstract class AuthRepo {
-  Future<UserCredential> signUpWithEmailAndPassword(
-      {required String email, required String password});
-  Future<void> signInWithEmailAndPassword(
-      {required String email, required String password});
+  Future<UserCredential> signUpWithEmailAndPassword({required String email, required String password});
+  Future<void> signInWithEmailAndPassword({required String email, required String password});
   Future<void> startSigningWithEmailAndLink({required String email});
   Future<void> endSigningWithEmailAndLink({required Uri link});
   Future<void> signInWithGoogle();
-  Future<UserCredential> signInAnonymously();
+  Future<UserCredential?> signInAnonymously();
   Future<void> signInWithApple();
   Future<void> signOut();
   Future<void> updateProfile({required String displayName});
@@ -89,8 +87,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
     required String password,
   }) async {
     try {
-      final userCredentials = await _firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      final userCredentials = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       return userCredentials;
     } on Exception catch (e) {
       final failure = RequestFailure.auth(
@@ -106,11 +103,9 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
   }
 
   @override
-  Future<UserCredential> signInWithEmailAndPassword(
-      {required String email, required String password}) async {
+  Future<UserCredential> signInWithEmailAndPassword({required String email, required String password}) async {
     try {
-      final userCredentials = await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+      final userCredentials = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       return userCredentials;
     } on Exception catch (e) {
       final failure = RequestFailure.auth(
@@ -136,8 +131,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
     );
 
     try {
-      await _firebaseAuth.sendSignInLinkToEmail(
-          email: email, actionCodeSettings: actionCodeSettings);
+      await _firebaseAuth.sendSignInLinkToEmail(email: email, actionCodeSettings: actionCodeSettings);
 
       _storedEmailForLinkVerification = email;
     } on Exception catch (e) {
@@ -157,9 +151,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
   Future<UserCredential> endSigningWithEmailAndLink({required Uri link}) async {
     if (_isSignInWithEmailLink(link.toString())) {
       try {
-        final userCredentials = await _firebaseAuth.signInWithEmailLink(
-            email: _storedEmailForLinkVerification!,
-            emailLink: link.toString());
+        final userCredentials = await _firebaseAuth.signInWithEmailLink(email: _storedEmailForLinkVerification!, emailLink: link.toString());
         return userCredentials;
       } on Exception catch (e) {
         final failure = RequestFailure.auth(
@@ -239,11 +231,9 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
     /// Generates a cryptographically secure random nonce, to be included in a
     /// credential request.
     String generateNonce([int length = 32]) {
-      const charset =
-          '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+      const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
       final random = Random.secure();
-      return List.generate(
-          length, (_) => charset[random.nextInt(charset.length)]).join();
+      return List.generate(length, (_) => charset[random.nextInt(charset.length)]).join();
     }
 
     /// Returns the sha256 hash of [input] in hex notation.
@@ -284,8 +274,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
     }
 
     // Create an `OAuthCredential` from the credential returned by Apple.
-    final oauthCredential =
-        OAuthProvider(Strings.ids.appleAuthProviderId).credential(
+    final oauthCredential = OAuthProvider(Strings.ids.appleAuthProviderId).credential(
       idToken: appleCredential.identityToken,
       rawNonce: rawNonce,
     );
@@ -295,8 +284,7 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
 
     late final UserCredential userCredential;
     try {
-      userCredential =
-          await _firebaseAuth.signInWithCredential(oauthCredential);
+      userCredential = await _firebaseAuth.signInWithCredential(oauthCredential);
     } on Exception catch (e) {
       final failure = RequestFailure.auth(
         m: _failureMessages,
@@ -366,8 +354,13 @@ class FirebaseAuthRepoImpl implements AuthRepo, LoggerNameGetter {
   }
 
   @override
-  Future<UserCredential> signInAnonymously() async {
+  Future<UserCredential?> signInAnonymously() async {
     late UserCredential anonUserCredential;
+    
+    if (_firebaseAuth.currentUser != null) {
+      return null;
+    }
+
     try {
       anonUserCredential = await _firebaseAuth.signInAnonymously();
     } on Exception catch (e) {

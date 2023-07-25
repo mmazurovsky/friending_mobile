@@ -16,6 +16,9 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    });
     final firebaseAuth = getIt<FirebaseAuth>();
 
     return SignInScreen(
@@ -23,6 +26,7 @@ class SignInPage extends StatelessWidget {
         firebaseAuth.app,
       ),
       auth: firebaseAuth,
+      
       actions: [
         ForgotPasswordAction(
           (context, email) {
@@ -30,9 +34,7 @@ class SignInPage extends StatelessWidget {
           },
         ),
       ],
-      headerBuilder: (context, constraints, shrinkOffset) => withBackButton
-          ? const CustomAppBarWithBackButton()
-          : const SizedBox(),
+      headerBuilder: (context, constraints, shrinkOffset) => withBackButton ? const CustomAppBarWithBackButton() : const SizedBox(),
     );
   }
 }

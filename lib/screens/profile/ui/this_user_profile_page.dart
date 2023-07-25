@@ -162,9 +162,6 @@ class _ProfileContentState extends State<_ProfileContent> {
                       .secureUserInfoModel
                       .fields,
                 ),
-                Container(
-                  height: 600,
-                )
               ],
             ),
           );

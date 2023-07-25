@@ -54,8 +54,7 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
       () {
         final failure = context.read<ExploreStateManager>().failure;
         if (failure != null) {
-          final scaffoldMessengerKey =
-              context.read<GlobalKey<ScaffoldMessengerState>>();
+          final scaffoldMessengerKey = getIt<GlobalKey<ScaffoldMessengerState>>();
           scaffoldMessengerKey.currentState
             ?..hideCurrentSnackBar()
             ..showCSnackBar(
@@ -115,29 +114,20 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             UserCard(
-                              user: context
-                                  .read<ExploreStateManager>()
-                                  .usersWithMostCommonTags[index],
+                              user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
                             ),
-                            if (index + 1 !=
-                                context
-                                    .read<ExploreStateManager>()
-                                    .usersWithMostCommonTags
-                                    .length)
-                              const SizedBox(height: 12),
+                            if (index + 1 != context.read<ExploreStateManager>().usersWithMostCommonTags.length) const SizedBox(height: 12),
                           ],
                         );
                       },
-                      childCount: context
-                          .read<ExploreStateManager>()
-                          .usersWithMostCommonTags
-                          .length, // replace with actual number of users with common interests
+                      childCount:
+                          context.read<ExploreStateManager>().usersWithMostCommonTags.length, // replace with actual number of users with common interests
                     ),
                   ),
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 100),
                   ),
-                 
+
                   const SliverToBoxAdapter(
                     child: ScreenEnding(),
                   ),
@@ -153,10 +143,8 @@ class UsersNearbySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final permissions =
-        context.watch<GeoPermissionsManager>().locationPermission;
-    final numberOfUsers =
-        context.watch<ExploreStateManager>().nearbyUsers.length;
+    final permissions = context.watch<GeoPermissionsManager>().locationPermission;
+    final numberOfUsers = context.watch<ExploreStateManager>().nearbyUsers.length;
     final failure = context.watch<ExploreStateManager>().failure;
     return MultiSliver(
       children: [
@@ -169,8 +157,7 @@ class UsersNearbySection extends StatelessWidget {
             ),
           ),
         ),
-        if (permissions == LocationPermission.denied ||
-            permissions == LocationPermission.deniedForever)
+        if (permissions == LocationPermission.denied || permissions == LocationPermission.deniedForever)
           LocationPermissionsNotGranted(locationPermission: permissions)
         else if (numberOfUsers == 0)
           const NearbyUsersNotFoundPlaceholder()
@@ -182,8 +169,7 @@ class UsersNearbySection extends StatelessWidget {
                   user: context.read<ExploreStateManager>().nearbyUsers[index],
                 );
               },
-              childCount:
-                  context.watch<ExploreStateManager>().nearbyUsers.length,
+              childCount: context.watch<ExploreStateManager>().nearbyUsers.length,
             ),
           ),
       ],
@@ -196,8 +182,7 @@ class NearbyUsersNotFoundPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const text =
-        'There are no users near you 😢 \nThis is a very new app, we are on a mission to attract people 🫡';
+    const text = 'There are no users near you 😢 \nThis is a very new app, we are on a mission to attract people 🫡';
     return const PlaceholderWithTextAndButton(
       text: text,
     );
@@ -220,9 +205,7 @@ class LocationPermissionsNotGranted extends StatelessWidget {
         ? TextButton(
             onPressed: () async {
               await Geolocator.openAppSettings();
-              await context
-                  .read<GeoPermissionsManager>()
-                  .checkLocationPermissionAndStore();
+              await context.read<GeoPermissionsManager>().checkLocationPermissionAndStore();
               context.read<ExploreStateManager>().fetchUsers();
             },
             child: const Text('Open settings'),
@@ -230,9 +213,7 @@ class LocationPermissionsNotGranted extends StatelessWidget {
         : TextButton(
             onPressed: () async {
               final response = await Geolocator.requestPermission();
-              await context
-                  .read<GeoPermissionsManager>()
-                  .checkLocationPermissionAndStore();
+              await context.read<GeoPermissionsManager>().checkLocationPermissionAndStore();
               context.read<ExploreStateManager>().fetchUsers();
             },
             child: const Text('Give permissions'),

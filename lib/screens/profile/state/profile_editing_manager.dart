@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/data/failures/failures.dart';
@@ -8,11 +9,17 @@ import '../repo/profile_repo.dart';
 import 'profile_images_manager.dart';
 import 'profile_texts_manager.dart';
 
+@injectable
 class ProfileEditingManager with ChangeNotifier {
   final ProfileImagesManager _imagesManager;
   final ProfileTextsAndTagsManager _textsManager;
   final ProfileRepo _profileRepo;
   final AuthRepo _authRepo;
+
+  bool _isDisposed = false;
+
+  ProfileImagesManager get imagesManager => _imagesManager;
+  ProfileTextsAndTagsManager get textsManager => _textsManager;
 
   Failure? _failure;
   Failure? get failure => _failure;
@@ -32,9 +39,21 @@ class ProfileEditingManager with ChangeNotifier {
     _fetchProfileAndInitManagers();
   }
 
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_isDisposed) {
+      super.notifyListeners();
+    }
+  }
+
   void _fetchProfileAndInitManagers() async {
-    final profileRaw =
-        await _profileRepo.fetchProfileFromRemoteAndSaveLocally();
+    final profileRaw = await _profileRepo.fetchProfileFromRemoteAndSaveLocally();
     FullReadUserModel? profile;
     //TODO try catch
     profile = profileRaw;
@@ -51,14 +70,12 @@ class ProfileEditingManager with ChangeNotifier {
       _isItProfileCreation = true;
     }
 
-    _imagesManager
-        .createManagersBasedOnPhotos(profile?.shortUserModel.photos ?? []);
+    _imagesManager.createManagersBasedOnPhotos(profile?.shortUserModel.photos ?? []);
     _textsManager.fillFieldsBasedOnProfile(profile);
   }
 
   void updateProfile() async {
-    final imageUrls =
-        _imagesManager.managers.map((e) => e.photo.url).whereNotNull();
+    final imageUrls = _imagesManager.managers.map((e) => e.photo.url).whereNotNull();
 
     final username = _textsManager.usernameController.text;
     final birthDate = _textsManager.birthDate!;
@@ -101,7 +118,8 @@ class ProfileEditingManager with ChangeNotifier {
             state: instagramIsPrivate,
           ),
         );
-      } else if (telegramUsername.isNotEmpty) {
+      }
+      if (telegramUsername.isNotEmpty) {
         listOfSocialFields.add(
           SecureUserInfoFieldModel(
             title: 'Telegram',
@@ -110,7 +128,8 @@ class ProfileEditingManager with ChangeNotifier {
             state: telegramIsPrivate,
           ),
         );
-      } else if (whatsappNumber.isNotEmpty) {
+      }
+      if (whatsappNumber.isNotEmpty) {
         listOfSocialFields.add(
           SecureUserInfoFieldModel(
             title: 'WhatsApp',

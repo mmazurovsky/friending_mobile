@@ -18,14 +18,15 @@ class GlobalProviders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = MediaQueryData.fromWindow(WidgetsBinding.instance.window)
-        .platformBrightness;
-    final width =
-        MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.width;
+    final brightness = MediaQueryData.fromWindow(WidgetsBinding.instance.window).platformBrightness;
+    final width = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.width;
     final theme = ThemeStateManager.singleton(brightness);
     final spaces = SpacesStateManager.singleton(width);
     final styles = StylesStateManager();
     final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+    if (!getIt.isRegistered<GlobalKey<ScaffoldMessengerState>>()) {
+      getIt.registerLazySingleton(() => scaffoldMessengerKey);
+    }
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -39,9 +40,6 @@ class GlobalProviders extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => getIt<GeoPermissionsManager>(),
-        ),
-        Provider(
-          create: (context) => scaffoldMessengerKey,
         ),
         Provider(
           create: (context) => getIt<Connectivity>(),

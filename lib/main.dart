@@ -50,18 +50,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final scaffoldMessengerKey =
-        context.read<GlobalKey<ScaffoldMessengerState>>();
+    final scaffoldMessengerKey = getIt<GlobalKey<ScaffoldMessengerState>>();
     return MaterialApp.router(
       scaffoldMessengerKey: scaffoldMessengerKey,
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
-      themeMode: context.watch<ThemeStateManager>().currentBrightness ==
-              Brightness.light
-          ? ThemeMode.light
-          : ThemeMode.dark,
+      themeMode: context.watch<ThemeStateManager>().currentBrightness == Brightness.light ? ThemeMode.light : ThemeMode.dark,
       theme: Themes.light,
       darkTheme: Themes.dark,
       builder: (context, child) => GlobalConfigWidget(

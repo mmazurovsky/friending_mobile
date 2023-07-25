@@ -72,15 +72,4 @@ enum PageToShowForProfileTab {
   signIn,
   profile,
   profileEditing;
-
-  // PageRouteInfo get route {
-  //   switch (this) {
-  //     case PageToShowForProfileTab.signIn:
-  //       return const SignInRoute();
-  //     case PageToShowForProfileTab.profile:
-  //       return const ProfileRoute();
-  //     case PageToShowForProfileTab.profileEditing:
-  //       return const ProfileEditingRoute();
-  //   }
-  // }
 }

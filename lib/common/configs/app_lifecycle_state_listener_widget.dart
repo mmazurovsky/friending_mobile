@@ -6,15 +6,15 @@ import '../../screens/explore/repo/coordinates_repo.dart';
 import '../../screens/explore/state/geo_permissions_manager.dart';
 import '../dependency_injection/dependency_injection.dart';
 
-class AppStateListenerWidget extends HookWidget {
+class AppLifecycleStateListenerWidget extends HookWidget {
   final Widget child;
-  const AppStateListenerWidget({
+  const AppLifecycleStateListenerWidget({
     super.key,
     required this.child,
   });
 
   Future<void> addUserPosition() async {
-    final result = await getIt<CoordinatesRepo>().addCurrentPosition();
+    getIt<CoordinatesRepo>().addCurrentPositionToRemoteAndLocal();
   }
 
   @override

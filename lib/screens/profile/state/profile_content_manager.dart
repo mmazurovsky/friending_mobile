@@ -5,7 +5,7 @@ import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/data/models/user_models.dart';
 import '../repo/profile_repo.dart';
 
-@lazySingleton
+@injectable
 class ProfileContentManager with ChangeNotifier {
   final ProfileRepo _profileRepo;
   final AuthRepo _authRepo;

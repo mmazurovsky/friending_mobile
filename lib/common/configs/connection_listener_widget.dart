@@ -4,14 +4,14 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 
 import '../../screens/widgets/snack_bar.dart';
+import '../dependency_injection/dependency_injection.dart';
 
 class ConnectionListenerWidget extends StatefulWidget {
   final Widget child;
   const ConnectionListenerWidget({super.key, required this.child});
 
   @override
-  State<ConnectionListenerWidget> createState() =>
-      _ConnectionListenerWidgetState();
+  State<ConnectionListenerWidget> createState() => _ConnectionListenerWidgetState();
 }
 
 class _ConnectionListenerWidgetState extends State<ConnectionListenerWidget> {
@@ -22,14 +22,10 @@ class _ConnectionListenerWidgetState extends State<ConnectionListenerWidget> {
   }
 
   void listen() {
-    final scaffoldMessengerKey =
-        context.read<GlobalKey<ScaffoldMessengerState>>();
-    Provider.of<Connectivity>(context, listen: false)
-        .onConnectivityChanged
-        .listen(
+    final scaffoldMessengerKey = getIt<GlobalKey<ScaffoldMessengerState>>();
+    Provider.of<Connectivity>(context, listen: false).onConnectivityChanged.listen(
       (event) async {
-        final hasConnection =
-            await context.read<InternetConnectionChecker>().hasConnection;
+        final hasConnection = await context.read<InternetConnectionChecker>().hasConnection;
 
         if (!hasConnection && context.mounted) {
           scaffoldMessengerKey.currentState

@@ -1,9 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../common/bag/strings.dart';
 import '../../../common/data/entities/user_entities.dart';
-import '../../../common/data/failures/failures.dart';
+import '../../../common/data/models/point_model.dart';
 import '../../profile/repo/profile_repo.dart';
 import '../ds/user_list_ds.dart';
 import 'coordinates_repo.dart';
@@ -13,7 +12,7 @@ abstract class UserListRepo {
     required int maxDistanceInKm,
   });
 
-  Future<List<ShortReadUserEntity>> getUsersWithMostCommonTags();
+  Future<List<ShortReadUserEntity>> getRelevantUsers();
 }
 
 @LazySingleton(as: UserListRepo)
@@ -33,63 +32,65 @@ class UserListRepoImpl implements UserListRepo {
     required int maxDistanceInKm,
   }) async {
     // get users last location from storage
-    final latestPoint = _coordinatesRepo.getLatestPosition();
+    PointModel? latestPoint = _coordinatesRepo.getLatestPositionFromLocal();
 
     if (latestPoint == null) {
-      throw CacheFailure(
-        m: Strings.failures.cacheFailure.copyWith(
-          forUser: 'Enable location services to see users nearby',
-        ),
-        e: Exception('Latest point is not available'),
-      );
-    } else {
-      // check if there are location permissions if not return failure
-      final startDateTime = DateTime.now().subtract(const Duration(days: 2));
-      final userIds = await _userListDS.getUserIdsAroundPoint(
-        pointLat: latestPoint.lat,
-        pointLong: latestPoint.long,
-        maxDistanceInKm: maxDistanceInKm,
-        startDateTime: startDateTime,
-      );
-
-      final users = await _userListDS.getUsersByIds(userIds: userIds);
-      return users;
-    }
-  }
-
-  @override
-  Future<List<ShortReadUserEntity>> getUsersWithMostCommonTags() async {
-    // get tags of current user
-    final tags = _profileRepo.getShortProfileLocal()?.tags;
-    if (tags == null || tags.isEmpty) {
-      final freshUsers = await _userListDS.getFreshUsers(50);
-      return freshUsers;
-      // throw
-      //   AuthFailure(
-      //     m: Strings.failures.authFaliure.copyWith(
-      //       forUser: 'Can not get your interests',
-      //     ),
-      //     e: Exception('User tags are not available'),
+      await _coordinatesRepo.addCurrentPositionToRemoteAndLocal();
+      latestPoint = _coordinatesRepo.getLatestPositionFromLocal();
+      // throw CacheFailure(
+      //   m: Strings.failures.cacheFailure.copyWith(
+      //     forUser: 'Enable location services to see users nearby',
       //   ),
+      //   e: Exception('Latest point is not available'),
       // );
     }
 
+    // check if there are location permissions if not return failure
+    final startDateTime = DateTime.now().subtract(const Duration(days: 2));
+    final userIds = await _userListDS.getUserIdsAroundPoint(
+      pointLat: latestPoint!.lat,
+      pointLong: latestPoint.long,
+      maxDistanceInKm: maxDistanceInKm,
+      startDateTime: startDateTime,
+    );
+
+    final users = await _userListDS.getUsersByIds(userIds: userIds);
+    return users;
+  }
+
+  @override
+  Future<List<ShortReadUserEntity>> getRelevantUsers() async {
+    // get tags of current user
+    final tags = _profileRepo.getShortProfileLocal()?.tags;
+    if (tags == null || tags.isEmpty) {
+      return _getFreshUsers();
+    } else {
+      final usersWithMostCommonTags = await _getUsersWithMostCommonTags(tags);
+      if (usersWithMostCommonTags.isEmpty) {
+        return _getFreshUsers();
+      } else {
+        return usersWithMostCommonTags;
+      }
+    }
+  }
+
+  Future<List<ShortReadUserEntity>> _getUsersWithMostCommonTags(List<String> tags) async {
     final userIds = await _userListDS.getUserIdsWithTheseTags(tags: tags);
 
     if (userIds.isEmpty) {
       return [];
     } else {
       // sort userids by map value decending and take top 10 keys and put these keys in separate list
-      final sortedUserIds = userIds.entries
-          .toList()
-          .sorted((a, b) => b.value.compareTo(a.value))
-          .take(50)
-          .map((e) => e.key)
-          .toSet();
+      final sortedUserIds = userIds.entries.toList().sorted((a, b) => b.value.compareTo(a.value)).take(50).map((e) => e.key).toSet();
 
       final users = await _userListDS.getUsersByIds(userIds: sortedUserIds);
 
       return users;
     }
+  }
+
+  Future<List<ShortReadUserEntity>> _getFreshUsers() async {
+    final freshUsers = await _userListDS.getFreshUsers(50);
+    return freshUsers;
   }
 }

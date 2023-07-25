@@ -37,8 +37,7 @@ class ExploreStateManager with ChangeNotifier {
   List<ShortReadUserEntity> get nearbyUsers => _nearbyUsers;
 
   List<ShortReadUserEntity> _usersWithMostCommonTags = [];
-  List<ShortReadUserEntity> get usersWithMostCommonTags =>
-      _usersWithMostCommonTags;
+  List<ShortReadUserEntity> get usersWithMostCommonTags => _usersWithMostCommonTags;
 
   void changeMaxDistanceInKm(int newMaxDistanceInKm) {
     _maxDistanceInKm = newMaxDistanceInKm;
@@ -60,12 +59,10 @@ class ExploreStateManager with ChangeNotifier {
   }
 
   Future<void> _fetchAndAssignUsers() async {
-    final usersWithCommonTagsFuture =
-        _userListRepo.getUsersWithMostCommonTags();
+    final usersWithCommonTagsFuture = _userListRepo.getRelevantUsers();
 
     final userGeoPermission = _geoPermissionsManager.locationPermission;
-    if (userGeoPermission != LocationPermission.denied &&
-        userGeoPermission != LocationPermission.deniedForever) {
+    if (userGeoPermission != LocationPermission.denied && userGeoPermission != LocationPermission.deniedForever) {
       final nearbyUsersFuture = _userListRepo.getUsersNearby(
         maxDistanceInKm: _maxDistanceInKm,
       );

@@ -8,9 +8,9 @@ import '../ds/coordinates_local_ds.dart';
 import '../ds/coordinates_remote_ds.dart';
 
 abstract class CoordinatesRepo {
-  Future<void> addCurrentPosition();
-  PointModel? getLatestPosition();
-  Future<void> deleteLocalPosition();
+  Future<void> addCurrentPositionToRemoteAndLocal();
+  PointModel? getLatestPositionFromLocal();
+  Future<void> deleteLocalPositionFromLocal();
 }
 
 @Singleton(as: CoordinatesRepo)
@@ -22,35 +22,37 @@ class CoordinatesRepoImpl implements CoordinatesRepo {
     this._coordinatesLocalDS,
     this._coordinatesRemoteDS,
   ) {
-    addCurrentPosition();
+    addCurrentPositionToRemoteAndLocal();
   }
 
   DateTime? _lastPositionUpdate;
 
   @override
-  Future<void> addCurrentPosition() async {
+  Future<void> addCurrentPositionToRemoteAndLocal() async {
+    final currentPoint = await _extractCurrentPositionFromGeolocator();
+    _coordinatesLocalDS.addPosition(currentPoint);
+
     if (_lastPositionUpdate != null) {
       final now = DateTime.now();
       final diff = now.difference(_lastPositionUpdate!);
       if (diff.inMinutes < 5) {
         return;
+      } else {
+        _coordinatesRemoteDS.addPosition(currentPoint);
+        _lastPositionUpdate = now;
       }
     }
+  }
 
-    _lastPositionUpdate = DateTime.now();
-
+  Future<PointModel> _extractCurrentPositionFromGeolocator() async {
     final permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse) {
+    if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
       final currentPosition = await Geolocator.getCurrentPosition();
       final currentPoint = PointModel(
         lat: currentPosition.latitude,
         long: currentPosition.longitude,
       );
-      _coordinatesLocalDS.addPosition(currentPoint);
-      final futureForRemote = _coordinatesRemoteDS.addPosition(currentPoint);
-
-      return futureForRemote;
+      return currentPoint;
     } else {
       _lastPositionUpdate = null;
       await _coordinatesLocalDS.deletePosition();
@@ -62,12 +64,12 @@ class CoordinatesRepoImpl implements CoordinatesRepo {
   }
 
   @override
-  PointModel? getLatestPosition() {
+  PointModel? getLatestPositionFromLocal() {
     return _coordinatesLocalDS.getPosition();
   }
 
   @override
-  Future<void> deleteLocalPosition() {
+  Future<void> deleteLocalPositionFromLocal() {
     return _coordinatesLocalDS.deletePosition();
   }
 }

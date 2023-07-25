@@ -87,12 +87,14 @@ class ActionsToAuthChangesService implements Disposable {
           } else {
             // sign out performed
             _profileRepo.deleteProfileLocal();
-            _coordinatesRepo.deleteLocalPosition();
+            _coordinatesRepo.deleteLocalPositionFromLocal();
+            _coordinatesRepo.addCurrentPositionToRemoteAndLocal();
           }
         } else {
           if (newUser == null) {
-            // new user, need to anonymously sign in
-            _authRepo.signInAnonymously();
+            // TODO: new user, need to try to sign in anonymously
+            // TODO: but it makes impossible to sign in existing user that was signed out before
+            // _authRepo.signInAnonymously();
           }
         }
       },
