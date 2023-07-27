@@ -74,9 +74,7 @@ class UserListDSImpl implements UserListDS {
         //*INFO: below is needed to execute the query
         .orderBy('dateTime', descending: true);
 
-    final stream = _geoFlutterFire
-        .collection(collectionRef: collectionReferenceWithDateTimeQuery)
-        .within(
+    final stream = _geoFlutterFire.collection(collectionRef: collectionReferenceWithDateTimeQuery).within(
           center: center,
           radius: maxDistanceInKm.toDouble(),
           field: Strings.server.positionField,
@@ -85,8 +83,7 @@ class UserListDSImpl implements UserListDS {
 
     final userCoordinates = await _requestCheckWrapper(stream.first);
 
-    final userIds =
-        userCoordinates.map((e) => e.get('userId') as String).toSet();
+    final userIds = userCoordinates.map((e) => e.get('userId') as String).toSet();
 
     return userIds;
   }
@@ -130,8 +127,7 @@ class UserListDSImpl implements UserListDS {
           )
           //*INFO: not too clean but ok
           .map((e) => e.copyWith(
-                commonTags:
-                    currentUserTags.intersection(e.tags.toSet()).toList(),
+                commonTags: currentUserTags.intersection(e.tags.toSet()).toList(),
               ))
           .toList();
       allUsersInSlices.addAll(users);
@@ -140,8 +136,7 @@ class UserListDSImpl implements UserListDS {
   }
 
   @override
-  Future<Map<String, int>> getUserIdsWithTheseTags(
-      {required List<String> tags}) async {
+  Future<Map<String, int>> getUserIdsWithTheseTags({required List<String> tags}) async {
     final tagSlices = tags.slices(10);
 
     final allUserIdsFromSlices = <String>[];
@@ -172,8 +167,7 @@ class UserListDSImpl implements UserListDS {
 
     for (var userId in allUserIdsFromSlices) {
       if (userIdToQuantityOfTagsInCommon.containsKey(userId)) {
-        userIdToQuantityOfTagsInCommon[userId] =
-            userIdToQuantityOfTagsInCommon[userId]! + 1;
+        userIdToQuantityOfTagsInCommon[userId] = userIdToQuantityOfTagsInCommon[userId]! + 1;
       } else {
         userIdToQuantityOfTagsInCommon[userId] = 1;
       }
@@ -184,14 +178,14 @@ class UserListDSImpl implements UserListDS {
 
   @override
   Future<List<ShortReadUserModel>> getFreshUsers(int maxQuantity) async {
+    final currentUserId = _authRepo.currentUser?.uid;
+
     final future = _firestore
         .collection(shortUserCollection)
+        .where('id', isNotEqualTo: currentUserId)
         .orderBy('createdDateTime', descending: true)
         .limit(maxQuantity)
-        .withConverter(
-            fromFirestore: (snapshot, _) =>
-                ShortReadUserModel.fromJson(snapshot.data()!),
-            toFirestore: (ShortReadUserModel model, _) => {})
+        .withConverter(fromFirestore: (snapshot, _) => ShortReadUserModel.fromJson(snapshot.data()!), toFirestore: (ShortReadUserModel model, _) => {})
         .get();
 
     final result = await _requestCheckWrapper(future);
