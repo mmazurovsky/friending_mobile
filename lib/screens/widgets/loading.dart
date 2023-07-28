@@ -28,15 +28,16 @@ class MyLoadingIndicator extends StatelessWidget {
       height: 27,
       width: 27,
       child: PlatformCircularProgressIndicator(
-          cupertino: (context, platform) => CupertinoProgressIndicatorData(
-                radius: 12,
-              ),
-          material: (context, platform) => MaterialProgressIndicatorData(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  context.theme.colorScheme.secondary,
-                ),
-              )),
+        cupertino: (context, platform) => CupertinoProgressIndicatorData(
+          radius: 12,
+        ),
+        material: (context, platform) => MaterialProgressIndicatorData(
+          strokeWidth: 2,
+          valueColor: AlwaysStoppedAnimation<Color>(
+            context.theme.colorScheme.secondary,
+          ),
+        ),
+      ),
     );
   }
 }

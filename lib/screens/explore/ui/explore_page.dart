@@ -108,8 +108,6 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
-                        // return widget for each user with common interests
-
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
