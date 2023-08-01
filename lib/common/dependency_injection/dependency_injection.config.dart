@@ -5,27 +5,25 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i26;
+import 'package:auto_route/auto_route.dart' as _i24;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i12;
 import 'package:connectivity_plus/connectivity_plus.dart' as _i6;
 import 'package:firebase_analytics/firebase_analytics.dart' as _i9;
 import 'package:firebase_auth/firebase_auth.dart' as _i10;
 import 'package:firebase_crashlytics/firebase_crashlytics.dart' as _i11;
 import 'package:firebase_storage/firebase_storage.dart' as _i13;
-import 'package:flutter_mobile_starter/common/auth/repo/auth_repo.dart' as _i28;
+import 'package:flutter_mobile_starter/common/auth/repo/auth_repo.dart' as _i26;
 import 'package:flutter_mobile_starter/common/client/request_check_wrapper.dart'
-    as _i24;
+    as _i22;
 import 'package:flutter_mobile_starter/common/configs/auth_changes_listener.dart'
-    as _i34;
+    as _i32;
 import 'package:flutter_mobile_starter/common/data/enums.dart' as _i5;
-import 'package:flutter_mobile_starter/common/data/models/user_models.dart'
-    as _i21;
 import 'package:flutter_mobile_starter/common/image_handling/image_service.dart'
-    as _i31;
+    as _i29;
 import 'package:flutter_mobile_starter/common/navigation/auto_router/app_router.dart'
     as _i3;
 import 'package:flutter_mobile_starter/common/navigation/my_bottom_nav_bar.dart'
-    as _i25;
+    as _i23;
 import 'package:flutter_mobile_starter/common/utils/logger/custom_logger.dart'
     as _i8;
 import 'package:flutter_mobile_starter/common/utils/logger/logger_config.dart'
@@ -33,45 +31,47 @@ import 'package:flutter_mobile_starter/common/utils/logger/logger_config.dart'
 import 'package:flutter_mobile_starter/screens/explore/ds/coordinates_local_ds.dart'
     as _i7;
 import 'package:flutter_mobile_starter/screens/explore/ds/coordinates_remote_ds.dart'
-    as _i29;
+    as _i27;
 import 'package:flutter_mobile_starter/screens/explore/ds/user_list_ds.dart'
-    as _i37;
+    as _i35;
 import 'package:flutter_mobile_starter/screens/explore/repo/coordinates_repo.dart'
-    as _i30;
+    as _i28;
 import 'package:flutter_mobile_starter/screens/explore/repo/user_list_repo.dart'
-    as _i38;
+    as _i36;
 import 'package:flutter_mobile_starter/screens/explore/state/explore_state_manager.dart'
-    as _i40;
+    as _i39;
 import 'package:flutter_mobile_starter/screens/explore/state/geo_permissions_manager.dart'
     as _i15;
 import 'package:flutter_mobile_starter/screens/other_user/ds/connect_ds.dart'
-    as _i39;
+    as _i37;
 import 'package:flutter_mobile_starter/screens/other_user/ds/other_user_profile_ds.dart'
-    as _i45;
+    as _i44;
 import 'package:flutter_mobile_starter/screens/other_user/ds/pairs_ds.dart'
-    as _i41;
+    as _i40;
+import 'package:flutter_mobile_starter/screens/other_user/repo/connect_repo.dart'
+    as _i38;
+import 'package:flutter_mobile_starter/screens/other_user/repo/other_user_profile_repo.dart'
+    as _i45;
 import 'package:flutter_mobile_starter/screens/other_user/state/connect_manager.dart'
     as _i4;
-import 'package:flutter_mobile_starter/screens/other_user/state/other_user_manager.dart'
-    as _i20;
 import 'package:flutter_mobile_starter/screens/profile/ds/profile_local_ds.dart'
-    as _i23;
+    as _i21;
 import 'package:flutter_mobile_starter/screens/profile/ds/profile_remote_ds.dart'
-    as _i32;
+    as _i30;
 import 'package:flutter_mobile_starter/screens/profile/ds/souls_ds.dart'
-    as _i36;
+    as _i34;
 import 'package:flutter_mobile_starter/screens/profile/repo/profile_repo.dart'
-    as _i33;
+    as _i31;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_content_manager.dart'
-    as _i42;
+    as _i41;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_editing_manager.dart'
-    as _i43;
+    as _i42;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_images_manager.dart'
-    as _i22;
+    as _i20;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_page_routing_manager.dart'
-    as _i44;
+    as _i43;
 import 'package:flutter_mobile_starter/screens/profile/state/profile_texts_manager.dart'
-    as _i35;
+    as _i33;
 import 'package:geoflutterfire2/geoflutterfire2.dart' as _i14;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:image_cropper/image_cropper.dart' as _i16;
@@ -79,7 +79,7 @@ import 'package:image_picker/image_picker.dart' as _i17;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i18;
-import 'package:uuid/uuid.dart' as _i27;
+import 'package:uuid/uuid.dart' as _i25;
 
 import 'modules.dart' as _i46;
 
@@ -115,113 +115,115 @@ _i1.GetIt init(
   gh.lazySingleton<_i18.InternetConnectionChecker>(
       () => modules.internetConnectionChecker);
   gh.lazySingleton<_i19.LoggerConfig>(() => _i19.LoggerConfig());
-  gh.factory<_i20.OtherUserManager>(
-      () => _i20.OtherUserManager(gh<_i21.ShortReadUserModel>()));
-  gh.factory<_i22.ProfileImagesManager>(() => _i22.ProfileImagesManager());
-  gh.lazySingleton<_i23.ProfileLocalDS>(() => _i23.ProfileLocalDSImpl());
-  gh.lazySingleton<_i24.RequestCheckWrapper>(
-      () => _i24.RequestCheckWrapperImpl());
-  gh.lazySingleton<_i25.TabsStateManager>(
-      () => _i25.TabsStateManager(gh<_i26.TabsRouter>()));
-  gh.lazySingleton<_i27.Uuid>(() => modules.uuid);
-  gh.lazySingleton<_i28.AuthRepo>(() => _i28.FirebaseAuthRepoImpl(
+  gh.factory<_i20.ProfileImagesManager>(() => _i20.ProfileImagesManager());
+  gh.lazySingleton<_i21.ProfileLocalDS>(() => _i21.ProfileLocalDSImpl());
+  gh.lazySingleton<_i22.RequestCheckWrapper>(
+      () => _i22.RequestCheckWrapperImpl());
+  gh.lazySingleton<_i23.TabsStateManager>(
+      () => _i23.TabsStateManager(gh<_i24.TabsRouter>()));
+  gh.lazySingleton<_i25.Uuid>(() => modules.uuid);
+  gh.lazySingleton<_i26.AuthRepo>(() => _i26.FirebaseAuthRepoImpl(
         gh<_i10.FirebaseAuth>(),
         gh<_i8.CustomLogger>(),
       ));
-  gh.lazySingleton<_i29.CoordinatesRemoteDS>(() => _i29.CoordinatesDSImpl(
+  gh.lazySingleton<_i27.CoordinatesRemoteDS>(() => _i27.CoordinatesDSImpl(
         gh<_i12.FirebaseFirestore>(),
         gh<_i14.GeoFlutterFire>(),
-        gh<_i28.AuthRepo>(),
-        gh<_i24.RequestCheckWrapper>(),
+        gh<_i26.AuthRepo>(),
+        gh<_i22.RequestCheckWrapper>(),
         gh<_i8.CustomLogger>(),
       ));
-  gh.singleton<_i30.CoordinatesRepo>(_i30.CoordinatesRepoImpl(
+  gh.singleton<_i28.CoordinatesRepo>(_i28.CoordinatesRepoImpl(
     gh<_i7.CoordinatesLocalDS>(),
-    gh<_i29.CoordinatesRemoteDS>(),
+    gh<_i27.CoordinatesRemoteDS>(),
   ));
-  gh.lazySingleton<_i31.ImageService>(() => _i31.FirebaseImageServiceImpl(
+  gh.lazySingleton<_i29.ImageService>(() => _i29.FirebaseImageServiceImpl(
         gh<_i13.FirebaseStorage>(),
         gh<_i8.CustomLogger>(),
-        gh<_i24.RequestCheckWrapper>(),
+        gh<_i22.RequestCheckWrapper>(),
       ));
-  gh.lazySingleton<_i32.ProfileRemoteDS>(() => _i32.ProfileDSImpl(
-        gh<_i28.AuthRepo>(),
+  gh.lazySingleton<_i30.ProfileRemoteDS>(() => _i30.ProfileDSImpl(
+        gh<_i26.AuthRepo>(),
         gh<_i12.FirebaseFirestore>(),
-        gh<_i24.RequestCheckWrapper>(),
+        gh<_i22.RequestCheckWrapper>(),
         gh<_i8.CustomLogger>(),
       ));
-  gh.lazySingleton<_i33.ProfileRepo>(() => _i33.ProfileRepoImpl(
-        gh<_i23.ProfileLocalDS>(),
-        gh<_i32.ProfileRemoteDS>(),
+  gh.lazySingleton<_i31.ProfileRepo>(() => _i31.ProfileRepoImpl(
+        gh<_i21.ProfileLocalDS>(),
+        gh<_i30.ProfileRemoteDS>(),
       ));
-  gh.singleton<_i34.ProfileStreamService>(_i34.ProfileStreamService(
-    gh<_i28.AuthRepo>(),
-    gh<_i33.ProfileRepo>(),
+  gh.singleton<_i32.ProfileStreamService>(_i32.ProfileStreamService(
+    gh<_i26.AuthRepo>(),
+    gh<_i31.ProfileRepo>(),
   ));
-  gh.factory<_i35.ProfileTextsAndTagsManager>(
-      () => _i35.ProfileTextsAndTagsManager(gh<_i33.ProfileRepo>()));
-  gh.lazySingleton<_i36.SoulsDS>(() => _i36.SoulsDSImpl(
-        gh<_i24.RequestCheckWrapper>(),
+  gh.factory<_i33.ProfileTextsAndTagsManager>(
+      () => _i33.ProfileTextsAndTagsManager(gh<_i31.ProfileRepo>()));
+  gh.lazySingleton<_i34.SoulsDS>(() => _i34.SoulsDSImpl(
+        gh<_i22.RequestCheckWrapper>(),
         gh<_i12.FirebaseFirestore>(),
-        gh<_i28.AuthRepo>(),
+        gh<_i26.AuthRepo>(),
         gh<_i8.CustomLogger>(),
       ));
-  gh.lazySingleton<_i37.UserListDS>(() => _i37.UserListDSImpl(
+  gh.lazySingleton<_i35.UserListDS>(() => _i35.UserListDSImpl(
         gh<_i12.FirebaseFirestore>(),
         gh<_i14.GeoFlutterFire>(),
-        gh<_i28.AuthRepo>(),
-        gh<_i32.ProfileRemoteDS>(),
-        gh<_i24.RequestCheckWrapper>(),
+        gh<_i26.AuthRepo>(),
+        gh<_i30.ProfileRemoteDS>(),
+        gh<_i22.RequestCheckWrapper>(),
       ));
-  gh.lazySingleton<_i38.UserListRepo>(() => _i38.UserListRepoImpl(
-        gh<_i37.UserListDS>(),
-        gh<_i30.CoordinatesRepo>(),
-        gh<_i33.ProfileRepo>(),
+  gh.lazySingleton<_i36.UserListRepo>(() => _i36.UserListRepoImpl(
+        gh<_i35.UserListDS>(),
+        gh<_i28.CoordinatesRepo>(),
+        gh<_i31.ProfileRepo>(),
       ));
-  gh.singleton<_i34.ActionsToAuthChangesService>(
-      _i34.ActionsToAuthChangesService(
-    gh<_i28.AuthRepo>(),
-    gh<_i33.ProfileRepo>(),
-    gh<_i30.CoordinatesRepo>(),
+  gh.singleton<_i32.ActionsToAuthChangesService>(
+      _i32.ActionsToAuthChangesService(
+    gh<_i26.AuthRepo>(),
+    gh<_i31.ProfileRepo>(),
+    gh<_i28.CoordinatesRepo>(),
   ));
-  gh.lazySingleton<_i39.ConnectDS>(() => _i39.ConnectDSImpl(
-        gh<_i37.UserListDS>(),
-        gh<_i24.RequestCheckWrapper>(),
+  gh.lazySingleton<_i37.ConnectDS>(() => _i37.ConnectDSImpl(
+        gh<_i35.UserListDS>(),
+        gh<_i22.RequestCheckWrapper>(),
         gh<_i12.FirebaseFirestore>(),
-        gh<_i28.AuthRepo>(),
+        gh<_i26.AuthRepo>(),
         gh<_i8.CustomLogger>(),
       ));
-  gh.lazySingleton<_i40.ExploreStateManager>(() => _i40.ExploreStateManager(
-        gh<_i38.UserListRepo>(),
-        gh<_i30.CoordinatesRepo>(),
+  gh.lazySingleton<_i38.ConnectRepo>(
+      () => _i38.ConnectRepoImpl(gh<_i37.ConnectDS>()));
+  gh.lazySingleton<_i39.ExploreStateManager>(() => _i39.ExploreStateManager(
+        gh<_i36.UserListRepo>(),
+        gh<_i28.CoordinatesRepo>(),
         gh<_i15.GeoPermissionsManager>(),
       ));
-  gh.lazySingleton<_i41.PairsDS>(() => _i41.PairsDSImpl(
-        gh<_i37.UserListDS>(),
-        gh<_i24.RequestCheckWrapper>(),
+  gh.lazySingleton<_i40.PairsDS>(() => _i40.PairsDSImpl(
+        gh<_i35.UserListDS>(),
+        gh<_i22.RequestCheckWrapper>(),
         gh<_i12.FirebaseFirestore>(),
-        gh<_i28.AuthRepo>(),
+        gh<_i26.AuthRepo>(),
         gh<_i8.CustomLogger>(),
       ));
-  gh.factory<_i42.ProfileContentManager>(() => _i42.ProfileContentManager(
-        gh<_i33.ProfileRepo>(),
-        gh<_i28.AuthRepo>(),
+  gh.factory<_i41.ProfileContentManager>(() => _i41.ProfileContentManager(
+        gh<_i31.ProfileRepo>(),
+        gh<_i26.AuthRepo>(),
       ));
-  gh.factory<_i43.ProfileEditingManager>(() => _i43.ProfileEditingManager(
-        gh<_i22.ProfileImagesManager>(),
-        gh<_i35.ProfileTextsAndTagsManager>(),
-        gh<_i33.ProfileRepo>(),
-        gh<_i28.AuthRepo>(),
+  gh.factory<_i42.ProfileEditingManager>(() => _i42.ProfileEditingManager(
+        gh<_i20.ProfileImagesManager>(),
+        gh<_i33.ProfileTextsAndTagsManager>(),
+        gh<_i31.ProfileRepo>(),
+        gh<_i26.AuthRepo>(),
       ));
-  gh.singleton<_i44.ProfilePageRoutingManager>(
-      _i44.ProfilePageRoutingManager(gh<_i34.ProfileStreamService>()));
-  gh.lazySingleton<_i45.OtherUserProfileDS>(() => _i45.OtherUserProfileDSImpl(
-        gh<_i24.RequestCheckWrapper>(),
+  gh.singleton<_i43.ProfilePageRoutingManager>(
+      _i43.ProfilePageRoutingManager(gh<_i32.ProfileStreamService>()));
+  gh.lazySingleton<_i44.OtherUserProfileDS>(() => _i44.OtherUserProfileDSImpl(
+        gh<_i22.RequestCheckWrapper>(),
         gh<_i12.FirebaseFirestore>(),
-        gh<_i28.AuthRepo>(),
+        gh<_i26.AuthRepo>(),
         gh<_i8.CustomLogger>(),
-        gh<_i41.PairsDS>(),
+        gh<_i40.PairsDS>(),
       ));
+  gh.lazySingleton<_i45.OtherUserProfileRepo>(
+      () => _i45.OtherUserProfileRepoImpl(gh<_i44.OtherUserProfileDS>()));
   return getIt;
 }
 

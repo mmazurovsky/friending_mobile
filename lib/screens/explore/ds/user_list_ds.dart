@@ -180,13 +180,24 @@ class UserListDSImpl implements UserListDS {
   Future<List<ShortReadUserModel>> getFreshUsers(int maxQuantity) async {
     final currentUserId = _authRepo.currentUser?.uid;
 
-    final future = _firestore
-        .collection(shortUserCollection)
-        .where('id', isNotEqualTo: currentUserId)
-        .orderBy('createdDateTime', descending: true)
-        .limit(maxQuantity)
-        .withConverter(fromFirestore: (snapshot, _) => ShortReadUserModel.fromJson(snapshot.data()!), toFirestore: (ShortReadUserModel model, _) => {})
-        .get();
+    Future<QuerySnapshot<ShortReadUserModel>> future;
+    if (currentUserId != null) {
+      future = _firestore
+          .collection(shortUserCollection)
+          .where('id', isNotEqualTo: currentUserId)
+          .orderBy('id')
+          .orderBy('createdDateTime', descending: true)
+          .limit(maxQuantity)
+          .withConverter(fromFirestore: (snapshot, _) => ShortReadUserModel.fromJson(snapshot.data()!), toFirestore: (ShortReadUserModel model, _) => {})
+          .get();
+    } else {
+      future = _firestore
+          .collection(shortUserCollection)
+          .orderBy('createdDateTime', descending: true)
+          .limit(maxQuantity)
+          .withConverter(fromFirestore: (snapshot, _) => ShortReadUserModel.fromJson(snapshot.data()!), toFirestore: (ShortReadUserModel model, _) => {})
+          .get();
+    }
 
     final result = await _requestCheckWrapper(future);
 

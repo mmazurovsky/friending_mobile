@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_starter/common/data/models/user_models.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -33,11 +34,11 @@ class ExploreStateManager with ChangeNotifier {
   int _maxDistanceInKm = 100;
   int get maxDistanceInKm => _maxDistanceInKm;
 
-  List<ShortReadUserEntity> _nearbyUsers = [];
-  List<ShortReadUserEntity> get nearbyUsers => _nearbyUsers;
+  List<ShortReadUserModel> _nearbyUsers = [];
+  List<ShortReadUserModel> get nearbyUsers => _nearbyUsers;
 
-  List<ShortReadUserEntity> _usersWithMostCommonTags = [];
-  List<ShortReadUserEntity> get usersWithMostCommonTags => _usersWithMostCommonTags;
+  List<ShortReadUserModel> _usersWithMostCommonTags = [];
+  List<ShortReadUserModel> get usersWithMostCommonTags => _usersWithMostCommonTags;
 
   void changeMaxDistanceInKm(int newMaxDistanceInKm) {
     _maxDistanceInKm = newMaxDistanceInKm;

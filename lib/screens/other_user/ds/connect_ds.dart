@@ -54,8 +54,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
         .collection(connectionsCollection)
         .doc(userId)
         .withConverter<ConnectionModel?>(
-          fromFirestore: (map, opt) =>
-              map.data() != null ? ConnectionModel.fromJson(map.data()!) : null,
+          fromFirestore: (map, opt) => map.data() != null ? ConnectionModel.fromJson(map.data()!) : null,
           toFirestore: (ConnectionModel? model, opt) => model?.toJson() ?? {},
         )
         .get();
@@ -64,26 +63,19 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
 
     late UserPairStatusEnum returnable;
 
+    //TODO: don't process this status on client, only on server
     if (currentConnection?.status == UserPairStatusEnum.toBeApproved) {
       returnable = UserPairStatusEnum.paired;
       //TODO: on server check for this update and issue event and notification
       final batchOperation = _firestore.batch();
       final dateTime = DateTime.now();
       batchOperation.update(
-        _firestore
-            .collection(fullUserCollection)
-            .doc(userId)
-            .collection(connectionsCollection)
-            .doc(currentUserId),
+        _firestore.collection(fullUserCollection).doc(userId).collection(connectionsCollection).doc(currentUserId),
         // TODO check if user is already connected with someone and disconnect them
         {'status': UserPairStatusEnum.paired.toString()},
       );
       batchOperation.set(
-        _firestore
-            .collection(fullUserCollection)
-            .doc(currentUserId)
-            .collection(connectionsCollection)
-            .doc(userId),
+        _firestore.collection(fullUserCollection).doc(currentUserId).collection(connectionsCollection).doc(userId),
         // TODO check if user is already connected with someone and disconnect them
         ConnectionModel(
           userId: userId,
@@ -96,11 +88,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       final batchOperation = _firestore.batch();
       final dateTime = DateTime.now();
       batchOperation.set(
-        _firestore
-            .collection(fullUserCollection)
-            .doc(userId)
-            .collection(connectionsCollection)
-            .doc(currentUserId),
+        _firestore.collection(fullUserCollection).doc(userId).collection(connectionsCollection).doc(currentUserId),
         ConnectionModel(
           userId: currentUserId,
           status: UserPairStatusEnum.toBeApproved,
@@ -108,11 +96,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
         ).toJson(),
       );
       batchOperation.set(
-        _firestore
-            .collection(fullUserCollection)
-            .doc(currentUserId)
-            .collection(connectionsCollection)
-            .doc(userId),
+        _firestore.collection(fullUserCollection).doc(currentUserId).collection(connectionsCollection).doc(userId),
         ConnectionModel(
           userId: currentUserId,
           status: UserPairStatusEnum.requested,
@@ -138,8 +122,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
         .collection(connectionsCollection)
         .doc(userId)
         .withConverter<ConnectionModel?>(
-          fromFirestore: (map, opt) =>
-              map.data() != null ? ConnectionModel.fromJson(map.data()!) : null,
+          fromFirestore: (map, opt) => map.data() != null ? ConnectionModel.fromJson(map.data()!) : null,
           toFirestore: (ConnectionModel? model, opt) => model?.toJson() ?? {},
         )
         .get();
@@ -151,19 +134,11 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       final batchOperation = _firestore.batch();
       final dateTime = DateTime.now();
       batchOperation.update(
-        _firestore
-            .collection(fullUserCollection)
-            .doc(userId)
-            .collection(connectionsCollection)
-            .doc(currentUserId),
+        _firestore.collection(fullUserCollection).doc(userId).collection(connectionsCollection).doc(currentUserId),
         {'endedDateTime': dateTime.toIso8601String()},
       );
       batchOperation.update(
-        _firestore
-            .collection(fullUserCollection)
-            .doc(currentUserId)
-            .collection(connectionsCollection)
-            .doc(userId),
+        _firestore.collection(fullUserCollection).doc(currentUserId).collection(connectionsCollection).doc(userId),
         {'endedDateTime': dateTime.toIso8601String()},
       );
       future = batchOperation.commit();
@@ -171,18 +146,10 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       // Remove pair request
       final batchOperation = _firestore.batch();
       batchOperation.delete(
-        _firestore
-            .collection(fullUserCollection)
-            .doc(userId)
-            .collection(connectionsCollection)
-            .doc(currentUserId),
+        _firestore.collection(fullUserCollection).doc(userId).collection(connectionsCollection).doc(currentUserId),
       );
       batchOperation.delete(
-        _firestore
-            .collection(fullUserCollection)
-            .doc(currentUserId)
-            .collection(connectionsCollection)
-            .doc(userId),
+        _firestore.collection(fullUserCollection).doc(currentUserId).collection(connectionsCollection).doc(userId),
       );
       future = batchOperation.commit();
     }

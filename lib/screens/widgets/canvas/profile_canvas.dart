@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_starter/common/data/models/user_models.dart';
 
 import '../../../common/data/entities/user_entities.dart';
 import '../app_bar/animated_sliver_app_bar_with_bottom.dart';
@@ -7,15 +8,17 @@ import '../texts/entity_subtitle.dart';
 import '../texts/entity_title.dart';
 
 class EntityPageCanvas extends StatefulWidget {
-  final ShortReadUserEntity data;
+  final ShortReadUserModel data;
   final bool isBackButtonOn;
   final Widget loadableContent;
   final ScrollController? scrollController;
+  final Widget button;
 
   const EntityPageCanvas({
     Key? key,
     required this.data,
     required this.loadableContent,
+    required this.button,
     this.isBackButtonOn = true,
     this.scrollController,
   }) : super(key: key);
@@ -64,6 +67,8 @@ class _EntityPageCanvasState extends State<EntityPageCanvas> {
                   languages: const [],
                   age: widget.data.age,
                 ),
+                const SizedBox(height: 15),
+                widget.button,
                 widget.loadableContent,
                 const ScreenEnding(),
               ],

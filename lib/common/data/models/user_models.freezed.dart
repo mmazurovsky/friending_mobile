@@ -195,7 +195,7 @@ mixin _$OtherUserFullModel {
       throw _privateConstructorUsedError; // required AdditionalUserModel additionalUserModel,
   SecureUserInfoModel get secureUserInfoModel =>
       throw _privateConstructorUsedError;
-  UserPairStatusEnum get connectStatusEnum =>
+  UserPairStatusEnum get userPairStatusEnum =>
       throw _privateConstructorUsedError;
   ShortReadUserModel? get pairedWith => throw _privateConstructorUsedError;
 
@@ -213,7 +213,7 @@ abstract class $OtherUserFullModelCopyWith<$Res> {
   $Res call(
       {ShortReadUserModel shortUserModel,
       SecureUserInfoModel secureUserInfoModel,
-      UserPairStatusEnum connectStatusEnum,
+      UserPairStatusEnum userPairStatusEnum,
       ShortReadUserModel? pairedWith});
 
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
@@ -236,7 +236,7 @@ class _$OtherUserFullModelCopyWithImpl<$Res, $Val extends OtherUserFullModel>
   $Res call({
     Object? shortUserModel = null,
     Object? secureUserInfoModel = null,
-    Object? connectStatusEnum = null,
+    Object? userPairStatusEnum = null,
     Object? pairedWith = freezed,
   }) {
     return _then(_value.copyWith(
@@ -248,9 +248,9 @@ class _$OtherUserFullModelCopyWithImpl<$Res, $Val extends OtherUserFullModel>
           ? _value.secureUserInfoModel
           : secureUserInfoModel // ignore: cast_nullable_to_non_nullable
               as SecureUserInfoModel,
-      connectStatusEnum: null == connectStatusEnum
-          ? _value.connectStatusEnum
-          : connectStatusEnum // ignore: cast_nullable_to_non_nullable
+      userPairStatusEnum: null == userPairStatusEnum
+          ? _value.userPairStatusEnum
+          : userPairStatusEnum // ignore: cast_nullable_to_non_nullable
               as UserPairStatusEnum,
       pairedWith: freezed == pairedWith
           ? _value.pairedWith
@@ -300,7 +300,7 @@ abstract class _$$_OtherUserFullModelCopyWith<$Res>
   $Res call(
       {ShortReadUserModel shortUserModel,
       SecureUserInfoModel secureUserInfoModel,
-      UserPairStatusEnum connectStatusEnum,
+      UserPairStatusEnum userPairStatusEnum,
       ShortReadUserModel? pairedWith});
 
   @override
@@ -324,7 +324,7 @@ class __$$_OtherUserFullModelCopyWithImpl<$Res>
   $Res call({
     Object? shortUserModel = null,
     Object? secureUserInfoModel = null,
-    Object? connectStatusEnum = null,
+    Object? userPairStatusEnum = null,
     Object? pairedWith = freezed,
   }) {
     return _then(_$_OtherUserFullModel(
@@ -336,9 +336,9 @@ class __$$_OtherUserFullModelCopyWithImpl<$Res>
           ? _value.secureUserInfoModel
           : secureUserInfoModel // ignore: cast_nullable_to_non_nullable
               as SecureUserInfoModel,
-      connectStatusEnum: null == connectStatusEnum
-          ? _value.connectStatusEnum
-          : connectStatusEnum // ignore: cast_nullable_to_non_nullable
+      userPairStatusEnum: null == userPairStatusEnum
+          ? _value.userPairStatusEnum
+          : userPairStatusEnum // ignore: cast_nullable_to_non_nullable
               as UserPairStatusEnum,
       pairedWith: freezed == pairedWith
           ? _value.pairedWith
@@ -354,7 +354,7 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
   const _$_OtherUserFullModel(
       {required this.shortUserModel,
       required this.secureUserInfoModel,
-      required this.connectStatusEnum,
+      required this.userPairStatusEnum,
       required this.pairedWith})
       : super._();
 
@@ -364,13 +364,13 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
   @override
   final SecureUserInfoModel secureUserInfoModel;
   @override
-  final UserPairStatusEnum connectStatusEnum;
+  final UserPairStatusEnum userPairStatusEnum;
   @override
   final ShortReadUserModel? pairedWith;
 
   @override
   String toString() {
-    return 'OtherUserFullModel(shortUserModel: $shortUserModel, secureUserInfoModel: $secureUserInfoModel, connectStatusEnum: $connectStatusEnum, pairedWith: $pairedWith)';
+    return 'OtherUserFullModel(shortUserModel: $shortUserModel, secureUserInfoModel: $secureUserInfoModel, userPairStatusEnum: $userPairStatusEnum, pairedWith: $pairedWith)';
   }
 
   @override
@@ -382,15 +382,15 @@ class _$_OtherUserFullModel extends _OtherUserFullModel {
                 other.shortUserModel == shortUserModel) &&
             (identical(other.secureUserInfoModel, secureUserInfoModel) ||
                 other.secureUserInfoModel == secureUserInfoModel) &&
-            (identical(other.connectStatusEnum, connectStatusEnum) ||
-                other.connectStatusEnum == connectStatusEnum) &&
+            (identical(other.userPairStatusEnum, userPairStatusEnum) ||
+                other.userPairStatusEnum == userPairStatusEnum) &&
             (identical(other.pairedWith, pairedWith) ||
                 other.pairedWith == pairedWith));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, shortUserModel,
-      secureUserInfoModel, connectStatusEnum, pairedWith);
+      secureUserInfoModel, userPairStatusEnum, pairedWith);
 
   @JsonKey(ignore: true)
   @override
@@ -404,7 +404,7 @@ abstract class _OtherUserFullModel extends OtherUserFullModel {
   const factory _OtherUserFullModel(
       {required final ShortReadUserModel shortUserModel,
       required final SecureUserInfoModel secureUserInfoModel,
-      required final UserPairStatusEnum connectStatusEnum,
+      required final UserPairStatusEnum userPairStatusEnum,
       required final ShortReadUserModel? pairedWith}) = _$_OtherUserFullModel;
   const _OtherUserFullModel._() : super._();
 
@@ -413,7 +413,7 @@ abstract class _OtherUserFullModel extends OtherUserFullModel {
   @override // required AdditionalUserModel additionalUserModel,
   SecureUserInfoModel get secureUserInfoModel;
   @override
-  UserPairStatusEnum get connectStatusEnum;
+  UserPairStatusEnum get userPairStatusEnum;
   @override
   ShortReadUserModel? get pairedWith;
   @override

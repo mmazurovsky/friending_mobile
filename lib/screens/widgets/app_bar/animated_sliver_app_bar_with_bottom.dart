@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_starter/common/data/models/user_models.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -11,7 +12,7 @@ class AnimatedSliverAppBarWithBottom extends StatefulWidget {
   final ScrollController scrollController;
   final bool isBackButtonOn;
   final List<Widget> actions;
-  final ShortReadUserEntity data;
+  final ShortReadUserModel data;
 
   const AnimatedSliverAppBarWithBottom({
     Key? key,

@@ -1,17 +1,16 @@
-import 'dart:async';
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../../common/bag/stateful/theme.dart';
+import '../loading.dart';
 
 class CCachedNetworkImage extends StatelessWidget {
   final String? imageLink;
-  final Completer<ImageInfo> _imageCompleter;
+  // final Completer<ImageInfo> _imageCompleter;
   CCachedNetworkImage(this.imageLink, {Key? key})
-      : _imageCompleter = Completer<ImageInfo>(),
+      :
+        // : _imageCompleter = Completer<ImageInfo>(),
         super(key: ValueKey(imageLink));
 
   // Future<ImageDimensions?> getImageDimensions() async {
@@ -31,24 +30,25 @@ class CCachedNetworkImage extends StatelessWidget {
         : CachedNetworkImage(
             imageUrl: imageLink!,
             imageBuilder: (context, provider) {
-              provider.resolve(const ImageConfiguration()).addListener(
-                    ImageStreamListener(
-                      (imageInfo, _) {
-                        if (!_imageCompleter.isCompleted) {
-                          _imageCompleter.complete(imageInfo);
-                        }
-                      },
-                      onError: (exception, stackTrace) => log(
-                          'CachedNetworkImage exception: $exception, stacktrace: $stackTrace'), //TODO exception
-                    ),
-                  );
+              // provider.resolve(const ImageConfiguration()).addListener(
+              //       ImageStreamListener(
+              //         (imageInfo, _) {
+              //           if (!_imageCompleter.isCompleted) {
+              //             _imageCompleter.complete(imageInfo);
+              //           }
+              //         },
+              //         onError: (exception, stackTrace) => log('CachedNetworkImage exception: $exception, stacktrace: $stackTrace'), //TODO exception
+              //       ),
+              //     );
               return Image(
                 image: provider,
                 fit: BoxFit.cover,
               );
             },
-            placeholder: (context, url) =>
-                Container(color: context.theme.colorScheme.background),
+            placeholder: (context, url) => Container(
+              color: context.theme.colorScheme.background,
+              child: const MyLoadingIndicator(),
+            ),
             errorWidget: (context, url, smth) => const EmptyImagePlaceholder(),
           );
   }

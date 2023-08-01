@@ -45,10 +45,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
     final futureShortModel = _firebaseFirestore
         .collection(shortUserCollection)
         .doc(userId)
-        .withConverter(
-            fromFirestore: (snapshot, _) =>
-                ShortReadUserModel.fromJson(snapshot.data()!),
-            toFirestore: (ShortReadUserModel model, _) => {})
+        .withConverter(fromFirestore: (snapshot, _) => ShortReadUserModel.fromJson(snapshot.data()!), toFirestore: (ShortReadUserModel model, _) => {})
         .get();
 
     final futureShortModelRaw = _requestCheckWrapper(futureShortModel);
@@ -63,18 +60,16 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
 
     final secureUserInfoRaw = await _getSecureFields(userId);
 
-    final publicFields = secureUserInfoRaw.fields
-        .where((e) => e.state == SecureFieldStatusEnum.public)
-        .toList();
+    final publicFields = secureUserInfoRaw.fields.where((e) => e.state == SecureFieldStatusEnum.public).toList();
 
     currentUser = _authRepo.currentUser;
 
     if (currentUser == null) {
       return OtherUserFullModel(
         shortUserModel: shortUserModel,
-        pairedWith: pairs.first,
+        pairedWith: pairs.isNotEmpty ? pairs.first : null,
         secureUserInfoModel: SecureUserInfoModel(publicFields),
-        connectStatusEnum: UserPairStatusEnum.unpaired,
+        userPairStatusEnum: UserPairStatusEnum.unpaired,
       );
     }
 
@@ -84,8 +79,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
         .collection(connectionsCollection)
         .doc(userId)
         .withConverter<ConnectionModel?>(
-          fromFirestore: (map, opt) =>
-              map.data() != null ? ConnectionModel.fromJson(map.data()!) : null,
+          fromFirestore: (map, opt) => map.data() != null ? ConnectionModel.fromJson(map.data()!) : null,
           toFirestore: (ConnectionModel? model, opt) => model?.toJson() ?? {},
         )
         .get();
@@ -111,20 +105,15 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
 
     return OtherUserFullModel(
       shortUserModel: shortUserModel,
-      pairedWith: pairs.first,
+      pairedWith: pairs.isEmpty ? null : pairs.first,
       secureUserInfoModel: secureUserInfo,
-      connectStatusEnum: connectStatusEnum,
+      userPairStatusEnum: connectStatusEnum,
     );
   }
 
   //TODO in future: get only public fields if users not paired
   Future<SecureUserInfoModel> _getSecureFields(String userId) async {
-    final futurePrivateModel = _firebaseFirestore
-        .collection(fullUserCollection)
-        .doc(userId)
-        .collection(privateInfoUserCollection)
-        .doc(userId)
-        .get();
+    final futurePrivateModel = _firebaseFirestore.collection(fullUserCollection).doc(userId).collection(privateInfoUserCollection).doc(userId).get();
 
     final futurePrivateModelRaw = _requestCheckWrapper(futurePrivateModel);
 

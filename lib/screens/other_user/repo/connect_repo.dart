@@ -1,4 +1,5 @@
 import 'package:flutter_mobile_starter/common/data/enums.dart';
+import 'package:injectable/injectable.dart';
 
 import '../ds/connect_ds.dart';
 
@@ -7,6 +8,7 @@ abstract class ConnectRepo {
   Future<void> unpairOrRemoveRequest(String userId);
 }
 
+@LazySingleton(as: ConnectRepo)
 class ConnectRepoImpl implements ConnectRepo {
   final ConnectDS _connectDS;
 

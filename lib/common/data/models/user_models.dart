@@ -30,7 +30,7 @@ class OtherUserFullModel with _$OtherUserFullModel {
     required ShortReadUserModel shortUserModel,
     // required AdditionalUserModel additionalUserModel,
     required SecureUserInfoModel secureUserInfoModel,
-    required UserPairStatusEnum connectStatusEnum,
+    required UserPairStatusEnum userPairStatusEnum,
     required ShortReadUserModel? pairedWith,
   }) = _OtherUserFullModel;
 }
@@ -152,7 +152,7 @@ class ShortUpdateUserModel with _$ShortUpdateUserModel {
 }
 
 @Freezed(toJson: false)
-class ShortReadUserModel with _$ShortReadUserModel implements ShortReadUserEntity {
+class ShortReadUserModel with _$ShortReadUserModel {
   const ShortReadUserModel._();
 
   factory ShortReadUserModel.emptyUser(String id) => ShortReadUserModel(

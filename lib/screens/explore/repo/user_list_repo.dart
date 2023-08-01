@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter_mobile_starter/common/data/models/user_models.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/data/entities/user_entities.dart';
@@ -8,11 +9,11 @@ import '../ds/user_list_ds.dart';
 import 'coordinates_repo.dart';
 
 abstract class UserListRepo {
-  Future<List<ShortReadUserEntity>> getUsersNearby({
+  Future<List<ShortReadUserModel>> getUsersNearby({
     required int maxDistanceInKm,
   });
 
-  Future<List<ShortReadUserEntity>> getRelevantUsers();
+  Future<List<ShortReadUserModel>> getRelevantUsers();
 }
 
 @LazySingleton(as: UserListRepo)
@@ -28,7 +29,7 @@ class UserListRepoImpl implements UserListRepo {
   );
 
   @override
-  Future<List<ShortReadUserEntity>> getUsersNearby({
+  Future<List<ShortReadUserModel>> getUsersNearby({
     required int maxDistanceInKm,
   }) async {
     // get users last location from storage
@@ -59,7 +60,7 @@ class UserListRepoImpl implements UserListRepo {
   }
 
   @override
-  Future<List<ShortReadUserEntity>> getRelevantUsers() async {
+  Future<List<ShortReadUserModel>> getRelevantUsers() async {
     // get tags of current user
     final tags = _profileRepo.getShortProfileLocal()?.tags;
     if (tags == null || tags.isEmpty) {
@@ -74,7 +75,7 @@ class UserListRepoImpl implements UserListRepo {
     }
   }
 
-  Future<List<ShortReadUserEntity>> _getUsersWithMostCommonTags(List<String> tags) async {
+  Future<List<ShortReadUserModel>> _getUsersWithMostCommonTags(List<String> tags) async {
     final userIds = await _userListDS.getUserIdsWithTheseTags(tags: tags);
 
     if (userIds.isEmpty) {
@@ -89,7 +90,7 @@ class UserListRepoImpl implements UserListRepo {
     }
   }
 
-  Future<List<ShortReadUserEntity>> _getFreshUsers() async {
+  Future<List<ShortReadUserModel>> _getFreshUsers() async {
     final freshUsers = await _userListDS.getFreshUsers(50);
     return freshUsers;
   }

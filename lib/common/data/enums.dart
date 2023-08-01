@@ -10,19 +10,6 @@ enum UserPairStatusEnum {
 
   @override
   String toString() => this.name;
-
-  UserConnectStatus get content {
-    switch (this) {
-      case UserPairStatusEnum.paired:
-        return const UserConnectStatusConnected();
-      case UserPairStatusEnum.unpaired:
-        return const UserConnectStatusDisconnected();
-      case UserPairStatusEnum.requested:
-        return const UserConnectStatusRequested();
-      case UserPairStatusEnum.toBeApproved:
-        return const UserConnectStatusToBeApproved();
-    }
-  }
 }
 
 enum UserEventTypeEnum {

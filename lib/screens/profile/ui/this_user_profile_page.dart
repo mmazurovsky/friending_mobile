@@ -68,6 +68,7 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
         loadableContent: const _ProfileContent(),
         scrollController: _scrollController,
         isBackButtonOn: false,
+        button: const OpenSettingsButton(),
       ),
     );
   }
@@ -91,40 +92,11 @@ class _ProfileContentState extends State<_ProfileContent> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 15),
-                SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: CEdgeInsets.horizontalStandart,
-                    child: PlatformElevatedButton(
-                      onPressed: () => showModalBottomSheet(
-                        context: context,
-                        
-                        builder: (context2) => ChangeNotifierProvider.value(
-                          value: context.read<ProfileContentManager>(),
-                          builder: (context3, _) => SettingsSelector(),
-                        ),
-                      ),
-                      child: Text(
-                        'Open settings',
-                        style: context.theme.textTheme.titleMedium?.copyWith(
-                          fontSize: 17,
-                          color: context.theme.colorScheme.onPrimary,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 20),
                 const SectionTitle('Tags'),
                 const SizedBox(height: 10),
                 TagsDisplayer(
-                  tagsToDisplay: context
-                      .read<ProfileContentManager>()
-                      .profile
-                      .shortUserModel
-                      .tagsEntities,
+                  tagsToDisplay: context.read<ProfileContentManager>().profile.shortUserModel.tagsEntities,
                   displayIfTagsEmpty: Container(),
                 ),
                 const SectionDividerWithSpacers(),
@@ -132,11 +104,7 @@ class _ProfileContentState extends State<_ProfileContent> {
                 Padding(
                   padding: CEdgeInsets.horizontalStandart,
                   child: ExpandableTextSection(
-                    context
-                        .read<ProfileContentManager>()
-                        .profile
-                        .shortUserModel
-                        .about,
+                    context.read<ProfileContentManager>().profile.shortUserModel.about,
                   ),
                 ),
                 const SectionDividerWithSpacers(),
@@ -144,11 +112,7 @@ class _ProfileContentState extends State<_ProfileContent> {
                 Padding(
                   padding: CEdgeInsets.horizontalStandart,
                   child: ExpandableTextSection(
-                    context
-                        .read<ProfileContentManager>()
-                        .profile
-                        .shortUserModel
-                        .lookingFor,
+                    context.read<ProfileContentManager>().profile.shortUserModel.lookingFor,
                   ),
                 ),
                 const SectionDividerWithSpacers(),
@@ -156,15 +120,42 @@ class _ProfileContentState extends State<_ProfileContent> {
                 const SizedBox(height: 5),
                 const SizedBox(height: 10),
                 SocialLinksList(
-                  fields: context
-                      .read<ProfileContentManager>()
-                      .profile
-                      .secureUserInfoModel
-                      .fields,
+                  fields: context.read<ProfileContentManager>().profile.secureUserInfoModel.fields,
                 ),
               ],
             ),
           );
+  }
+}
+
+class OpenSettingsButton extends StatelessWidget {
+  const OpenSettingsButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: CEdgeInsets.horizontalStandart,
+        child: PlatformElevatedButton(
+          onPressed: () => showModalBottomSheet(
+            context: context,
+            builder: (context2) => ChangeNotifierProvider.value(
+              value: context.read<ProfileContentManager>(),
+              builder: (context3, _) => SettingsSelector(),
+            ),
+          ),
+          child: Text(
+            'Open settings',
+            style: context.theme.textTheme.titleMedium?.copyWith(
+              fontSize: 17,
+              color: context.theme.colorScheme.onPrimary,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 

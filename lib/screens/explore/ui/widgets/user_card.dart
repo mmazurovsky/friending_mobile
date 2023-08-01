@@ -1,13 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/bag/stateful/theme.dart';
-import '../../../../common/data/entities/user_entities.dart';
+import '../../../../common/data/models/user_models.dart';
+import '../../../../common/navigation/auto_router/app_router.dart';
 import '../../../widgets/buttons/trailing_arrow_icon.dart';
 import '../../../widgets/custom_edge_insets.dart';
 
 class UserCard extends StatelessWidget {
-  final ShortReadUserEntity user;
+  final ShortReadUserModel user;
 
   const UserCard({
     Key? key,
@@ -16,71 +18,78 @@ class UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: context.theme.colorScheme.surfaceVariant,
-        borderRadius: BorderRadius.circular(5),
+    return InkWell(
+      onTap: () => context.router.push(
+        OtherUserProfileRoute(
+          shortProfile: user,
+        ),
       ),
-      margin: CEdgeInsets.horizontalStandart,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 15,
-        vertical: 15,
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(user.avatar),
-                fit: BoxFit.cover,
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.theme.colorScheme.surfaceVariant,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        margin: CEdgeInsets.horizontalStandart,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 15,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: CachedNetworkImageProvider(user.avatar),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RichText(
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: user.username,
-                        style: context.theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
+            const SizedBox(width: 20),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  RichText(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: user.username,
+                          style: context.theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: ', ${user.age}',
-                        style: context.theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey,
+                        TextSpan(
+                          text: ', ${user.age}',
+                          style: context.theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                if (user.commonTags.isNotEmpty)
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 4,
-                    children: user.commonTags.map(
-                      (tag) {
-                        return Text(tag);
-                      },
-                    ).toList(),
-                  ),
-              ],
+                  if (user.commonTags.isNotEmpty)
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      children: user.commonTags.map(
+                        (tag) {
+                          return Text(tag);
+                        },
+                      ).toList(),
+                    ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 10),
-          const TrailingArrowIcon(),
-        ],
+            const SizedBox(width: 10),
+            const TrailingArrowIcon(),
+          ],
+        ),
       ),
     );
   }
