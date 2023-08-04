@@ -1,11 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../bag/stateful/spaces.dart';
+import '../bag/spaces.dart';
 
 extension PaddingsExtension on EdgeInsets {
   static EdgeInsets get horizontalStandart {
-    return const EdgeInsets.symmetric(horizontal: Spaces.unit3);
+    return const EdgeInsets.symmetric(horizontal: ConstSpaces.unit3);
   }
 }
 

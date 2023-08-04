@@ -1,21 +1,19 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-import '../../../common/bag/stateful/spaces.dart';
+import '../../../common/bag/spaces.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
-import '../../../common/navigation/auto_router/app_router.dart';
 import '../../../common/navigation/navigation_tab.dart';
 import '../../widgets/custom_edge_insets.dart';
 import '../../widgets/loading.dart';
 import '../../widgets/snack_bar.dart';
 import '../../widgets/spacers/screen_ending.dart';
 import '../../widgets/spacers/section_divider_with_spacers.dart';
+import '../../widgets/texts/custom_header.dart';
 import '../state/explore_state_manager.dart';
 import '../state/geo_permissions_manager.dart';
 import 'widgets/user_card.dart';
@@ -81,13 +79,13 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
               : [
                   const SliverToBoxAdapter(
                     child: SizedBox(
-                      height: Spaces.unit2,
+                      height: ConstSpaces.unit2,
                     ),
                   ),
                   const UsersNearbySection(),
-                  SliverToBoxAdapter(
+                  const SliverToBoxAdapter(
                     child: Column(
-                      children: const [
+                      children: [
                         SizedBox(height: 9),
                         SectionDividerWithSpacers(),
                       ],
@@ -95,14 +93,8 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                   ),
                   //TODO: rewrite to one widget
                   SliverToBoxAdapter(
-                    child: Container(
-                      padding: CEdgeInsets.horizontalStandart.copyWith(
-                        bottom: 20,
-                      ),
-                      child: Text(
-                        'Most relevant',
-                        style: context.theme.textTheme.titleMedium,
-                      ),
+                    child: CustomScreenHeader(
+                      text: 'Most relevant',
                     ),
                   ),
                   SliverList(
@@ -236,7 +228,7 @@ class PlaceholderWithTextAndButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: context.theme.colorScheme.surfaceVariant,
+        color: context.theme.generalContainerColor,
         borderRadius: BorderRadius.circular(5),
       ),
       margin: CEdgeInsets.horizontalStandart,

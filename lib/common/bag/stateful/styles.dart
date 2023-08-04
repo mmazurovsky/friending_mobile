@@ -8,22 +8,21 @@ extension StylesExtension on BuildContext {
 }
 
 class StylesStateManager with ChangeNotifier {
-  final ThemeStateManager _themeState;
+  final ThemeStateManager _themeStateManager;
   // late TextTheme _textTheme;
 
   static final StylesStateManager _singleton = StylesStateManager._internal(
     ThemeStateManager.singleton(),
   );
 
-  StylesStateManager._internal(this._themeState);
+  StylesStateManager._internal(this._themeStateManager);
 
   factory StylesStateManager() {
     return _singleton;
   }
 
-  //new text styles Bookshrink
-  TextStyle get custom => TextStyle(
-        color: _themeState.themeData.canvasColor,
+  TextStyle get generalScreenHeader => TextStyle(
+        color: _themeStateManager.themeData.generalHeaderColor,
         fontSize: 34,
         fontWeight: FontWeight.bold,
       );

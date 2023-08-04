@@ -26,7 +26,7 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
         int currentTabIndex = context.watch<TabsStateManager>().currentTab;
         return BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: context.theme.colorScheme.background,
+          backgroundColor: context.theme.generalBackgroundColor,
           showUnselectedLabels: false,
           //* https://github.com/flutter/flutter/issues/86545
           selectedFontSize: 0,
@@ -35,10 +35,8 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
             // cases when tapped on active tab bar item
             if (tappedTabIndex == currentTabIndex) {
               // case when navigation stack not empty
-              final currentTab =
-                  allTabsOrderedAccordingToIndex[currentTabIndex];
-              if (currentTab.navigationKey.currentState?.controller?.canPop() ??
-                  false) {
+              final currentTab = allTabsOrderedAccordingToIndex[currentTabIndex];
+              if (currentTab.navigationKey.currentState?.controller?.canPop() ?? false) {
                 currentTab.navigationKey.currentState!.controller!.popUntil(
                   (route) => route.isFirst,
                 );
@@ -62,20 +60,20 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
             allTabsOrderedAccordingToIndex[0].getBottomNavigationBarItem(
               isCurrentTab: currentTabIndex == 0,
               // thereWasTabChange: thereWasTabChange,
-              activeColor: context.theme.indicatorColor,
-              inactiveColor: context.theme.disabledColor,
+              activeColor: context.theme.activeIndicatorColor,
+              inactiveColor: context.theme.inactiveIndicatorColor,
             ),
             allTabsOrderedAccordingToIndex[1].getBottomNavigationBarItem(
               isCurrentTab: currentTabIndex == 1,
               // thereWasTabChange: thereWasTabChange,
-              activeColor: context.theme.indicatorColor,
-              inactiveColor: context.theme.disabledColor,
+              activeColor: context.theme.activeIndicatorColor,
+              inactiveColor: context.theme.inactiveIndicatorColor,
             ),
             allTabsOrderedAccordingToIndex[2].getBottomNavigationBarItem(
               isCurrentTab: currentTabIndex == 2,
               // thereWasTabChange: thereWasTabChange,
-              activeColor: context.theme.indicatorColor,
-              inactiveColor: context.theme.disabledColor,
+              activeColor: context.theme.activeIndicatorColor,
+              inactiveColor: context.theme.inactiveIndicatorColor,
             ),
           ],
         );

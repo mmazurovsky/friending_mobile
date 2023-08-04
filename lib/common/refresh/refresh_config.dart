@@ -20,7 +20,7 @@ class MyRefreshConfiguration extends StatelessWidget {
         spacing: 0,
         idleIcon: Icon(
           Ionicons.chevron_down,
-          color: context.theme.colorScheme.secondary,
+          color: context.theme.loadingIndicatorColor,
           size: 25,
         ),
         idleText: '',
@@ -29,7 +29,7 @@ class MyRefreshConfiguration extends StatelessWidget {
         refreshingIcon: const MyLoadingIndicator(),
         completeIcon: Icon(
           Ionicons.checkmark,
-          color: context.theme.colorScheme.secondary,
+          color: context.theme.loadingIndicatorColor,
           size: 25,
         ),
       ), // Configure the default header indicator. If you have the same header indicator for each page, you need to set this

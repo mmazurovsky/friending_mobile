@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../common/bag/stateful/spaces.dart';
+import '../../common/bag/spaces.dart';
 import '../../common/bag/stateful/theme.dart';
 
 extension SnackBarExtension on ScaffoldMessengerState {
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showCSnackBar(
-      CustomSnackBarContent snackBarContent) {
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showCSnackBar(CustomSnackBarContent snackBarContent) {
     return showSnackBar(
       SnackBar(
         // shape: RoundedRectangleBorder(
@@ -31,15 +30,15 @@ class CustomSnackBarContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: Spaces.unit3,
-        vertical: Spaces.unit4,
+        horizontal: ConstSpaces.unit3,
+        vertical: ConstSpaces.unit4,
       ),
       alignment: Alignment.centerLeft,
-      color: Colors.grey.shade600,
+      color: context.theme.snackBarContainerColor,
       child: Text(
         _message,
         style: TextStyle(
-          color: context.theme.snackBarTheme.actionTextColor,
+          color: context.theme.snackBarTextColor,
           fontSize: 16,
           fontWeight: FontWeight.w400,
         ),

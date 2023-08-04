@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/bag/stateful/spaces.dart';
+import '../../../common/bag/spaces.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
@@ -295,7 +295,7 @@ class TextInfoEditingSection extends StatelessWidget {
       ]
           .mapWidgetsSeparated(
             separator: const SizedBox(
-              height: Spaces.unit5,
+              height: ConstSpaces.unit5,
             ),
           )
           .toList(),

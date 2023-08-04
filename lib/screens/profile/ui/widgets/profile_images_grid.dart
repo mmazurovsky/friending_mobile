@@ -4,7 +4,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
-import '../../../../common/bag/stateful/spaces.dart';
+import '../../../../common/bag/spaces.dart';
 import '../../../../common/bag/stateful/theme.dart';
 import '../../../widgets/custom_edge_insets.dart';
 import '../../../widgets/loading.dart';
@@ -49,9 +49,7 @@ class _ProfileImagesGridState extends State<ProfileImagesGrid> {
           padding: CEdgeInsets.horizontalStandart,
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           onReorder: (oldIndex, newIndex) {
-            context
-                .read<ProfileImagesManager>()
-                .reorderManagers(oldIndex, newIndex);
+            context.read<ProfileImagesManager>().reorderManagers(oldIndex, newIndex);
           },
           dragStartDelay: const Duration(milliseconds: 200),
           crossAxisCount: 3,
@@ -83,12 +81,11 @@ class ImageContent extends StatelessWidget {
                 context.read<SingleProfileImageManager>().removePhoto();
               },
               child: Container(
-                padding: EdgeInsets.all(Spaces.unit1),
+                padding: EdgeInsets.all(ConstSpaces.unit1),
                 // alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color:
-                      context.theme.colorScheme.errorContainer.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(Spaces.unit2),
+                  color: context.theme.colorScheme.errorContainer.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(ConstSpaces.unit2),
                 ),
                 child: Icon(
                   Ionicons.trash_outline,
@@ -145,7 +142,7 @@ class ImageContent extends StatelessWidget {
         width: 200,
         height: 200,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Spaces.unit3),
+          borderRadius: BorderRadius.circular(ConstSpaces.unit3),
           color: context.theme.canvasColor.getShadeColor(shadeValue: 4),
         ),
         alignment: Alignment.center,

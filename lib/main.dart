@@ -58,8 +58,19 @@ class MyApp extends StatelessWidget {
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       themeMode: context.watch<ThemeStateManager>().currentBrightness == Brightness.light ? ThemeMode.light : ThemeMode.dark,
-      theme: Themes.light,
-      darkTheme: Themes.dark,
+      theme: ThemeData(
+        splashColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        focusColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        // inputDecorationTheme: const InputDecorationTheme(
+        //   border: OutlineInputBorder(
+        //     borderSide: BorderSide(
+        //       color: Colors.grey,
+        //     ),
+        //   ),
+        // ),
+      ),
       builder: (context, child) => GlobalConfigWidget(
         child: child!,
       ),

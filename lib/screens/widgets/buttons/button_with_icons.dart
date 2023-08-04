@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/bag/stateful/spaces.dart';
+import '../../../common/bag/spaces.dart';
 import '../../../common/bag/stateful/theme.dart';
 import 'button_content.dart';
 import 'trailing_arrow_icon.dart';
@@ -26,7 +26,7 @@ class ButtonWithIcons extends StatelessWidget {
       onTap: () => onButtonTap(),
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: Spaces.unit3,
+          horizontal: ConstSpaces.unit3,
           vertical: verticalPadding,
         ),
         child: ButtonContent(

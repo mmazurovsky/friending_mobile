@@ -26,7 +26,7 @@ class UserCard extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: context.theme.colorScheme.surfaceVariant,
+          color: context.theme.generalContainerColor,
           borderRadius: BorderRadius.circular(5),
         ),
         margin: CEdgeInsets.horizontalStandart,
