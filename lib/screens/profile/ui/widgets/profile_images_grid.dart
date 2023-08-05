@@ -1,4 +1,3 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
@@ -7,8 +6,8 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import '../../../../common/bag/spaces.dart';
 import '../../../../common/bag/stateful/theme.dart';
 import '../../../widgets/custom_edge_insets.dart';
-import '../../../widgets/loading.dart';
 import '../../../widgets/image/my_cached_network_image.dart';
+import '../../../widgets/loading.dart';
 import '../../state/profile_images_manager.dart';
 import '../../state/profile_texts_manager.dart';
 import '../../state/single_profile_image_manager.dart';
@@ -81,15 +80,15 @@ class ImageContent extends StatelessWidget {
                 context.read<SingleProfileImageManager>().removePhoto();
               },
               child: Container(
-                padding: EdgeInsets.all(ConstSpaces.unit1),
+                padding: const EdgeInsets.all(ConstSpaces.unit1),
                 // alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: context.theme.colorScheme.errorContainer.withOpacity(0.3),
+                  color: context.colors.errorColor,
                   borderRadius: BorderRadius.circular(ConstSpaces.unit2),
                 ),
                 child: Icon(
-                  Ionicons.trash_outline,
-                  color: context.theme.iconTheme.color,
+                  Ionicons.close_outline,
+                  color: context.colors.staticIconsColor,
                 ),
               ),
             ),
@@ -133,8 +132,8 @@ class ImageContent extends StatelessWidget {
         } else {
           context.read<ProfileTextsAndTagsManager>().unfocusAllNodes();
           context.read<SingleProfileImageManager>().addPhotoFile(
-                backgroundColor: context.theme.colorScheme.background,
-                toolbarColor: context.theme.colorScheme.primary,
+                backgroundColor: context.colors.generalBackgroundColor,
+                toolbarColor: context.colors.primary,
               );
         }
       },
@@ -143,7 +142,7 @@ class ImageContent extends StatelessWidget {
         height: 200,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(ConstSpaces.unit3),
-          color: context.theme.canvasColor.getShadeColor(shadeValue: 4),
+          color: context.colors.canvasColor.getShadeColor(shadeValue: 4),
         ),
         alignment: Alignment.center,
         clipBehavior: Clip.antiAlias,

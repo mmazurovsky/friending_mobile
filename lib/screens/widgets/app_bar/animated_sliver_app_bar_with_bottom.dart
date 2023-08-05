@@ -23,12 +23,10 @@ class AnimatedSliverAppBarWithBottom extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  AnimatedSliverAppBarWithBottomState createState() =>
-      AnimatedSliverAppBarWithBottomState();
+  AnimatedSliverAppBarWithBottomState createState() => AnimatedSliverAppBarWithBottomState();
 }
 
-class AnimatedSliverAppBarWithBottomState
-    extends State<AnimatedSliverAppBarWithBottom> {
+class AnimatedSliverAppBarWithBottomState extends State<AnimatedSliverAppBarWithBottom> {
   double _backArrowOpacity = 0.5;
   late double _scrollOffsetFromWhichAppBarDarkeningStarts;
   late double _scrollOffsetFromWhichAppBarDarkeningEnds;
@@ -46,8 +44,7 @@ class AnimatedSliverAppBarWithBottomState
     _showAppBarTitle = false;
     flexibleSpaceHeight = _heightOfFlexibleSpace;
     _scrollOffsetFromWhichAppBarDarkeningEnds = flexibleSpaceHeight - 55;
-    _scrollOffsetFromWhichAppBarDarkeningStarts =
-        _scrollOffsetFromWhichAppBarDarkeningEnds - 40;
+    _scrollOffsetFromWhichAppBarDarkeningStarts = _scrollOffsetFromWhichAppBarDarkeningEnds - 40;
     _pageController = PageController(
       initialPage: 0,
     );
@@ -57,22 +54,16 @@ class AnimatedSliverAppBarWithBottomState
     double _calculatedBackArrowOpacity = 0.5;
     bool _calculatedShowAppBarTitle = false;
 
-    if (widget.scrollController.offset <=
-        _scrollOffsetFromWhichAppBarDarkeningStarts) {
+    if (widget.scrollController.offset <= _scrollOffsetFromWhichAppBarDarkeningStarts) {
       _calculatedBackArrowOpacity = 0.5;
       _calculatedShowAppBarTitle = false;
-    } else if (widget.scrollController.offset >
-            _scrollOffsetFromWhichAppBarDarkeningStarts &&
-        widget.scrollController.offset <
-            _scrollOffsetFromWhichAppBarDarkeningEnds) {
-      _calculatedBackArrowOpacity = (_scrollOffsetFromWhichAppBarDarkeningEnds -
-              widget.scrollController.offset) /
-          (_scrollOffsetFromWhichAppBarDarkeningEnds -
-              _scrollOffsetFromWhichAppBarDarkeningStarts) *
+    } else if (widget.scrollController.offset > _scrollOffsetFromWhichAppBarDarkeningStarts &&
+        widget.scrollController.offset < _scrollOffsetFromWhichAppBarDarkeningEnds) {
+      _calculatedBackArrowOpacity = (_scrollOffsetFromWhichAppBarDarkeningEnds - widget.scrollController.offset) /
+          (_scrollOffsetFromWhichAppBarDarkeningEnds - _scrollOffsetFromWhichAppBarDarkeningStarts) *
           0.5;
       _calculatedShowAppBarTitle = false;
-    } else if (widget.scrollController.offset >=
-        _scrollOffsetFromWhichAppBarDarkeningEnds) {
+    } else if (widget.scrollController.offset >= _scrollOffsetFromWhichAppBarDarkeningEnds) {
       _calculatedBackArrowOpacity = 0.0;
       _calculatedShowAppBarTitle = true;
     }
@@ -123,8 +114,8 @@ class AnimatedSliverAppBarWithBottomState
               count: widget.data.photos.length,
               effect: SlideEffect(
                 type: SlideType.normal,
-                dotColor: context.theme.colorScheme.background,
-                activeDotColor: context.theme.colorScheme.primary,
+                dotColor: context.colors.colorScheme.background,
+                activeDotColor: context.colors.colorScheme.primary,
                 dotHeight: 10,
                 dotWidth: 10,
                 spacing: 6,
@@ -136,7 +127,7 @@ class AnimatedSliverAppBarWithBottomState
     );
 
     return SliverAppBar(
-      backgroundColor: context.theme.colorScheme.background,
+      backgroundColor: context.colors.colorScheme.background,
       surfaceTintColor: Colors.transparent,
       pinned: true,
       floating: false,
@@ -146,7 +137,7 @@ class AnimatedSliverAppBarWithBottomState
               containerOpacity: _backArrowOpacity,
               iconWidget: Icon(
                 Ionicons.chevron_back_outline,
-                color: context.theme.appBarTheme.actionsIconTheme?.color,
+                color: context.colors.appBarTheme.actionsIconTheme?.color,
               ),
               onTap: Navigator.of(context).pop,
             )
@@ -163,13 +154,12 @@ class AnimatedSliverAppBarWithBottomState
             children: [
               Text(
                 widget.data.username,
-                style: context.theme.textTheme.bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.bold),
+                style: context.colors.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                 overflow: TextOverflow.fade,
               ),
               Text(
                 'User',
-                style: context.theme.textTheme.bodyMedium,
+                style: context.colors.textTheme.bodyMedium,
                 overflow: TextOverflow.fade,
               ),
             ],

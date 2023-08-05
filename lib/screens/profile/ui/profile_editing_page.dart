@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/bag/spaces.dart';
+import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
@@ -113,7 +114,7 @@ class _ProfileEditingPageState extends State<ProfileEditingPage> {
                             padding: CEdgeInsets.horizontalStandart,
                             child: Text(
                               isItProfileCreation ? 'Profile creation' : 'Profile editing',
-                              style: context.theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                              style: context.styles.genericLargeHeader,
                             ),
                           ),
                           const SizedBox(height: 40),
@@ -324,15 +325,12 @@ class SwitchWithTitle extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontSize: 14,
-              color: context.theme.colorScheme.secondary,
-            ),
+            style: context.styles.switchTitle,
           ),
           PlatformSwitch(
             value: value,
             onChanged: onChanged,
-            activeColor: context.theme.colorScheme.primary,
+            activeColor: context.colors.activeIndicatorColor,
           ),
         ],
       ),

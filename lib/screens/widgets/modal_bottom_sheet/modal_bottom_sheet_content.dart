@@ -23,7 +23,7 @@ class ModalBottomSheetContent extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        color: context.theme.bottomSheetTheme.backgroundColor,
+        color: context.colors.bottomSheetTheme.backgroundColor,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),
@@ -50,7 +50,7 @@ class ModalBottomSheetContent extends StatelessWidget {
                     Icon(
                       iconData,
                       size: 24,
-                      color: context.theme.indicatorColor,
+                      color: context.colors.indicatorColor,
                     ),
                     const SizedBox(
                       width: 15,
@@ -59,7 +59,7 @@ class ModalBottomSheetContent extends StatelessWidget {
                       child: Text(
                         title,
                         textAlign: TextAlign.start,
-                        style: context.theme.textTheme.titleMedium,
+                        style: context.colors.textTheme.titleMedium,
                       ),
                     ),
                   ],

@@ -31,12 +31,8 @@ class TagsDisplayer extends StatelessWidget {
                   (e) {
                     return Chip(
                       label: Text(e.title),
-                      backgroundColor: e.isHighlighted
-                          ? context.theme.chipTheme.selectedColor
-                          : context.theme.chipTheme.disabledColor,
-                      onDeleted: onDeleteTag != null
-                          ? () => onDeleteTag!(e.title)
-                          : null,
+                      backgroundColor: e.isHighlighted ? context.colors.chipTheme.selectedColor : context.colors.chipTheme.disabledColor,
+                      onDeleted: onDeleteTag != null ? () => onDeleteTag!(e.title) : null,
                     );
                   },
                 ).toList()),

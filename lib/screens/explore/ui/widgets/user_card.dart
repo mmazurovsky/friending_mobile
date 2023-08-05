@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../common/bag/stateful/styles.dart';
 import '../../../../common/bag/stateful/theme.dart';
 import '../../../../common/data/models/user_models.dart';
 import '../../../../common/navigation/auto_router/app_router.dart';
@@ -26,7 +27,7 @@ class UserCard extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: context.theme.generalContainerColor,
+          color: context.colors.generalContainerColor,
           borderRadius: BorderRadius.circular(5),
         ),
         margin: CEdgeInsets.horizontalStandart,
@@ -59,16 +60,11 @@ class UserCard extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: user.username,
-                          style: context.theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: context.styles.userCardUsername,
                         ),
                         TextSpan(
                           text: ', ${user.age}',
-                          style: context.theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey,
-                          ),
+                          style: context.styles.userCardAge,
                         ),
                       ],
                     ),

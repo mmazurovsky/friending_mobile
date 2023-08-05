@@ -12,13 +12,12 @@ class FrontPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
-      backgroundColor: context.theme.generalBackgroundColor,
+      backgroundColor: context.colors.generalBackgroundColor,
       routes: [
         allTabsOrderedAccordingToIndex[0].tabRoute,
         allTabsOrderedAccordingToIndex[1].tabRoute,
         allTabsOrderedAccordingToIndex[2].tabRoute,
       ],
-      
       bottomNavigationBuilder: (_, tabsRouter) {
         final isRegistered = getIt.isRegistered(instance: tabsRouter);
         if (isRegistered) {

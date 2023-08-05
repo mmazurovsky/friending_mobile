@@ -16,8 +16,7 @@ class CustomAppBarWithBackButton extends StatelessWidget {
         children: [
           PlatformIconButton(
             onPressed: context.router.pop,
-            icon:
-                Icon(Ionicons.arrow_back, color: context.theme.indicatorColor),
+            icon: Icon(Ionicons.arrow_back, color: context.colors.indicatorColor),
           ),
         ],
       ),

@@ -5,6 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../common/bag/spaces.dart';
+import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/navigation/navigation_tab.dart';
@@ -143,7 +144,7 @@ class UsersNearbySection extends StatelessWidget {
             padding: CEdgeInsets.horizontalStandart.copyWith(bottom: 20),
             child: Text(
               'Users nearby',
-              style: context.theme.textTheme.titleMedium,
+              style: context.styles.genericHeader,
             ),
           ),
         ),
@@ -228,7 +229,7 @@ class PlaceholderWithTextAndButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: context.theme.generalContainerColor,
+        color: context.colors.generalContainerColor,
         borderRadius: BorderRadius.circular(5),
       ),
       margin: CEdgeInsets.horizontalStandart,
@@ -236,13 +237,13 @@ class PlaceholderWithTextAndButton extends StatelessWidget {
       child: button == null
           ? Text(
               text,
-              style: context.theme.textTheme.bodyMedium,
+              style: context.styles.bodyText,
             )
           : Column(
               children: [
                 Text(
                   text,
-                  style: context.theme.textTheme.bodyMedium,
+                  style: context.styles.bodyText,
                 ),
                 const SizedBox(height: 10),
                 Align(

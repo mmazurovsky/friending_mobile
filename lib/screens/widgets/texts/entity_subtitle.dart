@@ -22,7 +22,7 @@ class EntitySubtitle extends StatelessWidget {
         children: [
           Text(
             '$age y.o.',
-            style: context.theme.textTheme.bodyLarge,
+            style: context.colors.textTheme.bodyLarge,
             maxLines: 1,
             overflow: TextOverflow.fade,
           ),
@@ -31,7 +31,7 @@ class EntitySubtitle extends StatelessWidget {
               padding: const EdgeInsets.only(right: 5),
               child: Text(
                 e.emojiCode,
-                style: context.theme.textTheme.bodyLarge,
+                style: context.colors.textTheme.bodyLarge,
               ),
             ),
           ),

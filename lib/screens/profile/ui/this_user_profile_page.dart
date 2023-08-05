@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../common/animations/wrappers.dart';
 import '../../../common/auth/repo/auth_repo.dart';
+import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/bag/strings.dart';
 import '../../../common/data/models/user_models.dart';
@@ -147,11 +148,7 @@ class OpenSettingsButton extends StatelessWidget {
           ),
           child: Text(
             'Open settings',
-            style: context.theme.textTheme.titleMedium?.copyWith(
-              fontSize: 17,
-              color: context.theme.colorScheme.onPrimary,
-              fontWeight: FontWeight.w700,
-            ),
+            style: context.styles.activeButtonText,
           ),
         ),
       ),
@@ -175,7 +172,7 @@ class SettingsSelector extends StatelessWidget {
   const SettingsSelector({Key? key}) : super(key: key);
 
   List<_SettingsButtonData> _getSettingsList(BuildContext context) {
-    final colorOfIcons = context.theme.primaryColor;
+    final colorOfIcons = context.colors.staticIconsColor;
     return [
       _SettingsButtonData(
           text: 'Modify profile',
@@ -281,7 +278,7 @@ class SettingsButton extends StatelessWidget {
           ),
           distanceBetweenLeadingAndText: 13,
           text: data.text,
-          textStyle: context.theme.textTheme.titleMedium!,
+          textStyle: context.styles.genericTitle,
           mainAxisAlignment: MainAxisAlignment.start,
         ),
       ),

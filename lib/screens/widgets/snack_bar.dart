@@ -34,11 +34,11 @@ class CustomSnackBarContent extends StatelessWidget {
         vertical: ConstSpaces.unit4,
       ),
       alignment: Alignment.centerLeft,
-      color: context.theme.snackBarContainerColor,
+      color: context.colors.snackBarContainerColor,
       child: Text(
         _message,
         style: TextStyle(
-          color: context.theme.snackBarTextColor,
+          color: context.colors.snackBarTextColor,
           fontSize: 16,
           fontWeight: FontWeight.w400,
         ),

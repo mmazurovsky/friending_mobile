@@ -19,7 +19,7 @@ class EntityTitle extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           title,
-          style: context.theme.textTheme.headlineMedium?.copyWith(
+          style: context.colors.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
           maxLines: 1,

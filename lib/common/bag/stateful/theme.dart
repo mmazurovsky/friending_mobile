@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 extension ThemeExt on BuildContext {
-  CustomThemeData get theme => this.watch<ThemeStateManager>().themeData;
+  CustomThemeData get colors => this.watch<ThemeStateManager>().themeData;
 }
 
 class ThemeStateManager with ChangeNotifier {
@@ -39,23 +39,24 @@ extension BrightnessExt on ThemeStateManager {
 }
 
 abstract class CustomThemeData {
+  Color get primary;
   Color get generalBackgroundColor;
   Color get generalHeaderColor;
   Color get generalTextColor;
   Color get generalContainerColor;
+  Color get userCardUsernameColor;
+  Color get userCardAgeColor;
   Color get highlightedTextColor;
   Color get snackBarContainerColor;
   Color get snackBarTextColor;
   Color get loadingIndicatorColor;
   Color get bottomNavigationBarColor;
-  Color get menBackgroundColor;
-  Color get menTextColor;
-  Color get menContainerColor;
-  Color get womenBackgroundColor;
-  Color get womenTextColor;
-  Color get womenContainerColor;
   Color get activeIndicatorColor;
   Color get inactiveIndicatorColor;
+  Color get activeSwitchColor;
+  Color get inactiveSwitchColor;
+  Color get staticIconsColor;
+  Color get errorColor;
 }
 
 class MainCustomThemeData implements CustomThemeData {
@@ -64,6 +65,7 @@ class MainCustomThemeData implements CustomThemeData {
   static const _black = Colors.black;
   static const _grey = Colors.grey;
   static const _blue = Colors.blue;
+  static const _paleRed = Color(0xFFE57373);
 
   @override
   Color get generalBackgroundColor => _white;
@@ -81,24 +83,6 @@ class MainCustomThemeData implements CustomThemeData {
   Color get highlightedTextColor => _blue;
 
   @override
-  Color get menBackgroundColor => _black;
-
-  @override
-  Color get menContainerColor => _white;
-
-  @override
-  Color get menTextColor => _black;
-
-  @override
-  Color get womenBackgroundColor => _white;
-
-  @override
-  Color get womenContainerColor => _black;
-
-  @override
-  Color get womenTextColor => _black;
-
-  @override
   Color get snackBarContainerColor => _grey;
 
   @override
@@ -109,12 +93,33 @@ class MainCustomThemeData implements CustomThemeData {
 
   @override
   Color get bottomNavigationBarColor => generalBackgroundColor;
-  
+
   @override
   Color get activeIndicatorColor => _black;
-  
+
   @override
   Color get inactiveIndicatorColor => _grey;
+
+  @override
+  Color get userCardUsernameColor => _black;
+
+  @override
+  Color get userCardAgeColor => _black;
+
+  @override
+  Color get activeSwitchColor => _black;
+
+  @override
+  Color get inactiveSwitchColor => _white;
+
+  @override
+  Color get staticIconsColor => _black;
+
+  @override
+  Color get errorColor => _paleRed;
+  
+  @override
+  Color get primary => _black;
 }
 
 // class Themes {

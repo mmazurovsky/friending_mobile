@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/bag/stateful/theme.dart';
+import '../../../common/bag/stateful/styles.dart';
 import '../custom_edge_insets.dart';
 
 class CustomScreenHeader extends StatelessWidget {
@@ -18,7 +18,7 @@ class CustomScreenHeader extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: context.theme.textTheme.titleMedium,
+        style: context.styles.genericHeader,
       ),
     );
   }

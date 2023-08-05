@@ -18,7 +18,7 @@ class SectionSubtitle extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           subtitle,
-          style: context.theme.textTheme.bodyMedium?.copyWith(
+          style: context.colors.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
             color: Colors.grey,
           ),

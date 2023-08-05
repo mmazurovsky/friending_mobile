@@ -35,7 +35,7 @@ class ButtonWithIcons extends StatelessWidget {
           distanceBetweenLeadingAndText: 13,
           text: buttonText,
           trailing: trailingIcon ?? const TrailingArrowIcon(),
-          textStyle: context.theme.textTheme.bodyLarge!,
+          textStyle: context.colors.textTheme.bodyLarge!,
         ),
       ),
     );

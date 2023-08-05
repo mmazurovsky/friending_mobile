@@ -13,8 +13,7 @@ class ExpandableTextSection extends StatefulWidget {
   _ExpandableTextSectionState createState() => _ExpandableTextSectionState();
 }
 
-class _ExpandableTextSectionState extends State<ExpandableTextSection>
-    with TickerProviderStateMixin<ExpandableTextSection> {
+class _ExpandableTextSectionState extends State<ExpandableTextSection> with TickerProviderStateMixin<ExpandableTextSection> {
   static const int _minPreviewLength = 130;
   late int _previewLength;
   bool _isExpanded = false;
@@ -22,10 +21,7 @@ class _ExpandableTextSectionState extends State<ExpandableTextSection>
   @override
   void initState() {
     super.initState();
-    _previewLength = widget.text.length < _minPreviewLength
-        ? 0
-        : min(widget.text.indexOf('.', _minPreviewLength),
-            widget.text.indexOf(',', _minPreviewLength));
+    _previewLength = widget.text.length < _minPreviewLength ? 0 : min(widget.text.indexOf('.', _minPreviewLength), widget.text.indexOf(',', _minPreviewLength));
   }
 
   @override
@@ -34,10 +30,8 @@ class _ExpandableTextSectionState extends State<ExpandableTextSection>
       TextSpan(
         children: [
           TextSpan(
-            text: widget.text.length > _minPreviewLength && !_isExpanded
-                ? '${widget.text.substring(0, _previewLength)}...'
-                : widget.text,
-            style: context.theme.textTheme.bodyLarge,
+            text: widget.text.length > _minPreviewLength && !_isExpanded ? '${widget.text.substring(0, _previewLength)}...' : widget.text,
+            style: context.colors.textTheme.bodyLarge,
           ),
           widget.text.length > _minPreviewLength
               ? WidgetSpan(
@@ -46,7 +40,7 @@ class _ExpandableTextSectionState extends State<ExpandableTextSection>
                     child: RichText(
                       text: TextSpan(
                         text: ' ${_isExpanded ? 'Show less' : 'Show more'}',
-                        style: context.theme.textTheme.bodyLarge,
+                        style: context.colors.textTheme.bodyLarge,
                       ),
                     ),
                   ),

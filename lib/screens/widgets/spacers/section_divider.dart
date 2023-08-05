@@ -11,9 +11,7 @@ class SectionDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return edgeInsets != null
-        ? Padding(padding: edgeInsets!, child: _MyDivider())
-        : _MyDivider();
+    return edgeInsets != null ? Padding(padding: edgeInsets!, child: _MyDivider()) : _MyDivider();
   }
 }
 
@@ -21,7 +19,7 @@ class _MyDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Divider(
-      color: context.theme.dividerColor,
+      color: context.colors.dividerColor,
       thickness: 1,
       height: 0.5,
     );
