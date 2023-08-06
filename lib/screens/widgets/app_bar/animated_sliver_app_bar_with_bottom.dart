@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_starter/common/data/models/user_models.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
-import '../../../common/data/entities/user_entities.dart';
+import '../../../common/data/models/user_models.dart';
 import '../image/my_cached_network_image.dart';
 import 'app_bar_button.dart';
 
@@ -114,8 +114,8 @@ class AnimatedSliverAppBarWithBottomState extends State<AnimatedSliverAppBarWith
               count: widget.data.photos.length,
               effect: SlideEffect(
                 type: SlideType.normal,
-                dotColor: context.colors.colorScheme.background,
-                activeDotColor: context.colors.colorScheme.primary,
+                dotColor: context.colors.backgroundColor,
+                activeDotColor: context.colors.primary,
                 dotHeight: 10,
                 dotWidth: 10,
                 spacing: 6,
@@ -127,7 +127,7 @@ class AnimatedSliverAppBarWithBottomState extends State<AnimatedSliverAppBarWith
     );
 
     return SliverAppBar(
-      backgroundColor: context.colors.colorScheme.background,
+      backgroundColor: context.colors.backgroundColor,
       surfaceTintColor: Colors.transparent,
       pinned: true,
       floating: false,
@@ -137,7 +137,7 @@ class AnimatedSliverAppBarWithBottomState extends State<AnimatedSliverAppBarWith
               containerOpacity: _backArrowOpacity,
               iconWidget: Icon(
                 Ionicons.chevron_back_outline,
-                color: context.colors.appBarTheme.actionsIconTheme?.color,
+                color: context.colors.staticIconsColor,
               ),
               onTap: Navigator.of(context).pop,
             )
@@ -154,12 +154,12 @@ class AnimatedSliverAppBarWithBottomState extends State<AnimatedSliverAppBarWith
             children: [
               Text(
                 widget.data.username,
-                style: context.colors.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                style: context.styles.appBarTitle,
                 overflow: TextOverflow.fade,
               ),
               Text(
                 'User',
-                style: context.colors.textTheme.bodyMedium,
+                style: context.styles.appBarSubtitle,
                 overflow: TextOverflow.fade,
               ),
             ],

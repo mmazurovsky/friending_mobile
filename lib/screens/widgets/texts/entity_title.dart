@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/bag/stateful/theme.dart';
+import '../../../common/bag/stateful/styles.dart';
 import '../custom_edge_insets.dart';
 
 class EntityTitle extends StatelessWidget {
@@ -19,9 +19,7 @@ class EntityTitle extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           title,
-          style: context.colors.textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: context.styles.genericHeader,
           maxLines: 1,
           overflow: TextOverflow.fade,
         ),

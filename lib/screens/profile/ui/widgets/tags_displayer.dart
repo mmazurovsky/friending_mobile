@@ -31,7 +31,7 @@ class TagsDisplayer extends StatelessWidget {
                   (e) {
                     return Chip(
                       label: Text(e.title),
-                      backgroundColor: e.isHighlighted ? context.colors.chipTheme.selectedColor : context.colors.chipTheme.disabledColor,
+                      backgroundColor: e.isHighlighted ? context.colors.activeIndicatorColor : context.colors.inactiveIndicatorColor,
                       onDeleted: onDeleteTag != null ? () => onDeleteTag!(e.title) : null,
                     );
                   },

@@ -26,7 +26,7 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
         int currentTabIndex = context.watch<TabsStateManager>().currentTab;
         return BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: context.colors.generalBackgroundColor,
+          backgroundColor: context.colors.backgroundColor,
           showUnselectedLabels: false,
           //* https://github.com/flutter/flutter/issues/86545
           selectedFontSize: 0,

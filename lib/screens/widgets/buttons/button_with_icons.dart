@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/bag/spaces.dart';
-import '../../../common/bag/stateful/theme.dart';
+import '../../../common/bag/stateful/styles.dart';
 import 'button_content.dart';
 import 'trailing_arrow_icon.dart';
 
@@ -34,8 +34,8 @@ class ButtonWithIcons extends StatelessWidget {
           leading: leadingIcon,
           distanceBetweenLeadingAndText: 13,
           text: buttonText,
+          textStyle: context.styles.activeButtonText,
           trailing: trailingIcon ?? const TrailingArrowIcon(),
-          textStyle: context.colors.textTheme.bodyLarge!,
         ),
       ),
     );

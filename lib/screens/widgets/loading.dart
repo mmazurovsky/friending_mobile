@@ -34,7 +34,7 @@ class MyLoadingIndicator extends StatelessWidget {
         material: (context, platform) => MaterialProgressIndicatorData(
           strokeWidth: 2,
           valueColor: AlwaysStoppedAnimation<Color>(
-            context.colors.colorScheme.secondary,
+            context.colors.secondaryTextColor,
           ),
         ),
       ),

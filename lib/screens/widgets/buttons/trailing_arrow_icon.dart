@@ -10,7 +10,7 @@ class TrailingArrowIcon extends StatelessWidget {
     return Icon(
       Ionicons.chevron_forward_outline,
       size: 26,
-      color: context.colors.primaryColor,
+      color: context.colors.primary,
     );
   }
 }

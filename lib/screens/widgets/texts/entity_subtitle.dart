@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_starter/common/bag/stateful/styles.dart';
 
-import '../../../common/bag/stateful/theme.dart';
 import '../../../common/data/models/language_model.dart';
 import '../custom_edge_insets.dart';
 import '../row/row_of_widgets.dart';
@@ -22,7 +22,7 @@ class EntitySubtitle extends StatelessWidget {
         children: [
           Text(
             '$age y.o.',
-            style: context.colors.textTheme.bodyLarge,
+            style: context.styles.genericHeader,
             maxLines: 1,
             overflow: TextOverflow.fade,
           ),
@@ -31,7 +31,7 @@ class EntitySubtitle extends StatelessWidget {
               padding: const EdgeInsets.only(right: 5),
               child: Text(
                 e.emojiCode,
-                style: context.colors.textTheme.bodyLarge,
+                style: context.styles.genericHeader,
               ),
             ),
           ),

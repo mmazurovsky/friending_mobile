@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../../../common/bag/stateful/theme.dart';
+import '../../../common/bag/stateful/styles.dart';
 
 class ExpandableTextSection extends StatefulWidget {
   final String text;
@@ -31,7 +31,7 @@ class _ExpandableTextSectionState extends State<ExpandableTextSection> with Tick
         children: [
           TextSpan(
             text: widget.text.length > _minPreviewLength && !_isExpanded ? '${widget.text.substring(0, _previewLength)}...' : widget.text,
-            style: context.colors.textTheme.bodyLarge,
+            style: context.styles.bodyText,
           ),
           widget.text.length > _minPreviewLength
               ? WidgetSpan(
@@ -40,7 +40,7 @@ class _ExpandableTextSectionState extends State<ExpandableTextSection> with Tick
                     child: RichText(
                       text: TextSpan(
                         text: ' ${_isExpanded ? 'Show less' : 'Show more'}',
-                        style: context.colors.textTheme.bodyLarge,
+                        style: context.styles.bodyText,
                       ),
                     ),
                   ),

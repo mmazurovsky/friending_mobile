@@ -12,7 +12,7 @@ class FrontPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
-      backgroundColor: context.colors.generalBackgroundColor,
+      backgroundColor: context.colors.backgroundColor,
       routes: [
         allTabsOrderedAccordingToIndex[0].tabRoute,
         allTabsOrderedAccordingToIndex[1].tabRoute,

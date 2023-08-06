@@ -40,10 +40,12 @@ extension BrightnessExt on ThemeStateManager {
 
 abstract class CustomThemeData {
   Color get primary;
-  Color get generalBackgroundColor;
-  Color get generalHeaderColor;
-  Color get generalTextColor;
-  Color get generalContainerColor;
+  Color get backgroundColor;
+  Color get dialogBackgroundColor;
+  Color get headerColor;
+  Color get mainTextColor;
+  Color get secondaryTextColor;
+  Color get containerColor;
   Color get userCardUsernameColor;
   Color get userCardAgeColor;
   Color get highlightedTextColor;
@@ -57,6 +59,7 @@ abstract class CustomThemeData {
   Color get inactiveSwitchColor;
   Color get staticIconsColor;
   Color get errorColor;
+  Color get divider;
 }
 
 class MainCustomThemeData implements CustomThemeData {
@@ -68,16 +71,16 @@ class MainCustomThemeData implements CustomThemeData {
   static const _paleRed = Color(0xFFE57373);
 
   @override
-  Color get generalBackgroundColor => _white;
+  Color get backgroundColor => _white;
 
   @override
-  Color get generalContainerColor => _grey;
+  Color get containerColor => _grey;
 
   @override
-  Color get generalHeaderColor => _black;
+  Color get headerColor => _black;
 
   @override
-  Color get generalTextColor => _black;
+  Color get mainTextColor => _black;
 
   @override
   Color get highlightedTextColor => _blue;
@@ -92,7 +95,7 @@ class MainCustomThemeData implements CustomThemeData {
   Color get loadingIndicatorColor => _grey;
 
   @override
-  Color get bottomNavigationBarColor => generalBackgroundColor;
+  Color get bottomNavigationBarColor => backgroundColor;
 
   @override
   Color get activeIndicatorColor => _black;
@@ -117,9 +120,18 @@ class MainCustomThemeData implements CustomThemeData {
 
   @override
   Color get errorColor => _paleRed;
-  
+
   @override
-  Color get primary => _black;
+  Color get primary => _grey;
+
+  @override
+  Color get secondaryTextColor => _grey;
+
+  @override
+  Color get dialogBackgroundColor => _grey.shade700;
+
+  @override
+  Color get divider => _grey.shade400;
 }
 
 // class Themes {

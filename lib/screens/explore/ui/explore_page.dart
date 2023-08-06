@@ -229,7 +229,7 @@ class PlaceholderWithTextAndButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: context.colors.generalContainerColor,
+        color: context.colors.containerColor,
         borderRadius: BorderRadius.circular(5),
       ),
       margin: CEdgeInsets.horizontalStandart,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_starter/common/bag/stateful/styles.dart';
 
 import '../../../common/bag/stateful/theme.dart';
 import '../custom_edge_insets.dart';
@@ -19,7 +20,7 @@ class SectionTitle extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           sectionTitle,
-          style: context.colors.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+          style: context.styles.titleText,
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../custom_edge_insets.dart';
 import '../spacers/section_divider.dart';
@@ -23,7 +24,7 @@ class ModalBottomSheetContent extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        color: context.colors.bottomSheetTheme.backgroundColor,
+        color: context.colors.dialogBackgroundColor,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),
@@ -50,7 +51,7 @@ class ModalBottomSheetContent extends StatelessWidget {
                     Icon(
                       iconData,
                       size: 24,
-                      color: context.colors.indicatorColor,
+                      color: context.colors.staticIconsColor,
                     ),
                     const SizedBox(
                       width: 15,
@@ -59,7 +60,7 @@ class ModalBottomSheetContent extends StatelessWidget {
                       child: Text(
                         title,
                         textAlign: TextAlign.start,
-                        style: context.colors.textTheme.titleMedium,
+                        style: context.styles.genericHeader,
                       ),
                     ),
                   ],

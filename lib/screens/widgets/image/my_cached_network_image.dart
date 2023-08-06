@@ -46,7 +46,7 @@ class CCachedNetworkImage extends StatelessWidget {
               );
             },
             placeholder: (context, url) => Container(
-              color: context.colors.colorScheme.background,
+              color: context.colors.backgroundColor,
               child: const MyLoadingIndicator(),
             ),
             errorWidget: (context, url, smth) => const EmptyImagePlaceholder(),
@@ -59,10 +59,10 @@ class EmptyImagePlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: context.colors.colorScheme.background,
+      color: context.colors.backgroundColor,
       child: Icon(
         Ionicons.image_outline,
-        color: context.colors.iconTheme.color,
+        color: context.colors.staticIconsColor,
         size: 25,
       ),
     );
