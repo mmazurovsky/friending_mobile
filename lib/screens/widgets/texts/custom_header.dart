@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/bag/spaces.dart';
 import '../../../common/bag/stateful/styles.dart';
 import '../custom_edge_insets.dart';
 
@@ -14,7 +15,7 @@ class CustomScreenHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: CEdgeInsets.horizontalStandart.copyWith(
-        bottom: 20,
+        bottom: ConstSpaces.unit5,
       ),
       child: Text(
         text,

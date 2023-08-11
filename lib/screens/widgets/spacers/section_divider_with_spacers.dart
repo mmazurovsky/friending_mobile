@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/bag/spaces.dart';
 import '../custom_edge_insets.dart';
 import 'section_divider.dart';
 
@@ -11,12 +12,12 @@ class SectionDividerWithSpacers extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 20),
+        const SizedBox(height: ConstSpaces.unit4),
         Padding(
           padding: CEdgeInsets.horizontalStandart,
           child: const SectionDivider(),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: ConstSpaces.unit4),
       ],
     );
   }

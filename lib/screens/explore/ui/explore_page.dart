@@ -13,7 +13,6 @@ import '../../widgets/custom_edge_insets.dart';
 import '../../widgets/loading.dart';
 import '../../widgets/snack_bar.dart';
 import '../../widgets/spacers/screen_ending.dart';
-import '../../widgets/spacers/section_divider_with_spacers.dart';
 import '../../widgets/texts/custom_header.dart';
 import '../state/explore_state_manager.dart';
 import '../state/geo_permissions_manager.dart';
@@ -80,17 +79,12 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
               : [
                   const SliverToBoxAdapter(
                     child: SizedBox(
-                      height: ConstSpaces.unit2,
+                      height: ConstSpaces.unit4,
                     ),
                   ),
                   const UsersNearbySection(),
                   const SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 9),
-                        SectionDividerWithSpacers(),
-                      ],
-                    ),
+                    child: SizedBox(height: ConstSpaces.unit8),
                   ),
                   //TODO: rewrite to one widget
                   SliverToBoxAdapter(
@@ -98,23 +92,49 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                       text: 'Most relevant',
                     ),
                   ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            UserCard(
-                              user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
-                            ),
-                            if (index + 1 != context.read<ExploreStateManager>().usersWithMostCommonTags.length) const SizedBox(height: 12),
-                          ],
-                        );
-                      },
-                      childCount:
-                          context.read<ExploreStateManager>().usersWithMostCommonTags.length, // replace with actual number of users with common interests
+                  SliverGrid.builder(
+                    itemCount: context.read<ExploreStateManager>().usersWithMostCommonTags.length,
+
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 400,
+                      childAspectRatio: 0.8,
+                      crossAxisSpacing: 0,
+                      mainAxisSpacing: 30,
+                      
                     ),
+                    itemBuilder: (context, index) {
+                      return UserCard(
+                        user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
+                      );
+                    },
+
+                    // children: context
+                    //     .read<ExploreStateManager>()
+                    //     .usersWithMostCommonTags
+                    //     .map(
+                    //       (e) => UserCard(
+                    //         user: e,
+                    //       ),
+                    //     )
+                    //     .toList(),
                   ),
+                  // SliverList(
+                  //   delegate: SliverChildBuilderDelegate(
+                  //     (BuildContext context, int index) {
+                  //       return Column(
+                  //         mainAxisAlignment: MainAxisAlignment.start,
+                  //         children: [
+                  //           UserCard(
+                  //             user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
+                  //           ),
+                  //           if (index + 1 != context.read<ExploreStateManager>().usersWithMostCommonTags.length) const SizedBox(height: ConstSpaces.unit4),
+                  //         ],
+                  //       );
+                  //     },
+                  //     childCount:
+                  //         context.read<ExploreStateManager>().usersWithMostCommonTags.length, // replace with actual number of users with common interests
+                  //   ),
+                  // ),
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 100),
                   ),
@@ -141,7 +161,7 @@ class UsersNearbySection extends StatelessWidget {
       children: [
         SliverToBoxAdapter(
           child: Container(
-            padding: CEdgeInsets.horizontalStandart.copyWith(bottom: 20),
+            padding: CEdgeInsets.horizontalStandart.copyWith(bottom: ConstSpaces.unit5),
             child: Text(
               'Users nearby',
               style: context.styles.genericHeader,
@@ -230,7 +250,11 @@ class PlaceholderWithTextAndButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: context.colors.containerColor,
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(ConstRadiuses.card),
+        border: Border.all(
+          color: context.colors.border,
+          width: 2,
+        ),
       ),
       margin: CEdgeInsets.horizontalStandart,
       padding: const EdgeInsets.all(15),

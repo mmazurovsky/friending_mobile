@@ -29,7 +29,7 @@ class StylesStateManager with ChangeNotifier {
 
   TextStyle get genericHeader => TextStyle(
         color: _themeStateManager.themeData.headerColor,
-        fontSize: 34,
+        fontSize: 22,
         fontWeight: FontWeight.bold,
       );
 
@@ -41,13 +41,13 @@ class StylesStateManager with ChangeNotifier {
 
   TextStyle get userCardUsername => TextStyle(
         color: _themeStateManager.themeData.userCardUsernameColor,
-        fontSize: 24,
+        fontSize: 18,
         fontWeight: FontWeight.bold,
       );
 
   TextStyle get userCardAge => TextStyle(
         color: _themeStateManager.themeData.userCardAgeColor,
-        fontSize: 24,
+        fontSize: 17,
         fontWeight: FontWeight.w500,
       );
 

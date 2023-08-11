@@ -60,11 +60,14 @@ abstract class CustomThemeData {
   Color get staticIconsColor;
   Color get errorColor;
   Color get divider;
+  Color get shadow;
+  Color get border;
 }
 
 class MainCustomThemeData implements CustomThemeData {
   // General colors
   static const _white = Colors.white;
+  static const _slightlyBeige = Color.fromARGB(255, 246, 243, 251);
   static const _black = Colors.black;
   static const _grey = Colors.grey;
   static const _blue = Colors.blue;
@@ -74,7 +77,7 @@ class MainCustomThemeData implements CustomThemeData {
   Color get backgroundColor => _white;
 
   @override
-  Color get containerColor => _grey;
+  Color get containerColor => _slightlyBeige;
 
   @override
   Color get headerColor => _black;
@@ -107,7 +110,7 @@ class MainCustomThemeData implements CustomThemeData {
   Color get userCardUsernameColor => _black;
 
   @override
-  Color get userCardAgeColor => _black;
+  Color get userCardAgeColor => _grey.shade600;
 
   @override
   Color get activeSwitchColor => _black;
@@ -132,6 +135,12 @@ class MainCustomThemeData implements CustomThemeData {
 
   @override
   Color get divider => _grey.shade400;
+
+  @override
+  Color get shadow => _grey.shade300;
+  
+  @override
+  Color get border => _black;
 }
 
 // class Themes {

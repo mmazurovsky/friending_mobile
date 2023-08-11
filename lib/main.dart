@@ -54,11 +54,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       scaffoldMessengerKey: scaffoldMessengerKey,
       title: 'Flutter Demo',
+      
       debugShowCheckedModeBanner: false,
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       themeMode: context.watch<ThemeStateManager>().currentBrightness == Brightness.light ? ThemeMode.light : ThemeMode.dark,
       theme: ThemeData(
+        useMaterial3: true,
         splashColor: Colors.transparent,
         hoverColor: Colors.transparent,
         focusColor: Colors.transparent,
