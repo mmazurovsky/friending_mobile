@@ -1,6 +1,7 @@
+import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../common/bag/stateful/theme.dart';
+import '../../../../common/bag/stateful/styles.dart';
 import '../../../../common/data/entities/tag_entity.dart';
 import '../../../widgets/custom_edge_insets.dart';
 
@@ -21,22 +22,72 @@ class TagsDisplayer extends StatelessWidget {
     return tagsToDisplay.isNotEmpty
         ? Padding(
             padding: CEdgeInsets.horizontalStandart,
-            child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.start,
-                alignment: WrapAlignment.start,
-                runAlignment: WrapAlignment.start,
-                runSpacing: 1,
-                spacing: 8,
+            child: CustomWrap(
                 children: tagsToDisplay.map(
-                  (e) {
-                    return Chip(
-                      label: Text(e.title),
-                      backgroundColor: e.isHighlighted ? context.colors.activeIndicatorColor : context.colors.inactiveIndicatorColor,
-                      onDeleted: onDeleteTag != null ? () => onDeleteTag!(e.title) : null,
-                    );
-                  },
-                ).toList()),
+              (e) {
+                return CustomChip(
+                  tagData: e,
+                  onDeleteTag: onDeleteTag,
+                );
+              },
+            ).toList()),
           )
         : displayIfTagsEmpty;
+  }
+}
+
+class CustomChip extends StatelessWidget {
+  final TagEntity tagData;
+  final void Function(String)? onDeleteTag;
+
+  const CustomChip({
+    super.key,
+    required this.tagData,
+    this.onDeleteTag,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onDeleteTag != null ? () => onDeleteTag!(tagData.title) : null,
+      child: Container(
+        child: Text(
+          tagData.title,
+          style: tagData.isHighlighted ? context.styles.activeChip : context.styles.inactiveChip,
+        ),
+      ),
+    );
+  }
+}
+
+class CustomWrap extends StatelessWidget {
+  final List<Widget> children;
+  final int? maxLines;
+  const CustomWrap({
+    super.key,
+    required this.children,
+    this.maxLines,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return maxLines != null
+        ? ExtendedWrap(
+            maxLines: maxLines!,
+            crossAxisAlignment: WrapCrossAlignment.start,
+            alignment: WrapAlignment.start,
+            runAlignment: WrapAlignment.start,
+            runSpacing: 1,
+            spacing: 8,
+            children: children,
+          )
+        : Wrap(
+            crossAxisAlignment: WrapCrossAlignment.start,
+            alignment: WrapAlignment.start,
+            runAlignment: WrapAlignment.start,
+            runSpacing: 1,
+            spacing: 8,
+            children: children,
+          );
   }
 }

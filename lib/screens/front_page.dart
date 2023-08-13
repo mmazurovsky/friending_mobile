@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../common/bag/stateful/theme.dart';
 import '../common/dependency_injection/dependency_injection.dart';
@@ -11,21 +12,29 @@ class FrontPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsScaffold(
-      backgroundColor: context.colors.backgroundColor,
-      routes: [
-        allTabsOrderedAccordingToIndex[0].tabRoute,
-        allTabsOrderedAccordingToIndex[1].tabRoute,
-        allTabsOrderedAccordingToIndex[2].tabRoute,
-      ],
-      bottomNavigationBuilder: (_, tabsRouter) {
-        final isRegistered = getIt.isRegistered(instance: tabsRouter);
-        if (isRegistered) {
-          getIt.unregister(instance: tabsRouter);
-        }
-        getIt.registerSingleton(tabsRouter);
-        return const MyBottomNavBar();
-      },
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: context.colors.backgroundColor,
+        systemNavigationBarColor: context.colors.bottomNavigationBarColor,
+        statusBarIconBrightness: context.brightness,
+        systemNavigationBarDividerColor: Colors.transparent,
+      ),
+      child: AutoTabsScaffold(
+        backgroundColor: context.colors.backgroundColor,
+        routes: [
+          allTabsOrderedAccordingToIndex[0].tabRoute,
+          allTabsOrderedAccordingToIndex[1].tabRoute,
+          allTabsOrderedAccordingToIndex[2].tabRoute,
+        ],
+        bottomNavigationBuilder: (_, tabsRouter) {
+          final isRegistered = getIt.isRegistered(instance: tabsRouter);
+          if (isRegistered) {
+            getIt.unregister(instance: tabsRouter);
+          }
+          getIt.registerSingleton(tabsRouter);
+          return const MyBottomNavBar();
+        },
+      ),
     );
   }
 }

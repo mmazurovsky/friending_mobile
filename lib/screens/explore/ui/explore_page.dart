@@ -92,32 +92,34 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                       text: 'Most relevant',
                     ),
                   ),
-                  SliverGrid.builder(
-                    itemCount: context.read<ExploreStateManager>().usersWithMostCommonTags.length,
-
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 400,
-                      childAspectRatio: 0.8,
-                      crossAxisSpacing: 0,
-                      mainAxisSpacing: 30,
-                      
+                  SliverPadding(
+                    padding: CEdgeInsets.horizontalStandart,
+                    sliver: SliverGrid.builder(
+                      itemCount: context.read<ExploreStateManager>().usersWithMostCommonTags.length,
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 300,
+                        childAspectRatio: 0.66,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 15,
+                      ),
+                      itemBuilder: (context, index) {
+                        return UserCard(
+                          user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
+                        );
+                      },
                     ),
-                    itemBuilder: (context, index) {
-                      return UserCard(
-                        user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
-                      );
-                    },
-
-                    // children: context
-                    //     .read<ExploreStateManager>()
-                    //     .usersWithMostCommonTags
-                    //     .map(
-                    //       (e) => UserCard(
-                    //         user: e,
-                    //       ),
-                    //     )
-                    //     .toList(),
                   ),
+
+                  // children: context
+                  //     .read<ExploreStateManager>()
+                  //     .usersWithMostCommonTags
+                  //     .map(
+                  //       (e) => UserCard(
+                  //         user: e,
+                  //       ),
+                  //     )
+                  //     .toList(),
+
                   // SliverList(
                   //   delegate: SliverChildBuilderDelegate(
                   //     (BuildContext context, int index) {

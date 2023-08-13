@@ -30,6 +30,10 @@ class CoordinatesRepoImpl implements CoordinatesRepo {
   @override
   Future<void> addCurrentPositionToRemoteAndLocal() async {
     final currentPoint = await _extractCurrentPositionFromGeolocator();
+    if (currentPoint == null) {
+      return;
+    }
+
     _coordinatesLocalDS.addPosition(currentPoint);
 
     if (_lastPositionUpdate != null) {
@@ -44,7 +48,7 @@ class CoordinatesRepoImpl implements CoordinatesRepo {
     }
   }
 
-  Future<PointModel> _extractCurrentPositionFromGeolocator() async {
+  Future<PointModel?> _extractCurrentPositionFromGeolocator() async {
     final permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
       final currentPosition = await Geolocator.getCurrentPosition();
@@ -56,10 +60,11 @@ class CoordinatesRepoImpl implements CoordinatesRepo {
     } else {
       _lastPositionUpdate = null;
       await _coordinatesLocalDS.deletePosition();
-      throw RequestFailure.client(
-        m: Strings.failures.clientFailure,
-        e: Exception("Permission to access location denied"),
-      );
+      // throw RequestFailure.client(
+      //   m: Strings.failures.clientFailure,
+      //   e: Exception("Permission to access location denied"),
+      // );
+      return null;
     }
   }
 

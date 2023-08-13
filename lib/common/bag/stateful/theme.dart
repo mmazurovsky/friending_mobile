@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 extension ThemeExt on BuildContext {
+  Brightness get brightness => this.watch<ThemeStateManager>().currentBrightness;
   CustomThemeData get colors => this.watch<ThemeStateManager>().themeData;
 }
 
@@ -67,17 +68,18 @@ abstract class CustomThemeData {
 class MainCustomThemeData implements CustomThemeData {
   // General colors
   static const _white = Colors.white;
-  static const _slightlyBeige = Color.fromARGB(255, 246, 243, 251);
+  static const _slightlyGrey = Color.fromARGB(255, 244, 244, 244);
+  static const _darkGrey = Color.fromARGB(255, 168, 168, 168);
   static const _black = Colors.black;
   static const _grey = Colors.grey;
   static const _blue = Colors.blue;
   static const _paleRed = Color(0xFFE57373);
 
   @override
-  Color get backgroundColor => _white;
+  Color get backgroundColor => _slightlyGrey;
 
   @override
-  Color get containerColor => _slightlyBeige;
+  Color get containerColor => _white;
 
   @override
   Color get headerColor => _black;
@@ -95,16 +97,16 @@ class MainCustomThemeData implements CustomThemeData {
   Color get snackBarTextColor => _white;
 
   @override
-  Color get loadingIndicatorColor => _grey;
+  Color get loadingIndicatorColor => _black;
 
   @override
-  Color get bottomNavigationBarColor => backgroundColor;
+  Color get bottomNavigationBarColor => _slightlyGrey;
 
   @override
   Color get activeIndicatorColor => _black;
 
   @override
-  Color get inactiveIndicatorColor => _grey;
+  Color get inactiveIndicatorColor => _darkGrey;
 
   @override
   Color get userCardUsernameColor => _black;

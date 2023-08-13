@@ -16,5 +16,5 @@ class ConstSpaces {
 }
 
 class ConstRadiuses {
-  static const double card = 20;
+  static const double card = 10;
 }

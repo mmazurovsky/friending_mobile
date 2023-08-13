@@ -47,8 +47,8 @@ class StylesStateManager with ChangeNotifier {
 
   TextStyle get userCardAge => TextStyle(
         color: _themeStateManager.themeData.userCardAgeColor,
-        fontSize: 17,
-        fontWeight: FontWeight.w500,
+        fontSize: 15,
+        fontWeight: FontWeight.w400,
       );
 
   TextStyle get bodyText => TextStyle(
@@ -57,8 +57,20 @@ class StylesStateManager with ChangeNotifier {
         fontWeight: FontWeight.w400,
       );
 
-  TextStyle get titleText => TextStyle(
+  TextStyle get activeChip => TextStyle(
+        color: _themeStateManager.themeData.mainTextColor,
+        fontSize: 15,
+        fontWeight: FontWeight.w400,
+      );
+
+  TextStyle get inactiveChip => TextStyle(
         color: _themeStateManager.themeData.secondaryTextColor,
+        fontSize: 15,
+        fontWeight: FontWeight.w400,
+      );
+
+  TextStyle get titleText => TextStyle(
+        color: _themeStateManager.themeData.mainTextColor,
         fontSize: 18,
         fontWeight: FontWeight.bold,
       );
