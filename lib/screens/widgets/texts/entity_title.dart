@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../common/bag/stateful/styles.dart';
 import '../custom_edge_insets.dart';
 
-class EntityTitle extends StatelessWidget {
-  const EntityTitle({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
+class ProfileUsernameAndAge extends StatelessWidget {
+  const ProfileUsernameAndAge({Key? key, required this.title, required this.age}) : super(key: key);
 
   final String title;
+  final int age;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +15,29 @@ class EntityTitle extends StatelessWidget {
       padding: CEdgeInsets.horizontalStandart,
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(
-          title,
-          style: context.styles.genericHeader,
+        child: RichText(
           maxLines: 1,
-          overflow: TextOverflow.fade,
+          overflow: TextOverflow.ellipsis,
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: title,
+                style: context.styles.genericHeader,
+              ),
+              TextSpan(
+                text: ', ${age}',
+                style: context.styles.genericSubheader,
+              ),
+            ],
+          ),
         ),
+
+        // Text(
+        //   title,
+        //   style: context.styles.genericHeader,
+        //   maxLines: 1,
+        //   overflow: TextOverflow.fade,
+        // ),
       ),
     );
   }

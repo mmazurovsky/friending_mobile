@@ -142,7 +142,7 @@ class MainCustomThemeData implements CustomThemeData {
   Color get shadow => _grey.shade300;
   
   @override
-  Color get border => _black;
+  Color get border => divider;
 }
 
 // class Themes {

@@ -61,13 +61,13 @@ class _EntityPageCanvasState extends State<EntityPageCanvas> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                EntityTitle(title: widget.data.username),
-                const SizedBox(height: 5),
-                EntitySubtitle(
-                  languages: const [],
-                  age: widget.data.age,
-                ),
-                const SizedBox(height: 15),
+                ProfileUsernameAndAge(title: widget.data.username, age: widget.data.age,),
+                // const SizedBox(height: 5),
+                // EntitySubtitle(
+                //   languages: const [],
+                //   age: widget.data.age,
+                // ),
+                const SizedBox(height: 20),
                 widget.button,
                 widget.loadableContent,
                 const ScreenEnding(),

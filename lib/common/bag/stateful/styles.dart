@@ -33,6 +33,12 @@ class StylesStateManager with ChangeNotifier {
         fontWeight: FontWeight.bold,
       );
 
+  TextStyle get genericSubheader => TextStyle(
+        color: _themeStateManager.themeData.secondaryTextColor,
+        fontSize: 18,
+        fontWeight: FontWeight.w400,
+      );
+
   TextStyle get genericTitle => TextStyle(
         color: _themeStateManager.themeData.headerColor,
         fontSize: 24,

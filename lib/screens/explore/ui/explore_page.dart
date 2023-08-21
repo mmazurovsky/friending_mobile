@@ -99,8 +99,8 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 300,
                         childAspectRatio: 0.66,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 30,
                       ),
                       itemBuilder: (context, index) {
                         return UserCard(
@@ -195,7 +195,7 @@ class NearbyUsersNotFoundPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const text = 'There are no users near you 😢 \nThis is a very new app, we are on a mission to attract people 🫡';
+    const text = 'There are no users near you 😢 \nThis is a very new app, give us time 😌';
     return const PlaceholderWithTextAndButton(
       text: text,
     );
@@ -253,10 +253,10 @@ class PlaceholderWithTextAndButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.colors.containerColor,
         borderRadius: BorderRadius.circular(ConstRadiuses.card),
-        border: Border.all(
-          color: context.colors.border,
-          width: 2,
-        ),
+        // border: Border.all(
+        //   color: context.colors.border,
+        //   width: 2,
+        // ),
       ),
       margin: CEdgeInsets.horizontalStandart,
       padding: const EdgeInsets.all(15),

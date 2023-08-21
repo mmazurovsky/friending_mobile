@@ -27,7 +27,7 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(width: double.infinity, color: context.colors.border, height: 2),
+            Container(width: double.infinity, color: context.colors.border, height: 1.1),
             BottomNavigationBar(
               elevation: 0,
               type: BottomNavigationBarType.fixed,

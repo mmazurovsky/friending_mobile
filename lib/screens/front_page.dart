@@ -18,6 +18,7 @@ class FrontPage extends StatelessWidget {
         systemNavigationBarColor: context.colors.bottomNavigationBarColor,
         statusBarIconBrightness: context.brightness,
         systemNavigationBarDividerColor: Colors.transparent,
+        statusBarBrightness: context.brightness == Brightness.light ? Brightness.dark : Brightness.light,
       ),
       child: AutoTabsScaffold(
         backgroundColor: context.colors.backgroundColor,

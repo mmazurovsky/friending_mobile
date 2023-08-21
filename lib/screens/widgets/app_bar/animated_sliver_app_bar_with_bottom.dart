@@ -106,7 +106,7 @@ class AnimatedSliverAppBarWithBottomState extends State<AnimatedSliverAppBarWith
               vertical: 6,
             ),
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.4),
+              color: context.colors.backgroundColor.withOpacity(0.3),
               borderRadius: BorderRadius.circular(14),
             ),
             child: SmoothPageIndicator(
@@ -114,8 +114,8 @@ class AnimatedSliverAppBarWithBottomState extends State<AnimatedSliverAppBarWith
               count: widget.data.photos.length,
               effect: SlideEffect(
                 type: SlideType.normal,
-                dotColor: context.colors.backgroundColor,
-                activeDotColor: context.colors.primary,
+                dotColor: context.colors.inactiveIndicatorColor,
+                activeDotColor: context.colors.activeIndicatorColor,
                 dotHeight: 10,
                 dotWidth: 10,
                 spacing: 6,
