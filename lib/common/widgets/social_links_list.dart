@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../common/data/models/user_models.dart';
+import '../data/models/user_models.dart';
 import 'buttons/button_with_icons.dart';
 
 class SocialLinksList extends StatelessWidget {

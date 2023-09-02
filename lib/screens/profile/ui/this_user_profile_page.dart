@@ -14,14 +14,14 @@ import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/navigation/auto_router/app_router.dart';
 import '../../../common/navigation/navigation_tab.dart';
 import '../../../common/service/open_link_service.dart';
-import '../../widgets/buttons/button_content.dart';
-import '../../widgets/canvas/profile_canvas.dart';
-import '../../widgets/custom_edge_insets.dart';
-import '../../widgets/loading.dart';
-import '../../widgets/modal_bottom_sheet/modal_bottom_sheet_content.dart';
-import '../../widgets/social_links_list.dart';
-import '../../widgets/texts/expandable_text_section.dart';
-import '../../widgets/texts/section_title.dart';
+import '../../../common/widgets/buttons/button_content.dart';
+import '../../../common/widgets/canvas/profile_canvas.dart';
+import '../../../common/widgets/custom_edge_insets.dart';
+import '../../../common/widgets/loading.dart';
+import '../../../common/widgets/modal_bottom_sheet/modal_bottom_sheet_content.dart';
+import '../../../common/widgets/social_links_list.dart';
+import '../../../common/widgets/texts/expandable_text_section.dart';
+import '../../../common/widgets/texts/section_title.dart';
 import '../state/profile_content_manager.dart';
 import 'widgets/tags_displayer.dart';
 
@@ -64,11 +64,11 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
     return ChangeNotifierProvider(
       create: (context) => getIt<ProfileContentManager>()..loadProfile(),
       builder: (context, child) => EntityPageCanvas(
-        data: widget.shortProfile,
+        preloadedData: widget.shortProfile,
         loadableContent: const _ProfileContent(),
         scrollController: _scrollController,
         isBackButtonOn: false,
-        button: const OpenSettingsButton(),
+        mainActionWidget: const OpenSettingsButton(),
       ),
     );
   }

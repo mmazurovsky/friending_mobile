@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../common/bag/spaces.dart';
-import '../../common/bag/stateful/theme.dart';
+import '../bag/spaces.dart';
+import '../bag/stateful/theme.dart';
 
 extension SnackBarExtension on ScaffoldMessengerState {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showCSnackBar(CustomSnackBarContent snackBarContent) {

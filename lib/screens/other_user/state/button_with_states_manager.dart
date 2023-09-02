@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/data/enums.dart';
-import '../../widgets/loading.dart';
+import '../../../common/widgets/loading.dart';
 import '../repo/connect_repo.dart';
 import 'other_user_manager.dart';
 

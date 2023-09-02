@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
-import '../../../common/bag/stateful/theme.dart';
+import '../../bag/stateful/theme.dart';
 import '../loading.dart';
 
 class CCachedNetworkImage extends StatelessWidget {

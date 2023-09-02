@@ -27,7 +27,7 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
         return BottomNavigationBar(
           elevation: 0,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: context.colors.bottomNavigationBarColor,
+          backgroundColor: Colors.transparent,
           showUnselectedLabels: false,
           //* https://github.com/flutter/flutter/issues/86545
           selectedFontSize: 0,

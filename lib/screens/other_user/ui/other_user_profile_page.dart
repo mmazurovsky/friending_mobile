@@ -5,12 +5,12 @@ import '../../../common/animations/wrappers.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../profile/ui/widgets/tags_displayer.dart';
-import '../../widgets/buttons/button_with_states.dart';
-import '../../widgets/canvas/profile_canvas.dart';
-import '../../widgets/custom_edge_insets.dart';
-import '../../widgets/social_links_list.dart';
-import '../../widgets/texts/expandable_text_section.dart';
-import '../../widgets/texts/section_title.dart';
+import '../../../common/widgets/buttons/button_with_states.dart';
+import '../../../common/widgets/canvas/profile_canvas.dart';
+import '../../../common/widgets/custom_edge_insets.dart';
+import '../../../common/widgets/social_links_list.dart';
+import '../../../common/widgets/texts/expandable_text_section.dart';
+import '../../../common/widgets/texts/section_title.dart';
 import '../repo/connect_repo.dart';
 import '../state/button_with_states_manager.dart';
 import '../state/other_user_manager.dart';
@@ -58,11 +58,11 @@ class _OtherUserProfilePageState extends State<OtherUserProfilePage> {
       ],
       builder: (context, child) => Scaffold(
         body: EntityPageCanvas(
-          data: widget.shortProfile,
+          preloadedData: widget.shortProfile,
           loadableContent: const _OtherProfileContent(),
           scrollController: _scrollController,
           isBackButtonOn: false,
-          button: ButtonWithStatesWidget(widget.shortProfile.id),
+          mainActionWidget: ButtonWithStatesWidget(widget.shortProfile.id),
         ),
       ),
     );

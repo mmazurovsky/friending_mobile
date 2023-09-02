@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/bag/spaces.dart';
-import '../../../common/bag/stateful/styles.dart';
+import '../../bag/spaces.dart';
+import '../../bag/stateful/styles.dart';
 import 'button_content.dart';
 import 'trailing_arrow_icon.dart';
 

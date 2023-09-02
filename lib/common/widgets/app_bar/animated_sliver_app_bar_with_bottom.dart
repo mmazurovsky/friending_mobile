@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../common/bag/stateful/styles.dart';
-import '../../../common/bag/stateful/theme.dart';
-import '../../../common/data/models/user_models.dart';
+import '../../bag/stateful/styles.dart';
+import '../../bag/stateful/theme.dart';
+import '../../data/models/user_models.dart';
 import '../image/my_cached_network_image.dart';
 import 'app_bar_button.dart';
 
+//INFO: not in use
+@deprecated
 class AnimatedSliverAppBarWithBottom extends StatefulWidget {
   final ScrollController scrollController;
   final bool isBackButtonOn;

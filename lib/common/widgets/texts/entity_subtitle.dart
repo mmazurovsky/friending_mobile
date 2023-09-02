@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile_starter/common/bag/stateful/styles.dart';
 
-import '../../../common/data/models/language_model.dart';
+import '../../data/models/language_model.dart';
 import '../custom_edge_insets.dart';
 import '../row/row_of_widgets.dart';
 

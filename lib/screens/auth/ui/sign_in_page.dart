@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/navigation/auto_router/app_router.dart';
-import '../../widgets/app_bar/app_bar.dart';
+import '../../../common/widgets/app_bar/app_bar.dart';
 
 class SignInPage extends StatelessWidget {
   final bool withBackButton;

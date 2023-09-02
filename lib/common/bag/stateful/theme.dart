@@ -68,7 +68,6 @@ abstract class CustomThemeData {
 class MainCustomThemeData implements CustomThemeData {
   // General colors
   static const _white = Colors.white;
-  static const _slightlyGrey = Color.fromARGB(255, 244, 244, 244);
   static const _darkGrey = Color.fromARGB(255, 168, 168, 168);
   static const _black = Colors.black;
   static const _grey = Colors.grey;
@@ -100,7 +99,7 @@ class MainCustomThemeData implements CustomThemeData {
   Color get loadingIndicatorColor => _black;
 
   @override
-  Color get bottomNavigationBarColor => Colors.transparent;
+  Color get bottomNavigationBarColor => _white.withOpacity(0.9);
 
   @override
   Color get activeIndicatorColor => _black;
@@ -140,7 +139,7 @@ class MainCustomThemeData implements CustomThemeData {
 
   @override
   Color get shadow => _black;
-  
+
   @override
   Color get border => divider;
 }

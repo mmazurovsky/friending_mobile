@@ -4,8 +4,8 @@ class AppBarButton extends StatelessWidget {
   const AppBarButton({
     Key? key,
     required this.iconWidget,
-    required this.containerOpacity,
     required this.onTap,
+    this.containerOpacity = 1,
   }) : super(key: key);
 
   final double containerOpacity;

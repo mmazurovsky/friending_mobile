@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../../../common/bag/stateful/styles.dart';
+import '../../bag/stateful/styles.dart';
 
 class ExpandableTextSection extends StatefulWidget {
   final String text;

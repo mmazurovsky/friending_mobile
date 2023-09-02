@@ -8,7 +8,7 @@ import '../../../../common/bag/stateful/theme.dart';
 import '../../../../common/data/models/user_models.dart';
 import '../../../../common/navigation/auto_router/app_router.dart';
 import '../../../profile/ui/widgets/tags_displayer.dart';
-import '../../../widgets/custom_edge_insets.dart';
+import '../../../../common/widgets/custom_edge_insets.dart';
 
 class UserCard extends StatelessWidget {
   final ShortReadUserModel user;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/bag/stateful/styles.dart';
-import '../../../common/bag/stateful/theme.dart';
+import '../../bag/stateful/styles.dart';
+import '../../bag/stateful/theme.dart';
 import '../custom_edge_insets.dart';
 
 class ModalBottomSheetContent extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../screens/widgets/loading.dart';
+import '../widgets/loading.dart';
 import '../bag/stateful/theme.dart';
 
 class MyRefreshConfiguration extends StatelessWidget {
