@@ -24,63 +24,57 @@ class MyBottomNavBarState extends State<MyBottomNavBar> {
       create: (context) => getIt<TabsStateManager>(),
       builder: (context, __) {
         int currentTabIndex = context.watch<TabsStateManager>().currentTab;
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(width: double.infinity, color: context.colors.border, height: 1.1),
-            BottomNavigationBar(
-              elevation: 0,
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: context.colors.bottomNavigationBarColor,
-              showUnselectedLabels: false,
-              //* https://github.com/flutter/flutter/issues/86545
-              selectedFontSize: 0,
-              showSelectedLabels: false,
-              onTap: (tappedTabIndex) {
-                // cases when tapped on active tab bar item
-                if (tappedTabIndex == currentTabIndex) {
-                  // case when navigation stack not empty
-                  final currentTab = allTabsOrderedAccordingToIndex[currentTabIndex];
-                  if (currentTab.navigationKey.currentState?.controller?.canPop() ?? false) {
-                    currentTab.navigationKey.currentState!.controller!.popUntil(
-                      (route) => route.isFirst,
-                    );
-                  }
-                  // case when navigation stack empty
-                  else {
-                    context.read<TabsStateManager>().customNotifyListeners();
-                    if (currentTab.scrollController.hasClients) {
-                      currentTab.scrollController.animateTo(
-                        0.0,
-                        curve: Curves.easeOut,
-                        duration: const Duration(milliseconds: 400),
-                      );
-                    }
-                  }
-                } else {
-                  context.read<TabsStateManager>().changeCurrentTab(tappedTabIndex);
+        return BottomNavigationBar(
+          elevation: 0,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: context.colors.bottomNavigationBarColor,
+          showUnselectedLabels: false,
+          //* https://github.com/flutter/flutter/issues/86545
+          selectedFontSize: 0,
+          showSelectedLabels: false,
+          onTap: (tappedTabIndex) {
+            // cases when tapped on active tab bar item
+            if (tappedTabIndex == currentTabIndex) {
+              // case when navigation stack not empty
+              final currentTab = allTabsOrderedAccordingToIndex[currentTabIndex];
+              if (currentTab.navigationKey.currentState?.controller?.canPop() ?? false) {
+                currentTab.navigationKey.currentState!.controller!.popUntil(
+                  (route) => route.isFirst,
+                );
+              }
+              // case when navigation stack empty
+              else {
+                context.read<TabsStateManager>().customNotifyListeners();
+                if (currentTab.scrollController.hasClients) {
+                  currentTab.scrollController.animateTo(
+                    0.0,
+                    curve: Curves.easeOut,
+                    duration: const Duration(milliseconds: 400),
+                  );
                 }
-              },
-              items: [
-                allTabsOrderedAccordingToIndex[0].getBottomNavigationBarItem(
-                  isCurrentTab: currentTabIndex == 0,
-                  // thereWasTabChange: thereWasTabChange,
-                  activeColor: context.colors.activeIndicatorColor,
-                  inactiveColor: context.colors.inactiveIndicatorColor,
-                ),
-                allTabsOrderedAccordingToIndex[1].getBottomNavigationBarItem(
-                  isCurrentTab: currentTabIndex == 1,
-                  // thereWasTabChange: thereWasTabChange,
-                  activeColor: context.colors.activeIndicatorColor,
-                  inactiveColor: context.colors.inactiveIndicatorColor,
-                ),
-                allTabsOrderedAccordingToIndex[2].getBottomNavigationBarItem(
-                  isCurrentTab: currentTabIndex == 2,
-                  // thereWasTabChange: thereWasTabChange,
-                  activeColor: context.colors.activeIndicatorColor,
-                  inactiveColor: context.colors.inactiveIndicatorColor,
-                ),
-              ],
+              }
+            } else {
+              context.read<TabsStateManager>().changeCurrentTab(tappedTabIndex);
+            }
+          },
+          items: [
+            allTabsOrderedAccordingToIndex[0].getBottomNavigationBarItem(
+              isCurrentTab: currentTabIndex == 0,
+              // thereWasTabChange: thereWasTabChange,
+              activeColor: context.colors.activeIndicatorColor,
+              inactiveColor: context.colors.inactiveIndicatorColor,
+            ),
+            allTabsOrderedAccordingToIndex[1].getBottomNavigationBarItem(
+              isCurrentTab: currentTabIndex == 1,
+              // thereWasTabChange: thereWasTabChange,
+              activeColor: context.colors.activeIndicatorColor,
+              inactiveColor: context.colors.inactiveIndicatorColor,
+            ),
+            allTabsOrderedAccordingToIndex[2].getBottomNavigationBarItem(
+              isCurrentTab: currentTabIndex == 2,
+              // thereWasTabChange: thereWasTabChange,
+              activeColor: context.colors.activeIndicatorColor,
+              inactiveColor: context.colors.inactiveIndicatorColor,
             ),
           ],
         );

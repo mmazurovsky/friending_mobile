@@ -33,7 +33,8 @@ class FrontPage extends StatelessWidget {
             getIt.unregister(instance: tabsRouter);
           }
           getIt.registerSingleton(tabsRouter);
-          return const MyBottomNavBar();
+          return SizedBox();
+          // return const MyBottomNavBar();
         },
       ),
     );

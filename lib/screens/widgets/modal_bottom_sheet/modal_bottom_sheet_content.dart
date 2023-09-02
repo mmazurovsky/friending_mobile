@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../custom_edge_insets.dart';
-import '../spacers/section_divider.dart';
 
 class ModalBottomSheetContent extends StatelessWidget {
   final IconData iconData;
@@ -66,7 +65,6 @@ class ModalBottomSheetContent extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 15),
-                const SectionDivider(),
               ],
             ),
           ),

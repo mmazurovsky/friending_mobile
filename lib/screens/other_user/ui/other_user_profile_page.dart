@@ -9,7 +9,6 @@ import '../../widgets/buttons/button_with_states.dart';
 import '../../widgets/canvas/profile_canvas.dart';
 import '../../widgets/custom_edge_insets.dart';
 import '../../widgets/social_links_list.dart';
-import '../../widgets/spacers/section_divider_with_spacers.dart';
 import '../../widgets/texts/expandable_text_section.dart';
 import '../../widgets/texts/section_title.dart';
 import '../repo/connect_repo.dart';
@@ -95,7 +94,7 @@ class _OtherProfileContentState extends State<_OtherProfileContent> {
                   tagsToDisplay: context.read<OtherUserManager>().fullProfile.shortUserModel.tagsEntities,
                   displayIfTagsEmpty: Container(),
                 ),
-                const SectionDividerWithSpacers(),
+                const SizedBox(height: 44),
                 const SectionTitle('About'),
                 Padding(
                   padding: CEdgeInsets.horizontalStandart,
@@ -103,7 +102,7 @@ class _OtherProfileContentState extends State<_OtherProfileContent> {
                     context.read<OtherUserManager>().fullProfile.shortUserModel.about,
                   ),
                 ),
-                const SectionDividerWithSpacers(),
+                const SizedBox(height: 44),
                 const SectionTitle('Looking for'),
                 Padding(
                   padding: CEdgeInsets.horizontalStandart,
@@ -115,10 +114,9 @@ class _OtherProfileContentState extends State<_OtherProfileContent> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SectionDividerWithSpacers(),
+                      const SizedBox(height: 44),
                       const SectionTitle('Social links'),
                       const SizedBox(height: 5),
-                      const SizedBox(height: 10),
                       //TODO: only display if there is access
                       SocialLinksList(
                         fields: context.read<OtherUserManager>().fullProfile.secureUserInfoModel.fields,

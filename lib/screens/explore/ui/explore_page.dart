@@ -9,6 +9,7 @@ import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/navigation/navigation_tab.dart';
+import '../../../screen_wrapper_with_bottom_nav_bar.dart';
 import '../../widgets/custom_edge_insets.dart';
 import '../../widgets/loading.dart';
 import '../../widgets/snack_bar.dart';
@@ -68,83 +69,85 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
         enablePullDown: true,
         controller: context.read<ExploreStateManager>().refreshController,
         onRefresh: context.read<ExploreStateManager>().refreshUsers,
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: context.watch<ExploreStateManager>().isLoading
-              ? [
-                  const SliverToBoxAdapter(
-                    child: LoadingContainer(),
-                  ),
-                ]
-              : [
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: ConstSpaces.unit4,
+        child: ScreenWrapperWithBottomNavBar(
+          child: CustomScrollView(
+            controller: _scrollController,
+            slivers: context.watch<ExploreStateManager>().isLoading
+                ? [
+                    const SliverToBoxAdapter(
+                      child: LoadingContainer(),
                     ),
-                  ),
-                  const UsersNearbySection(),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: ConstSpaces.unit8),
-                  ),
-                  //TODO: rewrite to one widget
-                  SliverToBoxAdapter(
-                    child: CustomScreenHeader(
-                      text: 'Most relevant',
-                    ),
-                  ),
-                  SliverPadding(
-                    padding: CEdgeInsets.horizontalStandart,
-                    sliver: SliverGrid.builder(
-                      itemCount: context.read<ExploreStateManager>().usersWithMostCommonTags.length,
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 300,
-                        childAspectRatio: 0.66,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 30,
+                  ]
+                : [
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: ConstSpaces.unit4,
                       ),
-                      itemBuilder: (context, index) {
-                        return UserCard(
-                          user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
-                        );
-                      },
                     ),
-                  ),
+                    const UsersNearbySection(),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: ConstSpaces.unit8),
+                    ),
+                    //TODO: rewrite to one widget
+                    SliverToBoxAdapter(
+                      child: CustomScreenHeader(
+                        text: 'Most relevant',
+                      ),
+                    ),
+                    SliverPadding(
+                      padding: CEdgeInsets.horizontalStandart,
+                      sliver: SliverGrid.builder(
+                        itemCount: context.read<ExploreStateManager>().usersWithMostCommonTags.length,
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 300,
+                          childAspectRatio: 0.66,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 30,
+                        ),
+                        itemBuilder: (context, index) {
+                          return UserCard(
+                            user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
+                          );
+                        },
+                      ),
+                    ),
 
-                  // children: context
-                  //     .read<ExploreStateManager>()
-                  //     .usersWithMostCommonTags
-                  //     .map(
-                  //       (e) => UserCard(
-                  //         user: e,
-                  //       ),
-                  //     )
-                  //     .toList(),
+                    // children: context
+                    //     .read<ExploreStateManager>()
+                    //     .usersWithMostCommonTags
+                    //     .map(
+                    //       (e) => UserCard(
+                    //         user: e,
+                    //       ),
+                    //     )
+                    //     .toList(),
 
-                  // SliverList(
-                  //   delegate: SliverChildBuilderDelegate(
-                  //     (BuildContext context, int index) {
-                  //       return Column(
-                  //         mainAxisAlignment: MainAxisAlignment.start,
-                  //         children: [
-                  //           UserCard(
-                  //             user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
-                  //           ),
-                  //           if (index + 1 != context.read<ExploreStateManager>().usersWithMostCommonTags.length) const SizedBox(height: ConstSpaces.unit4),
-                  //         ],
-                  //       );
-                  //     },
-                  //     childCount:
-                  //         context.read<ExploreStateManager>().usersWithMostCommonTags.length, // replace with actual number of users with common interests
-                  //   ),
-                  // ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 100),
-                  ),
+                    // SliverList(
+                    //   delegate: SliverChildBuilderDelegate(
+                    //     (BuildContext context, int index) {
+                    //       return Column(
+                    //         mainAxisAlignment: MainAxisAlignment.start,
+                    //         children: [
+                    //           UserCard(
+                    //             user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
+                    //           ),
+                    //           if (index + 1 != context.read<ExploreStateManager>().usersWithMostCommonTags.length) const SizedBox(height: ConstSpaces.unit4),
+                    //         ],
+                    //       );
+                    //     },
+                    //     childCount:
+                    //         context.read<ExploreStateManager>().usersWithMostCommonTags.length, // replace with actual number of users with common interests
+                    //   ),
+                    // ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: 100),
+                    ),
 
-                  const SliverToBoxAdapter(
-                    child: ScreenEnding(),
-                  ),
-                ],
+                    const SliverToBoxAdapter(
+                      child: ScreenEnding(),
+                    ),
+                  ],
+          ),
         ),
       ),
     );

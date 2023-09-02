@@ -31,7 +31,17 @@ class UserCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: context.colors.containerColor,
           borderRadius: BorderRadius.circular(ConstRadiuses.card),
-          // border: Border.all(color: context.colors.border, width: 2),
+          border: Border.all(color: context.colors.border, width: 1.5),
+          boxShadow: 
+          // context.shadows.cardShadow,
+          [
+            BoxShadow(
+              color: context.colors.shadow,
+              blurRadius: 0,
+              spreadRadius: 0,
+              offset: const Offset(3, 5),
+            ),
+          ],
         ),
         // margin: CEdgeInsets.horizontalStandart,
         // padding: const EdgeInsets.symmetric(

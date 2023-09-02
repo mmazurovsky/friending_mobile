@@ -20,7 +20,6 @@ import '../../widgets/custom_edge_insets.dart';
 import '../../widgets/loading.dart';
 import '../../widgets/modal_bottom_sheet/modal_bottom_sheet_content.dart';
 import '../../widgets/social_links_list.dart';
-import '../../widgets/spacers/section_divider_with_spacers.dart';
 import '../../widgets/texts/expandable_text_section.dart';
 import '../../widgets/texts/section_title.dart';
 import '../state/profile_content_manager.dart';
@@ -100,7 +99,7 @@ class _ProfileContentState extends State<_ProfileContent> {
                   tagsToDisplay: context.read<ProfileContentManager>().profile.shortUserModel.tagsEntities,
                   displayIfTagsEmpty: Container(),
                 ),
-                const SectionDividerWithSpacers(),
+                const SizedBox(height: 44),
                 const SectionTitle('About'),
                 Padding(
                   padding: CEdgeInsets.horizontalStandart,
@@ -108,7 +107,7 @@ class _ProfileContentState extends State<_ProfileContent> {
                     context.read<ProfileContentManager>().profile.shortUserModel.about,
                   ),
                 ),
-                const SectionDividerWithSpacers(),
+                const SizedBox(height: 44),
                 const SectionTitle('Looking for'),
                 Padding(
                   padding: CEdgeInsets.horizontalStandart,
@@ -116,7 +115,7 @@ class _ProfileContentState extends State<_ProfileContent> {
                     context.read<ProfileContentManager>().profile.shortUserModel.lookingFor,
                   ),
                 ),
-                const SectionDividerWithSpacers(),
+                const SizedBox(height: 44),
                 const SectionTitle('Social links'),
                 const SizedBox(height: 5),
                 const SizedBox(height: 10),

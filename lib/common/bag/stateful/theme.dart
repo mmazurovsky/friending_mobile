@@ -76,7 +76,7 @@ class MainCustomThemeData implements CustomThemeData {
   static const _paleRed = Color(0xFFE57373);
 
   @override
-  Color get backgroundColor => _slightlyGrey;
+  Color get backgroundColor => _white;
 
   @override
   Color get containerColor => _white;
@@ -100,7 +100,7 @@ class MainCustomThemeData implements CustomThemeData {
   Color get loadingIndicatorColor => _black;
 
   @override
-  Color get bottomNavigationBarColor => _slightlyGrey;
+  Color get bottomNavigationBarColor => Colors.transparent;
 
   @override
   Color get activeIndicatorColor => _black;
@@ -136,10 +136,10 @@ class MainCustomThemeData implements CustomThemeData {
   Color get dialogBackgroundColor => _grey.shade700;
 
   @override
-  Color get divider => _grey.shade400;
+  Color get divider => _black;
 
   @override
-  Color get shadow => _grey.shade300;
+  Color get shadow => _black;
   
   @override
   Color get border => divider;
