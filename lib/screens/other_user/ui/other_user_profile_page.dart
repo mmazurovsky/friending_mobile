@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/animations/wrappers.dart';
+import '../../../common/bag/stateful/styles.dart';
+import '../../../common/bag/stateful/theme.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
-import '../../profile/ui/widgets/tags_displayer.dart';
 import '../../../common/widgets/buttons/button_with_states.dart';
 import '../../../common/widgets/canvas/profile_canvas.dart';
 import '../../../common/widgets/custom_edge_insets.dart';
 import '../../../common/widgets/social_links_list.dart';
 import '../../../common/widgets/texts/expandable_text_section.dart';
 import '../../../common/widgets/texts/section_title.dart';
+import '../../profile/ui/widgets/tags_displayer.dart';
 import '../repo/connect_repo.dart';
 import '../state/button_with_states_manager.dart';
 import '../state/other_user_manager.dart';
@@ -38,6 +40,8 @@ class _OtherUserProfilePageState extends State<OtherUserProfilePage> {
     _buttonStatesManager = ButtonWithStatesManager(
       getIt<ConnectRepo>(),
       _otherUserProfileManager,
+      StylesStateManager.singleton(),
+      ColorsStateManager.singleton(),
     );
   }
 
@@ -57,6 +61,7 @@ class _OtherUserProfilePageState extends State<OtherUserProfilePage> {
         ),
       ],
       builder: (context, child) => Scaffold(
+        backgroundColor: context.colors.backgroundColor,
         body: EntityPageCanvas(
           preloadedData: widget.shortProfile,
           loadableContent: const _OtherProfileContent(),
@@ -87,7 +92,7 @@ class _OtherProfileContentState extends State<_OtherProfileContent> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 44),
                 const SectionTitle('Tags'),
                 const SizedBox(height: 10),
                 TagsDisplayer(

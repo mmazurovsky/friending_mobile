@@ -1,10 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_starter/common/bag/stateful/theme.dart';
 
+import 'common/bag/stateful/theme.dart';
 import 'common/navigation/my_bottom_nav_bar.dart';
 
+@deprecated
 class ScreenWrapperWithBottomNavBar extends StatelessWidget {
   final Widget child;
   const ScreenWrapperWithBottomNavBar({
@@ -25,10 +26,10 @@ class ScreenWrapperWithBottomNavBar extends StatelessWidget {
               filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: 90,
+                height: 78,
                 color: context.colors.bottomNavigationBarColor,
                 alignment: Alignment.topCenter,
-                child: const MyBottomNavBar(),
+                child: MyBottomNavBar(),
               ),
             ),
           ),

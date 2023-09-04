@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import '../image/image_carousel.dart';
-import '../../bag/stateful/theme.dart';
-import '../../data/models/user_models.dart';
 import 'package:ionicons/ionicons.dart';
 
-import '../../data/entities/user_entities.dart';
-import '../app_bar/animated_sliver_app_bar_with_bottom.dart';
+import '../../bag/stateful/styles.dart';
+import '../../bag/stateful/theme.dart';
+import '../../data/models/user_models.dart';
 import '../app_bar/app_bar_button.dart';
+import '../image/image_carousel.dart';
 import '../spacers/screen_ending.dart';
-import '../texts/entity_subtitle.dart';
 import '../texts/entity_title.dart';
 
 class EntityPageCanvas extends StatefulWidget {
@@ -56,7 +54,9 @@ class _EntityPageCanvasState extends State<EntityPageCanvas> {
         controller: _scrollController,
         slivers: [
           SliverAppBar(
-            backgroundColor: context.colors.bottomNavigationBarColor,
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            backgroundColor: context.colors.appBarColor,
             pinned: true,
             leading: widget.isBackButtonOn
                 ? AppBarButton(
@@ -67,18 +67,31 @@ class _EntityPageCanvasState extends State<EntityPageCanvas> {
                     onTap: Navigator.of(context).pop,
                   )
                 : null,
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  widget.preloadedData.username,
+                  style: context.styles.appBarTitle,
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  'User',
+                  style: context.styles.appBarSubtitle,
+                ),
+              ],
+            ),
           ),
-          // AnimatedSliverAppBarWithBottom(
-          //   scrollController: _scrollController,
-          //   isBackButtonOn: widget.isBackButtonOn,
-          //   data: widget.preloadedData,
-          // ),
+          const SliverToBoxAdapter(
+            child: SizedBox(
+              height: 10,
+            ),
+          ),
           SliverToBoxAdapter(
             child: ImageCarousel(
               imagesUrls: widget.preloadedData.photos,
             ),
           ),
-
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

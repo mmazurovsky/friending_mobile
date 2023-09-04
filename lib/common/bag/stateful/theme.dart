@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 extension ThemeExt on BuildContext {
-  Brightness get brightness => this.watch<ThemeStateManager>().currentBrightness;
-  CustomThemeData get colors => this.watch<ThemeStateManager>().themeData;
+  Brightness get brightness => this.watch<ColorsStateManager>().currentBrightness;
+  CustomThemeData get colors => this.watch<ColorsStateManager>().colors;
 }
 
-class ThemeStateManager with ChangeNotifier {
-  static ThemeStateManager? _singleton;
+class ColorsStateManager with ChangeNotifier {
+  static ColorsStateManager? _singleton;
 
-  ThemeStateManager._internal(this._currentBrightness);
+  ColorsStateManager._internal(this._currentBrightness);
 
-  factory ThemeStateManager.singleton([Brightness? brightness]) {
-    _singleton ??= ThemeStateManager._internal(brightness!);
+  factory ColorsStateManager.singleton([Brightness? brightness]) {
+    _singleton ??= ColorsStateManager._internal(brightness!);
     return _singleton!;
   }
 
@@ -28,8 +28,8 @@ class ThemeStateManager with ChangeNotifier {
   }
 }
 
-extension BrightnessExt on ThemeStateManager {
-  CustomThemeData get themeData {
+extension BrightnessExt on ColorsStateManager {
+  CustomThemeData get colors {
     switch (currentBrightness) {
       case Brightness.light:
         return MainCustomThemeData();
@@ -46,6 +46,7 @@ abstract class CustomThemeData {
   Color get headerColor;
   Color get mainTextColor;
   Color get secondaryTextColor;
+  Color get thirdTextColor;
   Color get containerColor;
   Color get userCardUsernameColor;
   Color get userCardAgeColor;
@@ -54,6 +55,8 @@ abstract class CustomThemeData {
   Color get snackBarTextColor;
   Color get loadingIndicatorColor;
   Color get bottomNavigationBarColor;
+  Color get appBarColor;
+  Color get transparentAppBarColor;
   Color get activeIndicatorColor;
   Color get inactiveIndicatorColor;
   Color get activeSwitchColor;
@@ -63,6 +66,8 @@ abstract class CustomThemeData {
   Color get divider;
   Color get shadow;
   Color get border;
+  Color get mainActionButtonActive;
+  Color get mainActionButtonInactive;
 }
 
 class MainCustomThemeData implements CustomThemeData {
@@ -73,6 +78,7 @@ class MainCustomThemeData implements CustomThemeData {
   static const _grey = Colors.grey;
   static const _blue = Colors.blue;
   static const _paleRed = Color(0xFFE57373);
+  final _whiteWithOpacity = _white.withOpacity(0.9);
 
   @override
   Color get backgroundColor => _white;
@@ -99,7 +105,7 @@ class MainCustomThemeData implements CustomThemeData {
   Color get loadingIndicatorColor => _black;
 
   @override
-  Color get bottomNavigationBarColor => _white.withOpacity(0.9);
+  Color get bottomNavigationBarColor => _whiteWithOpacity;
 
   @override
   Color get activeIndicatorColor => _black;
@@ -142,6 +148,21 @@ class MainCustomThemeData implements CustomThemeData {
 
   @override
   Color get border => divider;
+
+  @override
+  Color get mainActionButtonActive => _black;
+
+  @override
+  Color get thirdTextColor => _white;
+  
+  @override
+  Color get mainActionButtonInactive => _grey;
+  
+  @override
+  Color get appBarColor => _white;
+  
+  @override
+  Color get transparentAppBarColor => _whiteWithOpacity;
 }
 
 // class Themes {

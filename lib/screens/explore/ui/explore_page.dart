@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../common/bag/spaces.dart';
@@ -9,7 +8,7 @@ import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/navigation/navigation_tab.dart';
-import '../../../screen_wrapper_with_bottom_nav_bar.dart';
+import '../../../common/widgets/app_bar/custom_sliver_app_bar.dart';
 import '../../../common/widgets/custom_edge_insets.dart';
 import '../../../common/widgets/loading.dart';
 import '../../../common/widgets/snack_bar.dart';
@@ -64,93 +63,88 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
         }
       },
     );
-    return SafeArea(
-      child: SmartRefresher(
-        enablePullDown: true,
-        controller: context.read<ExploreStateManager>().refreshController,
-        onRefresh: context.read<ExploreStateManager>().refreshUsers,
-        child: ScreenWrapperWithBottomNavBar(
-          child: CustomScrollView(
-            controller: _scrollController,
-            slivers: context.watch<ExploreStateManager>().isLoading
-                ? [
-                    const SliverToBoxAdapter(
-                      child: LoadingContainer(),
-                    ),
-                  ]
-                : [
-                    const SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: ConstSpaces.unit4,
-                      ),
-                    ),
-                    const UsersNearbySection(),
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: ConstSpaces.unit8),
-                    ),
-                    //TODO: rewrite to one widget
-                    SliverToBoxAdapter(
-                      child: CustomScreenHeader(
-                        text: 'Most relevant',
-                      ),
-                    ),
-                    SliverPadding(
-                      padding: CEdgeInsets.horizontalStandart,
-                      sliver: SliverGrid.builder(
-                        itemCount: context.read<ExploreStateManager>().usersWithMostCommonTags.length,
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 300,
-                          childAspectRatio: 0.66,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 30,
-                        ),
-                        itemBuilder: (context, index) {
-                          return UserCard(
-                            user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
-                          );
-                        },
-                      ),
-                    ),
+    return 
+    SafeArea(
+      child:
+          // SmartRefresher(
+          //   enablePullDown: true,
+          //   controller: context.read<ExploreStateManager>().refreshController,
+          //   onRefresh: context.read<ExploreStateManager>().refreshUsers,
+          //   child:
+          CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          CustomSliverAppBar(
+            isBackButtonOn: false,
+            titleWidget: Text('Locked club', style: context.styles.genericHeader),
+          ),
+          context.watch<ExploreStateManager>().isLoading
+              ? const SliverFillRemaining(
+                  child: LoadingContainer(),
+                )
+              : const LoadedBody(),
+        ],
+      ),
+      // ),
+    );
+  }
+}
 
-                    // children: context
-                    //     .read<ExploreStateManager>()
-                    //     .usersWithMostCommonTags
-                    //     .map(
-                    //       (e) => UserCard(
-                    //         user: e,
-                    //       ),
-                    //     )
-                    //     .toList(),
+class LoadedBody extends StatelessWidget {
+  const LoadedBody({super.key});
 
-                    // SliverList(
-                    //   delegate: SliverChildBuilderDelegate(
-                    //     (BuildContext context, int index) {
-                    //       return Column(
-                    //         mainAxisAlignment: MainAxisAlignment.start,
-                    //         children: [
-                    //           UserCard(
-                    //             user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
-                    //           ),
-                    //           if (index + 1 != context.read<ExploreStateManager>().usersWithMostCommonTags.length) const SizedBox(height: ConstSpaces.unit4),
-                    //         ],
-                    //       );
-                    //     },
-                    //     childCount:
-                    //         context.read<ExploreStateManager>().usersWithMostCommonTags.length, // replace with actual number of users with common interests
-                    //   ),
-                    // ),
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: 100),
-                    ),
-
-                    const SliverToBoxAdapter(
-                      child: ScreenEnding(),
-                    ),
-                  ],
+  @override
+  Widget build(BuildContext context) {
+    return MultiSliver(
+      children: const [
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: ConstSpaces.unit4,
           ),
         ),
-      ),
+        UsersNearbySection(),
+        SliverToBoxAdapter(
+          child: SizedBox(height: ConstSpaces.unit8),
+        ),
+        MostRelevantUsersSection(),
+        SliverToBoxAdapter(
+          child: ScreenEnding(),
+        ),
+      ],
     );
+  }
+}
+
+class MostRelevantUsersSection extends StatelessWidget {
+  const MostRelevantUsersSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiSliver(children: [
+      const SliverToBoxAdapter(
+        child: CustomScreenHeader(
+          text: 'Most relevant',
+        ),
+      ),
+      SliverPadding(
+        padding: CEdgeInsets.horizontalStandart,
+        sliver: SliverGrid.builder(
+          
+          itemCount: context.read<ExploreStateManager>().usersWithMostCommonTags.length,
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 300,
+            childAspectRatio: 0.66,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 30,
+          ),
+          itemBuilder: (context, index) {
+            return UserCard(
+              user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
+            );
+          },
+        ),
+      ),
+    ]);
   }
 }
 
@@ -164,14 +158,8 @@ class UsersNearbySection extends StatelessWidget {
     final failure = context.watch<ExploreStateManager>().failure;
     return MultiSliver(
       children: [
-        SliverToBoxAdapter(
-          child: Container(
-            padding: CEdgeInsets.horizontalStandart.copyWith(bottom: ConstSpaces.unit5),
-            child: Text(
-              'Users nearby',
-              style: context.styles.genericHeader,
-            ),
-          ),
+        const SliverToBoxAdapter(
+          child: CustomScreenHeader(text: 'Users nearby'),
         ),
         if (permissions == LocationPermission.denied || permissions == LocationPermission.deniedForever)
           LocationPermissionsNotGranted(locationPermission: permissions)
@@ -198,7 +186,7 @@ class NearbyUsersNotFoundPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const text = 'There are no users near you 😢 \nThis is a very new app, give us time 😌';
+    const text = 'There are no users near you atm 😢 \nThis is a very new app, give us some time 😌';
     return const PlaceholderWithTextAndButton(
       text: text,
     );

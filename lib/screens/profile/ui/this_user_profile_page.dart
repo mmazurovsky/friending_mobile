@@ -63,12 +63,14 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => getIt<ProfileContentManager>()..loadProfile(),
-      builder: (context, child) => EntityPageCanvas(
-        preloadedData: widget.shortProfile,
-        loadableContent: const _ProfileContent(),
-        scrollController: _scrollController,
-        isBackButtonOn: false,
-        mainActionWidget: const OpenSettingsButton(),
+      builder: (context, child) => SafeArea(
+        child: EntityPageCanvas(
+          preloadedData: widget.shortProfile,
+          loadableContent: const _ProfileContent(),
+          scrollController: _scrollController,
+          isBackButtonOn: false,
+          mainActionWidget: const OpenSettingsButton(),
+        ),
       ),
     );
   }
@@ -92,7 +94,7 @@ class _ProfileContentState extends State<_ProfileContent> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 44),
                 const SectionTitle('Tags'),
                 const SizedBox(height: 10),
                 TagsDisplayer(
@@ -145,6 +147,7 @@ class OpenSettingsButton extends StatelessWidget {
               builder: (context3, _) => SettingsSelector(),
             ),
           ),
+          color: context.colors.mainActionButtonActive,
           child: Text(
             'Open settings',
             style: context.styles.activeButtonText,
@@ -277,7 +280,7 @@ class SettingsButton extends StatelessWidget {
           ),
           distanceBetweenLeadingAndText: 13,
           text: data.text,
-          textStyle: context.styles.genericTitle,
+          textStyle: context.styles.genericHeader,
           mainAxisAlignment: MainAxisAlignment.start,
         ),
       ),

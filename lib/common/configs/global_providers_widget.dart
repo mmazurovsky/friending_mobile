@@ -18,8 +18,8 @@ class GlobalProviders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final brightness = MediaQueryData.fromWindow(WidgetsBinding.instance.window).platformBrightness;
-    final theme = ThemeStateManager.singleton(brightness);
-    final styles = StylesStateManager();
+    final theme = ColorsStateManager.singleton(brightness);
+    final styles = StylesStateManager.singleton();
     final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
     if (!getIt.isRegistered<GlobalKey<ScaffoldMessengerState>>()) {
       getIt.registerLazySingleton(() => scaffoldMessengerKey);

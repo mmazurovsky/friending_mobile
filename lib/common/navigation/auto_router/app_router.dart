@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import '../../../screens/other_user/ui/other_user_profile_page.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../screens/auth/ui/forgot_password_page.dart';
@@ -8,6 +7,7 @@ import '../../../screens/auth/ui/sign_in_page.dart';
 import '../../../screens/events/ui/events_page.dart';
 import '../../../screens/explore/ui/explore_page.dart';
 import '../../../screens/front_page.dart';
+import '../../../screens/other_user/ui/other_user_profile_page.dart';
 import '../../../screens/profile/ui/profile_editing_page.dart';
 import '../../../screens/profile/ui/profile_page.dart';
 import '../../../screens/profile/ui/this_user_profile_page.dart';
@@ -47,9 +47,8 @@ part 'app_router.gr.dart';
     AutoRoute(
       page: ForgotPasswordPage,
     ),
-    CustomRoute(
+    AutoRoute(
       page: OtherUserProfilePage,
-      transitionsBuilder: TransitionsBuilders.slideBottom,
     ),
   ],
 )

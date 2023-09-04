@@ -34,7 +34,7 @@ class ButtonWithIcons extends StatelessWidget {
           leading: leadingIcon,
           distanceBetweenLeadingAndText: 13,
           text: buttonText,
-          textStyle: context.styles.activeButtonText,
+          textStyle: context.styles.socialMediaTitle,
           trailing: trailingIcon ?? const TrailingArrowIcon(),
         ),
       ),

@@ -31,15 +31,12 @@ class _$AppRouter extends RootStackRouter {
     },
     OtherUserProfileRoute.name: (routeData) {
       final args = routeData.argsAs<OtherUserProfileRouteArgs>();
-      return CustomPage<dynamic>(
+      return MaterialPageX<dynamic>(
         routeData: routeData,
         child: OtherUserProfilePage(
           key: args.key,
           shortProfile: args.shortProfile,
         ),
-        transitionsBuilder: TransitionsBuilders.slideBottom,
-        opaque: true,
-        barrierDismissible: false,
       );
     },
     ExploreRoute.name: (routeData) {

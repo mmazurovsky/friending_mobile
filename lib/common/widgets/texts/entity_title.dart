@@ -22,11 +22,11 @@ class ProfileUsernameAndAge extends StatelessWidget {
             children: [
               TextSpan(
                 text: title,
-                style: context.styles.genericHeader,
+                style: context.styles.userScreenNickname,
               ),
               TextSpan(
                 text: ', ${age}',
-                style: context.styles.genericSubheader,
+                style: context.styles.userScreenAge,
               ),
             ],
           ),

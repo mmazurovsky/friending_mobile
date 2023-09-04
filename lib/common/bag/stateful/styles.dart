@@ -8,117 +8,143 @@ extension StylesExtension on BuildContext {
 }
 
 class StylesStateManager with ChangeNotifier {
-  final ThemeStateManager _themeStateManager;
+  final ColorsStateManager _themeStateManager;
   // late TextTheme _textTheme;
 
   static final StylesStateManager _singleton = StylesStateManager._internal(
-    ThemeStateManager.singleton(),
+    ColorsStateManager.singleton(),
   );
 
   StylesStateManager._internal(this._themeStateManager);
 
-  factory StylesStateManager() {
+  CustomThemeData get _colors => _themeStateManager.colors;
+
+  factory StylesStateManager.singleton() {
     return _singleton;
   }
 
   TextStyle get genericLargeHeader => TextStyle(
-        color: _themeStateManager.themeData.headerColor,
+        color: _colors.mainTextColor,
         fontSize: 48,
         fontWeight: FontWeight.bold,
       );
 
   TextStyle get genericHeader => TextStyle(
-        color: _themeStateManager.themeData.headerColor,
-        fontSize: 22,
+        color: _colors.mainTextColor,
+        fontSize: 18,
         fontWeight: FontWeight.bold,
       );
 
-  TextStyle get genericSubheader => TextStyle(
-        color: _themeStateManager.themeData.secondaryTextColor,
+  TextStyle get userScreenNickname => TextStyle(
+        color: _colors.mainTextColor,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      );
+
+  TextStyle get userScreenAge => TextStyle(
+        color: _colors.mainTextColor,
         fontSize: 18,
+        fontWeight: FontWeight.w500,
+      );
+
+  TextStyle get genericSubheader => TextStyle(
+        color: _colors.secondaryTextColor,
+        fontSize: 17,
         fontWeight: FontWeight.w400,
       );
 
   TextStyle get genericTitle => TextStyle(
-        color: _themeStateManager.themeData.headerColor,
+        color: _colors.mainTextColor,
         fontSize: 24,
         fontWeight: FontWeight.w500,
       );
 
   TextStyle get userCardUsername => TextStyle(
-        color: _themeStateManager.themeData.userCardUsernameColor,
+        color: _colors.mainTextColor,
         fontSize: 18,
         fontWeight: FontWeight.bold,
       );
 
   TextStyle get userCardAge => TextStyle(
-        color: _themeStateManager.themeData.userCardAgeColor,
+        color: _colors.userCardAgeColor,
         fontSize: 15,
         fontWeight: FontWeight.w400,
       );
 
   TextStyle get bodyText => TextStyle(
-        color: _themeStateManager.themeData.mainTextColor,
+        color: _colors.mainTextColor,
         fontSize: 16,
         fontWeight: FontWeight.w400,
       );
 
   TextStyle get activeChip => TextStyle(
-        color: _themeStateManager.themeData.mainTextColor,
+        color: _colors.mainTextColor,
         fontSize: 15,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w600,
       );
 
   TextStyle get inactiveChip => TextStyle(
-        color: _themeStateManager.themeData.secondaryTextColor,
+        color: _colors.mainTextColor,
         fontSize: 15,
         fontWeight: FontWeight.w400,
       );
 
   TextStyle get titleText => TextStyle(
-        color: _themeStateManager.themeData.mainTextColor,
+        color: _colors.mainTextColor,
         fontSize: 18,
         fontWeight: FontWeight.bold,
       );
 
   TextStyle get subtitleText => TextStyle(
-        color: _themeStateManager.themeData.secondaryTextColor,
+        color: _colors.secondaryTextColor,
         fontSize: 16,
         fontWeight: FontWeight.w500,
       );
 
   TextStyle get highlightedText => TextStyle(
-        color: _themeStateManager.themeData.highlightedTextColor,
+        color: _colors.highlightedTextColor,
         fontSize: 16,
         fontWeight: FontWeight.w400,
       );
 
   TextStyle get switchTitle => TextStyle(
-        color: _themeStateManager.themeData.mainTextColor,
+        color: _colors.mainTextColor,
         fontSize: 14,
         fontWeight: FontWeight.w500,
       );
 
   TextStyle get activeButtonText => TextStyle(
-        color: _themeStateManager.themeData.mainTextColor,
-        fontSize: 17,
+        color: _colors.thirdTextColor,
+        fontSize: 18,
         fontWeight: FontWeight.bold,
       );
 
+  TextStyle get socialMediaTitle => TextStyle(
+        color: _colors.mainTextColor,
+        fontSize: 17,
+        fontWeight: FontWeight.w500,
+      );
+
   TextStyle get inactiveButtonText => TextStyle(
-        color: _themeStateManager.themeData.mainTextColor,
+        color: _colors.mainTextColor,
         fontSize: 18,
         fontWeight: FontWeight.bold,
       );
 
   TextStyle get appBarTitle => TextStyle(
-        color: _themeStateManager.themeData.mainTextColor,
+        color: _colors.mainTextColor,
         fontSize: 16,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w500,
+      );
+
+  TextStyle get largeAppBarTitle => TextStyle(
+        color: _colors.mainTextColor,
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
       );
 
   TextStyle get appBarSubtitle => TextStyle(
-        color: _themeStateManager.themeData.secondaryTextColor,
+        color: _colors.secondaryTextColor,
         fontSize: 14,
         fontWeight: FontWeight.w400,
       );

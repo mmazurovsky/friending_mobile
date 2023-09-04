@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/bag/stateful/styles.dart';
+import '../../../common/bag/stateful/theme.dart';
 import '../../../common/data/enums.dart';
 import '../../../common/widgets/loading.dart';
 import '../repo/connect_repo.dart';
@@ -9,10 +11,14 @@ import 'other_user_manager.dart';
 class ButtonWithStatesManager with ChangeNotifier {
   final ConnectRepo _connectRepo;
   final OtherUserManager _otherUserManager;
+  final StylesStateManager _stylesStateManager;
+  final ColorsStateManager _colorsStateManager;
 
   ButtonWithStatesManager(
     this._connectRepo,
     this._otherUserManager,
+    this._stylesStateManager,
+    this._colorsStateManager,
   ) {
     _otherUserManager.addListener(
       () {
@@ -43,7 +49,7 @@ class ButtonWithStatesManager with ChangeNotifier {
 
   VoidCallback getOnTap(String otherUserId) {
     switch (buttonState) {
-      case LoadingButtonState() || ErrorButtonState() || SuccessButtonState():
+      case LoadingButtonState() || ErrorButtonState():
         return () {};
       case LoadedUnpairedButtonState():
         return () {
@@ -60,20 +66,41 @@ class ButtonWithStatesManager with ChangeNotifier {
     }
   }
 
+  Color get buttonColor {
+    final color = switch (buttonState) {
+      LoadingButtonState() => _colorsStateManager.colors.backgroundColor,
+      LoadedUnpairedButtonState() => _colorsStateManager.colors.mainActionButtonActive,
+      LoadedRequestedButtonState() => _colorsStateManager.colors.mainActionButtonInactive,
+      LoadedPairedButtonState() => _colorsStateManager.colors.mainActionButtonInactive,
+      ErrorButtonState() => _colorsStateManager.colors.errorColor,
+    };
+    return color;
+  }
+
   Widget get buttonContent {
     switch (buttonState) {
       case LoadingButtonState():
         return const MyLoadingIndicator();
       case LoadedUnpairedButtonState():
-        return const Text('Pair');
+        return Text(
+          'Pair',
+          style: _stylesStateManager.activeButtonText,
+        );
       case LoadedRequestedButtonState():
-        return const Text('Requested');
+        return Text(
+          'Requested',
+          style: _stylesStateManager.inactiveButtonText,
+        );
       case LoadedPairedButtonState():
-        return const Text('Unpair');
+        return Text(
+          'Unpair',
+          style: _stylesStateManager.inactiveButtonText,
+        );
       case ErrorButtonState():
-        return const Text('Error');
-      case SuccessButtonState():
-        return const Text('Success');
+        return Text(
+          'Error',
+          style: _stylesStateManager.inactiveButtonText,
+        );
     }
   }
 
@@ -96,5 +123,3 @@ class LoadedRequestedButtonState extends ButtonState {}
 class LoadedPairedButtonState extends ButtonState {}
 
 class ErrorButtonState extends ButtonState {}
-
-class SuccessButtonState extends ButtonState {}
