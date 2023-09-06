@@ -6,7 +6,7 @@ class ScreenEnding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SizedBox(
-      height: 40,
+      height: 60,
     );
   }
 }

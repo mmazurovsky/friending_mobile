@@ -24,6 +24,7 @@ class UserCard extends StatelessWidget {
       user.avatar,
       generatePaletteFromImage: true,
     );
+    return image;
     return InkWell(
       onTap: () => context.router.push(
         OtherUserProfileRoute(

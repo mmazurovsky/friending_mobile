@@ -24,7 +24,7 @@ class ExplorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => getIt<ExploreStateManager>(),
+      create: (context) => getIt<ExploreStateManager>()..fetchUsers(),
       builder: (_, __) => const _ExplorePageContent(),
     );
   }
@@ -42,13 +42,8 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ExploreStateManager>(context, listen: false).fetchUsers();
     _scrollController = allTabsOrderedAccordingToIndex[0].scrollController;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Provider.of<ExploreStateManager>(context, listen: true).addListener(
+    Provider.of<ExploreStateManager>(context, listen: false).addListener(
       () {
         final failure = context.read<ExploreStateManager>().failure;
         if (failure != null) {
@@ -63,29 +58,88 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
         }
       },
     );
-    return 
-    SafeArea(
-      child:
-          // SmartRefresher(
-          //   enablePullDown: true,
-          //   controller: context.read<ExploreStateManager>().refreshController,
-          //   onRefresh: context.read<ExploreStateManager>().refreshUsers,
-          //   child:
-          CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          CustomSliverAppBar(
-            isBackButtonOn: false,
-            titleWidget: Text('Locked club', style: context.styles.genericHeader),
-          ),
-          context.watch<ExploreStateManager>().isLoading
-              ? const SliverFillRemaining(
-                  child: LoadingContainer(),
-                )
-              : const LoadedBody(),
-        ],
-      ),
-      // ),
+  }
+
+  // List<Widget> getLoaded() {
+  //   return [
+  //     SliverToBoxAdapter(
+  //       child: SizedBox(
+  //         height: ConstSpaces.unit4,
+  //       ),
+  //     ),
+  //     // ...getUsersNearbySection(),
+  //     // SliverToBoxAdapter(
+  //     //   child: SizedBox(height: ConstSpaces.unit8),
+  //     // ),
+  //     ...getMostRelevantUsersSection(),
+  //     SliverToBoxAdapter(
+  //       child:
+  //           // Container(height: 1000,color: Colors.amber)
+  //           ScreenEnding(),
+  //     ),
+  //   ];
+  // }
+
+  // List<Widget> getUsersNearbySection() {
+  //   const widgetToShow = SliverToBoxAdapter(child: NearbyUsersNotFoundPlaceholder());
+  //   return [
+  //     const SliverToBoxAdapter(
+  //       child: CustomScreenHeader(text: 'Users nearby'),
+  //     ),
+  //     widgetToShow,
+  //   ];
+  // }
+
+  // List<Widget> getMostRelevantUsersSection() {
+  //   final count = context.read<ExploreStateManager>().usersWithMostCommonTags.length;
+  //   return [
+  //     const SliverToBoxAdapter(
+  //       child: CustomScreenHeader(text: 'Most relevant'),
+  //     ),
+  //     SliverGrid(
+  //       delegate: SliverChildBuilderDelegate(
+  //         (BuildContext context, int index) {
+  //           return UserCard(
+  //             user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
+  //           );
+  //         },
+  //         childCount: count,
+  //       ),
+  //       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+  //         maxCrossAxisExtent: 300,
+  //         childAspectRatio: 0.66,
+  //         crossAxisSpacing: 12,
+  //         mainAxisSpacing: 30,
+  //       ),
+  //     ),
+  //   ];
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    return
+        // SafeArea(
+        //   child:
+        // SmartRefresher(
+        //   enablePullDown: true,
+        //   controller: context.read<ExploreStateManager>().refreshController,
+        //   onRefresh: context.read<ExploreStateManager>().refreshUsers,
+        //   child:
+        CustomScrollView(
+      controller: _scrollController,
+      slivers: [
+        CustomSliverAppBar(
+          isBackButtonOn: false,
+          titleWidget: Text('Locked club', style: context.styles.genericHeader),
+        ),
+        if (context.watch<ExploreStateManager>().isLoading)
+          const SliverToBoxAdapter(
+            child: LoadingContainer(),
+          )
+        else
+          const LoadedBody(),
+      ],
+    // ),
     );
   }
 }
@@ -96,7 +150,7 @@ class LoadedBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiSliver(
-      children: const [
+      children: [
         SliverToBoxAdapter(
           child: SizedBox(
             height: ConstSpaces.unit4,
@@ -121,27 +175,29 @@ class MostRelevantUsersSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiSliver(children: [
-      const SliverToBoxAdapter(
-        child: CustomScreenHeader(
-          text: 'Most relevant',
-        ),
-      ),
+      // const SliverToBoxAdapter(
+      //   child: CustomScreenHeader(
+      //     text: 'Most relevant',
+      //   ),
+      // ),
       SliverPadding(
-        padding: CEdgeInsets.horizontalStandart,
-        sliver: SliverGrid.builder(
-          
-          itemCount: context.read<ExploreStateManager>().usersWithMostCommonTags.length,
+        padding: const EdgeInsets.only(
+          right: 8.0,
+          left: 8,
+          bottom: 30,
+        ),
+        sliver: SliverGrid(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return UserCard(
+              user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
+            );
+          }, childCount: context.read<ExploreStateManager>().usersWithMostCommonTags.length, addAutomaticKeepAlives: true),
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 300,
             childAspectRatio: 0.66,
             crossAxisSpacing: 12,
             mainAxisSpacing: 30,
           ),
-          itemBuilder: (context, index) {
-            return UserCard(
-              user: context.read<ExploreStateManager>().usersWithMostCommonTags[index],
-            );
-          },
         ),
       ),
     ]);
@@ -153,29 +209,41 @@ class UsersNearbySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final permissions = context.watch<GeoPermissionsManager>().locationPermission;
-    final numberOfUsers = context.watch<ExploreStateManager>().nearbyUsers.length;
-    final failure = context.watch<ExploreStateManager>().failure;
+    // final permissions = context.watch<GeoPermissionsManager>().locationPermission;
+    // final numberOfUsers = context.watch<ExploreStateManager>().nearbyUsers.length;
+    // final failure = context.watch<ExploreStateManager>().failure;
+    final widget = const SliverToBoxAdapter(child: NearbyUsersNotFoundPlaceholder());
+
+    // (permissions == LocationPermission.denied || permissions == LocationPermission.deniedForever)
+    //     ? SliverToBoxAdapter(child: LocationPermissionsNotGranted(locationPermission: permissions))
+    //     : (numberOfUsers == 0)
+    //         ? const SliverToBoxAdapter(child: NearbyUsersNotFoundPlaceholder())
+    //         : SliverList(
+    //             delegate: SliverChildBuilderDelegate(
+    //               (BuildContext context, int index) {
+    //                 return UserCard(
+    //                   user: context.read<ExploreStateManager>().nearbyUsers[index],
+    //                 );
+    //               },
+    //               childCount: context.watch<ExploreStateManager>().nearbyUsers.length,
+    //             ),
+    //           );
+
+    // return
+    // SliverList(
+    //   delegate: SliverChildListDelegate(
+    //     [
+    //       CustomScreenHeader(text: 'Users nearby'),
+    //       NearbyUsersNotFoundPlaceholder(),
+    //     ],
+    //   ),
+    // );
     return MultiSliver(
       children: [
         const SliverToBoxAdapter(
           child: CustomScreenHeader(text: 'Users nearby'),
         ),
-        if (permissions == LocationPermission.denied || permissions == LocationPermission.deniedForever)
-          LocationPermissionsNotGranted(locationPermission: permissions)
-        else if (numberOfUsers == 0)
-          const NearbyUsersNotFoundPlaceholder()
-        else
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return UserCard(
-                  user: context.read<ExploreStateManager>().nearbyUsers[index],
-                );
-              },
-              childCount: context.watch<ExploreStateManager>().nearbyUsers.length,
-            ),
-          ),
+        widget,
       ],
     );
   }
