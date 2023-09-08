@@ -9,12 +9,13 @@ import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/navigation/navigation_tab.dart';
-import '../../../common/widgets/app_bar/custom_sliver_app_bar.dart';
-import '../../../common/widgets/custom_edge_insets.dart';
-import '../../../common/widgets/loading.dart';
-import '../../../common/widgets/snack_bar.dart';
-import '../../../common/widgets/spacers/screen_ending.dart';
-import '../../../common/widgets/texts/custom_header.dart';
+import '../../widgets/app_bar/custom_sliver_app_bar.dart';
+import '../../widgets/app_bar/points_widget.dart';
+import '../../widgets/custom_edge_insets.dart';
+import '../../widgets/loading.dart';
+import '../../widgets/snack_bar.dart';
+import '../../widgets/spacers/screen_ending.dart';
+import '../../widgets/texts/custom_header.dart';
 import '../state/explore_state_manager.dart';
 import '../state/geo_permissions_manager.dart';
 import 'widgets/user_card.dart';
@@ -70,11 +71,12 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
           CustomSliverAppBar(
             isBackButtonOn: false,
             titleWidget: Text('Locked club', style: context.styles.genericHeader),
+            actions: const [
+              PointsWidget(),
+            ],
           ),
         ],
-        body: 
-        
-        (context.watch<ExploreStateManager>().isLoading)
+        body: (context.watch<ExploreStateManager>().isLoading)
             ? const Center(
                 child: LoadingContainer(),
               )

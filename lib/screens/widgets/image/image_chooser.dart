@@ -6,7 +6,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../dependency_injection/dependency_injection.dart';
+import '../../../common/dependency_injection/dependency_injection.dart';
 import 'my_cached_network_image.dart';
 
 class ProfileImageChooser extends StatefulWidget {

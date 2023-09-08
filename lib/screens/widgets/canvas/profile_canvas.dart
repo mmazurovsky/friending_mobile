@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
-import '../../bag/stateful/styles.dart';
-import '../../bag/stateful/theme.dart';
-import '../../data/models/user_models.dart';
+import '../../../common/bag/stateful/styles.dart';
+import '../../../common/bag/stateful/theme.dart';
+import '../../../common/data/models/user_models.dart';
 import '../app_bar/app_bar_button.dart';
 import '../image/image_carousel.dart';
 import '../spacers/screen_ending.dart';

@@ -4,6 +4,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 
 import '../../screens/explore/state/geo_permissions_manager.dart';
+import '../../screens/profile/state/points_change_notifier.dart';
 import '../bag/stateful/styles.dart';
 import '../bag/stateful/theme.dart';
 import '../dependency_injection/dependency_injection.dart';
@@ -40,6 +41,9 @@ class GlobalProviders extends StatelessWidget {
         ),
         Provider(
           create: (context) => getIt<InternetConnectionChecker>(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => getIt<PointsChangeNotifier>(),
         ),
       ],
       child: child,

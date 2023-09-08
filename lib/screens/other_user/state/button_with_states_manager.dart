@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/data/enums.dart';
-import '../../../common/widgets/loading.dart';
+import '../../widgets/loading.dart';
 import '../repo/connect_repo.dart';
 import 'other_user_manager.dart';
 
@@ -88,7 +88,7 @@ class ButtonWithStatesManager with ChangeNotifier {
         );
       case LoadedRequestedButtonState():
         return Text(
-          'Requested',
+          'Requested to lock',
           style: _stylesStateManager.inactiveButtonText,
         );
       case LoadedPairedButtonState():

@@ -5,9 +5,9 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../../../../common/bag/spaces.dart';
 import '../../../../common/bag/stateful/theme.dart';
-import '../../../../common/widgets/custom_edge_insets.dart';
-import '../../../../common/widgets/image/my_cached_network_image.dart';
-import '../../../../common/widgets/loading.dart';
+import '../../../widgets/custom_edge_insets.dart';
+import '../../../widgets/image/my_cached_network_image.dart';
+import '../../../widgets/loading.dart';
 import '../../state/profile_images_manager.dart';
 import '../../state/profile_texts_manager.dart';
 import '../../state/single_profile_image_manager.dart';

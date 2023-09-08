@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../bag/spaces.dart';
-import '../../bag/stateful/styles.dart';
+import '../../../common/bag/spaces.dart';
+import '../../../common/bag/stateful/styles.dart';
 import '../custom_edge_insets.dart';
 
 class CustomScreenHeader extends StatelessWidget {

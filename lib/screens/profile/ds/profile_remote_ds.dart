@@ -29,6 +29,7 @@ abstract class ProfileRemoteDS {
 
   Future<bool> isUsernameFree(String username);
   Stream<ShortReadUserModel?> getProfileStreamForAuthenticatedUser();
+  Stream<int> getPointsStream();
 }
 
 @LazySingleton(as: ProfileRemoteDS)
@@ -123,6 +124,21 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   }
 
   @override
+  Stream<int> getPointsStream() {
+    final currentUser = _authRepo.currentUser!;
+    final stream = _firebaseFirestore
+        .collection(shortUserCollection)
+        .doc(currentUser.uid)
+        .withConverter<int>(
+          fromFirestore: (snapshot, options) => snapshot.data()!['pointsCount'],
+          toFirestore: (_, __) => {},
+        )
+        .snapshots()
+        .map((event) => event.data()!);
+    return stream;
+  }
+
+  @override
   Future<void> updateProfile({
     required ShortUpdateUserModel shortModel,
     required SecureUserInfoModel privateModel,
@@ -173,7 +189,6 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
     required ShortCreateUserModel shortModel,
     required SecureUserInfoModel privateModel,
   }) async {
-    // assert(user.shortUserModel.soulsCount != null);
     final currentUserRaw = _authRepo.currentUser!;
 
     final batch = _firebaseFirestore.batch();

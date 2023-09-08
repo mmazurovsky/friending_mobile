@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../../../screens/other_user/state/button_with_states_manager.dart';
-import '../../bag/stateful/theme.dart';
+import '../../other_user/state/button_with_states_manager.dart';
+import '../../../common/bag/stateful/theme.dart';
 import '../custom_edge_insets.dart';
 
 class ButtonWithStatesWidget extends StatelessWidget {

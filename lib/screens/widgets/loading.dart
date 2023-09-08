@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../bag/stateful/theme.dart';
+import '../../common/bag/stateful/theme.dart';
 
 class LoadingContainer extends StatelessWidget {
   const LoadingContainer({Key? key}) : super(key: key);

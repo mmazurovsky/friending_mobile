@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../bag/spaces.dart';
+import '../../common/bag/spaces.dart';
 
 class CEdgeInsets {
   static EdgeInsets get horizontalStandart => const EdgeInsets.symmetric(horizontal: ConstSpaces.unit3);

@@ -4,6 +4,10 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
+// ignore_for_file: unnecessary_lambdas
+// ignore_for_file: lines_longer_than_80_chars
+// coverage:ignore-file
+
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i22;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i10;
@@ -12,63 +16,6 @@ import 'package:firebase_analytics/firebase_analytics.dart' as _i7;
 import 'package:firebase_auth/firebase_auth.dart' as _i8;
 import 'package:firebase_crashlytics/firebase_crashlytics.dart' as _i9;
 import 'package:firebase_storage/firebase_storage.dart' as _i11;
-import 'package:flutter_mobile_starter/common/auth/repo/auth_repo.dart' as _i24;
-import 'package:flutter_mobile_starter/common/client/request_check_wrapper.dart'
-    as _i20;
-import 'package:flutter_mobile_starter/common/configs/auth_changes_listener.dart'
-    as _i30;
-import 'package:flutter_mobile_starter/common/image_handling/image_service.dart'
-    as _i27;
-import 'package:flutter_mobile_starter/common/navigation/auto_router/app_router.dart'
-    as _i3;
-import 'package:flutter_mobile_starter/common/navigation/my_bottom_nav_bar.dart'
-    as _i21;
-import 'package:flutter_mobile_starter/common/utils/logger/custom_logger.dart'
-    as _i6;
-import 'package:flutter_mobile_starter/common/utils/logger/logger_config.dart'
-    as _i17;
-import 'package:flutter_mobile_starter/screens/explore/ds/coordinates_local_ds.dart'
-    as _i5;
-import 'package:flutter_mobile_starter/screens/explore/ds/coordinates_remote_ds.dart'
-    as _i25;
-import 'package:flutter_mobile_starter/screens/explore/ds/user_list_ds.dart'
-    as _i33;
-import 'package:flutter_mobile_starter/screens/explore/repo/coordinates_repo.dart'
-    as _i26;
-import 'package:flutter_mobile_starter/screens/explore/repo/user_list_repo.dart'
-    as _i34;
-import 'package:flutter_mobile_starter/screens/explore/state/explore_state_manager.dart'
-    as _i37;
-import 'package:flutter_mobile_starter/screens/explore/state/geo_permissions_manager.dart'
-    as _i13;
-import 'package:flutter_mobile_starter/screens/other_user/ds/connect_ds.dart'
-    as _i35;
-import 'package:flutter_mobile_starter/screens/other_user/ds/other_user_profile_ds.dart'
-    as _i42;
-import 'package:flutter_mobile_starter/screens/other_user/ds/pairs_ds.dart'
-    as _i38;
-import 'package:flutter_mobile_starter/screens/other_user/repo/connect_repo.dart'
-    as _i36;
-import 'package:flutter_mobile_starter/screens/other_user/repo/other_user_profile_repo.dart'
-    as _i43;
-import 'package:flutter_mobile_starter/screens/profile/ds/profile_local_ds.dart'
-    as _i19;
-import 'package:flutter_mobile_starter/screens/profile/ds/profile_remote_ds.dart'
-    as _i28;
-import 'package:flutter_mobile_starter/screens/profile/ds/souls_ds.dart'
-    as _i32;
-import 'package:flutter_mobile_starter/screens/profile/repo/profile_repo.dart'
-    as _i29;
-import 'package:flutter_mobile_starter/screens/profile/state/profile_content_manager.dart'
-    as _i39;
-import 'package:flutter_mobile_starter/screens/profile/state/profile_editing_manager.dart'
-    as _i40;
-import 'package:flutter_mobile_starter/screens/profile/state/profile_images_manager.dart'
-    as _i18;
-import 'package:flutter_mobile_starter/screens/profile/state/profile_page_routing_manager.dart'
-    as _i41;
-import 'package:flutter_mobile_starter/screens/profile/state/profile_texts_manager.dart'
-    as _i31;
 import 'package:geoflutterfire2/geoflutterfire2.dart' as _i12;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:image_cropper/image_cropper.dart' as _i14;
@@ -78,10 +25,38 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i16;
 import 'package:uuid/uuid.dart' as _i23;
 
-import 'modules.dart' as _i44;
+import '../../screens/explore/ds/coordinates_local_ds.dart' as _i5;
+import '../../screens/explore/ds/coordinates_remote_ds.dart' as _i25;
+import '../../screens/explore/ds/user_list_ds.dart' as _i33;
+import '../../screens/explore/repo/coordinates_repo.dart' as _i26;
+import '../../screens/explore/repo/user_list_repo.dart' as _i34;
+import '../../screens/explore/state/explore_state_manager.dart' as _i37;
+import '../../screens/explore/state/geo_permissions_manager.dart' as _i13;
+import '../../screens/other_user/ds/connect_ds.dart' as _i35;
+import '../../screens/other_user/ds/other_user_profile_ds.dart' as _i43;
+import '../../screens/other_user/ds/pairs_ds.dart' as _i38;
+import '../../screens/other_user/repo/connect_repo.dart' as _i36;
+import '../../screens/other_user/repo/other_user_profile_repo.dart' as _i44;
+import '../../screens/profile/ds/profile_local_ds.dart' as _i19;
+import '../../screens/profile/ds/profile_remote_ds.dart' as _i28;
+import '../../screens/profile/ds/souls_ds.dart' as _i32;
+import '../../screens/profile/repo/profile_repo.dart' as _i29;
+import '../../screens/profile/state/points_change_notifier.dart' as _i39;
+import '../../screens/profile/state/profile_content_manager.dart' as _i40;
+import '../../screens/profile/state/profile_editing_manager.dart' as _i41;
+import '../../screens/profile/state/profile_images_manager.dart' as _i18;
+import '../../screens/profile/state/profile_page_routing_manager.dart' as _i42;
+import '../../screens/profile/state/profile_texts_manager.dart' as _i31;
+import '../auth/repo/auth_repo.dart' as _i24;
+import '../client/request_check_wrapper.dart' as _i20;
+import '../configs/auth_changes_listener.dart' as _i30;
+import '../image_handling/image_service.dart' as _i27;
+import '../navigation/auto_router/app_router.dart' as _i3;
+import '../navigation/my_bottom_nav_bar.dart' as _i21;
+import '../utils/logger/custom_logger.dart' as _i6;
+import '../utils/logger/logger_config.dart' as _i17;
+import 'modules.dart' as _i45;
 
-// ignore_for_file: unnecessary_lambdas
-// ignore_for_file: lines_longer_than_80_chars
 // initializes the registration of main-scope dependencies inside of GetIt
 _i1.GetIt init(
   _i1.GetIt getIt, {
@@ -198,28 +173,32 @@ _i1.GetIt init(
         gh<_i24.AuthRepo>(),
         gh<_i6.CustomLogger>(),
       ));
-  gh.factory<_i39.ProfileContentManager>(() => _i39.ProfileContentManager(
+  gh.lazySingleton<_i39.PointsChangeNotifier>(() => _i39.PointsChangeNotifier(
+        gh<_i24.AuthRepo>(),
+        gh<_i29.ProfileRepo>(),
+      ));
+  gh.factory<_i40.ProfileContentManager>(() => _i40.ProfileContentManager(
         gh<_i29.ProfileRepo>(),
         gh<_i24.AuthRepo>(),
       ));
-  gh.factory<_i40.ProfileEditingManager>(() => _i40.ProfileEditingManager(
+  gh.factory<_i41.ProfileEditingManager>(() => _i41.ProfileEditingManager(
         gh<_i18.ProfileImagesManager>(),
         gh<_i31.ProfileTextsAndTagsManager>(),
         gh<_i29.ProfileRepo>(),
         gh<_i24.AuthRepo>(),
       ));
-  gh.singleton<_i41.ProfilePageRoutingManager>(
-      _i41.ProfilePageRoutingManager(gh<_i30.ProfileStreamService>()));
-  gh.lazySingleton<_i42.OtherUserProfileDS>(() => _i42.OtherUserProfileDSImpl(
+  gh.singleton<_i42.ProfilePageRoutingManager>(
+      _i42.ProfilePageRoutingManager(gh<_i30.ProfileStreamService>()));
+  gh.lazySingleton<_i43.OtherUserProfileDS>(() => _i43.OtherUserProfileDSImpl(
         gh<_i20.RequestCheckWrapper>(),
         gh<_i10.FirebaseFirestore>(),
         gh<_i24.AuthRepo>(),
         gh<_i6.CustomLogger>(),
         gh<_i38.PairsDS>(),
       ));
-  gh.lazySingleton<_i43.OtherUserProfileRepo>(
-      () => _i43.OtherUserProfileRepoImpl(gh<_i42.OtherUserProfileDS>()));
+  gh.lazySingleton<_i44.OtherUserProfileRepo>(
+      () => _i44.OtherUserProfileRepoImpl(gh<_i43.OtherUserProfileDS>()));
   return getIt;
 }
 
-class _$Modules extends _i44.Modules {}
+class _$Modules extends _i45.Modules {}

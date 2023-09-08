@@ -42,7 +42,6 @@ extension BrightnessExt on ColorsStateManager {
 abstract class CustomThemeData {
   Color get primary;
   Color get backgroundColor;
-  Color get dialogBackgroundColor;
   Color get headerColor;
   Color get mainTextColor;
   Color get secondaryTextColor;
@@ -68,16 +67,16 @@ abstract class CustomThemeData {
   Color get border;
   Color get mainActionButtonActive;
   Color get mainActionButtonInactive;
+  Color get appBarAction;
 }
 
 class MainCustomThemeData implements CustomThemeData {
-  // General colors
   static const _white = Colors.white;
-  static const _darkGrey = Color.fromARGB(255, 168, 168, 168);
   static const _black = Colors.black;
-  static const _grey = Colors.grey;
   static const _blue = Colors.blue;
   static const _paleRed = Color(0xFFE57373);
+  static const _lightSilver = Color(0xFFD8D8D8);
+  static const _silver = Color.fromARGB(255, 168, 171, 178);
   final _whiteWithOpacity = _white.withOpacity(0.9);
 
   @override
@@ -96,7 +95,7 @@ class MainCustomThemeData implements CustomThemeData {
   Color get highlightedTextColor => _blue;
 
   @override
-  Color get snackBarContainerColor => _grey;
+  Color get snackBarContainerColor => _lightSilver;
 
   @override
   Color get snackBarTextColor => _white;
@@ -111,13 +110,13 @@ class MainCustomThemeData implements CustomThemeData {
   Color get activeIndicatorColor => _black;
 
   @override
-  Color get inactiveIndicatorColor => _darkGrey;
+  Color get inactiveIndicatorColor => _silver;
 
   @override
   Color get userCardUsernameColor => _black;
 
   @override
-  Color get userCardAgeColor => _grey.shade600;
+  Color get userCardAgeColor => _lightSilver;
 
   @override
   Color get activeSwitchColor => _black;
@@ -132,13 +131,10 @@ class MainCustomThemeData implements CustomThemeData {
   Color get errorColor => _paleRed;
 
   @override
-  Color get primary => _grey;
+  Color get primary => _silver;
 
   @override
-  Color get secondaryTextColor => _grey;
-
-  @override
-  Color get dialogBackgroundColor => _grey.shade700;
+  Color get secondaryTextColor => _silver;
 
   @override
   Color get divider => _black;
@@ -154,15 +150,18 @@ class MainCustomThemeData implements CustomThemeData {
 
   @override
   Color get thirdTextColor => _white;
-  
+
   @override
-  Color get mainActionButtonInactive => _grey;
-  
+  Color get mainActionButtonInactive => _silver;
+
   @override
   Color get appBarColor => _white;
-  
+
   @override
   Color get transparentAppBarColor => _whiteWithOpacity;
+  
+  @override
+  Color get appBarAction => _lightSilver;
 }
 
 // class Themes {

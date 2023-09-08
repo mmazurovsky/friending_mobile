@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../common/bag/stateful/styles.dart';
 import '../../../../common/data/entities/tag_entity.dart';
-import '../../../../common/widgets/custom_edge_insets.dart';
+import '../../../widgets/custom_edge_insets.dart';
 
 class TagsDisplayer extends StatelessWidget {
   final List<TagEntity> tagsToDisplay;

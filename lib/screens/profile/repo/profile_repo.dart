@@ -22,6 +22,7 @@ abstract class ProfileRepo {
   Future<void> deleteProfileLocal();
   Future<bool> isUsernameFree(String username);
   Stream<ShortReadUserModel?> getProfileStreamForAuthenticatedUser();
+  Stream<int> getPointsStream();
 }
 
 @LazySingleton(as: ProfileRepo)
@@ -53,6 +54,11 @@ class ProfileRepoImpl implements ProfileRepo {
     );
   }
 
+  @override
+  Stream<int> getPointsStream() {
+    return _profileRemoteDS.getPointsStream();
+  }
+
   // create function to update profile in remote ds
   @override
   Future<void> updateProfile({
@@ -80,8 +86,7 @@ class ProfileRepoImpl implements ProfileRepo {
     return _profileRemoteDS.getFullProfile()
       ..then(
         (value) {
-          final profileToSaveLocally =
-              value?.shortUserModel.convertToUpdateModel;
+          final profileToSaveLocally = value?.shortUserModel.convertToUpdateModel;
           if (profileToSaveLocally != null) {
             _profileLocalDS.saveShortProfile(profileToSaveLocally);
           }

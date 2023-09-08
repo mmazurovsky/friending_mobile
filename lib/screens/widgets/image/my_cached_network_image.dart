@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:palette_generator/palette_generator.dart';
 
-import '../../bag/stateful/theme.dart';
+import '../../../common/bag/stateful/theme.dart';
 import '../loading.dart';
 
 class CCachedNetworkImage extends StatelessWidget {

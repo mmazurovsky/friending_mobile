@@ -47,7 +47,7 @@ Map<String, dynamic> _$$_SecureUserInfoModelToJson(
 Map<String, dynamic> _$$_ShortCreateUserModelToJson(
         _$_ShortCreateUserModel instance) =>
     <String, dynamic>{
-      'soulsCount': instance.soulsCount,
+      'pointsCount': instance.pointsCount,
       'id': instance.id,
       'username': instance.username,
       'photos': instance.photos,

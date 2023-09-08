@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../common/widgets/custom_text_fields.dart';
+import '../../../widgets/custom_text_fields.dart';
 import '../../state/profile_texts_manager.dart';
 
 class UsernameTextField extends StatefulWidget {

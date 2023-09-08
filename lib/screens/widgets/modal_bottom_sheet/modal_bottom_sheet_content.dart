@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../bag/stateful/styles.dart';
-import '../../bag/stateful/theme.dart';
+import '../../../common/bag/stateful/styles.dart';
+import '../../../common/bag/stateful/theme.dart';
 import '../custom_edge_insets.dart';
 
 class ModalBottomSheetContent extends StatelessWidget {
@@ -23,7 +23,7 @@ class ModalBottomSheetContent extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        color: context.colors.dialogBackgroundColor,
+        color: context.colors.backgroundColor,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),

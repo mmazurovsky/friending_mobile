@@ -6,8 +6,8 @@ import '../../../../common/bag/stateful/styles.dart';
 import '../../../../common/bag/stateful/theme.dart';
 import '../../../../common/data/models/user_models.dart';
 import '../../../../common/navigation/auto_router/app_router.dart';
-import '../../../../common/widgets/custom_edge_insets.dart';
-import '../../../../common/widgets/image/my_cached_network_image.dart';
+import '../../../widgets/custom_edge_insets.dart';
+import '../../../widgets/image/my_cached_network_image.dart';
 import '../../../profile/ui/widgets/tags_displayer.dart';
 
 class UserCard extends StatelessWidget {
@@ -40,16 +40,16 @@ class UserCard extends StatelessWidget {
           //   end: Alignment.bottomRight,
           // ),
           borderRadius: BorderRadius.circular(ConstRadiuses.card),
-          border: Border.all(
-            color: context.colors.border,
-            width: 1.5,
-          ),
+          // border: Border.all(
+          //   color: context.colors.border,
+          //   width: 1.5,
+          // ),
           boxShadow: [
             BoxShadow(
               color: context.colors.shadow,
               blurRadius: 0,
               spreadRadius: 0,
-              offset: const Offset(3, 5),
+              offset: const Offset(4, 6),
             ),
           ],
         ),

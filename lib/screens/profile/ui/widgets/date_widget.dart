@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../common/widgets/custom_text_fields.dart';
+import '../../../widgets/custom_text_fields.dart';
 import '../../state/profile_texts_manager.dart';
 
 class DateWidget extends StatelessWidget {

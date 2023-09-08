@@ -77,6 +77,12 @@ class StylesStateManager with ChangeNotifier {
         fontWeight: FontWeight.w400,
       );
 
+  TextStyle get bodyBold => TextStyle(
+        color: _colors.mainTextColor,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      );
+
   TextStyle get activeChip => TextStyle(
         color: _colors.mainTextColor,
         fontSize: 15,

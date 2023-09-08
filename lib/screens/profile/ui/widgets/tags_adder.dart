@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile_starter/common/widgets/custom_edge_insets.dart';
+import 'package:flutter_mobile_starter/screens/widgets/custom_edge_insets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../common/widgets/custom_text_fields.dart';
+import '../../../widgets/custom_text_fields.dart';
 import '../../state/profile_texts_manager.dart';
 
 class TagsAdder extends StatelessWidget {
