@@ -159,8 +159,11 @@ _i1.GetIt init(
         gh<_i24.AuthRepo>(),
         gh<_i6.CustomLogger>(),
       ));
-  gh.lazySingleton<_i36.ConnectRepo>(
-      () => _i36.ConnectRepoImpl(gh<_i35.ConnectDS>()));
+  gh.lazySingleton<_i36.ConnectRepo>(() => _i36.ConnectRepoImpl(
+        gh<_i35.ConnectDS>(),
+        gh<_i29.ProfileRepo>(),
+        gh<_i24.AuthRepo>(),
+      ));
   gh.lazySingleton<_i37.ExploreStateManager>(() => _i37.ExploreStateManager(
         gh<_i34.UserListRepo>(),
         gh<_i26.CoordinatesRepo>(),

@@ -8,10 +8,11 @@ import '../../../common/data/enums.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
 import '../../explore/ds/user_list_ds.dart';
+import '../repo/connect_repo.dart';
 import 'connection_models.dart';
 
 abstract class ConnectDS {
-  Future<UserPairStatusEnum> pair(String userId);
+  Future<ConnectRequestResponse> pair(String userId);
   Future<void> unpairOrRemoveRequest(String userId);
 }
 
@@ -39,7 +40,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
   String get connectionsCollection => Strings.server.connectionsCollection;
 
   @override
-  Future<UserPairStatusEnum> pair(
+  Future<ConnectRequestResponse> pair(
     String userId,
   ) async {
     final currentUserRaw = _authRepo.currentUser!;
@@ -61,11 +62,12 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
 
     final currentConnection = currentConnectionRaw.data();
 
-    late UserPairStatusEnum returnable;
+    late ConnectRequestResponse returnable;
 
     //TODO: don't process this status on client, only on server
     if (currentConnection?.status == UserPairStatusEnum.toBeApproved) {
-      returnable = UserPairStatusEnum.paired;
+      returnable = ConnectRequestPaired();
+
       //TODO: on server check for this update and issue event and notification
       final batchOperation = _firestore.batch();
       final dateTime = DateTime.now();
@@ -84,7 +86,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
         ).toJson(),
       );
     } else {
-      returnable = UserPairStatusEnum.requested;
+      returnable = ConnectRequestSend();
       final batchOperation = _firestore.batch();
       final dateTime = DateTime.now();
       batchOperation.set(

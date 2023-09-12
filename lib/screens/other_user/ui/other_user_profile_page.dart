@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,13 +8,14 @@ import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
+import '../../profile/ui/widgets/tags_displayer.dart';
 import '../../widgets/buttons/button_with_states.dart';
 import '../../widgets/canvas/profile_canvas.dart';
 import '../../widgets/custom_edge_insets.dart';
+import '../../widgets/snack_bar.dart';
 import '../../widgets/social_links_list.dart';
 import '../../widgets/texts/expandable_text_section.dart';
 import '../../widgets/texts/section_title.dart';
-import '../../profile/ui/widgets/tags_displayer.dart';
 import '../repo/connect_repo.dart';
 import '../state/button_with_states_manager.dart';
 import '../state/other_user_manager.dart';
@@ -84,6 +87,46 @@ class _OtherProfileContent extends StatefulWidget {
 }
 
 class _OtherProfileContentState extends State<_OtherProfileContent> {
+  late StreamSubscription<ErrorDataToShowInUI> _errorStreamSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _errorStreamSubscription = context.read<ButtonWithStatesManager>().errorStream.listen(
+      (event) {
+        final scaffoldMessengerKey = getIt<GlobalKey<ScaffoldMessengerState>>();
+        final action = switch (event) {
+          ErrorDataToShowInDialog() => () {
+            //TODO: change to dialog
+              scaffoldMessengerKey.currentState
+                ?..hideCurrentSnackBar()
+                ..showCSnackBar(
+                  CustomSnackBarContent(
+                    event.message,
+                  ),
+                );
+            },
+          ErrorDataToShowInSnackBar() => () {
+              scaffoldMessengerKey.currentState
+                ?..hideCurrentSnackBar()
+                ..showCSnackBar(
+                  CustomSnackBarContent(
+                    event.message,
+                  ),
+                );
+            },
+        };
+        action();
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _errorStreamSubscription.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return context.watch<OtherUserManager>().isLoading

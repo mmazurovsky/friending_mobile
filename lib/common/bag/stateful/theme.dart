@@ -95,7 +95,7 @@ class MainCustomThemeData implements CustomThemeData {
   Color get highlightedTextColor => _blue;
 
   @override
-  Color get snackBarContainerColor => _lightSilver;
+  Color get snackBarContainerColor => _black;
 
   @override
   Color get snackBarTextColor => _white;

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../common/bag/stateful/styles.dart';
@@ -44,6 +46,9 @@ class ButtonWithStatesManager with ChangeNotifier {
     );
   }
 
+  final _streamController = StreamController<ErrorDataToShowInUI>.broadcast();
+  Stream<ErrorDataToShowInUI> get errorStream => _streamController.stream;
+
   ButtonState get buttonState => _buttonState;
   ButtonState _buttonState = LoadingButtonState();
 
@@ -52,8 +57,30 @@ class ButtonWithStatesManager with ChangeNotifier {
       case LoadingButtonState() || ErrorButtonState():
         return () {};
       case LoadedUnpairedButtonState():
-        return () {
-          _connectRepo.pair(otherUserId);
+        return () async {
+          final response = await _connectRepo.pair(otherUserId);
+
+          final newButtonState = switch (response) {
+            ConnectRequestSend() => LoadedRequestedButtonState(),
+            ConnectRequestPaired() => LoadedPairedButtonState(),
+            ConnectRequestNotEnoughPoints() => LoadedUnpairedButtonState(),
+            ConnectRequestNotAuthenticated() => LoadedUnpairedButtonState(),
+          };
+
+          if (response is ConnectRequestNotEnoughPoints) {
+            _streamController.add(
+              //TODO work on text
+              ErrorDataToShowInDialog(message: 'Not enough points'),
+            );
+          } else if (response is ConnectRequestNotAuthenticated) {
+            _streamController.add(
+              //TODO work on text
+              ErrorDataToShowInDialog(message: 'Not authenticated'),
+            );
+          }
+
+          _buttonState = newButtonState;
+          notifyListeners();
         };
       case LoadedRequestedButtonState():
         return () {
@@ -123,3 +150,25 @@ class LoadedRequestedButtonState extends ButtonState {}
 class LoadedPairedButtonState extends ButtonState {}
 
 class ErrorButtonState extends ButtonState {}
+
+sealed class ErrorDataToShowInUI {
+  String get message;
+}
+
+class ErrorDataToShowInSnackBar extends ErrorDataToShowInUI {
+  ErrorDataToShowInSnackBar({
+    required this.message,
+  });
+
+  @override
+  final String message;
+}
+
+class ErrorDataToShowInDialog extends ErrorDataToShowInUI {
+  ErrorDataToShowInDialog({
+    required this.message,
+  });
+
+  @override
+  final String message;
+}

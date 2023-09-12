@@ -175,23 +175,23 @@ class UsersNearbySection extends StatelessWidget {
     //             ),
     //           );
 
-    // return
-    // SliverList(
-    //   delegate: SliverChildListDelegate(
-    //     [
-    //       CustomScreenHeader(text: 'Users nearby'),
-    //       NearbyUsersNotFoundPlaceholder(),
-    //     ],
-    //   ),
-    // );
-    return MultiSliver(
-      children: [
-        const SliverToBoxAdapter(
-          child: CustomScreenHeader(text: 'Users nearby'),
-        ),
-        widget,
-      ],
+    return SliverList(
+      
+      delegate: SliverChildListDelegate(
+        [
+          CustomScreenHeader(text: 'Users nearby'),
+          NearbyUsersNotFoundPlaceholder(),
+        ],
+      ),
     );
+    // return MultiSliver(
+    //   children: [
+    //     const SliverToBoxAdapter(
+    //       child: CustomScreenHeader(text: 'Users nearby'),
+    //     ),
+    //     widget,
+    //   ],
+    // );
   }
 }
 
