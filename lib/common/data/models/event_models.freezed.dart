@@ -14,34 +14,34 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-UserEventModel _$UserEventModelFromJson(Map<String, dynamic> json) {
+UserPairEventModel _$UserPairEventModelFromJson(Map<String, dynamic> json) {
   return _UserEventModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$UserEventModel {
+mixin _$UserPairEventModel {
   String get ownerUserId => throw _privateConstructorUsedError;
   VeryShortUserModel get otherUser => throw _privateConstructorUsedError;
-  bool get isNew => throw _privateConstructorUsedError;
+  bool get isNotSeen => throw _privateConstructorUsedError;
   DateTime get dateTime => throw _privateConstructorUsedError;
   UserEventTypeEnum get eventType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UserEventModelCopyWith<UserEventModel> get copyWith =>
+  $UserPairEventModelCopyWith<UserPairEventModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserEventModelCopyWith<$Res> {
-  factory $UserEventModelCopyWith(
-          UserEventModel value, $Res Function(UserEventModel) then) =
-      _$UserEventModelCopyWithImpl<$Res, UserEventModel>;
+abstract class $UserPairEventModelCopyWith<$Res> {
+  factory $UserPairEventModelCopyWith(
+          UserPairEventModel value, $Res Function(UserPairEventModel) then) =
+      _$UserPairEventModelCopyWithImpl<$Res, UserPairEventModel>;
   @useResult
   $Res call(
       {String ownerUserId,
       VeryShortUserModel otherUser,
-      bool isNew,
+      bool isNotSeen,
       DateTime dateTime,
       UserEventTypeEnum eventType});
 
@@ -49,9 +49,9 @@ abstract class $UserEventModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$UserEventModelCopyWithImpl<$Res, $Val extends UserEventModel>
-    implements $UserEventModelCopyWith<$Res> {
-  _$UserEventModelCopyWithImpl(this._value, this._then);
+class _$UserPairEventModelCopyWithImpl<$Res, $Val extends UserPairEventModel>
+    implements $UserPairEventModelCopyWith<$Res> {
+  _$UserPairEventModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -63,7 +63,7 @@ class _$UserEventModelCopyWithImpl<$Res, $Val extends UserEventModel>
   $Res call({
     Object? ownerUserId = null,
     Object? otherUser = null,
-    Object? isNew = null,
+    Object? isNotSeen = null,
     Object? dateTime = null,
     Object? eventType = null,
   }) {
@@ -76,9 +76,9 @@ class _$UserEventModelCopyWithImpl<$Res, $Val extends UserEventModel>
           ? _value.otherUser
           : otherUser // ignore: cast_nullable_to_non_nullable
               as VeryShortUserModel,
-      isNew: null == isNew
-          ? _value.isNew
-          : isNew // ignore: cast_nullable_to_non_nullable
+      isNotSeen: null == isNotSeen
+          ? _value.isNotSeen
+          : isNotSeen // ignore: cast_nullable_to_non_nullable
               as bool,
       dateTime: null == dateTime
           ? _value.dateTime
@@ -102,7 +102,7 @@ class _$UserEventModelCopyWithImpl<$Res, $Val extends UserEventModel>
 
 /// @nodoc
 abstract class _$$_UserEventModelCopyWith<$Res>
-    implements $UserEventModelCopyWith<$Res> {
+    implements $UserPairEventModelCopyWith<$Res> {
   factory _$$_UserEventModelCopyWith(
           _$_UserEventModel value, $Res Function(_$_UserEventModel) then) =
       __$$_UserEventModelCopyWithImpl<$Res>;
@@ -111,7 +111,7 @@ abstract class _$$_UserEventModelCopyWith<$Res>
   $Res call(
       {String ownerUserId,
       VeryShortUserModel otherUser,
-      bool isNew,
+      bool isNotSeen,
       DateTime dateTime,
       UserEventTypeEnum eventType});
 
@@ -121,7 +121,7 @@ abstract class _$$_UserEventModelCopyWith<$Res>
 
 /// @nodoc
 class __$$_UserEventModelCopyWithImpl<$Res>
-    extends _$UserEventModelCopyWithImpl<$Res, _$_UserEventModel>
+    extends _$UserPairEventModelCopyWithImpl<$Res, _$_UserEventModel>
     implements _$$_UserEventModelCopyWith<$Res> {
   __$$_UserEventModelCopyWithImpl(
       _$_UserEventModel _value, $Res Function(_$_UserEventModel) _then)
@@ -132,7 +132,7 @@ class __$$_UserEventModelCopyWithImpl<$Res>
   $Res call({
     Object? ownerUserId = null,
     Object? otherUser = null,
-    Object? isNew = null,
+    Object? isNotSeen = null,
     Object? dateTime = null,
     Object? eventType = null,
   }) {
@@ -145,9 +145,9 @@ class __$$_UserEventModelCopyWithImpl<$Res>
           ? _value.otherUser
           : otherUser // ignore: cast_nullable_to_non_nullable
               as VeryShortUserModel,
-      isNew: null == isNew
-          ? _value.isNew
-          : isNew // ignore: cast_nullable_to_non_nullable
+      isNotSeen: null == isNotSeen
+          ? _value.isNotSeen
+          : isNotSeen // ignore: cast_nullable_to_non_nullable
               as bool,
       dateTime: null == dateTime
           ? _value.dateTime
@@ -167,7 +167,7 @@ class _$_UserEventModel extends _UserEventModel {
   const _$_UserEventModel(
       {required this.ownerUserId,
       required this.otherUser,
-      required this.isNew,
+      required this.isNotSeen,
       required this.dateTime,
       required this.eventType})
       : super._();
@@ -180,7 +180,7 @@ class _$_UserEventModel extends _UserEventModel {
   @override
   final VeryShortUserModel otherUser;
   @override
-  final bool isNew;
+  final bool isNotSeen;
   @override
   final DateTime dateTime;
   @override
@@ -188,7 +188,7 @@ class _$_UserEventModel extends _UserEventModel {
 
   @override
   String toString() {
-    return 'UserEventModel(ownerUserId: $ownerUserId, otherUser: $otherUser, isNew: $isNew, dateTime: $dateTime, eventType: $eventType)';
+    return 'UserPairEventModel(ownerUserId: $ownerUserId, otherUser: $otherUser, isNotSeen: $isNotSeen, dateTime: $dateTime, eventType: $eventType)';
   }
 
   @override
@@ -200,7 +200,8 @@ class _$_UserEventModel extends _UserEventModel {
                 other.ownerUserId == ownerUserId) &&
             (identical(other.otherUser, otherUser) ||
                 other.otherUser == otherUser) &&
-            (identical(other.isNew, isNew) || other.isNew == isNew) &&
+            (identical(other.isNotSeen, isNotSeen) ||
+                other.isNotSeen == isNotSeen) &&
             (identical(other.dateTime, dateTime) ||
                 other.dateTime == dateTime) &&
             (identical(other.eventType, eventType) ||
@@ -210,7 +211,7 @@ class _$_UserEventModel extends _UserEventModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, ownerUserId, otherUser, isNew, dateTime, eventType);
+      runtimeType, ownerUserId, otherUser, isNotSeen, dateTime, eventType);
 
   @JsonKey(ignore: true)
   @override
@@ -226,11 +227,11 @@ class _$_UserEventModel extends _UserEventModel {
   }
 }
 
-abstract class _UserEventModel extends UserEventModel {
+abstract class _UserEventModel extends UserPairEventModel {
   const factory _UserEventModel(
       {required final String ownerUserId,
       required final VeryShortUserModel otherUser,
-      required final bool isNew,
+      required final bool isNotSeen,
       required final DateTime dateTime,
       required final UserEventTypeEnum eventType}) = _$_UserEventModel;
   const _UserEventModel._() : super._();
@@ -243,7 +244,7 @@ abstract class _UserEventModel extends UserEventModel {
   @override
   VeryShortUserModel get otherUser;
   @override
-  bool get isNew;
+  bool get isNotSeen;
   @override
   DateTime get dateTime;
   @override
@@ -251,5 +252,163 @@ abstract class _UserEventModel extends UserEventModel {
   @override
   @JsonKey(ignore: true)
   _$$_UserEventModelCopyWith<_$_UserEventModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+AppOpenedEventModel _$AppOpenedEventModelFromJson(Map<String, dynamic> json) {
+  return _AppOpenedEventModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AppOpenedEventModel {
+  String get userId => throw _privateConstructorUsedError;
+  DateTime get dateTime => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AppOpenedEventModelCopyWith<AppOpenedEventModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AppOpenedEventModelCopyWith<$Res> {
+  factory $AppOpenedEventModelCopyWith(
+          AppOpenedEventModel value, $Res Function(AppOpenedEventModel) then) =
+      _$AppOpenedEventModelCopyWithImpl<$Res, AppOpenedEventModel>;
+  @useResult
+  $Res call({String userId, DateTime dateTime});
+}
+
+/// @nodoc
+class _$AppOpenedEventModelCopyWithImpl<$Res, $Val extends AppOpenedEventModel>
+    implements $AppOpenedEventModelCopyWith<$Res> {
+  _$AppOpenedEventModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+    Object? dateTime = null,
+  }) {
+    return _then(_value.copyWith(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      dateTime: null == dateTime
+          ? _value.dateTime
+          : dateTime // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_AppOpenedEventModelCopyWith<$Res>
+    implements $AppOpenedEventModelCopyWith<$Res> {
+  factory _$$_AppOpenedEventModelCopyWith(_$_AppOpenedEventModel value,
+          $Res Function(_$_AppOpenedEventModel) then) =
+      __$$_AppOpenedEventModelCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String userId, DateTime dateTime});
+}
+
+/// @nodoc
+class __$$_AppOpenedEventModelCopyWithImpl<$Res>
+    extends _$AppOpenedEventModelCopyWithImpl<$Res, _$_AppOpenedEventModel>
+    implements _$$_AppOpenedEventModelCopyWith<$Res> {
+  __$$_AppOpenedEventModelCopyWithImpl(_$_AppOpenedEventModel _value,
+      $Res Function(_$_AppOpenedEventModel) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+    Object? dateTime = null,
+  }) {
+    return _then(_$_AppOpenedEventModel(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      dateTime: null == dateTime
+          ? _value.dateTime
+          : dateTime // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_AppOpenedEventModel extends _AppOpenedEventModel {
+  const _$_AppOpenedEventModel({required this.userId, required this.dateTime})
+      : super._();
+
+  factory _$_AppOpenedEventModel.fromJson(Map<String, dynamic> json) =>
+      _$$_AppOpenedEventModelFromJson(json);
+
+  @override
+  final String userId;
+  @override
+  final DateTime dateTime;
+
+  @override
+  String toString() {
+    return 'AppOpenedEventModel(userId: $userId, dateTime: $dateTime)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_AppOpenedEventModel &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.dateTime, dateTime) ||
+                other.dateTime == dateTime));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, userId, dateTime);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_AppOpenedEventModelCopyWith<_$_AppOpenedEventModel> get copyWith =>
+      __$$_AppOpenedEventModelCopyWithImpl<_$_AppOpenedEventModel>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_AppOpenedEventModelToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AppOpenedEventModel extends AppOpenedEventModel {
+  const factory _AppOpenedEventModel(
+      {required final String userId,
+      required final DateTime dateTime}) = _$_AppOpenedEventModel;
+  const _AppOpenedEventModel._() : super._();
+
+  factory _AppOpenedEventModel.fromJson(Map<String, dynamic> json) =
+      _$_AppOpenedEventModel.fromJson;
+
+  @override
+  String get userId;
+  @override
+  DateTime get dateTime;
+  @override
+  @JsonKey(ignore: true)
+  _$$_AppOpenedEventModelCopyWith<_$_AppOpenedEventModel> get copyWith =>
       throw _privateConstructorUsedError;
 }

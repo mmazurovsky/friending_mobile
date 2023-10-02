@@ -35,6 +35,7 @@ class CoordinatesDSImpl implements CoordinatesRemoteDS, LoggerNameGetter {
   Future<void> addPosition(
     PointModel point,
   ) async {
+    // TODO: move this repo logic up to repo layer
     final currentUserRaw = _authRepo.currentUser;
 
     if (currentUserRaw == null) {

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../common/auth/repo/auth_repo.dart';
 import '../../../common/bag/strings.dart';
@@ -9,8 +10,11 @@ import '../../../common/data/models/event_models.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
 
-abstract class UserEventsDS {}
+abstract class UserEventsDS {
+  Stream<UserPairEventModel> getPairRelatedEventsForUser();
+}
 
+@LazySingleton(as: UserEventsDS)
 class UserEventsDSImpl implements UserEventsDS, LoggerNameGetter {
   final FirebaseFirestore _firebaseFirestore;
   final RequestCheckWrapper _requestCheckWrapper;
@@ -28,7 +32,8 @@ class UserEventsDSImpl implements UserEventsDS, LoggerNameGetter {
   String get loggerName => '$runtimeType #${identityHashCode(this)}';
   String get eventsCollection => Strings.server.userEventsCollection;
 
-  Future<Stream<UserEventModel>> getEvents() async {
+  @override
+  Stream<UserPairEventModel> getPairRelatedEventsForUser() {
     final currentUserRaw = _authRepo.currentUser!;
 
     final rawStream = _firebaseFirestore
@@ -36,12 +41,10 @@ class UserEventsDSImpl implements UserEventsDS, LoggerNameGetter {
         .where('ownerUserId', isEqualTo: currentUserRaw.uid)
         .orderBy('dateTime')
         .withConverter(
-            fromFirestore: (snapshot, _) =>
-                UserEventModel.fromJson(snapshot.data()!),
-            toFirestore: (UserEventModel model, _) => model.toJson())
+            fromFirestore: (snapshot, _) => UserPairEventModel.fromJson(snapshot.data()!), toFirestore: (UserPairEventModel model, _) => model.toJson())
         .snapshots();
 
-    final streamController = StreamController<UserEventModel>();
+    final streamController = StreamController<UserPairEventModel>();
 
     rawStream.map(
       (event) {

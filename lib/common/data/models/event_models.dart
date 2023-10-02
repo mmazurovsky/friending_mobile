@@ -7,17 +7,28 @@ part 'event_models.freezed.dart';
 part 'event_models.g.dart';
 
 @freezed
-class UserEventModel with _$UserEventModel {
-  const UserEventModel._();
+class UserPairEventModel with _$UserPairEventModel {
+  const UserPairEventModel._();
 
-  const factory UserEventModel({
+  const factory UserPairEventModel({
     required String ownerUserId,
     required VeryShortUserModel otherUser,
-    required bool isNew,
+    required bool isNotSeen,
     required DateTime dateTime,
     required UserEventTypeEnum eventType,
   }) = _UserEventModel;
 
-  factory UserEventModel.fromJson(Map<String, dynamic> json) =>
-      _$UserEventModelFromJson(json);
+  factory UserPairEventModel.fromJson(Map<String, dynamic> json) => _$UserPairEventModelFromJson(json);
+}
+
+@freezed
+class AppOpenedEventModel with _$AppOpenedEventModel {
+  const AppOpenedEventModel._();
+
+  const factory AppOpenedEventModel({
+    required String userId,
+    required DateTime dateTime,
+  }) = _AppOpenedEventModel;
+
+  factory AppOpenedEventModel.fromJson(Map<String, dynamic> json) => _$AppOpenedEventModelFromJson(json);
 }
