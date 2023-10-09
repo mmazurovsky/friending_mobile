@@ -22,6 +22,7 @@ class CoordinatesRepoImpl implements CoordinatesRepo {
     this._coordinatesLocalDS,
     this._coordinatesRemoteDS,
   ) {
+    //TODO MOVE
     addCurrentPositionToRemoteAndLocal();
   }
 

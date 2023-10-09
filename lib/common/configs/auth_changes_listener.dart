@@ -80,6 +80,7 @@ class ActionsToAuthChangesService implements Disposable {
           _localUser = newUser;
           if (newUser != null) {
             if (newUser.isAnonymous == false && newUser.email != null) {
+              // user is signed in
               await _profileRepo.fetchProfileFromRemoteAndSaveLocally();
             } else {
               //TODO: show screen to create profile

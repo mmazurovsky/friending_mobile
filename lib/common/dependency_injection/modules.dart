@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -40,6 +42,12 @@ abstract class Modules {
   @lazySingleton
   FirebaseStorage get firebaseStorage {
     final instance = FirebaseStorage.instance;
+    return instance;
+  }
+
+  @lazySingleton
+  FirebaseMessaging get firebaseMessaging {
+    final instance = FirebaseMessaging.instance;
     return instance;
   }
 
