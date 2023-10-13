@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../screens/explore/repo/coordinates_repo.dart';
 import '../../screens/explore/state/geo_permissions_manager.dart';
 import '../dependency_injection/dependency_injection.dart';
+import 'fcm_token_manager.dart';
 
 class AppLifecycleStateListenerWidget extends HookWidget {
   final Widget child;
@@ -24,6 +25,7 @@ class AppLifecycleStateListenerWidget extends HookWidget {
       if (appLifecycleState == AppLifecycleState.resumed) {
         context.read<GeoPermissionsManager>().checkLocationPermissionAndStore();
         addUserPosition();
+        getIt<FcmTokenManagementRepo>().startListeningToFcmTokenChange();
       }
       return null;
     }, [appLifecycleState]);
