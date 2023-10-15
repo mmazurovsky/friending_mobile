@@ -39,6 +39,12 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ProfileEditingRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const ProfileEditingPage(),
+      );
+    },
     ExploreRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -55,12 +61,6 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const ProfilePage(),
-      );
-    },
-    ProfileEditingRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const ProfileEditingPage(),
       );
     },
     SignInRoute.name: (routeData) {
@@ -108,11 +108,6 @@ class _$AppRouter extends RootStackRouter {
               parent: FrontRoute.name,
               children: [
                 RouteConfig(
-                  ProfileEditingRoute.name,
-                  path: 'profile-editing-page',
-                  parent: ProfileRoute.name,
-                ),
-                RouteConfig(
                   SignInRoute.name,
                   path: 'sign-in-page',
                   parent: ProfileRoute.name,
@@ -133,6 +128,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           OtherUserProfileRoute.name,
           path: '/other-user-profile-page',
+        ),
+        RouteConfig(
+          ProfileEditingRoute.name,
+          path: '/profile-editing-page',
         ),
       ];
 }
@@ -197,6 +196,18 @@ class OtherUserProfileRouteArgs {
 }
 
 /// generated route for
+/// [ProfileEditingPage]
+class ProfileEditingRoute extends PageRouteInfo<void> {
+  const ProfileEditingRoute()
+      : super(
+          ProfileEditingRoute.name,
+          path: '/profile-editing-page',
+        );
+
+  static const String name = 'ProfileEditingRoute';
+}
+
+/// generated route for
 /// [ExplorePage]
 class ExploreRoute extends PageRouteInfo<void> {
   const ExploreRoute()
@@ -231,18 +242,6 @@ class ProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ProfileRoute';
-}
-
-/// generated route for
-/// [ProfileEditingPage]
-class ProfileEditingRoute extends PageRouteInfo<void> {
-  const ProfileEditingRoute()
-      : super(
-          ProfileEditingRoute.name,
-          path: 'profile-editing-page',
-        );
-
-  static const String name = 'ProfileEditingRoute';
 }
 
 /// generated route for

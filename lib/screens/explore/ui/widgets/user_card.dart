@@ -44,14 +44,14 @@ class UserCard extends StatelessWidget {
           //   color: context.colors.border,
           //   width: 1.5,
           // ),
-          boxShadow: [
-            BoxShadow(
-              color: context.colors.shadow,
-              blurRadius: 0,
-              spreadRadius: 0,
-              offset: const Offset(4, 6),
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: context.colors.shadow,
+          //     blurRadius: 0,
+          //     spreadRadius: 0,
+          //     offset: const Offset(4, 6),
+          //   ),
+          // ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,6 +102,7 @@ class UserCard extends StatelessWidget {
                             (tagData) {
                               return CustomChip(
                                 tagData: tagData,
+                                onContainer: true,
                               );
                             },
                           ).toList(),

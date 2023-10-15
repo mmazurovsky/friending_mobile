@@ -30,7 +30,7 @@ class StylesStateManager with ChangeNotifier {
       );
 
   TextStyle get genericHeader => TextStyle(
-        color: _colors.mainTextColor,
+        color: Colors.white,
         fontSize: 18,
         fontWeight: FontWeight.bold,
       );
@@ -60,7 +60,7 @@ class StylesStateManager with ChangeNotifier {
       );
 
   TextStyle get userCardUsername => TextStyle(
-        color: _colors.mainTextColor,
+        color: _colors.onContainerTextColor,
         fontSize: 18,
         fontWeight: FontWeight.bold,
       );
@@ -89,11 +89,15 @@ class StylesStateManager with ChangeNotifier {
         fontWeight: FontWeight.w600,
       );
 
+  TextStyle get activeChipOnContainer => activeChip.copyWith(color: _colors.onContainerTextColor);
+
   TextStyle get inactiveChip => TextStyle(
         color: _colors.mainTextColor,
         fontSize: 15,
         fontWeight: FontWeight.w400,
       );
+
+  TextStyle get inactiveChipOnContainer => inactiveChip.copyWith(color: _colors.onContainerTextColor);
 
   TextStyle get titleText => TextStyle(
         color: _colors.mainTextColor,

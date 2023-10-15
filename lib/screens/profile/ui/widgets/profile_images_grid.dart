@@ -132,8 +132,8 @@ class ImageContent extends StatelessWidget {
         } else {
           context.read<ProfileTextsAndTagsManager>().unfocusAllNodes();
           context.read<SingleProfileImageManager>().addPhotoFile(
-                backgroundColor: context.colors.backgroundColor,
-                toolbarColor: context.colors.primary,
+                backgroundColor: context.colorsStatic.backgroundColor,
+                toolbarColor: context.colorsStatic.primary,
               );
         }
       },
@@ -143,7 +143,7 @@ class ImageContent extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(ConstSpaces.unit3),
           //TODO no idea about this color
-          color: context.colors.backgroundColor.withOpacity(0.5),
+          color: context.colors.containerColor,
         ),
         alignment: Alignment.center,
         clipBehavior: Clip.antiAlias,

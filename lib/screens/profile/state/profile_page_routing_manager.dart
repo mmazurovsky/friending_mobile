@@ -39,11 +39,11 @@ class ProfilePageRoutingManager with ChangeNotifier {
           notifyListeners();
         }
       } else {
-        if (_pageToShowForProfileTab != PageToShowForProfileTab.profile) {
+        // if (_pageToShowForProfileTab != PageToShowForProfileTab.profile) {
           _profile = profile;
           _pageToShowForProfileTab = PageToShowForProfileTab.profile;
           notifyListeners();
-        }
+        // }
       }
     });
   }

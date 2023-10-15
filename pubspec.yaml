@@ -71,7 +71,11 @@ dependencies:
   animated_digit: ^3.2.3
   firebase_messaging: ^14.6.8
   device_info_plus: ^9.0.3
-  platform_device_id: ^1.0.1
+  platform_device_id:
+    git:
+      url: https://github.com/mmazurovsky/platform_device_id.git
+      path: platform_device_id
+  infinite_carousel: ^1.0.3
 
 dev_dependencies:
   flutter_test:

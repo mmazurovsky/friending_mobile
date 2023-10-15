@@ -70,7 +70,7 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           CustomSliverAppBar(
             isBackButtonOn: false,
-            titleWidget: Text('Locked club', style: context.styles.genericHeader),
+            titleWidget: Text('LOCKED', style: context.styles.genericHeader),
             actions: const [
               PointsWidget(),
             ],
@@ -268,13 +268,13 @@ class PlaceholderWithTextAndButton extends StatelessWidget {
       child: button == null
           ? Text(
               text,
-              style: context.styles.bodyText,
+              style: context.styles.bodyText.copyWith(color: context.colors.onContainerTextColor),
             )
           : Column(
               children: [
                 Text(
                   text,
-                  style: context.styles.bodyText,
+                  style: context.styles.bodyText.copyWith(color: context.colors.onContainerTextColor),
                 ),
                 const SizedBox(height: 10),
                 Align(

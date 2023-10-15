@@ -32,6 +32,16 @@ class _ProfileEditingPageState extends State<ProfileEditingPage> {
   final formKey = GlobalKey<FormState>();
   final profileEditingManager = getIt<ProfileEditingManager>();
 
+  @override
+  void initState() {
+    super.initState();
+    profileEditingManager.isOperationSuccessfulStream.listen((event) {
+      if (event) {
+        Navigator.of(context).pop(event);
+      }
+    });
+  }
+
   void _onUpdateProfile({
     required BuildContext context,
     required GlobalKey<FormState> formKey,
@@ -99,6 +109,7 @@ class _ProfileEditingPageState extends State<ProfileEditingPage> {
       builder: (context, _) {
         final isItProfileCreation = context.read<ProfileEditingManager>().isItProfileCreation;
         return Scaffold(
+          backgroundColor: context.colors.backgroundColor,
           body: SafeArea(
             child: context.watch<ProfileImagesManager>().isLoading || context.watch<ProfileTextsAndTagsManager>().isLoading
                 ? const LoadingContainer()
@@ -163,6 +174,7 @@ class TagsEditingSection extends StatelessWidget {
         ),
         TagsDisplayer(
           tagsToDisplay: context.watch<ProfileTextsAndTagsManager>().tagsToDisplay,
+          onContainer: false,
           displayIfTagsEmpty: Container(
             padding: CEdgeInsets.horizontalStandart,
             alignment: Alignment.centerLeft,

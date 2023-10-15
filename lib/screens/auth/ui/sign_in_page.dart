@@ -21,7 +21,7 @@ class SignInPage extends StatelessWidget {
     });
     final firebaseAuth = getIt<FirebaseAuth>();
 
-    return SignInScreen(
+    return SignInScreen( 
       providers: FirebaseUIAuth.providersFor(
         firebaseAuth.app,
       ),

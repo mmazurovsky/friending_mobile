@@ -21,7 +21,7 @@ class ProfileContentManager with ChangeNotifier {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
-  void loadProfile() async {
+  Future<void> loadProfile() async {
     _isLoading = true;
     FullReadUserModel? fetchedProfile;
     try {

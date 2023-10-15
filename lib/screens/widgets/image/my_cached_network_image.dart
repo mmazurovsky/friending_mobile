@@ -35,6 +35,7 @@ class CCachedNetworkImage extends StatelessWidget {
             },
             placeholder: (context, url) => Container(
               color: context.colors.backgroundColor,
+              alignment: Alignment.center,
               child: const MyLoadingIndicator(),
             ),
             errorWidget: (context, url, smth) => const EmptyImagePlaceholder(),

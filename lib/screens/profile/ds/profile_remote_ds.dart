@@ -125,6 +125,7 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
 
   @override
   Stream<int> getPointsStream() {
+    //TODO! this gets triggered before profile is set need fix
     final currentUser = _authRepo.currentUser!;
     final stream = _firebaseFirestore
         .collection(shortUserCollection)

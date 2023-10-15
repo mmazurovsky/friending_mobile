@@ -45,6 +45,7 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
     _scrollController = allTabsOrderedAccordingToIndex[2].scrollController;
   }
 
+  //TODO i don't know when it is triggered
   @override
   void didUpdateWidget(covariant ThisUserProfilePage oldWidget) {
     if (oldWidget.shortProfile != widget.shortProfile) {
@@ -100,6 +101,7 @@ class _ProfileContentState extends State<_ProfileContent> {
                 TagsDisplayer(
                   tagsToDisplay: context.read<ProfileContentManager>().profile.shortUserModel.tagsEntities,
                   displayIfTagsEmpty: Container(),
+                  onContainer: false,
                 ),
                 const SizedBox(height: 44),
                 const SectionTitle('About'),
@@ -177,20 +179,21 @@ class SettingsSelector extends StatelessWidget {
     final colorOfIcons = context.colors.staticIconsColor;
     return [
       _SettingsButtonData(
-          text: 'Modify profile',
-          leadingIcon: Icon(
-            Ionicons.clipboard_outline,
-            color: colorOfIcons,
-            size: 18,
-          ),
-          onTap: () =>
-              //TODO: update profile on profile editing page pop
-              context.router.push(const ProfileEditingRoute())
-          // .then(
-          //       (value) => ctx.read<ProfileContentManager>().loadProfile(),
-          //     ),
-
-          ),
+        text: 'Modify profile',
+        leadingIcon: Icon(
+          Ionicons.clipboard_outline,
+          color: colorOfIcons,
+          size: 18,
+        ),
+        onTap: () async {
+          final result = await context.router.push(const ProfileEditingRoute()) as bool?;
+          //INFO: refetching full profile after modification
+          //NOTE that short profile which is parameter in page widget is updated in another way (check code to see)
+          if (result != null && result) {
+            await context.read<ProfileContentManager>().loadProfile();
+          }
+        },
+      ),
       _SettingsButtonData(
         text: 'Write to support',
         leadingIcon: Icon(
@@ -198,7 +201,7 @@ class SettingsSelector extends StatelessWidget {
           color: colorOfIcons,
           size: 18,
         ),
-        onTap: () => OpenLinkService.openTelegram('jkjkjkjkjjkjkk'),
+        onTap: () => OpenLinkService.openTelegram('julesantkowiak'),
       ),
       _SettingsButtonData(
         text: 'Sign out',

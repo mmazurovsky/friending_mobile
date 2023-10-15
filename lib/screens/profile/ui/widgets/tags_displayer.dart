@@ -9,11 +9,13 @@ class TagsDisplayer extends StatelessWidget {
   final List<TagEntity> tagsToDisplay;
   final Widget displayIfTagsEmpty;
   final void Function(String)? onDeleteTag;
+  final bool onContainer;
   const TagsDisplayer({
     super.key,
     required this.tagsToDisplay,
     required this.displayIfTagsEmpty,
     this.onDeleteTag,
+    required this.onContainer,
   });
 
   @override
@@ -28,6 +30,7 @@ class TagsDisplayer extends StatelessWidget {
                 return CustomChip(
                   tagData: e,
                   onDeleteTag: onDeleteTag,
+                  onContainer: onContainer,
                 );
               },
             ).toList()),
@@ -37,6 +40,7 @@ class TagsDisplayer extends StatelessWidget {
 }
 
 class CustomChip extends StatelessWidget {
+  final bool onContainer;
   final TagEntity tagData;
   final void Function(String)? onDeleteTag;
 
@@ -44,16 +48,19 @@ class CustomChip extends StatelessWidget {
     super.key,
     required this.tagData,
     this.onDeleteTag,
+    required this.onContainer,
   });
 
   @override
   Widget build(BuildContext context) {
+    final activeStyle = onContainer ? context.styles.activeChipOnContainer : context.styles.activeChip;
+    final inactiveStyle = onContainer ? context.styles.inactiveChipOnContainer : context.styles.inactiveChip;
     return GestureDetector(
       onTap: onDeleteTag != null ? () => onDeleteTag!(tagData.title) : null,
       child: Container(
         child: Text(
           tagData.title,
-          style: tagData.isHighlighted ? context.styles.activeChip : context.styles.inactiveChip,
+          style: tagData.isHighlighted ? activeStyle : inactiveStyle,
         ),
       ),
     );

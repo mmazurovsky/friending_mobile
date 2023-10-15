@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_starter/common/bag/stateful/theme.dart';
 import 'package:flutter_mobile_starter/screens/widgets/custom_edge_insets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
@@ -31,8 +32,11 @@ class TagsAdder extends StatelessWidget {
           PlatformTextButton(
             alignment: Alignment.center,
             onPressed: context.read<ProfileTextsAndTagsManager>().addTags,
-            child: const Text(
+            child:  Text(
               'Add tags',
+              style: TextStyle(
+                color: context.colors.textButton,
+              ),
             ),
           ),
           // const SizedBox(width: 5),

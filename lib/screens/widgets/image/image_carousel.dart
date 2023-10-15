@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_carousel/infinite_carousel.dart';
 
 import '../custom_edge_insets.dart';
 import 'my_cached_network_image.dart';
@@ -33,51 +34,100 @@ class ImageCarousel extends StatelessWidget {
         ),
       );
     } else {
-      return NotificationListener(
-        onNotification: (notification) => true,
-        child: SizedBox(
-          height: MediaQuery.of(context).size.width * 0.9,
-          child: ListView.builder(
-            padding: const EdgeInsets.symmetric(
-              horizontal: _horizontalPadding,
-            ),
-            physics: const HorizontalScrollViewSnapPhysics(
-              elementWidth: _itemWidth,
-              spaceBetweenItems: 3,
-            ),
-            scrollDirection: Axis.horizontal,
-            cacheExtent: MediaQuery.of(context).size.width,
-            addRepaintBoundaries: false,
-            addAutomaticKeepAlives: false,
-            itemCount: imagesUrls.length,
-            itemBuilder: (context, i) {
-              Widget imageWidget = ClipRRect(
-                borderRadius: BorderRadius.circular(18),
-                child: SizedBox(
-                  height: _itemWidth,
-                  width: _itemWidth,
-                  child: CCachedNetworkImage(
-                    imagesUrls[i],
-                  ),
+      return SizedBox(
+        height: MediaQuery.of(context).size.width * 0.9,
+        child: InfiniteCarousel.builder(
+          itemCount: imagesUrls.length,
+          itemExtent: MediaQuery.of(context).size.width * 0.9,
+          velocityFactor: 0.38,
+          loop: false,
+          itemBuilder: (context, i, realIndex) {
+            Widget imageWidget = ClipRRect(
+              borderRadius: BorderRadius.circular(18),
+              child: SizedBox(
+                height: _itemWidth,
+                width: _itemWidth,
+                child: CCachedNetworkImage(
+                  imagesUrls[i],
+                ),
+              ),
+            );
+            if (realIndex == 0) {
+              imageWidget = Hero(
+                tag: imagesUrls[0],
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 15 / 2),
+                  child: imageWidget,
                 ),
               );
-              if (i == 0) {
-                imageWidget = Hero(
-                  tag: imagesUrls[0],
-                  child: imageWidget,
-                );
-              }
-              return Padding(
-                padding: EdgeInsets.only(
-                  left: i == 0 ? 0 : _spaceBetweenItems / 2,
-                  right: (i == imagesUrls.length - 1) ? 0 : _spaceBetweenItems / 2,
-                ),
+            } else if (realIndex == imagesUrls.length - 1) {
+              imageWidget = Padding(
+                padding: const EdgeInsets.only(left: 15 / 2),
                 child: imageWidget,
               );
-            },
-          ),
+            } else {
+              imageWidget = Padding(
+                padding: const EdgeInsets.only(right: 15 / 2, left: 15 / 2),
+                child: imageWidget,
+              );
+            }
+            return imageWidget;
+            // return Padding(
+            //   padding: EdgeInsets.only(
+            //     left: i == 0 ? 0 : _spaceBetweenItems / 2,
+            //     right: (i == imagesUrls.length - 1) ? 0 : _spaceBetweenItems / 2,
+            //   ),
+            //   child: imageWidget,
+            // );
+          },
         ),
       );
+
+      // return NotificationListener(
+      //   onNotification: (notification) => true,
+      //   child: SizedBox(
+      //     height: MediaQuery.of(context).size.width * 0.9,
+      //     child: ListView.builder(
+      //       padding: const EdgeInsets.symmetric(
+      //         horizontal: _horizontalPadding,
+      //       ),
+      //       physics: const HorizontalScrollViewSnapPhysics(
+      //         elementWidth: _itemWidth,
+      //         spaceBetweenItems: 3,
+      //       ),
+      //       scrollDirection: Axis.horizontal,
+      //       cacheExtent: MediaQuery.of(context).size.width,
+      //       addRepaintBoundaries: false,
+      //       addAutomaticKeepAlives: false,
+      //       itemCount: imagesUrls.length,
+      //       itemBuilder: (context, i) {
+      //         Widget imageWidget = ClipRRect(
+      //           borderRadius: BorderRadius.circular(18),
+      //           child: SizedBox(
+      //             height: _itemWidth,
+      //             width: _itemWidth,
+      //             child: CCachedNetworkImage(
+      //               imagesUrls[i],
+      //             ),
+      //           ),
+      //         );
+      //         if (i == 0) {
+      //           imageWidget = Hero(
+      //             tag: imagesUrls[0],
+      //             child: imageWidget,
+      //           );
+      //         }
+      //         return Padding(
+      //           padding: EdgeInsets.only(
+      //             left: i == 0 ? 0 : _spaceBetweenItems / 2,
+      //             right: (i == imagesUrls.length - 1) ? 0 : _spaceBetweenItems / 2,
+      //           ),
+      //           child: imageWidget,
+      //         );
+      //       },
+      //     ),
+      //   ),
+      // );
     }
   }
 }

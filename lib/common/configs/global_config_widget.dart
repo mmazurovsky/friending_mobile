@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../push_notifications/push_notifications_service.dart';
 import '../refresh/refresh_config.dart';
 import 'app_lifecycle_state_listener_widget.dart';
 import 'connection_listener_widget.dart';
@@ -18,9 +19,11 @@ class GlobalConfigWidget extends StatelessWidget {
     return InitializationsWidget(
       child: ConnectionListenerWidget(
         child: AppLifecycleStateListenerWidget(
-          child: PlatformBrightnessListenerWidget(
-            child: MyRefreshConfiguration(
-              child: child,
+          child: PushNotificaitonsConfigWidget(
+            child: PlatformBrightnessListenerWidget(
+              child: MyRefreshConfiguration(
+                child: child,
+              ),
             ),
           ),
         ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -24,8 +26,9 @@ class ProfileEditingManager with ChangeNotifier {
   Failure? _failure;
   Failure? get failure => _failure;
 
-  bool? _isOperationSuccessful;
-  bool? get isOperationSuccessful => _isOperationSuccessful;
+  final _isOperationSuccessfulStreamController = StreamController<bool>.broadcast();
+
+  Stream<bool> get isOperationSuccessfulStream => _isOperationSuccessfulStreamController.stream;
 
   bool _isItProfileCreation = false;
   bool get isItProfileCreation => _isItProfileCreation;
@@ -42,6 +45,7 @@ class ProfileEditingManager with ChangeNotifier {
   @override
   void dispose() {
     _isDisposed = true;
+    _isOperationSuccessfulStreamController.close();
     super.dispose();
   }
 
@@ -151,13 +155,15 @@ class ProfileEditingManager with ChangeNotifier {
           privateModel: privateModel,
         );
       } else {
-        //TODO try catch and set _isOperationSuccessful
+        //TODO try catch and set _isOperationSuccessful 
         response = await _profileRepo.updateProfile(
           shortModel: shortModel,
           privateModel: privateModel,
           tagsToAdd: tagsToAddOnServer.toList(),
           tagsToRemove: tagsToRemoveOnServer.toList(),
         );
+
+        _isOperationSuccessfulStreamController.add(true);
       }
 
       notifyListeners();

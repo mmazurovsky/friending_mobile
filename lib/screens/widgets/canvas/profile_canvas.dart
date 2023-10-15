@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
@@ -68,7 +70,7 @@ class _EntityPageCanvasState extends State<EntityPageCanvas> {
                   )
                 : null,
             title: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: Platform.isIOS ? CrossAxisAlignment.center : CrossAxisAlignment.start,
               children: [
                 Text(
                   widget.preloadedData.username,

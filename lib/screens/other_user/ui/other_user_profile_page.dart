@@ -69,7 +69,7 @@ class _OtherUserProfilePageState extends State<OtherUserProfilePage> {
           preloadedData: widget.shortProfile,
           loadableContent: const _OtherProfileContent(),
           scrollController: _scrollController,
-          isBackButtonOn: false,
+          isBackButtonOn: true,
           mainActionWidget: ButtonWithStatesWidget(widget.shortProfile.id),
         ),
       ),
@@ -141,6 +141,7 @@ class _OtherProfileContentState extends State<_OtherProfileContent> {
                 TagsDisplayer(
                   tagsToDisplay: context.read<OtherUserManager>().fullProfile.shortUserModel.tagsEntities,
                   displayIfTagsEmpty: Container(),
+                  onContainer: false,
                 ),
                 const SizedBox(height: 44),
                 const SectionTitle('About'),

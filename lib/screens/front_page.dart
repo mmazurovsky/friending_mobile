@@ -15,9 +15,9 @@ class FrontPage extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: context.colors.backgroundColor,
-        systemNavigationBarColor: context.colors.bottomNavigationBarColor,
+        systemNavigationBarColor: context.colors.backgroundColor,
         statusBarIconBrightness: context.brightness,
-        systemNavigationBarDividerColor: Colors.transparent,
+        systemNavigationBarDividerColor: context.colors.backgroundColor,
         statusBarBrightness: context.brightness == Brightness.light ? Brightness.dark : Brightness.light,
       ),
       child: AutoTabsScaffold(

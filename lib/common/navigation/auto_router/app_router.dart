@@ -32,9 +32,6 @@ part 'app_router.gr.dart';
           page: ProfilePage,
           children: [
             AutoRoute(
-              page: ProfileEditingPage,
-            ),
-            AutoRoute(
               page: SignInPage,
             ),
             AutoRoute(
@@ -49,6 +46,9 @@ part 'app_router.gr.dart';
     ),
     AutoRoute(
       page: OtherUserProfilePage,
+    ),
+    AutoRoute(
+      page: ProfileEditingPage,
     ),
   ],
 )

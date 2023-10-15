@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 extension ThemeExt on BuildContext {
   Brightness get brightness => this.watch<ColorsStateManager>().currentBrightness;
   CustomThemeData get colors => this.watch<ColorsStateManager>().colors;
+  CustomThemeData get colorsStatic => this.read<ColorsStateManager>().colors;
 }
 
 class ColorsStateManager with ChangeNotifier {
@@ -42,20 +43,20 @@ extension BrightnessExt on ColorsStateManager {
 abstract class CustomThemeData {
   Color get primary;
   Color get backgroundColor;
+  Color get accentToBackgroundColor;
   Color get headerColor;
   Color get mainTextColor;
   Color get secondaryTextColor;
   Color get thirdTextColor;
   Color get containerColor;
+  Color get onContainerTextColor;
   Color get userCardUsernameColor;
   Color get userCardAgeColor;
   Color get highlightedTextColor;
   Color get snackBarContainerColor;
   Color get snackBarTextColor;
   Color get loadingIndicatorColor;
-  Color get bottomNavigationBarColor;
   Color get appBarColor;
-  Color get transparentAppBarColor;
   Color get activeIndicatorColor;
   Color get inactiveIndicatorColor;
   Color get activeSwitchColor;
@@ -68,6 +69,7 @@ abstract class CustomThemeData {
   Color get mainActionButtonActive;
   Color get mainActionButtonInactive;
   Color get appBarAction;
+  Color get textButton;
 }
 
 class MainCustomThemeData implements CustomThemeData {
@@ -77,19 +79,26 @@ class MainCustomThemeData implements CustomThemeData {
   static const _paleRed = Color(0xFFE57373);
   static const _lightSilver = Color(0xFFD8D8D8);
   static const _silver = Color.fromARGB(255, 168, 171, 178);
-  final _whiteWithOpacity = _white.withOpacity(0.9);
+  // final _whiteWithOpacity = _white.withOpacity(0.9);
+  static const _accent = Color.fromARGB(255, 244, 185, 255);
 
   @override
-  Color get backgroundColor => _white;
+  Color get backgroundColor => _black;
+
+  @override
+  Color get accentToBackgroundColor => _white;
 
   @override
   Color get containerColor => _white;
 
   @override
+  Color get onContainerTextColor => _black;
+
+  @override
   Color get headerColor => _black;
 
   @override
-  Color get mainTextColor => _black;
+  Color get mainTextColor => _white;
 
   @override
   Color get highlightedTextColor => _blue;
@@ -101,13 +110,10 @@ class MainCustomThemeData implements CustomThemeData {
   Color get snackBarTextColor => _white;
 
   @override
-  Color get loadingIndicatorColor => _black;
+  Color get loadingIndicatorColor => accentToBackgroundColor;
 
   @override
-  Color get bottomNavigationBarColor => _whiteWithOpacity;
-
-  @override
-  Color get activeIndicatorColor => _black;
+  Color get activeIndicatorColor => _accent;
 
   @override
   Color get inactiveIndicatorColor => _silver;
@@ -125,7 +131,7 @@ class MainCustomThemeData implements CustomThemeData {
   Color get inactiveSwitchColor => _white;
 
   @override
-  Color get staticIconsColor => _black;
+  Color get staticIconsColor => accentToBackgroundColor;
 
   @override
   Color get errorColor => _paleRed;
@@ -146,20 +152,20 @@ class MainCustomThemeData implements CustomThemeData {
   Color get border => divider;
 
   @override
-  Color get mainActionButtonActive => _black;
+  Color get mainActionButtonActive => _white;
 
   @override
-  Color get thirdTextColor => _white;
+  Color get textButton => _accent;
+
+  @override
+  Color get thirdTextColor => backgroundColor;
 
   @override
   Color get mainActionButtonInactive => _silver;
 
   @override
-  Color get appBarColor => _white;
+  Color get appBarColor => backgroundColor;
 
-  @override
-  Color get transparentAppBarColor => _whiteWithOpacity;
-  
   @override
   Color get appBarAction => _lightSilver;
 }

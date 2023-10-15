@@ -1,9 +1,8 @@
 import 'package:collection/collection.dart';
-import 'package:flutter_mobile_starter/common/data/models/user_models.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../common/data/entities/user_entities.dart';
 import '../../../common/data/models/point_model.dart';
+import '../../../common/data/models/user_models.dart';
 import '../../profile/repo/profile_repo.dart';
 import '../ds/user_list_ds.dart';
 import 'coordinates_repo.dart';
@@ -64,13 +63,21 @@ class UserListRepoImpl implements UserListRepo {
     // get tags of current user
     final tags = _profileRepo.getShortProfileLocal()?.tags;
     if (tags == null || tags.isEmpty) {
-      return _getFreshUsers();
+      return _getFreshUsers(50);
     } else {
       final usersWithMostCommonTags = await _getUsersWithMostCommonTags(tags);
       if (usersWithMostCommonTags.isEmpty) {
-        return _getFreshUsers();
+        return _getFreshUsers(50);
       } else {
-        return usersWithMostCommonTags;
+        if (usersWithMostCommonTags.length < 50) {
+          final freshUsers = await _getFreshUsers(50 - usersWithMostCommonTags.length);
+          final freshUsersWihoutUsersWithMostCommonTags =
+              freshUsers.where((element) => !usersWithMostCommonTags.map((e) => e.id).toList().contains(element.id));
+          final usersToShow = List<ShortReadUserModel>.from(usersWithMostCommonTags)..addAll(freshUsersWihoutUsersWithMostCommonTags);
+          return usersToShow;
+        } else {
+          return usersWithMostCommonTags;
+        }
       }
     }
   }
@@ -90,8 +97,8 @@ class UserListRepoImpl implements UserListRepo {
     }
   }
 
-  Future<List<ShortReadUserModel>> _getFreshUsers() async {
-    final freshUsers = await _userListDS.getFreshUsers(50);
+  Future<List<ShortReadUserModel>> _getFreshUsers(int count) async {
+    final freshUsers = await _userListDS.getFreshUsers(count);
     return freshUsers;
   }
 }
