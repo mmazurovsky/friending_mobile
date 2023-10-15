@@ -26,32 +26,32 @@ import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i17;
 import 'package:uuid/uuid.dart' as _i24;
 
-import '../../screens/events/ds/user_events_ds.dart' as _i35;
+import '../../screens/current_pair/ds/pair_ds.dart' as _i31;
+import '../../screens/events/ds/user_events_ds.dart' as _i36;
 import '../../screens/explore/ds/app_events_remote_ds.dart' as _i25;
 import '../../screens/explore/ds/coordinates_local_ds.dart' as _i5;
 import '../../screens/explore/ds/coordinates_remote_ds.dart' as _i27;
-import '../../screens/explore/ds/user_list_ds.dart' as _i36;
+import '../../screens/explore/ds/user_list_ds.dart' as _i37;
 import '../../screens/explore/repo/coordinates_repo.dart' as _i28;
-import '../../screens/explore/repo/user_list_repo.dart' as _i37;
-import '../../screens/explore/state/explore_state_manager.dart' as _i40;
+import '../../screens/explore/repo/user_list_repo.dart' as _i38;
+import '../../screens/explore/state/explore_state_manager.dart' as _i41;
 import '../../screens/explore/state/geo_permissions_manager.dart' as _i14;
-import '../../screens/other_user/ds/connect_ds.dart' as _i38;
-import '../../screens/other_user/ds/other_user_profile_ds.dart' as _i46;
-import '../../screens/other_user/ds/pairs_ds.dart' as _i41;
-import '../../screens/other_user/repo/connect_repo.dart' as _i39;
-import '../../screens/other_user/repo/other_user_profile_repo.dart' as _i47;
+import '../../screens/other_user/ds/connect_ds.dart' as _i39;
+import '../../screens/other_user/ds/other_user_profile_ds.dart' as _i42;
+import '../../screens/other_user/repo/connect_repo.dart' as _i40;
+import '../../screens/other_user/repo/other_user_profile_repo.dart' as _i43;
 import '../../screens/profile/ds/profile_local_ds.dart' as _i20;
-import '../../screens/profile/ds/profile_remote_ds.dart' as _i31;
-import '../../screens/profile/repo/profile_repo.dart' as _i32;
-import '../../screens/profile/state/points_change_notifier.dart' as _i42;
-import '../../screens/profile/state/profile_content_manager.dart' as _i43;
-import '../../screens/profile/state/profile_editing_manager.dart' as _i44;
+import '../../screens/profile/ds/profile_remote_ds.dart' as _i32;
+import '../../screens/profile/repo/profile_repo.dart' as _i33;
+import '../../screens/profile/state/points_change_notifier.dart' as _i44;
+import '../../screens/profile/state/profile_content_manager.dart' as _i45;
+import '../../screens/profile/state/profile_editing_manager.dart' as _i46;
 import '../../screens/profile/state/profile_images_manager.dart' as _i19;
-import '../../screens/profile/state/profile_page_routing_manager.dart' as _i45;
-import '../../screens/profile/state/profile_texts_manager.dart' as _i34;
+import '../../screens/profile/state/profile_page_routing_manager.dart' as _i47;
+import '../../screens/profile/state/profile_texts_manager.dart' as _i35;
 import '../auth/repo/auth_repo.dart' as _i26;
 import '../client/request_check_wrapper.dart' as _i21;
-import '../configs/auth_changes_listener.dart' as _i33;
+import '../configs/auth_changes_listener.dart' as _i34;
 import '../configs/fcm_token_manager.dart' as _i29;
 import '../image_handling/image_service.dart' as _i30;
 import '../navigation/auto_router/app_router.dart' as _i3;
@@ -131,95 +131,95 @@ _i1.GetIt init(
         gh<_i6.CustomLogger>(),
         gh<_i21.RequestCheckWrapper>(),
       ));
-  gh.lazySingleton<_i31.ProfileRemoteDS>(() => _i31.ProfileDSImpl(
+  gh.lazySingleton<_i31.PairDS>(() => _i31.PairDSImpl(
+        gh<_i21.RequestCheckWrapper>(),
+        gh<_i10.FirebaseFirestore>(),
+        gh<_i26.AuthRepo>(),
+        gh<_i6.CustomLogger>(),
+      ));
+  gh.lazySingleton<_i32.ProfileRemoteDS>(() => _i32.ProfileDSImpl(
         gh<_i26.AuthRepo>(),
         gh<_i10.FirebaseFirestore>(),
         gh<_i21.RequestCheckWrapper>(),
         gh<_i6.CustomLogger>(),
+        gh<_i31.PairDS>(),
       ));
-  gh.lazySingleton<_i32.ProfileRepo>(() => _i32.ProfileRepoImpl(
+  gh.lazySingleton<_i33.ProfileRepo>(() => _i33.ProfileRepoImpl(
         gh<_i20.ProfileLocalDS>(),
-        gh<_i31.ProfileRemoteDS>(),
+        gh<_i32.ProfileRemoteDS>(),
       ));
-  gh.singleton<_i33.ProfileStreamService>(_i33.ProfileStreamService(
+  gh.singleton<_i34.ProfileStreamService>(_i34.ProfileStreamService(
     gh<_i26.AuthRepo>(),
-    gh<_i32.ProfileRepo>(),
+    gh<_i33.ProfileRepo>(),
   ));
-  gh.factory<_i34.ProfileTextsAndTagsManager>(
-      () => _i34.ProfileTextsAndTagsManager(gh<_i32.ProfileRepo>()));
-  gh.lazySingleton<_i35.UserEventsDS>(() => _i35.UserEventsDSImpl(
+  gh.factory<_i35.ProfileTextsAndTagsManager>(
+      () => _i35.ProfileTextsAndTagsManager(gh<_i33.ProfileRepo>()));
+  gh.lazySingleton<_i36.UserEventsDS>(() => _i36.UserEventsDSImpl(
         gh<_i10.FirebaseFirestore>(),
         gh<_i21.RequestCheckWrapper>(),
         gh<_i26.AuthRepo>(),
         gh<_i6.CustomLogger>(),
       ));
-  gh.lazySingleton<_i36.UserListDS>(() => _i36.UserListDSImpl(
+  gh.lazySingleton<_i37.UserListDS>(() => _i37.UserListDSImpl(
         gh<_i10.FirebaseFirestore>(),
         gh<_i13.GeoFlutterFire>(),
         gh<_i26.AuthRepo>(),
-        gh<_i31.ProfileRemoteDS>(),
+        gh<_i32.ProfileRemoteDS>(),
         gh<_i21.RequestCheckWrapper>(),
       ));
-  gh.lazySingleton<_i37.UserListRepo>(() => _i37.UserListRepoImpl(
-        gh<_i36.UserListDS>(),
+  gh.lazySingleton<_i38.UserListRepo>(() => _i38.UserListRepoImpl(
+        gh<_i37.UserListDS>(),
         gh<_i28.CoordinatesRepo>(),
-        gh<_i32.ProfileRepo>(),
+        gh<_i33.ProfileRepo>(),
       ));
-  gh.singleton<_i33.ActionsToAuthChangesService>(
-      _i33.ActionsToAuthChangesService(
+  gh.singleton<_i34.ActionsToAuthChangesService>(
+      _i34.ActionsToAuthChangesService(
     gh<_i26.AuthRepo>(),
-    gh<_i32.ProfileRepo>(),
+    gh<_i33.ProfileRepo>(),
     gh<_i28.CoordinatesRepo>(),
   ));
-  gh.lazySingleton<_i38.ConnectDS>(() => _i38.ConnectDSImpl(
-        gh<_i36.UserListDS>(),
+  gh.lazySingleton<_i39.ConnectDS>(() => _i39.ConnectDSImpl(
+        gh<_i37.UserListDS>(),
         gh<_i21.RequestCheckWrapper>(),
         gh<_i10.FirebaseFirestore>(),
         gh<_i26.AuthRepo>(),
         gh<_i6.CustomLogger>(),
       ));
-  gh.lazySingleton<_i39.ConnectRepo>(() => _i39.ConnectRepoImpl(
-        gh<_i38.ConnectDS>(),
-        gh<_i32.ProfileRepo>(),
+  gh.lazySingleton<_i40.ConnectRepo>(() => _i40.ConnectRepoImpl(
+        gh<_i39.ConnectDS>(),
+        gh<_i33.ProfileRepo>(),
         gh<_i26.AuthRepo>(),
       ));
-  gh.lazySingleton<_i40.ExploreStateManager>(() => _i40.ExploreStateManager(
-        gh<_i37.UserListRepo>(),
+  gh.lazySingleton<_i41.ExploreStateManager>(() => _i41.ExploreStateManager(
+        gh<_i38.UserListRepo>(),
         gh<_i28.CoordinatesRepo>(),
         gh<_i14.GeoPermissionsManager>(),
       ));
-  gh.lazySingleton<_i41.PairsDS>(() => _i41.PairsDSImpl(
-        gh<_i36.UserListDS>(),
+  gh.lazySingleton<_i42.OtherUserProfileDS>(() => _i42.OtherUserProfileDSImpl(
         gh<_i21.RequestCheckWrapper>(),
         gh<_i10.FirebaseFirestore>(),
         gh<_i26.AuthRepo>(),
         gh<_i6.CustomLogger>(),
+        gh<_i31.PairDS>(),
       ));
-  gh.lazySingleton<_i42.PointsChangeNotifier>(() => _i42.PointsChangeNotifier(
+  gh.lazySingleton<_i43.OtherUserProfileRepo>(
+      () => _i43.OtherUserProfileRepoImpl(gh<_i42.OtherUserProfileDS>()));
+  gh.lazySingleton<_i44.PointsChangeNotifier>(() => _i44.PointsChangeNotifier(
         gh<_i26.AuthRepo>(),
-        gh<_i32.ProfileRepo>(),
+        gh<_i33.ProfileRepo>(),
       ));
-  gh.factory<_i43.ProfileContentManager>(() => _i43.ProfileContentManager(
-        gh<_i32.ProfileRepo>(),
+  gh.factory<_i45.ProfileContentManager>(() => _i45.ProfileContentManager(
+        gh<_i33.ProfileRepo>(),
         gh<_i26.AuthRepo>(),
       ));
-  gh.factory<_i44.ProfileEditingManager>(() => _i44.ProfileEditingManager(
+  gh.factory<_i46.ProfileEditingManager>(() => _i46.ProfileEditingManager(
         gh<_i19.ProfileImagesManager>(),
-        gh<_i34.ProfileTextsAndTagsManager>(),
-        gh<_i32.ProfileRepo>(),
+        gh<_i35.ProfileTextsAndTagsManager>(),
+        gh<_i33.ProfileRepo>(),
         gh<_i26.AuthRepo>(),
       ));
-  gh.singleton<_i45.ProfilePageRoutingManager>(
-      _i45.ProfilePageRoutingManager(gh<_i33.ProfileStreamService>()));
-  gh.lazySingleton<_i46.OtherUserProfileDS>(() => _i46.OtherUserProfileDSImpl(
-        gh<_i21.RequestCheckWrapper>(),
-        gh<_i10.FirebaseFirestore>(),
-        gh<_i26.AuthRepo>(),
-        gh<_i6.CustomLogger>(),
-        gh<_i41.PairsDS>(),
-      ));
-  gh.lazySingleton<_i47.OtherUserProfileRepo>(
-      () => _i47.OtherUserProfileRepoImpl(gh<_i46.OtherUserProfileDS>()));
+  gh.singleton<_i47.ProfilePageRoutingManager>(
+      _i47.ProfilePageRoutingManager(gh<_i34.ProfileStreamService>()));
   return getIt;
 }
 

@@ -10,7 +10,7 @@ import '../../../common/data/models/user_models.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
 import 'connection_models.dart';
-import 'pairs_ds.dart';
+import '../../current_pair/ds/pair_ds.dart';
 
 abstract class OtherUserProfileDS {
   Future<OtherUserFullModel> getOtherUserFullProfile(String userId);
@@ -22,7 +22,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
   final FirebaseFirestore _firebaseFirestore;
   final AuthRepo _authRepo;
   final CustomLogger _customLogger;
-  final PairsDS _pairsDS;
+  final PairDS _pairsDS;
 
   const OtherUserProfileDSImpl(
     this._requestCheckWrapper,
@@ -52,7 +52,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
 
     final shortModelRaw = await futureShortModelRaw;
 
-    final pairs = await _pairsDS.getUserPairs(userId);
+    final pair = await _pairsDS.getCurrentPairOfUser(userId);
 
     final ShortReadUserModel shortUserModel = shortModelRaw.data()!;
 
@@ -67,7 +67,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
     if (currentUser == null) {
       return OtherUserFullModel(
         shortUserModel: shortUserModel,
-        pairedWith: pairs.isNotEmpty ? pairs.first : null,
+        pairedWith: pair,
         secureUserInfoModel: SecureUserInfoModel(publicFields),
         userPairStatusEnum: UserPairStatusEnum.unpaired,
       );
@@ -105,7 +105,7 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
 
     return OtherUserFullModel(
       shortUserModel: shortUserModel,
-      pairedWith: pairs.isEmpty ? null : pairs.first,
+      pairedWith: pair,
       secureUserInfoModel: secureUserInfo,
       userPairStatusEnum: connectStatusEnum,
     );

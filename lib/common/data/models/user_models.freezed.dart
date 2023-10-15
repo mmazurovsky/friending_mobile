@@ -20,6 +20,7 @@ mixin _$FullReadUserModel {
       throw _privateConstructorUsedError; // required AdditionalUserModel additionalUserModel,
   SecureUserInfoModel get secureUserInfoModel =>
       throw _privateConstructorUsedError;
+  ShortReadUserModel? get pairedWith => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FullReadUserModelCopyWith<FullReadUserModel> get copyWith =>
@@ -34,10 +35,12 @@ abstract class $FullReadUserModelCopyWith<$Res> {
   @useResult
   $Res call(
       {ShortReadUserModel shortUserModel,
-      SecureUserInfoModel secureUserInfoModel});
+      SecureUserInfoModel secureUserInfoModel,
+      ShortReadUserModel? pairedWith});
 
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
   $SecureUserInfoModelCopyWith<$Res> get secureUserInfoModel;
+  $ShortReadUserModelCopyWith<$Res>? get pairedWith;
 }
 
 /// @nodoc
@@ -55,6 +58,7 @@ class _$FullReadUserModelCopyWithImpl<$Res, $Val extends FullReadUserModel>
   $Res call({
     Object? shortUserModel = null,
     Object? secureUserInfoModel = null,
+    Object? pairedWith = freezed,
   }) {
     return _then(_value.copyWith(
       shortUserModel: null == shortUserModel
@@ -65,6 +69,10 @@ class _$FullReadUserModelCopyWithImpl<$Res, $Val extends FullReadUserModel>
           ? _value.secureUserInfoModel
           : secureUserInfoModel // ignore: cast_nullable_to_non_nullable
               as SecureUserInfoModel,
+      pairedWith: freezed == pairedWith
+          ? _value.pairedWith
+          : pairedWith // ignore: cast_nullable_to_non_nullable
+              as ShortReadUserModel?,
     ) as $Val);
   }
 
@@ -84,6 +92,18 @@ class _$FullReadUserModelCopyWithImpl<$Res, $Val extends FullReadUserModel>
       return _then(_value.copyWith(secureUserInfoModel: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ShortReadUserModelCopyWith<$Res>? get pairedWith {
+    if (_value.pairedWith == null) {
+      return null;
+    }
+
+    return $ShortReadUserModelCopyWith<$Res>(_value.pairedWith!, (value) {
+      return _then(_value.copyWith(pairedWith: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -96,12 +116,15 @@ abstract class _$$_FullReadUserModelCopyWith<$Res>
   @useResult
   $Res call(
       {ShortReadUserModel shortUserModel,
-      SecureUserInfoModel secureUserInfoModel});
+      SecureUserInfoModel secureUserInfoModel,
+      ShortReadUserModel? pairedWith});
 
   @override
   $ShortReadUserModelCopyWith<$Res> get shortUserModel;
   @override
   $SecureUserInfoModelCopyWith<$Res> get secureUserInfoModel;
+  @override
+  $ShortReadUserModelCopyWith<$Res>? get pairedWith;
 }
 
 /// @nodoc
@@ -117,6 +140,7 @@ class __$$_FullReadUserModelCopyWithImpl<$Res>
   $Res call({
     Object? shortUserModel = null,
     Object? secureUserInfoModel = null,
+    Object? pairedWith = freezed,
   }) {
     return _then(_$_FullReadUserModel(
       shortUserModel: null == shortUserModel
@@ -127,6 +151,10 @@ class __$$_FullReadUserModelCopyWithImpl<$Res>
           ? _value.secureUserInfoModel
           : secureUserInfoModel // ignore: cast_nullable_to_non_nullable
               as SecureUserInfoModel,
+      pairedWith: freezed == pairedWith
+          ? _value.pairedWith
+          : pairedWith // ignore: cast_nullable_to_non_nullable
+              as ShortReadUserModel?,
     ));
   }
 }
@@ -135,7 +163,9 @@ class __$$_FullReadUserModelCopyWithImpl<$Res>
 
 class _$_FullReadUserModel extends _FullReadUserModel {
   const _$_FullReadUserModel(
-      {required this.shortUserModel, required this.secureUserInfoModel})
+      {required this.shortUserModel,
+      required this.secureUserInfoModel,
+      required this.pairedWith})
       : super._();
 
   @override
@@ -143,10 +173,12 @@ class _$_FullReadUserModel extends _FullReadUserModel {
 // required AdditionalUserModel additionalUserModel,
   @override
   final SecureUserInfoModel secureUserInfoModel;
+  @override
+  final ShortReadUserModel? pairedWith;
 
   @override
   String toString() {
-    return 'FullReadUserModel(shortUserModel: $shortUserModel, secureUserInfoModel: $secureUserInfoModel)';
+    return 'FullReadUserModel(shortUserModel: $shortUserModel, secureUserInfoModel: $secureUserInfoModel, pairedWith: $pairedWith)';
   }
 
   @override
@@ -157,12 +189,14 @@ class _$_FullReadUserModel extends _FullReadUserModel {
             (identical(other.shortUserModel, shortUserModel) ||
                 other.shortUserModel == shortUserModel) &&
             (identical(other.secureUserInfoModel, secureUserInfoModel) ||
-                other.secureUserInfoModel == secureUserInfoModel));
+                other.secureUserInfoModel == secureUserInfoModel) &&
+            (identical(other.pairedWith, pairedWith) ||
+                other.pairedWith == pairedWith));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, shortUserModel, secureUserInfoModel);
+      Object.hash(runtimeType, shortUserModel, secureUserInfoModel, pairedWith);
 
   @JsonKey(ignore: true)
   @override
@@ -174,15 +208,17 @@ class _$_FullReadUserModel extends _FullReadUserModel {
 
 abstract class _FullReadUserModel extends FullReadUserModel {
   const factory _FullReadUserModel(
-          {required final ShortReadUserModel shortUserModel,
-          required final SecureUserInfoModel secureUserInfoModel}) =
-      _$_FullReadUserModel;
+      {required final ShortReadUserModel shortUserModel,
+      required final SecureUserInfoModel secureUserInfoModel,
+      required final ShortReadUserModel? pairedWith}) = _$_FullReadUserModel;
   const _FullReadUserModel._() : super._();
 
   @override
   ShortReadUserModel get shortUserModel;
   @override // required AdditionalUserModel additionalUserModel,
   SecureUserInfoModel get secureUserInfoModel;
+  @override
+  ShortReadUserModel? get pairedWith;
   @override
   @JsonKey(ignore: true)
   _$$_FullReadUserModelCopyWith<_$_FullReadUserModel> get copyWith =>
