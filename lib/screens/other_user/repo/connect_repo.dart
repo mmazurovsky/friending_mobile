@@ -27,7 +27,7 @@ class ConnectRepoImpl implements ConnectRepo {
     if (currentUser == null) {
       return ConnectRequestNotAuthenticated();
     } else {
-      final currentPoints = await _profileRepo.getPointsStream().last;
+      final currentPoints = _profileRepo.currentPointsCount;
       if (currentPoints < 1) {
         return ConnectRequestNotEnoughPoints();
       } else {

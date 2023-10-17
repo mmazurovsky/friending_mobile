@@ -10,14 +10,14 @@ class ButtonWithIcons extends StatelessWidget {
   final String buttonText;
   final Function onButtonTap;
   final double verticalPadding;
-  final Widget? trailingIcon;
+  final Widget trailingIcon;
   const ButtonWithIcons({
     Key? key,
     this.leadingIcon,
     required this.buttonText,
     required this.onButtonTap,
     required this.verticalPadding,
-    this.trailingIcon,
+    this.trailingIcon = const TrailingArrowIcon(),
   }) : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class ButtonWithIcons extends StatelessWidget {
           distanceBetweenLeadingAndText: 13,
           text: buttonText,
           textStyle: context.styles.socialMediaTitle,
-          trailing: trailingIcon ?? const TrailingArrowIcon(),
+          trailing: trailingIcon,
         ),
       ),
     );

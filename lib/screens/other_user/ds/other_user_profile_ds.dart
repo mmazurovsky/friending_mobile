@@ -9,8 +9,8 @@ import '../../../common/data/enums.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../../common/utils/logger/custom_logger.dart';
 import '../../../common/utils/logger/logger_name_provider.dart';
-import 'connection_models.dart';
 import '../../current_pair/ds/pair_ds.dart';
+import 'connection_models.dart';
 
 abstract class OtherUserProfileDS {
   Future<OtherUserFullModel> getOtherUserFullProfile(String userId);
@@ -98,6 +98,14 @@ class OtherUserProfileDSImpl implements OtherUserProfileDS, LoggerNameGetter {
 
     late SecureUserInfoModel secureUserInfo;
     if (connectStatusEnum == UserPairStatusEnum.paired) {
+      if (connectionRaw.data()?.endedDateTime != null) {
+        //TODO this is dirty, we store data like users are paired when in reality they could be already unpaired after being paired for some time
+        connectStatusEnum = UserPairStatusEnum.unpaired;
+        secureUserInfo = SecureUserInfoModel(publicFields);
+      } else {
+        secureUserInfo = secureUserInfoRaw;
+      }
+      //TODO public fields included?
       secureUserInfo = secureUserInfoRaw;
     } else {
       secureUserInfo = SecureUserInfoModel(publicFields);

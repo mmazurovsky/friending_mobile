@@ -1,4 +1,3 @@
-import 'entities/user_connect_status.dart';
 import 'entities/user_event.dart';
 import 'models/user_models.dart';
 

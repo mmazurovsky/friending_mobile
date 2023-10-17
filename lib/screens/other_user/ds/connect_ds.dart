@@ -100,7 +100,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       batchOperation.set(
         _firestore.collection(fullUserCollection).doc(currentUserId).collection(connectionsCollection).doc(userId),
         ConnectionModel(
-          userId: currentUserId,
+          userId: userId,
           status: UserPairStatusEnum.requested,
           createdDateTime: dateTime,
         ).toJson(),
@@ -137,7 +137,7 @@ class ConnectDSImpl implements ConnectDS, LoggerNameGetter {
       final dateTime = DateTime.now();
       batchOperation.update(
         _firestore.collection(fullUserCollection).doc(userId).collection(connectionsCollection).doc(currentUserId),
-        {'endedDateTime': dateTime.toIso8601String()},
+        {'endedDateTime': dateTime.toIso8601String(),},
       );
       batchOperation.update(
         _firestore.collection(fullUserCollection).doc(currentUserId).collection(connectionsCollection).doc(userId),

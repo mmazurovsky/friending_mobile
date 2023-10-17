@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,10 +9,13 @@ import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
+import '../../../common/navigation/auto_router/app_router.dart';
 import '../../profile/ui/widgets/tags_displayer.dart';
+import '../../widgets/buttons/button_with_icons.dart';
 import '../../widgets/buttons/button_with_states.dart';
 import '../../widgets/canvas/profile_canvas.dart';
 import '../../widgets/custom_edge_insets.dart';
+import '../../widgets/image/my_cached_network_image.dart';
 import '../../widgets/snack_bar.dart';
 import '../../widgets/social_links_list.dart';
 import '../../widgets/texts/expandable_text_section.dart';
@@ -97,7 +101,7 @@ class _OtherProfileContentState extends State<_OtherProfileContent> {
         final scaffoldMessengerKey = getIt<GlobalKey<ScaffoldMessengerState>>();
         final action = switch (event) {
           ErrorDataToShowInDialog() => () {
-            //TODO: change to dialog
+              //TODO: change to dialog
               scaffoldMessengerKey.currentState
                 ?..hideCurrentSnackBar()
                 ..showCSnackBar(
@@ -135,6 +139,11 @@ class _OtherProfileContentState extends State<_OtherProfileContent> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 44),
+                SectionTitle(context.read<OtherUserManager>().fullProfile.pairedWith == null ? 'Currently Unlocked' : 'Locked with'),
+                LockStateContent(
+                  pairedWith: context.read<OtherUserManager>().fullProfile.pairedWith,
+                ),
                 const SizedBox(height: 44),
                 const SectionTitle('Tags'),
                 const SizedBox(height: 10),
@@ -175,5 +184,51 @@ class _OtherProfileContentState extends State<_OtherProfileContent> {
               ],
             ),
           );
+  }
+}
+
+class LockStateContent extends StatelessWidget {
+  final ShortReadUserModel? pairedWith;
+  const LockStateContent({
+    super.key,
+    required this.pairedWith,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return pairedWith == null
+        ? Container()
+        : OtherUserLine(
+            user: pairedWith!,
+          );
+  }
+}
+
+class OtherUserLine extends StatelessWidget {
+  final ShortReadUserModel user;
+  const OtherUserLine({
+    super.key,
+    required this.user,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ButtonWithIcons(
+      buttonText: user.username,
+      onButtonTap: () => context.router.push(
+        OtherUserProfileRoute(
+          shortProfile: user!,
+        ),
+      ),
+      leadingIcon: SizedBox(
+        width: 40,
+        height: 40,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: CCachedNetworkImage(user.avatar),
+        ),
+      ),
+      verticalPadding: 12,
+    );
   }
 }

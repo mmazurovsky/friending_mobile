@@ -14,6 +14,7 @@ import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/navigation/auto_router/app_router.dart';
 import '../../../common/navigation/navigation_tab.dart';
 import '../../../common/service/open_link_service.dart';
+import '../../other_user/ui/other_user_profile_page.dart';
 import '../../widgets/buttons/button_content.dart';
 import '../../widgets/canvas/profile_canvas.dart';
 import '../../widgets/custom_edge_insets.dart';
@@ -25,6 +26,7 @@ import '../../widgets/texts/section_title.dart';
 import '../state/profile_content_manager.dart';
 import 'widgets/tags_displayer.dart';
 
+//TODO! NEED TO UPDATE PROFILE ON NEW pair data
 class ThisUserProfilePage extends StatefulWidget {
   final ShortReadUserModel shortProfile;
   const ThisUserProfilePage({
@@ -48,9 +50,9 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
   //TODO i don't know when it is triggered
   @override
   void didUpdateWidget(covariant ThisUserProfilePage oldWidget) {
-    if (oldWidget.shortProfile != widget.shortProfile) {
+    // if (oldWidget.shortProfile != widget.shortProfile) {
       getIt<ProfileContentManager>().loadProfile();
-    }
+    // }
     super.didUpdateWidget(oldWidget);
   }
 
@@ -95,6 +97,11 @@ class _ProfileContentState extends State<_ProfileContent> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 44),
+                SectionTitle(context.read<ProfileContentManager>().profile.pairedWith == null ? 'Currently Unlocked' : 'Locked with'),
+                LockStateContent(
+                  pairedWith: context.read<ProfileContentManager>().profile.pairedWith,
+                ),
                 const SizedBox(height: 44),
                 const SectionTitle('Tags'),
                 const SizedBox(height: 10),

@@ -85,10 +85,14 @@ class ButtonWithStatesManager with ChangeNotifier {
       case LoadedRequestedButtonState():
         return () {
           _connectRepo.unpairOrRemoveRequest(otherUserId);
+          _buttonState = LoadedUnpairedButtonState();
+          notifyListeners();
         };
       case LoadedPairedButtonState():
         return () {
           _connectRepo.unpairOrRemoveRequest(otherUserId);
+          _buttonState = LoadedUnpairedButtonState();
+          notifyListeners();
         };
     }
   }

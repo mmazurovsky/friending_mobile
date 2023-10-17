@@ -136,7 +136,7 @@ class StylesStateManager with ChangeNotifier {
       );
 
   TextStyle get inactiveButtonText => TextStyle(
-        color: _colors.mainTextColor,
+        color: _colors.onContainerTextColor,
         fontSize: 18,
         fontWeight: FontWeight.bold,
       );

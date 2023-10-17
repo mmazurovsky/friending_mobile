@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/data/models/user_models.dart';
@@ -23,17 +26,32 @@ abstract class ProfileRepo {
   Future<bool> isUsernameFree(String username);
   Stream<ShortReadUserModel?> getProfileStreamForAuthenticatedUser();
   Stream<int> getPointsStream();
+  int get currentPointsCount;
 }
 
 @LazySingleton(as: ProfileRepo)
-class ProfileRepoImpl implements ProfileRepo {
+class ProfileRepoImpl implements ProfileRepo, Disposable {
   final ProfileLocalDS _profileLocalDS;
   final ProfileRemoteDS _profileRemoteDS;
+  late final StreamSubscription<int> _pointsStreamSubscription;
+  int _currentPointsCount = 0;
 
   ProfileRepoImpl(
     this._profileLocalDS,
     this._profileRemoteDS,
-  );
+  ) {
+    _pointsStreamSubscription = _profileRemoteDS.getPointsStream().listen(
+          (event) => _currentPointsCount = event,
+        );
+  }
+
+  @override
+  FutureOr onDispose() {
+    _pointsStreamSubscription.cancel();
+  }
+
+  @override
+  int get currentPointsCount => _currentPointsCount;
 
   // create function to get profile from local DS
   @override
@@ -52,11 +70,6 @@ class ProfileRepoImpl implements ProfileRepo {
       shortModel: shortModel,
       privateModel: privateModel,
     );
-  }
-
-  @override
-  Stream<int> getPointsStream() {
-    return _profileRemoteDS.getPointsStream();
   }
 
   // create function to update profile in remote ds
@@ -107,5 +120,10 @@ class ProfileRepoImpl implements ProfileRepo {
   @override
   Stream<ShortReadUserModel?> getProfileStreamForAuthenticatedUser() {
     return _profileRemoteDS.getProfileStreamForAuthenticatedUser();
+  }
+
+  @override
+  Stream<int> getPointsStream() {
+    return _profileRemoteDS.getPointsStream();
   }
 }
