@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -70,7 +71,19 @@ class _ExplorePageContentState extends State<_ExplorePageContent> {
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           CustomSliverAppBar(
             isBackButtonOn: false,
-            titleWidget: Text('LOCKED', style: context.styles.genericHeader),
+            titleWidget: Row(
+              children: [
+                // SvgPicture.asset(
+                //   'assets/icons/logo.svg',
+                //   color: context.colors.accentToBackgroundColor,
+                //   width: 32,
+                //   height: 32,
+                //   alignment: Alignment.centerLeft,
+                // ),
+                // SizedBox(width: 5),
+                Text('LOCKED', style: context.styles.logoHeader),
+              ],
+            ),
             actions: const [
               PointsWidget(),
             ],
@@ -176,7 +189,6 @@ class UsersNearbySection extends StatelessWidget {
     //           );
 
     return SliverList(
-      
       delegate: SliverChildListDelegate(
         [
           CustomScreenHeader(text: 'Users nearby'),

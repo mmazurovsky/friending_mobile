@@ -51,7 +51,8 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
   @override
   void didUpdateWidget(covariant ThisUserProfilePage oldWidget) {
     // if (oldWidget.shortProfile != widget.shortProfile) {
-      getIt<ProfileContentManager>().loadProfile();
+      //TODO it is injectable 
+    getIt<ProfileContentManager>().loadProfile();
     // }
     super.didUpdateWidget(oldWidget);
   }
@@ -64,16 +65,13 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => getIt<ProfileContentManager>()..loadProfile(),
-      builder: (context, child) => SafeArea(
-        child: EntityPageCanvas(
-          preloadedData: widget.shortProfile,
-          loadableContent: const _ProfileContent(),
-          scrollController: _scrollController,
-          isBackButtonOn: false,
-          mainActionWidget: const OpenSettingsButton(),
-        ),
+    return SafeArea(
+      child: EntityPageCanvas(
+        preloadedData: widget.shortProfile,
+        loadableContent: const _ProfileContent(),
+        scrollController: _scrollController,
+        isBackButtonOn: false,
+        mainActionWidget: const OpenSettingsButton(),
       ),
     );
   }

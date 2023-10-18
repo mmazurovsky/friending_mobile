@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../screens/explore/state/geo_permissions_manager.dart';
 import '../../screens/profile/state/points_change_notifier.dart';
+import '../../screens/profile/state/profile_content_manager.dart';
 import '../bag/stateful/styles.dart';
 import '../bag/stateful/theme.dart';
 import '../dependency_injection/dependency_injection.dart';
@@ -44,6 +45,9 @@ class GlobalProviders extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => getIt<PointsChangeNotifier>(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => getIt<ProfileContentManager>(),
         ),
       ],
       child: child,

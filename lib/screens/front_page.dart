@@ -27,15 +27,15 @@ class FrontPage extends StatelessWidget {
           allTabsOrderedAccordingToIndex[1].tabRoute,
           allTabsOrderedAccordingToIndex[2].tabRoute,
         ],
-        bottomNavigationBuilder: (_, tabsRouter) {
-          final isRegistered = getIt.isRegistered(instance: tabsRouter);
-          if (isRegistered) {
-            getIt.unregister(instance: tabsRouter);
-          }
-          getIt.registerSingleton(tabsRouter);
-          // return SizedBox();
-          return const MyBottomNavBar();
-        },
+        // bottomNavigationBuilder: (_, tabsRouter) {
+        //   final isRegistered = getIt.isRegistered(instance: tabsRouter);
+        //   if (isRegistered) {
+        //     getIt.unregister(instance: tabsRouter);
+        //   }
+        //   getIt.registerSingleton(tabsRouter);
+        //   // return SizedBox();
+        //   return const MyBottomNavBar();
+        // },
       ),
     );
   }

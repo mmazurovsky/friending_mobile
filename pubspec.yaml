@@ -76,6 +76,8 @@ dependencies:
       url: https://github.com/mmazurovsky/platform_device_id.git
       path: platform_device_id
   infinite_carousel: ^1.0.3
+  google_fonts: ^4.0.4
+  flutter_svg: ^2.0.7
 
 dev_dependencies:
   flutter_test:
@@ -99,6 +101,7 @@ flutter:
   assets:
     # images
     - assets/images/
+    - assets/icons/
 
   # fonts:
   # - family: IBMPlexMono

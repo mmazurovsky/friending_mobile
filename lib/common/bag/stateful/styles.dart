@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'theme.dart';
@@ -27,6 +28,14 @@ class StylesStateManager with ChangeNotifier {
         color: _colors.mainTextColor,
         fontSize: 48,
         fontWeight: FontWeight.bold,
+      );
+
+  TextStyle get logoHeader => GoogleFonts.nunitoSans(
+        textStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 23,
+          fontWeight: FontWeight.w700,
+        ),
       );
 
   TextStyle get genericHeader => TextStyle(

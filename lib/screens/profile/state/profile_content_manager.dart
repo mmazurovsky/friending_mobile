@@ -13,7 +13,9 @@ class ProfileContentManager with ChangeNotifier {
   ProfileContentManager(
     this._profileRepo,
     this._authRepo,
-  );
+  ) {
+    loadProfile();
+  }
 
   late FullReadUserModel _profile;
   FullReadUserModel get profile => _profile;
@@ -25,8 +27,7 @@ class ProfileContentManager with ChangeNotifier {
     _isLoading = true;
     FullReadUserModel? fetchedProfile;
     try {
-      fetchedProfile =
-          await _profileRepo.fetchProfileFromRemoteAndSaveLocally();
+      fetchedProfile = await _profileRepo.fetchProfileFromRemoteAndSaveLocally();
     } on Exception catch (e) {
       //TODO
       print(e);
