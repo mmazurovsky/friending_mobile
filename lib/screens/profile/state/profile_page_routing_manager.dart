@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_starter/common/auth_and_profile/profile_stream_service.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../common/configs/auth_changes_listener.dart';
+import '../../../common/auth_and_profile/auth_changes_listener.dart';
 import '../../../common/data/models/user_models.dart';
 import '../../auth/ui/sign_in_page.dart';
 import '../ui/profile_editing_page.dart';

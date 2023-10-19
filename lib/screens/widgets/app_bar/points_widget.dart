@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_mobile_starter/common/bag/stateful/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/bag/stateful/styles.dart';
-import '../../../common/bag/stateful/theme.dart';
 import '../../profile/state/points_change_notifier.dart';
-import '../../profile/state/profile_content_manager.dart';
+import '../../profile/state/short_profile_change_notifier.dart';
 import '../image/my_cached_network_image.dart';
 
 class PointsWidget extends StatelessWidget {
@@ -14,7 +13,7 @@ class PointsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final value = context.watch<PointsChangeNotifier>().pointsCount;
-    final userAvatar = context.watch<ProfileContentManager>().profile.shortUserModel.avatar;
+    final userAvatar = context.watch<ShortProfileChangeNotifier>().user?.avatar;
     return IconButton(
       // padding: EdgeInsets.only(right: 3),
 
@@ -24,10 +23,10 @@ class PointsWidget extends StatelessWidget {
         child: Container(
           // width: 90,
           padding: const EdgeInsets.only(
-            left: 14,
-            right: 3,
-            top: 3,
-            bottom: 3,
+            left: 20,
+            right: 5,
+            top: 5,
+            bottom: 5,
           ),
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -37,7 +36,7 @@ class PointsWidget extends StatelessWidget {
                   // Colors.transparent,
                   // context.colors.appBarColor,
                   Color.fromARGB(255, 200, 26, 26),
-                  Color.fromARGB(255, 115, 7, 7),
+                  Color.fromARGB(255, 87, 4, 4),
                   // Color.fromARGB(255, 145, 0, 0),
                 ]),
             // color: context.colors.activeIndicatorColor,
@@ -50,24 +49,27 @@ class PointsWidget extends StatelessWidget {
           // alignment: Alignment.center,
           child: Row(
             children: [
-              SvgPicture.asset(
-                'assets/icons/logo.svg',
-                color: context.colors.accentToBackgroundColor,
-                width: 18,
-                height: 18,
-                alignment: Alignment.centerLeft,
-              ),
-              SizedBox(width: 0.5),
               Text(
                 '$value',
                 style: context.styles.bodyBold,
                 // .copyWith(color: context.colors.onContainerTextColor),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 12),
               ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 //TODO: placeholder
-                child: CCachedNetworkImage(userAvatar),
+                child: CCachedNetworkImage(
+                  userAvatar,
+                  errorWidget: Container(
+                    color: context.colors.backgroundColor,
+                    padding: EdgeInsets.all(5),
+                    child: const Icon(
+                      Icons.account_circle,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
+                ),
               )
             ],
           ),

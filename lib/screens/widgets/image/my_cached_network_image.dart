@@ -1,31 +1,26 @@
-import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:palette_generator/palette_generator.dart';
 
 import '../../../common/bag/stateful/theme.dart';
 import '../loading.dart';
 
 class CCachedNetworkImage extends StatelessWidget {
   final String? imageLink;
+  final Widget? errorWidget;
   CCachedNetworkImage(
     this.imageLink, {
     Key? key,
-  }) :
-        super(key: ValueKey(imageLink));
-
+    this.errorWidget,
+  }) : super(key: ValueKey(imageLink));
 
   @override
   Widget build(BuildContext context) {
     return imageLink == null || imageLink!.length < 3
-        ? const EmptyImagePlaceholder()
+        ? errorWidget ?? const EmptyImagePlaceholder()
         : CachedNetworkImage(
             imageUrl: imageLink!,
             imageBuilder: (context, provider) {
-
               final image = Image(
                 image: provider,
                 fit: BoxFit.cover,
@@ -38,7 +33,7 @@ class CCachedNetworkImage extends StatelessWidget {
               alignment: Alignment.center,
               child: const MyLoadingIndicator(),
             ),
-            errorWidget: (context, url, smth) => const EmptyImagePlaceholder(),
+            errorWidget: (context, url, smth) => errorWidget ?? const EmptyImagePlaceholder(),
           );
   }
 }

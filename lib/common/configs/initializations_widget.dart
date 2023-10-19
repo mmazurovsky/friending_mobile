@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../dependency_injection/dependency_injection.dart';
-import 'auth_changes_listener.dart';
+import '../auth_and_profile/auth_changes_listener.dart';
 import 'location_permission.dart';
 
 class InitializationsWidget extends StatefulWidget {

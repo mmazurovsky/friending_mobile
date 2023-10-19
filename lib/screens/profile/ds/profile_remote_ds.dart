@@ -6,7 +6,7 @@ import 'package:flutter_mobile_starter/screens/current_pair/ds/pair_ds.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../../common/auth/repo/auth_repo.dart';
+import '../../../common/auth_and_profile/auth_repo.dart';
 import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/models/user_models.dart';
@@ -30,7 +30,7 @@ abstract class ProfileRemoteDS {
 
   Future<bool> isUsernameFree(String username);
   Stream<ShortReadUserModel?> getProfileStreamForAuthenticatedUser();
-  Stream<int> getPointsStream();
+  Stream<int>? getPointsStream();
 }
 
 @LazySingleton(as: ProfileRemoteDS)
@@ -129,9 +129,12 @@ class ProfileDSImpl implements ProfileRemoteDS, LoggerNameGetter {
   }
 
   @override
-  Stream<int> getPointsStream() {
+  Stream<int>? getPointsStream() {
     //TODO! this gets triggered before profile is set need fix
-    final currentUser = _authRepo.currentUser!;
+    final currentUser = _authRepo.currentUser;
+    if (currentUser == null) {
+      return null;
+    }
     final stream = _firebaseFirestore
         .collection(shortUserCollection)
         .doc(currentUser.uid)

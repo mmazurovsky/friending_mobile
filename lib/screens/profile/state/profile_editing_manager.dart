@@ -4,7 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../common/auth/repo/auth_repo.dart';
+import '../../../common/auth_and_profile/auth_repo.dart';
 import '../../../common/data/failures/failures.dart';
 import '../../../common/data/models/user_models.dart';
 import '../repo/profile_repo.dart';

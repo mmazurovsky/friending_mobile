@@ -1,4 +1,4 @@
-import '../../../common/auth/repo/auth_repo.dart';
+import '../../../common/auth_and_profile/auth_repo.dart';
 import '../ds/app_events_remote_ds.dart';
 
 abstract class AppEventsRepo {

@@ -8,10 +8,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../../bag/strings.dart';
-import '../../data/failures/failures.dart';
-import '../../utils/logger/custom_logger.dart';
-import '../../utils/logger/logger_name_provider.dart';
+import '../bag/strings.dart';
+import '../data/failures/failures.dart';
+import '../utils/logger/custom_logger.dart';
+import '../utils/logger/logger_name_provider.dart';
 
 abstract class AuthRepo {
   Future<UserCredential> signUpWithEmailAndPassword({required String email, required String password});

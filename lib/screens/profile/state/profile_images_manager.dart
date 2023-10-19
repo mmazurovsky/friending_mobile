@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../common/auth/repo/auth_repo.dart';
+import '../../../common/auth_and_profile/auth_repo.dart';
 import '../../../common/dependency_injection/dependency_injection.dart';
 import '../../../common/image_handling/image_service.dart';
 import 'single_profile_image_manager.dart';

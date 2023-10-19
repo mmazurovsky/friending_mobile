@@ -7,7 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 
-import '../auth/repo/auth_repo.dart';
+import '../auth_and_profile/auth_repo.dart';
 import '../client/request_check_wrapper.dart';
 
 abstract class FcmTokenManagementRepo {

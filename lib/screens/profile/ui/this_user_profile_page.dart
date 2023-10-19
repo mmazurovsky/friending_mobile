@@ -5,7 +5,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/animations/wrappers.dart';
-import '../../../common/auth/repo/auth_repo.dart';
+import '../../../common/auth_and_profile/auth_repo.dart';
 import '../../../common/bag/stateful/styles.dart';
 import '../../../common/bag/stateful/theme.dart';
 import '../../../common/bag/strings.dart';
@@ -40,6 +40,7 @@ class ThisUserProfilePage extends StatefulWidget {
 
 class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
   late final ScrollController _scrollController;
+  final _profileContentManager = getIt<ProfileContentManager>();
 
   @override
   void initState() {
@@ -52,7 +53,7 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
   void didUpdateWidget(covariant ThisUserProfilePage oldWidget) {
     // if (oldWidget.shortProfile != widget.shortProfile) {
       //TODO it is injectable 
-    getIt<ProfileContentManager>().loadProfile();
+    _profileContentManager.loadProfile();
     // }
     super.didUpdateWidget(oldWidget);
   }
@@ -65,13 +66,16 @@ class _ThisUserProfilePageState extends State<ThisUserProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: EntityPageCanvas(
-        preloadedData: widget.shortProfile,
-        loadableContent: const _ProfileContent(),
-        scrollController: _scrollController,
-        isBackButtonOn: false,
-        mainActionWidget: const OpenSettingsButton(),
+    return ChangeNotifierProvider(
+      create: (context) => _profileContentManager,
+      child: SafeArea(
+        child: EntityPageCanvas(
+          preloadedData: widget.shortProfile,
+          loadableContent: const _ProfileContent(),
+          scrollController: _scrollController,
+          isBackButtonOn: false,
+          mainActionWidget: const OpenSettingsButton(),
+        ),
       ),
     );
   }

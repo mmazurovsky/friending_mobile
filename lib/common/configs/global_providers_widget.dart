@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile_starter/screens/profile/state/short_profile_change_notifier.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +48,7 @@ class GlobalProviders extends StatelessWidget {
           create: (context) => getIt<PointsChangeNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (context) => getIt<ProfileContentManager>(),
+          create: (context) => getIt<ShortProfileChangeNotifier>(),
         ),
       ],
       child: child,

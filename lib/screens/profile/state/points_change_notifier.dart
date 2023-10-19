@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../common/auth/repo/auth_repo.dart';
+import '../../../common/auth_and_profile/auth_repo.dart';
 import '../repo/profile_repo.dart';
 
 @lazySingleton
@@ -40,7 +40,7 @@ class PointsChangeNotifier with ChangeNotifier {
           notifyListeners();
           _pointsStreamSubscription?.cancel();
         } else {
-          _pointsStreamSubscription = _profileRepo.getPointsStream().listen(
+          _pointsStreamSubscription = _profileRepo.getPointsStream()?.listen(
             (event) {
               pointsCount = event;
               notifyListeners();

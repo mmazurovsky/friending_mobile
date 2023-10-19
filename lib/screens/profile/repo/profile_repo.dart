@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../common/auth_and_profile/auth_repo.dart';
 import '../../../common/data/models/user_models.dart';
 import '../ds/profile_local_ds.dart';
 import '../ds/profile_remote_ds.dart';
@@ -25,7 +26,7 @@ abstract class ProfileRepo {
   Future<void> deleteProfileLocal();
   Future<bool> isUsernameFree(String username);
   Stream<ShortReadUserModel?> getProfileStreamForAuthenticatedUser();
-  Stream<int> getPointsStream();
+  Stream<int>? getPointsStream();
   int get currentPointsCount;
 }
 
@@ -33,21 +34,29 @@ abstract class ProfileRepo {
 class ProfileRepoImpl implements ProfileRepo, Disposable {
   final ProfileLocalDS _profileLocalDS;
   final ProfileRemoteDS _profileRemoteDS;
-  late final StreamSubscription<int> _pointsStreamSubscription;
+  final AuthRepo _authRepo;
+  StreamSubscription<int>? _pointsStreamSubscription;
   int _currentPointsCount = 0;
 
   ProfileRepoImpl(
     this._profileLocalDS,
     this._profileRemoteDS,
+    this._authRepo,
   ) {
-    _pointsStreamSubscription = _profileRemoteDS.getPointsStream().listen(
-          (event) => _currentPointsCount = event,
-        );
+    _authRepo.userStream.listen((event) {
+      if (event != null) {
+        _pointsStreamSubscription = _profileRemoteDS.getPointsStream()?.listen(
+              (event) => _currentPointsCount = event,
+            );
+      } else {
+        _pointsStreamSubscription = null;
+      }
+    });
   }
 
   @override
   FutureOr onDispose() {
-    _pointsStreamSubscription.cancel();
+    _pointsStreamSubscription?.cancel();
   }
 
   @override
@@ -123,7 +132,7 @@ class ProfileRepoImpl implements ProfileRepo, Disposable {
   }
 
   @override
-  Stream<int> getPointsStream() {
+  Stream<int>? getPointsStream() {
     return _profileRemoteDS.getPointsStream();
   }
 }

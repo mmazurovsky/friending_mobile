@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
 
-import '../../../common/auth/repo/auth_repo.dart';
+import '../../../common/auth_and_profile/auth_repo.dart';
 import '../../profile/repo/profile_repo.dart';
 import '../ds/connect_ds.dart';
 

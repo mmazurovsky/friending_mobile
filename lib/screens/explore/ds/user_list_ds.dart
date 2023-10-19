@@ -3,7 +3,7 @@ import 'package:collection/collection.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../common/auth/repo/auth_repo.dart';
+import '../../../common/auth_and_profile/auth_repo.dart';
 import '../../../common/bag/strings.dart';
 import '../../../common/client/request_check_wrapper.dart';
 import '../../../common/data/models/user_models.dart';
